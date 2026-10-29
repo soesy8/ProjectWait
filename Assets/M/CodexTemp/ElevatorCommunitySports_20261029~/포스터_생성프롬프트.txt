@@ -1,0 +1,18 @@
+도구: 내장 image_gen
+용도: 엘리베이터 벽면 안전 포스터 텍스처
+
+Use case: infographic-diagram.
+Asset type: a finished flat portrait Korean elevator safety poster texture for the wall of a modern community sports centre, aspect ratio 2:3.
+Primary request: a professional, friendly illustrated elevator safety poster for school-age children. This is the actual poster artwork, completely flat and straight-on, filling the image edge to edge. Do not show a room, frame, wall, mockup, perspective, or photographic reflections.
+Style: clean high quality vector-like public-facility editorial illustration, large clear Korean sans-serif type, restrained soft ivory background, deep charcoal lettering, muted teal and pale mint graphic blocks; a warm orange basketball is a small accent. All illustrations have consistent rounded shapes, clear silhouettes and a calm reassuring mood. No real institution logos, no imitation certification marks, no QR code, no watermarks, no English.
+Composition: generous border margin. Bold large two-line title at top. Below, three spacious numbered horizontal sections with one simple pictogram scene and a large short Korean caption per section. Use little secondary text; prioritize readability on a small 3D wall poster.
+Section 1 illustration: a child in an orange sports sweatshirt calmly holding a basketball at waist height, standing back from silver elevator doors, no body contact with the doors.
+Section 2 illustration: two children calmly standing inside an elevator, feet firmly on the floor, a tiny crossed-out jumping pictogram to the side.
+Section 3 illustration: a child pressing a low emergency call button, simple bell and speech bubble pictograms, no panic, no door-opening or escape.
+Text, exactly and without extra copy:
+Title: "엘리베이터" on first line and "안전 약속" on second line.
+Section 1: "문에 기대지 않아요"
+Section 2: "안에서는 뛰지 않아요"
+Section 3: "멈추면 비상벨로 도움 요청"
+Bottom two-line reminder: "문을 억지로 열지 말고" and "안내를 들으며 기다려요".
+Render Korean text crisply, spell every syllable correctly. The poster must feel appropriate in a light grey, silver and charcoal sports-centre elevator interior.

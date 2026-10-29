@@ -1,0 +1,15 @@
+{
+  "blender": "5.1.1",
+  "file": "D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\ElevatorSilverMap_20261029~\\엘베_맵_실버.blend",
+  "objects": 755,
+  "meshes": 693,
+  "materials": 24,
+  "fontsPacked": true,
+  "renderDevices": [
+    "NVIDIA GeForce RTX 3060",
+    "NVIDIA GeForce RTX 3060"
+  ],
+  "unit": "metres",
+  "defaultFrame": 72,
+  "externalLibraries": 0
+}

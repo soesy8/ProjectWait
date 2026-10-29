@@ -1,0 +1,135 @@
+{
+  "sourceSnapshot": "원본_사용자최신.blend",
+  "output": "D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\ElevatorCommunitySports_20261029~\\엘베_맵_체육센터.blend",
+  "removedText": [
+    {
+      "name": "호출 안내",
+      "text": "엘리베이터"
+    },
+    {
+      "name": "Cabin · 안내 제목",
+      "text": "안전한 이용"
+    },
+    {
+      "name": "Cabin · 안내 본문",
+      "text": "문이 열린 뒤\n천천히 이동하세요\n\n비상시 호출 버튼"
+    },
+    {
+      "name": "Cabin · 안내 하단",
+      "text": "SAFETY FIRST"
+    },
+    {
+      "name": "Cabin · 출구 표기",
+      "text": "02  /  LOBBY"
+    },
+    {
+      "name": "Cabin · 용량 표기",
+      "text": "1000 kg  /  13인승"
+    },
+    {
+      "name": "Cabin · 측면 층 선택 제목",
+      "text": "층 선택"
+    },
+    {
+      "name": "문 내부 안전 안내 · 왼쪽",
+      "text": "손 끼임 주의"
+    },
+    {
+      "name": "문 내부 안전 안내 · 오른쪽",
+      "text": "기대지 마세요"
+    },
+    {
+      "name": "자동문 유리 안내",
+      "text": "자동문"
+    },
+    {
+      "name": "자동문 유리 안내.001",
+      "text": "자동문"
+    },
+    {
+      "name": "로비 월 그래픽 영문",
+      "text": "ELEVATOR LOBBY"
+    },
+    {
+      "name": "휴지통 표기",
+      "text": "RECYCLE"
+    },
+    {
+      "name": "입구 아트 제목",
+      "text": "A T R I U M"
+    },
+    {
+      "name": "계단실 층 안내 영문",
+      "text": "UPPER FLOOR"
+    },
+    {
+      "name": "Lift 2 · 방향",
+      "text": "▼"
+    }
+  ],
+  "movedSideObjects": [
+    "Cabin · 측면 전체 패널 실버 테두리",
+    "Cabin · 측면 전체 패널 차콜 면",
+    "Cabin · 측면 패널 구획선",
+    "Cabin · 측면 01층 링",
+    "Cabin · 측면 01층 면",
+    "Cabin · 측면 01층 숫자",
+    "Cabin · 측면 02층 링",
+    "Cabin · 측면 02층 면",
+    "Cabin · 측면 02층 숫자",
+    "Cabin · 측면 03층 링",
+    "Cabin · 측면 03층 면",
+    "Cabin · 측면 03층 숫자",
+    "Cabin · 측면 04층 링",
+    "Cabin · 측면 04층 면",
+    "Cabin · 측면 04층 숫자",
+    "Cabin · 측면 05층 링",
+    "Cabin · 측면 05층 면",
+    "Cabin · 측면 05층 숫자",
+    "Cabin · 측면 06층 링",
+    "Cabin · 측면 06층 면",
+    "Cabin · 측면 06층 숫자",
+    "Cabin · 측면 07층 링",
+    "Cabin · 측면 07층 면",
+    "Cabin · 측면 07층 숫자",
+    "Cabin · 측면 08층 링",
+    "Cabin · 측면 08층 면",
+    "Cabin · 측면 08층 숫자",
+    "Cabin · 측면 09층 링",
+    "Cabin · 측면 09층 면",
+    "Cabin · 측면 09층 숫자",
+    "Cabin · 측면 10층 링",
+    "Cabin · 측면 10층 면",
+    "Cabin · 측면 10층 숫자",
+    "Cabin · 측면 11층 링",
+    "Cabin · 측면 11층 면",
+    "Cabin · 측면 11층 숫자",
+    "Cabin · 측면 12층 링",
+    "Cabin · 측면 12층 면",
+    "Cabin · 측면 12층 숫자",
+    "Cabin · 측면 비상 호출 안내",
+    "Cabin · 측면 비상 호출 링",
+    "Cabin · 측면 비상 버튼 [높이 1.28m]",
+    "Cabin · 측면 비상 버튼 문자",
+    "Cabin · 측면 문 개폐 링",
+    "Cabin · 측면 문 개폐 면",
+    "Cabin · 측면 개폐 삼각 아이콘",
+    "Cabin · 측면 개폐 안내",
+    "Cabin · 측면 문 개폐 링.001",
+    "Cabin · 측면 문 개폐 면.001",
+    "Cabin · 측면 개폐 삼각 아이콘.001",
+    "Cabin · 측면 개폐 안내.001"
+  ],
+  "sideShiftMeters": 0.45,
+  "venue": "한빛 생활체육센터",
+  "primaryFloor": 1,
+  "secondaryFloor": 3,
+  "posterPixels": [
+    1024,
+    1536
+  ],
+  "posterPacked": true,
+  "objects": 864,
+  "currentFrame": 1,
+  "camera": "02 · 엘리베이터 내부"
+}

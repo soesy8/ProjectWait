@@ -1,0 +1,68 @@
+﻿[
+    {
+        "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\엘베_맵_체육센터.blend",
+        "Bytes":  17086110,
+        "SHA256":  "418134A63D808206E23A5AF10F86ED40C89185FA66C5020285B73646AD057F37",
+        "Verified":  true
+    },
+    {
+        "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\건물콘셉트_시나리오.txt",
+        "Bytes":  11051,
+        "SHA256":  "D1C74A4A0B580D546F2E7F711FDAC14E4B39E2DA4F98317FD181D9561FBD8CE3",
+        "Verified":  true
+    },
+    {
+        "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\엘리베이터_안전포스터.png",
+        "Bytes":  1563054,
+        "SHA256":  "A3B52E362198AA278730D38ED727B8347E6E4F2A4ADB53609EA659A87FDF3FA8",
+        "Verified":  true
+    },
+    {
+        "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\안전포스터_생성프롬프트.txt",
+        "Bytes":  2262,
+        "SHA256":  "BB29070D886B0FFEED6F43A8494D160826560067D92424C3868B0C8C2E1FF157",
+        "Verified":  true
+    },
+    {
+        "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_읽어주세요.txt",
+        "Bytes":  1632,
+        "SHA256":  "82E5958A99D23ABBC78FF40103442265EA8CC3A26B8DD43A369BFCBC0AC0C573",
+        "Verified":  true
+    },
+    {
+        "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_01_로비.png",
+        "Bytes":  1698342,
+        "SHA256":  "311B5992685E6547C81643ACD55DE0CDEE7A0D227178477670F719A19832205D",
+        "Verified":  true
+    },
+    {
+        "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_02_내부.png",
+        "Bytes":  1667999,
+        "SHA256":  "01EF956E583B575C4D8F8FB341B270326B5A42847FB047CE9612F5410BECCF62",
+        "Verified":  true
+    },
+    {
+        "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_03_뒤쪽_자동문.png",
+        "Bytes":  1570997,
+        "SHA256":  "B571C760C2E00323FBAEC9DA98B16ECC805EE55488422C400B3B3585F785D850",
+        "Verified":  true
+    },
+    {
+        "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_04_전체배치.png",
+        "Bytes":  1682985,
+        "SHA256":  "19F1FFBF42CA891E0C245E53151B5C3FD063A9708B9BE7174107C0164E9DF1CE",
+        "Verified":  true
+    },
+    {
+        "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_05_버튼패널.png",
+        "Bytes":  1657885,
+        "SHA256":  "D57940CDC4DBDF71F23D7A410F66CE5C8649A3A9544429C7A3227DB7341B047C",
+        "Verified":  true
+    },
+    {
+        "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_06_식별정보_포스터.png",
+        "Bytes":  1996519,
+        "SHA256":  "DE575CA6C787F247FDEC612071C157E70576A0190DCA1FF6D503E0A08370A54B",
+        "Verified":  true
+    }
+]

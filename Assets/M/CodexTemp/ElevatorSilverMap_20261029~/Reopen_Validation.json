@@ -1,0 +1,54 @@
+{
+  "file": "E:\\ProjectWait\\Blender\\엘베 맵\\엘베_맵_실버.blend",
+  "blender": "5.1.1",
+  "checks": {
+    "metricUnits": true,
+    "librariesSelfContained": true,
+    "fontsPacked": true,
+    "materialsPresent": true,
+    "camerasPresent": true,
+    "collectionStructure": true,
+    "nineteenStairTreads": true,
+    "stairRise342cm": true,
+    "windowsOnLeft": true,
+    "stairsOnRight": true,
+    "rearDoorPosition": true,
+    "closedCabinFrontBlocksPassage": true,
+    "openCabinEntranceIsClear": true,
+    "elevatorDoorMotion": true,
+    "openElevatorClearWidth": true,
+    "frontEmergencyHigh": true,
+    "sideEmergencyLower": true,
+    "frontConsoleWide": true,
+    "sidePanelAboveRail": true,
+    "sideTwelveFloorButtons": true,
+    "sideOpenCloseButtons": true,
+    "automaticDoorLeaves": true,
+    "automaticDoorMotion": true,
+    "editableKoreanText": true,
+    "defaultClosedInteriorView": true,
+    "allMeshCoordinatesFinite": true
+  },
+  "allPassed": true,
+  "objects": 875,
+  "meshes": 794,
+  "polygons": 12776,
+  "materials": 24,
+  "collections": 15,
+  "cameras": [
+    "01 · 로비 / 엘리베이터와 우측 계단",
+    "02 · 엘리베이터 내부",
+    "03 · 뒤쪽 자동문 / 왼쪽 창문",
+    "04 · 전체 배치 / 천장 숨김",
+    "05 · 전면과 측면 버튼 높이 비교"
+  ],
+  "animatedObjects": 4,
+  "closedDoorCenters": [
+    -2.25,
+    -1.350000023841858
+  ],
+  "openDoorCenters": [
+    -3.1500000953674316,
+    -0.4500000476837158
+  ]
+}
