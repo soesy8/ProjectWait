@@ -1,0 +1,332 @@
+{
+  "completedUtc": "2026-10-29T04:49:06.1147361Z",
+  "mode": "Unity Editor Play Mode; PC; real UI callbacks with compressed lesson timers; no HMD",
+  "checks": [
+    {
+      "name": "New ElevatorView automatically receives CanvasGroup",
+      "passed": true
+    },
+    {
+      "name": "Adding spatial UI does not duplicate CanvasGroup",
+      "passed": true
+    },
+    {
+      "name": "New ElevatorSpatialUI independently receives CanvasGroup",
+      "passed": true
+    },
+    {
+      "name": "Lobby: step",
+      "passed": true
+    },
+    {
+      "name": "Lobby: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Lobby: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Entering: step",
+      "passed": true
+    },
+    {
+      "name": "Entering: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Entering: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Cinematic blocks choice callbacks",
+      "passed": true
+    },
+    {
+      "name": "Boarding: step",
+      "passed": true
+    },
+    {
+      "name": "Boarding: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Boarding: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Proposal: step",
+      "passed": true
+    },
+    {
+      "name": "Proposal: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Proposal: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Jump: step",
+      "passed": true
+    },
+    {
+      "name": "Jump: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Jump: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Stopped dialogue: step",
+      "passed": true
+    },
+    {
+      "name": "Stopped dialogue: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Stopped dialogue: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Stopped investigation: step",
+      "passed": true
+    },
+    {
+      "name": "Stopped investigation: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Stopped investigation: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Retry: step",
+      "passed": true
+    },
+    {
+      "name": "Retry: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Retry: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Return from retry: step",
+      "passed": true
+    },
+    {
+      "name": "Return from retry: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Return from retry: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Connecting: step",
+      "passed": true
+    },
+    {
+      "name": "Connecting: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Connecting: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Call: step",
+      "passed": true
+    },
+    {
+      "name": "Call: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Call: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Situation reported: step",
+      "passed": true
+    },
+    {
+      "name": "Situation reported: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Situation reported: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Identity found: step",
+      "passed": true
+    },
+    {
+      "name": "Identity found: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Identity found: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Location reported: step",
+      "passed": true
+    },
+    {
+      "name": "Location reported: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Location reported: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Waiting: step",
+      "passed": true
+    },
+    {
+      "name": "Waiting: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Waiting: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Reassured: step",
+      "passed": true
+    },
+    {
+      "name": "Reassured: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Reassured: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Rescue: step",
+      "passed": true
+    },
+    {
+      "name": "Rescue: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Rescue: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Ready to exit: step",
+      "passed": true
+    },
+    {
+      "name": "Ready to exit: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Ready to exit: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Exiting: step",
+      "passed": true
+    },
+    {
+      "name": "Exiting: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Exiting: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Complete: step",
+      "passed": true
+    },
+    {
+      "name": "Complete: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Complete: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Notebook shown on completion",
+      "passed": true
+    },
+    {
+      "name": "Restart through button: step",
+      "passed": true
+    },
+    {
+      "name": "Restart through button: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Restart through button: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Unanswered: step",
+      "passed": true
+    },
+    {
+      "name": "Unanswered: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Unanswered: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Phone fallback: step",
+      "passed": true
+    },
+    {
+      "name": "Phone fallback: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "Phone fallback: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "HUD missing-component recovery: step",
+      "passed": true
+    },
+    {
+      "name": "HUD missing-component recovery: world visibility and input",
+      "passed": true
+    },
+    {
+      "name": "HUD missing-component recovery: HUD visibility and input",
+      "passed": true
+    },
+    {
+      "name": "HUD recovery replaces the destroyed native component",
+      "passed": true
+    },
+    {
+      "name": "Repeated visibility updates do not duplicate groups",
+      "passed": true
+    },
+    {
+      "name": "Non-spatial visibility path",
+      "passed": true
+    },
+    {
+      "name": "M scene has no missing scripts",
+      "passed": true
+    }
+  ],
+  "passed": 81,
+  "error": null
+}

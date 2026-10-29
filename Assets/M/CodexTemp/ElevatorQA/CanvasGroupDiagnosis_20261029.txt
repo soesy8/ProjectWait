@@ -1,0 +1,28 @@
+엘리베이터 CanvasGroup 오류 확인 결과 — 2026-10-29
+
+확인한 과거 오류
+MissingComponentException: There is no 'CanvasGroup' attached to the "Elevator_World_Dialogue" game object, but a script is trying to access it.
+CanvasGroup.set_alpha → ElevatorSpatialUI.SetCinematicVisibility → ElevatorView.Refresh / LateUpdate
+이전 이름 Elevator_World_UI에서도 ElevatorView.SetCinematicVisibility 경로의 같은 오류가 기록되어 있다.
+출처: 로컬 Unity Editor.log. 당시 로그의 코드 행 번호는 현재 코드와 다르다.
+CanvasGroup이 없는 상태에서 투명도를 변경하여 UI 갱신이 예외로 중단된 기록이다.
+
+이번 수정 전 현재 상태
+Assets/M/Scene/Elevator_Safety_Prototype.unity의 대화 UI와 HUD에는 CanvasGroup이 각각 1개 있다.
+두 표시 제어 코드에는 GetComponent 후 없으면 AddComponent하는 처리가 이미 있다.
+수정 전 Play Mode에서도 해당 예외는 재현되지 않았다. 과거 오류가 현재도 발생한다고 볼 수는 없다.
+
+이번 변경: 다시 누락되지 않도록 생성 경로 보완
+ElevatorView와 ElevatorSpatialUI에 RequireComponent(typeof(CanvasGroup))를 각각 추가했다.
+ElevatorSpatialUISetup의 HUD 생성 시 CanvasGroup을 함께 만들고 입력 차단은 끈다.
+기존 런타임 누락 복구 처리는 유지했다. 현재 씬 자산은 수정하지 않았다.
+
+검증
+Unity 6000.3.18f1, CLI 1.0.0-beta.14, Editor Play Mode에서 확인했다.
+Unity 컴파일 완료, 오류 0. 실제 프레임 진행 확인. 검증 81개 항목 모두 통과.
+로비부터 완료까지 표시/입력, 선택 버튼, 재시작, 무응답 분기, HUD 컴포넌트 제거 후 복구,
+새 UI의 필수 컴포넌트 자동 추가, 반복 갱신 시 중복 없음, 씬의 Missing Script 없음을 확인했다.
+검증 시작부터 마지막 조회까지 새 런타임 오류 0, 마지막 재생 프레임 1490.
+상세: CanvasGroupVerification_20261029.json
+PC에서 타이머를 압축하고 실제 UI 콜백을 호출했다. HMD 실기기 입력은 검증하지 않았다.
+씬과 기존 M 밖의 사용자 변경 파일 2개는 검증 전후 SHA256이 같았다.

@@ -1,0 +1,27 @@
+﻿ProjectWait 텍스처 크기 조사 — 2026-10-29
+
+결과: 사용자 선택에 따라 조사만 수행. 원본 이미지, 폰트 자산, 임포트 설정은 변경하지 않음.
+범위: Assets 아래 원본 이미지 134개 및 Unity에서 가져온 텍스처 139개 확인. Packages/와 Library/ 캐시는 제외.
+기준: 원본 너비와 높이가 모두 2048 이상인 이미지 10개. 모두 Assets/M 밖에 위치.
+
+2048×2048 이상 원본 이미지:
+- 4096×3072 | Unity Cubemap 1024×1024 | Assets/Samples/XR Interaction Toolkit/3.5.1/Hands Interaction Demo/DemoAssets/Textures/Skybox_Cube.png
+- 2048×2048 | Unity Texture2D 2048×2048 | Assets/Samples/XR Interaction Toolkit/3.5.1/Hands Interaction Demo/HandsDemoScene/Lightmap-0_comp_dir.png
+- 2048×2048 | Unity Texture2D 2048×2048 | Assets/Samples/XR Interaction Toolkit/3.5.1/Hands Interaction Demo/HandsDemoScene/Lightmap-0_comp_light.exr
+- 2048×2048 | Unity Texture2D 2048×2048 | Assets/Samples/XR Interaction Toolkit/3.5.1/Hands Interaction Demo/HandsDemoScene/Lightmap-1_comp_dir.png
+- 2048×2048 | Unity Texture2D 2048×2048 | Assets/Samples/XR Interaction Toolkit/3.5.1/Hands Interaction Demo/HandsDemoScene/Lightmap-1_comp_light.exr
+- 2048×2048 | Unity Texture2D 2048×2048 | Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/DemoAssets/Sprites/LegibilityMask.png
+- 2048×2048 | Unity Texture2D 2048×2048 | Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Textures/DefaultMaterial_AO.png
+- 2048×2048 | Unity Texture2D 2048×2048 | Assets/VRTemplateAssets/Materials/Anchor Materials/White_Mixed_AO.png
+- 2048×2048 | Unity Texture2D 2048×2048 | Assets/VRTemplateAssets/Materials/Controller/DefaultMaterial_AO.png
+- 8192×6144 | Unity Cubemap 2048×2048 | Assets/VRTemplateAssets/Materials/Skybox/skybox01_openGL.png
+
+추가 발견 — 크기 변경 없음:
+- Assets/M/CodexTemp/SkyboxCityReview/WrapSeam_4x.png: 원본 512×2048. 한 변만 2048인 검증 이미지.
+- Assets/M/Arts/Fonts/ElevatorKorean.asset: 내장 한글 폰트 아틀라스 2048×2048.
+- Assets/M/Arts/Fonts/ElevatorReadable.asset: 내장 한글 폰트 아틀라스 2048×2048.
+- M의 검증 이미지 14개는 원본 1600×900 또는 1536×768이지만 Unity 가져오기 과정에서 2048×1024로 확대되어 있음.
+- 폰트 아틀라스는 글리프 좌표와 연결되어 있어 픽셀만 축소하면 표시가 깨질 수 있음. 이번에는 조사만 기록.
+- Cubemap의 Unity 적용 크기는 큐브 한 면의 해상도이며, 원본 펼침 이미지 크기와 다름.
+
+파일: TextureAudit_20261029.csv (10개 목록), TextureAudit_20261029.json (원본 이미지 전체 조사), TextureAudit_Unity_20261029.json (Unity 텍스처 전체 조사).

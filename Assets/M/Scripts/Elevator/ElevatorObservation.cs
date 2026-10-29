@@ -3,7 +3,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 namespace ProjectWait.M.Elevator
 {
-    public enum ElevatorClue { Friend, Door, Display, Intercom, Notice, Identity }
+    public enum ElevatorClue { Friend, Door, Display, Intercom, Notice, Identity, Ball, FloorButtons, Advertisement, LobbyCall }
 
     [RequireComponent(typeof(XRSimpleInteractable))]
     public sealed class ElevatorObservation : MonoBehaviour
@@ -32,9 +32,9 @@ namespace ProjectWait.M.Elevator
         void LateUpdate()
         {
             if (outline == null || lesson.Flow == null) return;
-            outline.enabled = lesson.Flow.CanObserve;
-            outline.widthMultiplier = hovered ? .012f : .006f;
-            // Same teal affordance on all six targets; no correct-answer color coding.
+            outline.enabled = hovered && lesson.CanInteract(clue);
+            outline.widthMultiplier = .005f;
+            // Only the pointed object is outlined. All targets use the same affordance.
         }
         void OnDisable() { ResetHover(); }
     }

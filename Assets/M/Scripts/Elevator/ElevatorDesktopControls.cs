@@ -8,7 +8,7 @@ using UnityEngine.XR.Interaction.Toolkit.UI;
 
 namespace ProjectWait.M.Elevator
 {
-    // Fixed-center pointing follows the corridor's desktop VR controls.
+    // Desktop uses a free pointer. Hold the right button to look; XR keeps tracked rays.
     public sealed class ElevatorDesktopControls : MonoBehaviour
     {
         public ElevatorLesson lesson;
@@ -65,7 +65,7 @@ namespace ProjectWait.M.Elevator
             if(desktop)
             {
                 targetCamera.transform.position=new Vector3(xrOrigin.position.x,eyeHeight,xrOrigin.position.z);
-                targetCamera.transform.rotation=Quaternion.identity;yaw=pitch=0;SetMouseLook(true);
+                SetScriptedHeading(lesson.presentation&&lesson.presentation.space?lesson.presentation.space.DefaultHeading:0);SetMouseLook(false);
             }
             else {SetMouseLook(false);calibrateXR=true;}
             RefreshLaserVisibility();
@@ -76,25 +76,28 @@ namespace ProjectWait.M.Elevator
             if(pendingDeveloper){pendingDeveloper=false;lesson.view.ToggleDeveloper();}
             if(pendingRestart){pendingRestart=false;pendingChoice=-1;pendingClick=false;lesson.Restart();}
             if(!IsDesktop)return;
-            bool focused=Application.isFocused;if(focused!=wasFocused){wasFocused=focused;SetMouseLook(focused);}
-            if(pendingEscape){pendingEscape=false;SetMouseLook(!MouseLookActive);}
+            if(lesson.CinematicBlocking){pendingChoice=-1;pendingClick=false;ClearHover();SetMouseLook(false);return;}
+            bool focused=Application.isFocused;if(focused!=wasFocused){wasFocused=focused;if(!focused)SetMouseLook(false);}
+            if(pendingEscape){pendingEscape=false;SetMouseLook(false);}
             if(pendingChoice>=0)
             {
                 int choice=pendingChoice;pendingChoice=-1;
                 if(pendingRevision==lesson.Flow.Revision&&pendingRun==lesson.RunVersion)lesson.view.InvokeChoice(choice);
             }
             bool click=pendingClick;pendingClick=false;
-            if(click&&!MouseLookActive){SetMouseLook(true);click=false;}
             var mouse=Mouse.current;
+            if(mouse!=null && mouse.rightButton.isPressed!=MouseLookActive)SetMouseLook(mouse.rightButton.isPressed);
             if(MouseLookActive&&mouse!=null)
             {
                 var delta=skipDelta?Vector2.zero:mouse.delta.ReadValue();skipDelta=false;
                 yaw+=delta.x*sensitivity;pitch=Mathf.Clamp(pitch-delta.y*sensitivity,-65,65);
                 targetCamera.transform.rotation=Quaternion.Euler(pitch,yaw,0);
-                UpdateCenterRay();
-                if(click&&clickRevision==lesson.Flow.Revision&&clickRun==lesson.RunVersion)SelectCenterTarget();
             }
-            else ClearHover();
+            if(mouse!=null)
+            {
+                UpdateCenterRay();
+                if(click&&!MouseLookActive&&clickRevision==lesson.Flow.Revision&&clickRun==lesson.RunVersion)SelectCenterTarget();
+            }
         }
         void LateUpdate()
         {
@@ -112,29 +115,36 @@ namespace ProjectWait.M.Elevator
             if(MouseLookActive&&Mouse.current!=null)Mouse.current.WarpCursorPosition(new Vector2(Screen.width*.5f,Screen.height*.5f));
             RefreshLaserVisibility();
         }
+        public void ResetView()
+        {
+            if(!IsDesktop)return;SetScriptedHeading(lesson.presentation&&lesson.presentation.space?lesson.presentation.space.DefaultHeading:0);SetMouseLook(false);
+        }
+        public void SetScriptedHeading(float value){yaw=value;pitch=0;targetCamera.transform.rotation=Quaternion.Euler(0,yaw,0);}
         void RefreshLaserVisibility()
         {
-            bool visible=initialized&&IsDesktop&&MouseLookActive&&isActiveAndEnabled;
-            if(centerLaser)centerLaser.enabled=visible;if(laserDot)laserDot.gameObject.SetActive(visible);
+            // A full laser across the image obscures small labels; a point is enough on desktop.
+            if(centerLaser)centerLaser.enabled=false;
+            if(laserDot)laserDot.gameObject.SetActive(initialized&&IsDesktop&&isActiveAndEnabled);
         }
         void UpdateCenterRay()
         {
-            var ray=new Ray(targetCamera.transform.position,targetCamera.transform.forward);
+            var screen=MouseLookActive?new Vector2(Screen.width*.5f,Screen.height*.5f):(Mouse.current!=null?Mouse.current.position.ReadValue():Vector2.zero);
+            var ray=targetCamera.ScreenPointToRay(screen);
             float distance=laserRange;GameObject target=null;
             if(Physics.Raycast(ray,out var hit,laserRange))
             {
                 distance=hit.distance;var observation=hit.collider.GetComponentInParent<ElevatorObservation>();
-                if(observation)target=observation.gameObject;
+                if(observation&&lesson.CanInteract(observation.clue))target=observation.gameObject;
             }
             if(viewRevision!=lesson.view.InteractionRevision)
             {
-                viewRevision=lesson.view.InteractionRevision;buttons.Clear();lesson.view.GetComponentsInChildren(true,buttons);
+                viewRevision=lesson.view.InteractionRevision;lesson.view.CollectInteractiveButtons(buttons);
             }
             var system=EventSystem.current;
             if(system)
             {
                 if(pointer==null)pointer=new PointerEventData(system);
-                pointer.Reset();pointer.pointerId=-99;pointer.button=PointerEventData.InputButton.Left;pointer.position=new Vector2(Screen.width*.5f,Screen.height*.5f);
+                pointer.Reset();pointer.pointerId=-99;pointer.button=PointerEventData.InputButton.Left;pointer.position=screen;
                 foreach(var button in buttons)
                 {
                     if(!button||!button.IsActive()||!button.IsInteractable())continue;
@@ -164,7 +174,7 @@ namespace ProjectWait.M.Elevator
         }
         public void SelectCenterTarget()
         {
-            if(!IsDesktop||!MouseLookActive||!hovered)return;
+            if(!IsDesktop||!hovered)return;
             ClickCount++;var observation=hovered.GetComponent<ElevatorObservation>();
             if(observation){observation.Activate();return;}
             if(pointer==null)return;
