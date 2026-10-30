@@ -1,0 +1,16 @@
+{
+  "completedUtc": "2026-10-30T04:44:46.896Z",
+  "originalScene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+  "testScene": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+  "checks": {
+    "original": 57,
+    "objectGuided": 111,
+    "savedScenes": 47
+  },
+  "expression": "Original expression hidden; black spiral eyes without whites; plain double-wave mouth; skin preserved",
+  "screenSpaceCanvases": 0,
+  "currentCompilerErrors": 0,
+  "earlierCompilerErrorResolved": true,
+  "protectedSettingsUnchanged": true,
+  "physicalHMDTested": false
+}

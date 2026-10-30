@@ -13,6 +13,8 @@ namespace ProjectWait.M.Elevator
         public Canvas hud;
         public RectTransform mission, speakerTab;
         public TMP_Text speaker, progress, controls, thoughtHeading;
+        public RectTransform progressBackdrop;
+        public RectTransform controlsBackdrop;
         public Transform intercomAnchor, rescuerAnchor;
         public Transform notebook;
         public RectTransform leftPage, rightPage;
@@ -50,14 +52,14 @@ namespace ProjectWait.M.Elevator
         {
             var f = view.lesson.Flow;
             complete = f.Step == ElevatorStep.Complete;
-            screenOnly = who == "나의 미션" || who == "나의 발견";
+            screenOnly = !view.lesson.scenario && (who == "나의 미션" || who == "나의 발견");
             observed = "";
             baseThought = screenOnly ? line : "";
             if(f.Step == ElevatorStep.Call && f.SituationReported && !f.IdentityFound)
             {
                 // The manager's speech remains in the world; search help belongs to the HUD.
                 view.dialogueText.text = "건물명과 승강기 번호를\n알려 주세요.";
-                baseThought = f.HintLevel > 0 ? "문 오른쪽 위에서 건물명과 승강기 번호를 찾아보자." : "벽의 위치 표시를 찾아 선택해 보자.";
+                baseThought = f.HintLevel > 0 ? "전면 비상벨 아래의 식별판에서 건물명과 관리번호를 찾아보자." : "벽의 식별판을 찾아 선택해 보자.";
             }
             speaker.text = who;
             view.dialoguePanel.gameObject.SetActive(!screenOnly);
@@ -65,7 +67,7 @@ namespace ProjectWait.M.Elevator
             view.actionPanel.localScale = Vector3.one;
             if(complete)
             {
-                view.dialogueText.text = "그 슛은 밖에서 보여 줄게!";
+                view.dialogueText.text = "고장 났을 때도 함께 안전하게 대처했어!";
                 view.dialoguePanel.gameObject.SetActive(true);
                 bool[] done = {f.HelpRequested, f.LocationReported, f.Reassured};
                 for(int i=0;i<completionMarks.Length;i++)
@@ -79,7 +81,7 @@ namespace ProjectWait.M.Elevator
             notebook.gameObject.SetActive(complete);
             mission.gameObject.SetActive(!complete);
             progress.gameObject.SetActive(!complete);
-            revealStarted = Time.unscaledTime;
+            revealStarted = Time.time;
             UpdateThought();
             Layout();
         }
@@ -126,7 +128,7 @@ namespace ProjectWait.M.Elevator
             string[] details = {
                 "비상통화로 멈춘 상황과\n함께 있는 사람을 알렸어요.",
                 "벽의 표시를 찾아 건물명과\n승강기 번호를 알려 줬어요.",
-                "문을 만지려던 친구를 안심시키고\n구조원의 안내를 기다렸어요."
+                "놀란 친구와 천천히 숨을 고르고\n구조원의 안내를 기다렸어요."
             };
             int page = historyPage++ % 3;
             notebookCaption.text = titles[page];
@@ -157,13 +159,13 @@ namespace ProjectWait.M.Elevator
             {
                 var button = view.ChoiceButtons[i];
                 if(!button)continue;
-                float buttonWidth = complete ? 211 : width;
+                float buttonWidth = complete ? 211 : button.name=="DialogueNext"?190:width;
                 var r = (RectTransform)button.transform;
                 var label = button.GetComponentInChildren<TMP_Text>();
                 label.fontSize = complete ? 21 : 28;
                 label.textWrappingMode=TextWrappingModes.Normal;
                 if(complete)label.text = i==0 ? "우리가 해낸 일" : "다시 해보기";
-                float buttonHeight=complete?70:Mathf.Max(88,label.GetPreferredValues(label.text,buttonWidth-44,0).y+28);
+                float buttonHeight=complete?70:button.name=="DialogueNext"?72:Mathf.Max(88,label.GetPreferredValues(label.text,buttonWidth-44,0).y+28);
                 r.sizeDelta=new Vector2(buttonWidth,buttonHeight);
                 r.anchoredPosition=complete?new Vector2((i-.5f)*227,0):new Vector2(0,-buttonY-buttonHeight*.5f);
                 r.localPosition=new Vector3(r.localPosition.x,r.localPosition.y,-1);
@@ -178,9 +180,10 @@ namespace ProjectWait.M.Elevator
 
         void LayoutHud()
         {
+            if(view.lesson.scenario){hud.renderMode=RenderMode.WorldSpace;hud.gameObject.SetActive(false);return;}
             var camera = view.playerCamera;
             bool xr = XRSettings.isDeviceActive;
-            hud.renderMode = xr ? RenderMode.WorldSpace : RenderMode.ScreenSpaceCamera;
+            hud.renderMode = xr ? RenderMode.WorldSpace : RenderMode.ScreenSpaceOverlay;
             hud.worldCamera = camera;
             hud.planeDistance = .4f;
             var scaler = hud.GetComponent<UnityEngine.UI.CanvasScaler>();
@@ -199,10 +202,12 @@ namespace ProjectWait.M.Elevator
             progress.rectTransform.anchorMin=progress.rectTransform.anchorMax=progress.rectTransform.pivot=new Vector2(1,1);
             progress.rectTransform.anchoredPosition=new Vector2(-24,-24);progress.rectTransform.sizeDelta=new Vector2(530,32);
             progress.fontSize=16;progress.gameObject.SetActive(!complete&&camera.aspect>1.5f);
+            if(progressBackdrop){progressBackdrop.anchorMin=progressBackdrop.anchorMax=progressBackdrop.pivot=Vector2.one;progressBackdrop.anchoredPosition=new Vector2(-14,-16);progressBackdrop.sizeDelta=new Vector2(550,48);progressBackdrop.gameObject.SetActive(progress.gameObject.activeSelf);}
             controls.rectTransform.anchorMin=controls.rectTransform.anchorMax=new Vector2(.5f,0);
             controls.rectTransform.anchoredPosition=new Vector2(0,12);controls.rectTransform.sizeDelta=new Vector2(width-40,22);
             controls.gameObject.SetActive(!xr&&!complete);
-            controls.text="클릭 / 숫자로 선택    ·    우클릭으로 둘러보기    ·    R 다시 시작";
+            if(controlsBackdrop){controlsBackdrop.anchorMin=controlsBackdrop.anchorMax=new Vector2(.5f,0);controlsBackdrop.pivot=new Vector2(.5f,0);controlsBackdrop.anchoredPosition=new Vector2(0,6);controlsBackdrop.sizeDelta=new Vector2(Mathf.Min(800,width-40),32);controlsBackdrop.gameObject.SetActive(controls.gameObject.activeSelf);}
+            controls.text="WASD 이동  ·  마우스로 둘러보기  ·  중앙 조준 후 클릭  ·  Esc 일시정지";
             float thoughtWidth=Mathf.Min(480,width-48);
             float thoughtHeight=Mathf.Max(112,view.thought.GetPreferredValues(view.thought.text,thoughtWidth-54,0).y+56);
             view.thoughtPanel.anchorMin=view.thoughtPanel.anchorMax=view.thoughtPanel.pivot=Vector2.zero;
@@ -225,14 +230,24 @@ namespace ProjectWait.M.Elevator
             if(step==ElevatorStep.Retry)anchor=new Vector3(.25f,1.60f,1.90f);
             if(step==ElevatorStep.Rescue)anchor=(rescuerAnchor?rescuerAnchor.position:new Vector3(-.85f,0,4.1f))+rescuerOffset;
             if(complete)anchor=lesson.friend.position+rotation*new Vector3(.95f,1.65f,-.08f);
+            var map=lesson.presentation.space?lesson.presentation.space.sportsCentre:null;
+            if(map){rotation=map.DialogueRotation;anchor=map.DialogueAnchor();}
+            var facing=anchor-view.playerCamera.transform.position;
+            if(facing.sqrMagnitude>.001f)rotation=Quaternion.LookRotation(facing,Vector3.up);
             transform.SetPositionAndRotation(anchor,rotation);
             if(placedStep!=step||placedRun!=lesson.RunVersion)
             {
                 // Place the book once when the stage changes; subsequent gaze changes do not move it.
                 var camera=view.playerCamera.transform;
-                notebook.SetPositionAndRotation(camera.position+rotation*(Vector3.forward*notebookDistance+notebookOffset),rotation*Quaternion.Euler(notebookTilt));
+                var bookRotation=Quaternion.Euler(0,camera.eulerAngles.y,0);
+                notebook.SetPositionAndRotation(camera.position+bookRotation*(Vector3.forward*notebookDistance+notebookOffset),bookRotation*Quaternion.Euler(notebookTilt));
                 notebook.localScale=Vector3.one*notebookScale;
                 placedStep=step;placedRun=lesson.RunVersion;
+            }
+            if(complete&&notebook)
+            {
+                var direction=notebook.position-view.playerCamera.transform.position;
+                if(direction.sqrMagnitude>.001f)notebook.rotation=Quaternion.LookRotation(direction,Vector3.up)*Quaternion.Euler(notebookTilt);
             }
         }
 
@@ -245,9 +260,11 @@ namespace ProjectWait.M.Elevator
             if(!hudGroup)hudGroup=hud.gameObject.AddComponent<CanvasGroup>();
             // Dialogue remains spatial during story beats; transitions use the existing comfort fade.
             var f=view.lesson.Flow;
-            bool transition=f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting;
-            worldGroup.alpha=transition?0:1;worldGroup.interactable=!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
-            hudGroup.alpha=f.IsCinematic?0:1;hudGroup.interactable=false;hudGroup.blocksRaycasts=false;
+            bool transition=f.Step==ElevatorStep.WaitingFade||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome;
+            bool paused=view.lesson.IsPaused;
+            worldGroup.alpha=transition||paused?0:1;worldGroup.interactable=!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
+            hudGroup.alpha=f.IsCinematic||paused?0:1;hudGroup.interactable=false;hudGroup.blocksRaycasts=false;
+            if(notebook)notebook.gameObject.SetActive(complete&&!paused);
         }
 
         public void Tick()
@@ -255,7 +272,7 @@ namespace ProjectWait.M.Elevator
             if(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height)Layout();
             else PositionWorld();
             PositionHud();SetCinematicVisibility();
-            if(view.lesson.Flow!=null)view.dialogueText.maxVisibleCharacters=Mathf.Max(1,(int)((Time.unscaledTime-revealStarted)*42));
+            if(view.lesson.Flow!=null)view.dialogueText.maxVisibleCharacters=Mathf.Max(1,(int)((Time.time-revealStarted)*42));
         }
         void PositionHud()
         {

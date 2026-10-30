@@ -1,0 +1,213 @@
+{
+  "success": true,
+  "passed": 47,
+  "checks": [
+    {
+      "name": "Original: reopened saved scene is clean",
+      "passed": true
+    },
+    {
+      "name": "Original: essential scene references are present",
+      "passed": true
+    },
+    {
+      "name": "Original: distinct scene mode is preserved",
+      "passed": true
+    },
+    {
+      "name": "Original: no missing script components",
+      "passed": true
+    },
+    {
+      "name": "Original: runtime has no temporary-file dependencies",
+      "passed": true
+    },
+    {
+      "name": "Original: pause root uses a centred pivot and anchors",
+      "passed": true
+    },
+    {
+      "name": "Original: pause has the saved physical scale and dimensions",
+      "passed": true
+    },
+    {
+      "name": "Original: pause menu is initially hidden",
+      "passed": true
+    },
+    {
+      "name": "Original: all scene canvases remain world space",
+      "passed": true
+    },
+    {
+      "name": "Original: screen HUD stays disabled",
+      "passed": true
+    },
+    {
+      "name": "Original: descriptions reference multiple real objects",
+      "passed": true
+    },
+    {
+      "name": "Original: fixed physical-size descriptions start hidden and do not intercept rays",
+      "passed": true
+    },
+    {
+      "name": "Original: all boundaries are solid and invisible",
+      "passed": true
+    },
+    {
+      "name": "Original: basketball sliding-door barrier is behind the threshold",
+      "passed": true
+    },
+    {
+      "name": "Original: descending and ground-floor ascending stair blockers are saved",
+      "passed": true
+    },
+    {
+      "name": "Original: four planter bodies have collision",
+      "passed": true
+    },
+    {
+      "name": "Original: chair seats, backs and arms have collision",
+      "passed": true
+    },
+    {
+      "name": "Original: both floors' fixed entrance walls, frames and glass use their actual collision mesh",
+      "passed": true
+    },
+    {
+      "name": "Original: existing court and connecting-corridor collision is intact",
+      "passed": true
+    },
+    {
+      "name": "Original: normal and panic expressions retain references",
+      "passed": true
+    },
+    {
+      "name": "Original: original eyes and mouth remain removed from the panic base mesh",
+      "passed": true
+    },
+    {
+      "name": "Original: panic expression retains only two black spiral eyes and a wave mouth",
+      "passed": true
+    },
+    {
+      "name": "Original: reassurance dialogue matches the calmer waiting story",
+      "passed": true
+    },
+    {
+      "name": "Guided: reopened saved scene is clean",
+      "passed": true
+    },
+    {
+      "name": "Guided: essential scene references are present",
+      "passed": true
+    },
+    {
+      "name": "Guided: distinct scene mode is preserved",
+      "passed": true
+    },
+    {
+      "name": "Guided: no missing script components",
+      "passed": true
+    },
+    {
+      "name": "Guided: runtime has no temporary-file dependencies",
+      "passed": true
+    },
+    {
+      "name": "Guided: pause root uses a centred pivot and anchors",
+      "passed": true
+    },
+    {
+      "name": "Guided: pause has the saved physical scale and dimensions",
+      "passed": true
+    },
+    {
+      "name": "Guided: pause menu is initially hidden",
+      "passed": true
+    },
+    {
+      "name": "Guided: all scene canvases remain world space",
+      "passed": true
+    },
+    {
+      "name": "Guided: screen HUD stays disabled",
+      "passed": true
+    },
+    {
+      "name": "Guided: descriptions reference multiple real objects",
+      "passed": true
+    },
+    {
+      "name": "Guided: fixed physical-size descriptions start hidden and do not intercept rays",
+      "passed": true
+    },
+    {
+      "name": "Guided: all boundaries are solid and invisible",
+      "passed": true
+    },
+    {
+      "name": "Guided: basketball sliding-door barrier is behind the threshold",
+      "passed": true
+    },
+    {
+      "name": "Guided: descending and ground-floor ascending stair blockers are saved",
+      "passed": true
+    },
+    {
+      "name": "Guided: four planter bodies have collision",
+      "passed": true
+    },
+    {
+      "name": "Guided: chair seats, backs and arms have collision",
+      "passed": true
+    },
+    {
+      "name": "Guided: both floors' fixed entrance walls, frames and glass use their actual collision mesh",
+      "passed": true
+    },
+    {
+      "name": "Guided: existing court and connecting-corridor collision is intact",
+      "passed": true
+    },
+    {
+      "name": "Guided: normal and panic expressions retain references",
+      "passed": true
+    },
+    {
+      "name": "Guided: original eyes and mouth remain removed from the panic base mesh",
+      "passed": true
+    },
+    {
+      "name": "Guided: panic expression retains only two black spiral eyes and a wave mouth",
+      "passed": true
+    },
+    {
+      "name": "Guided: reassurance dialogue matches the calmer waiting story",
+      "passed": true
+    },
+    {
+      "name": "Original and test scene GUIDs remain distinct",
+      "passed": true
+    }
+  ],
+  "scenes": [
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+      "guid": "c043886542fe3bb44a4b7c9cd44999ee",
+      "hints": 15,
+      "boundaries": 11,
+      "props": 22,
+      "fixedEntranceMeshes": 17
+    },
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+      "guid": "15150070df9075f469705970ed12661a",
+      "hints": 15,
+      "boundaries": 11,
+      "props": 22,
+      "fixedEntranceMeshes": 17
+    }
+  ],
+  "error": null
+}

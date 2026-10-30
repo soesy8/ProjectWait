@@ -1,0 +1,62 @@
+{
+  "completed": true,
+  "changes": {
+    "rearBarrierMovedMetres": 2,
+    "rearBarrierZ": -8.4,
+    "dialogueKeptVisible": true,
+    "descriptionsAvoid": [
+      "dialogue",
+      "choice buttons",
+      "character faces"
+    ],
+    "idle": {
+      "colour": "warm orange",
+      "corePixels": 6.5,
+      "widthIncrease": 2.5,
+      "outerGlow": true
+    },
+    "hover": {
+      "colour": "blue",
+      "corePixels": 10.4,
+      "widthIncrease": 2,
+      "outerGlow": true
+    }
+  },
+  "validation": {
+    "original": 118,
+    "test": 112,
+    "savedAndShaders": 32
+  },
+  "scenes": [
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+      "guid": "c043886542fe3bb44a4b7c9cd44999ee",
+      "descriptions": 15,
+      "barrierZ": -8.4
+    },
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+      "guid": "15150070df9075f469705970ed12661a",
+      "descriptions": 15,
+      "barrierZ": -8.4
+    }
+  ],
+  "protectedSettings": [
+    {
+      "path": "D:\\project\\ProjectWait\\ProjectSettings\\QualitySettings.asset",
+      "unchanged": true
+    },
+    {
+      "path": "D:\\project\\ProjectWait\\ProjectSettings\\GraphicsSettings.asset",
+      "unchanged": true
+    },
+    {
+      "path": "D:\\project\\ProjectWait\\Assets\\Settings\\Project Configuration\\Performance URP Config.asset",
+      "unchanged": true
+    }
+  ],
+  "unverified": [
+    "Physical HMD",
+    "Device build"
+  ]
+}

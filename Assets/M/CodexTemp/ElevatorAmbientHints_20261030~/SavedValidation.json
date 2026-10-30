@@ -1,0 +1,149 @@
+{
+  "success": true,
+  "passed": 32,
+  "checks": [
+    {
+      "name": "Shader compiles: ProjectWait/M/Sky Highlight",
+      "passed": true
+    },
+    {
+      "name": "Independent silhouette reference: ProjectWait/M/Sky Highlight",
+      "passed": true
+    },
+    {
+      "name": "Shader compiles: ProjectWait/M/Sky Highlight Mask",
+      "passed": true
+    },
+    {
+      "name": "Independent silhouette reference: ProjectWait/M/Sky Highlight Mask",
+      "passed": true
+    },
+    {
+      "name": "Original: saved scene reopens cleanly",
+      "passed": true
+    },
+    {
+      "name": "Original: scene mode is preserved",
+      "passed": true
+    },
+    {
+      "name": "Original: no missing scripts",
+      "passed": true
+    },
+    {
+      "name": "Original: no runtime temporary dependencies",
+      "passed": true
+    },
+    {
+      "name": "Original: all fifteen described objects have idle-outline metadata",
+      "passed": true
+    },
+    {
+      "name": "Original: descriptions preserve fixed size and begin hidden",
+      "passed": true
+    },
+    {
+      "name": "Original: shared warm idle colour is saved",
+      "passed": true
+    },
+    {
+      "name": "Original: stronger idle and hover widths are saved",
+      "passed": true
+    },
+    {
+      "name": "Original: dialogue is not saved hidden",
+      "passed": true
+    },
+    {
+      "name": "Original: rear barrier is saved two metres farther back",
+      "passed": true
+    },
+    {
+      "name": "Original: stair blockers remain",
+      "passed": true
+    },
+    {
+      "name": "Original: furniture collisions remain",
+      "passed": true
+    },
+    {
+      "name": "Original: fixed entrance walls and glass retain collision",
+      "passed": true
+    },
+    {
+      "name": "Original: character face meshes are preserved",
+      "passed": true
+    },
+    {
+      "name": "Guided: saved scene reopens cleanly",
+      "passed": true
+    },
+    {
+      "name": "Guided: scene mode is preserved",
+      "passed": true
+    },
+    {
+      "name": "Guided: no missing scripts",
+      "passed": true
+    },
+    {
+      "name": "Guided: no runtime temporary dependencies",
+      "passed": true
+    },
+    {
+      "name": "Guided: all fifteen described objects have idle-outline metadata",
+      "passed": true
+    },
+    {
+      "name": "Guided: descriptions preserve fixed size and begin hidden",
+      "passed": true
+    },
+    {
+      "name": "Guided: shared warm idle colour is saved",
+      "passed": true
+    },
+    {
+      "name": "Guided: stronger idle and hover widths are saved",
+      "passed": true
+    },
+    {
+      "name": "Guided: dialogue is not saved hidden",
+      "passed": true
+    },
+    {
+      "name": "Guided: rear barrier is saved two metres farther back",
+      "passed": true
+    },
+    {
+      "name": "Guided: stair blockers remain",
+      "passed": true
+    },
+    {
+      "name": "Guided: furniture collisions remain",
+      "passed": true
+    },
+    {
+      "name": "Guided: fixed entrance walls and glass retain collision",
+      "passed": true
+    },
+    {
+      "name": "Guided: character face meshes are preserved",
+      "passed": true
+    }
+  ],
+  "scenes": [
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+      "guid": "c043886542fe3bb44a4b7c9cd44999ee",
+      "descriptions": 15,
+      "barrierZ": -8.4
+    },
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+      "guid": "15150070df9075f469705970ed12661a",
+      "descriptions": 15,
+      "barrierZ": -8.4
+    }
+  ],
+  "error": null
+}

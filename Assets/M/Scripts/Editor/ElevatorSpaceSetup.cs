@@ -216,8 +216,7 @@ namespace ProjectWait.M.Editor
   {
    var g=new GameObject(name);g.transform.SetParent(parent,false);g.transform.localPosition=pos;g.transform.localRotation=Quaternion.Euler(0,outside?180:0,0);
    var collider=g.AddComponent<BoxCollider>();collider.size=size;var o=g.AddComponent<ElevatorObservation>();o.lesson=l;o.clue=clue;var xr=g.GetComponent<XRSimpleInteractable>();xr.colliders.Clear();xr.colliders.Add(collider);
-   var line=new GameObject("ObservationOutline").AddComponent<LineRenderer>();line.transform.SetParent(g.transform,false);line.useWorldSpace=false;line.loop=true;line.positionCount=4;line.widthMultiplier=.005f;line.sharedMaterial=Mat("ObservationTeal");line.enabled=false;
-   line.SetPositions(new[]{new Vector3(-size.x/2,-size.y/2,-size.z/2-.006f),new Vector3(-size.x/2,size.y/2,-size.z/2-.006f),new Vector3(size.x/2,size.y/2,-size.z/2-.006f),new Vector3(size.x/2,-size.y/2,-size.z/2-.006f)});o.outline=line;return g;
+   return g;
   }
   static void RefreshGlyphs()
   {

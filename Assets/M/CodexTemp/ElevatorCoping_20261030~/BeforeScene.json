@@ -1,0 +1,105 @@
+{
+  "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+  "playing": false,
+  "cameraParent": "Camera Offset",
+  "bones": [
+    {
+      "name": "pelvis",
+      "pos": "(-3.2000, 8.3235, 1.4000)",
+      "local": "(0.0000, 0.3090, 0.0000)",
+      "rot": "(0.00, 180.00, 0.00)",
+      "scale": "(1.00, 1.00, 1.00)"
+    },
+    {
+      "name": "head",
+      "pos": "(-3.2000, 8.8234, 1.4000)",
+      "local": "(0.0000, 0.0930, 0.0000)",
+      "rot": "(0.00, 180.00, 0.00)",
+      "scale": "(1.00, 1.00, 1.00)"
+    },
+    {
+      "name": "thigh.L",
+      "pos": "(-3.0982, 8.3983, 1.4000)",
+      "local": "(-0.1020, 0.0750, 0.0000)",
+      "rot": "(359.98, 1.15, 181.15)",
+      "scale": "(1.00, 1.00, 1.00)"
+    },
+    {
+      "name": "shin.L",
+      "pos": "(-3.0952, 8.2486, 1.4000)",
+      "local": "(0.0000, 0.1500, 0.0000)",
+      "rot": "(0.00, 0.00, 180.00)",
+      "scale": "(1.00, 1.00, 1.00)"
+    },
+    {
+      "name": "foot.L",
+      "pos": "(-3.0952, 8.1348, 1.4000)",
+      "local": "(0.0000, 0.1140, 0.0000)",
+      "rot": "(60.83, 0.00, 180.00)",
+      "scale": "(1.00, 1.00, 1.00)"
+    },
+    {
+      "name": "foot.R",
+      "pos": "(-3.3048, 8.1348, 1.4000)",
+      "local": "(0.0000, 0.1140, 0.0000)",
+      "rot": "(60.83, 0.00, 180.00)",
+      "scale": "(1.00, 1.00, 1.00)"
+    }
+  ],
+  "renderers": [
+    {
+      "name": "Head • 둥근 얼굴",
+      "type": "SkinnedMeshRenderer",
+      "centre": "(-3.2000, 8.6350, 1.4229)",
+      "size": "(0.7268, 1.4300, 0.5912)",
+      "materials": [
+        "UnifiedPalette"
+      ]
+    },
+    {
+      "name": "ObservationOutline",
+      "type": "LineRenderer",
+      "centre": "(-3.2000, 8.6600, 1.0900)",
+      "size": "(0.7260, 1.5260, 0.0060)",
+      "materials": [
+        "ObservationTeal"
+      ]
+    },
+    {
+      "name": "FriendBasketball",
+      "type": "MeshRenderer",
+      "centre": "(-3.2000, 8.6300, 1.1600)",
+      "size": "(0.2570, 0.2570, 0.2570)",
+      "materials": [
+        "UnifiedPalette"
+      ]
+    },
+    {
+      "name": "ExcitedMark0",
+      "type": "MeshRenderer",
+      "centre": "(-2.8600, 9.3600, 1.3000)",
+      "size": "(0.0855, 0.1452, 0.0350)",
+      "materials": [
+        "BasketballOrange"
+      ]
+    },
+    {
+      "name": "ExcitedMark1",
+      "type": "MeshRenderer",
+      "centre": "(-2.7850, 9.3300, 1.3000)",
+      "size": "(0.1167, 0.1167, 0.0350)",
+      "materials": [
+        "BasketballOrange"
+      ]
+    },
+    {
+      "name": "ExcitedMark2",
+      "type": "MeshRenderer",
+      "centre": "(-2.7100, 9.3000, 1.3000)",
+      "size": "(0.1170, 0.0752, 0.0350)",
+      "materials": [
+        "BasketballOrange"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+.panel {
+    flex-grow: 1;
+    padding: 16px;
+}
+.title {
+    font-size: 19px;
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+}
+.description {
+    white-space: normal;
+    margin-top: 6px;
+    margin-bottom: 10px;
+}
+.panel Button {
+    min-height: 28px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.panel .primary {
+    min-height: 38px;
+    background-color: rgb(41, 122, 112);
+    color: rgb(255, 246, 219);
+    -unity-font-style: bold;
+}
+.status {
+    white-space: normal;
+    flex-grow: 1;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

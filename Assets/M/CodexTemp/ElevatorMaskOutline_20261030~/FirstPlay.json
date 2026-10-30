@@ -1,0 +1,97 @@
+{
+  "frame": 43,
+  "featureFrame": 42,
+  "drawn": 13,
+  "targets": [
+    {
+      "name": "Cabin_Optional119Phone",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 2
+    },
+    {
+      "name": "3F_Lobby_Up_Unavailable",
+      "Visible": false,
+      "Hovered": false,
+      "geometry": 0
+    },
+    {
+      "name": "1F_MainExit",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 8
+    },
+    {
+      "name": "3F_Lobby_Call",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 1
+    },
+    {
+      "name": "3F_Display_LastKnown3",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 1
+    },
+    {
+      "name": "3F_Front_Floor01",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 1
+    },
+    {
+      "name": "3F_Side_Floor01",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 1
+    },
+    {
+      "name": "3F_SafetyPoster",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 1
+    },
+    {
+      "name": "3F_FacilityDirectory_NoHighlight",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 1
+    },
+    {
+      "name": "3F_LiftIdentity_HB-EL-01",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 1
+    },
+    {
+      "name": "3F_Front_Emergency_2.15m",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 1
+    },
+    {
+      "name": "3F_Side_Emergency_1.28m",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 1
+    },
+    {
+      "name": "3F_Door_KeepClear",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 2
+    },
+    {
+      "name": "FriendBasketball",
+      "Visible": true,
+      "Hovered": false,
+      "geometry": 1
+    },
+    {
+      "name": "Friend_Jump_Root",
+      "Visible": true,
+      "Hovered": true,
+      "geometry": 5
+    }
+  ]
+}

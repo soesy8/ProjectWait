@@ -11,10 +11,11 @@ namespace ProjectWait.M.Elevator
         public Vector3 friendInside=new Vector3(-.90f,0,1.95f), friendOutside=new Vector3(.85f,0,4.7f);
         public float doorZ=2.84f, doorY=1.16f;
         public ElevatorCinematicOverlay overlay;
+        public ElevatorSportsCentreMap sportsCentre;
         ElevatorDesktopControls controls;
         ElevatorStep previous=(ElevatorStep)(-1);
         int lastRun=-1;
-        public float DefaultHeading => lesson&&lesson.Flow!=null&&(lesson.Flow.Step==ElevatorStep.Lobby||lesson.Flow.Step==ElevatorStep.Complete||lesson.Flow.Step==ElevatorStep.Entering)?180:0;
+        public float DefaultHeading => sportsCentre?sportsCentre.DefaultHeading:lesson&&lesson.Flow!=null&&(lesson.Flow.Step==ElevatorStep.Lobby||lesson.Flow.Step==ElevatorStep.Complete||lesson.Flow.Step==ElevatorStep.Entering)?180:0;
         public float DoorOpen {get;private set;}
         static float S(float t,float start,float end)=>Mathf.SmoothStep(0,1,Mathf.InverseLerp(start,end,t));
         void MoveRig(Vector3 position,float heading)
@@ -27,6 +28,7 @@ namespace ProjectWait.M.Elevator
         }
         public void Apply()
         {
+            if (sportsCentre) { sportsCentre.Apply(); return; }
             var f=lesson.Flow;var p=lesson.presentation;float t=f.Elapsed;
             bool outside=f.Step==ElevatorStep.Lobby||f.Step==ElevatorStep.Complete;
             bool changed=previous!=f.Step,reset=lastRun!=lesson.RunVersion;

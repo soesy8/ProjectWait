@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "scenes": [
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+      "mode": false,
+      "duration": 0.6,
+      "targets": 16,
+      "missingScripts": 0
+    },
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+      "mode": true,
+      "duration": 0.6,
+      "targets": 16,
+      "missingScripts": 0
+    }
+  ]
+}

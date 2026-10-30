@@ -1,0 +1,26 @@
+강조 세팅 — 렌더러 자동 설정
+
+Unity 6 / URP / Render Graph 프로젝트에서 사용합니다.
+
+1. 연결할 씬을 Assets/M 안에 저장합니다.
+2. Tools > Wait > 강조 세팅을 엽니다.
+3. 현재 씬 자동 감지 후 자동 설정을 누릅니다.
+
+씬에 지정된 렌더링 설정을 우선 감지하고, 없으면 현재 품질/Graphics의 URP 자산을 찾습니다.
+마스크 실루엣 Feature와 두 셰이더를 연결하며, 다시 실행해도 같은 피처와 복사본을 재사용합니다.
+M 밖의 URP/Renderer 자산은 Arts/Rendering/AutoOutline 안에 복사하고 원본을 보존합니다.
+기본 3D Renderer와 다른 3D Renderer 슬롯에도 적용합니다. 2D Renderer 슬롯은 그대로 둡니다.
+씬 연결을 선택하면 씬의 렌더링 설정 컴포넌트를 연결하고 저장합니다. Play Mode에서 해당 설정을 사용합니다.
+ProjectSettings, 공용 원본 자산과 원래의 품질/Graphics 할당은 변경하지 않습니다.
+
+자산만 설정하려면 고급 설정에서 현재 씬 연결 및 저장을 해제합니다.
+다른 URP 자산을 고급 설정에 직접 지정할 수도 있습니다.
+설정 상태 다시 확인으로 등록 상태를 확인할 수 있습니다.
+
+이 도구는 렌더러 설정을 담당합니다. 대상 등록은 기존 ElevatorOutlineTarget을 사용합니다.
+자식 프리팹, 자동 콜라이더, PC/VR 상호작용 자동 연결 기능은 이 도구에 포함되지 않습니다.
+기존 엘리베이터 씬의 대상·색상·시나리오 설정을 일괄 수정하는 도구가 아닙니다.
+
+팀에 전달할 때 에디터 도구 폴더, ElevatorSceneRendering.cs, ElevatorOutlineTarget.cs,
+ElevatorSilhouetteOutlineFeature.cs, ElevatorOutlineCoverage.shader, ElevatorOutlineDistance.shader를 함께 전달합니다.
+각 자산의 .meta를 유지합니다. UXML과 USS도 도구 폴더에 함께 두어야 합니다.

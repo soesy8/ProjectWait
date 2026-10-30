@@ -1,0 +1,27 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "Assets/M/CodexTemp/ElevatorCinematicFraming_20261030~/ProbeFraming.cs",
+      "entry": "ProbeFramingEF.Main",
+      "timeout_ms": "30000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 99,
+      "executeMs": 846,
+      "assemblyName": "PipelineRunScript_ProbeFraming_dd57f7d28cbf4dc98d350a2297199911",
+      "success": true,
+      "result": "{\r\n  \"step\": \"Jump\",\r\n  \"feet\": \"(-1.85, 7.92, 4.40)\",\r\n  \"camera\": \"(358.97, 110.30, 0.00)\",\r\n  \"view\": [\r\n    [\r\n      0.407708734,\r\n      0.9826026,\r\n      0.548609734\r\n    ],\r\n    [\r\n      0.157007247,\r\n      1.297759,\r\n      0.395437837\r\n    ],\r\n    [\r\n      0.2134396,\r\n      -0.2587517,\r\n      -0.419412225\r\n    ],\r\n    [\r\n      -0.270683825,\r\n      -0.5048286,\r\n      -0.266240418\r\n    ]\r\n  ],\r\n  \"dialogueScale\": \"(0.00, 0.00, 0.00)\",\r\n  \"alpha\": 1.0\r\n}"
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

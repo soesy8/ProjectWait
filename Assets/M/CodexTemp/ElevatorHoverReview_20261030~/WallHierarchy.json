@@ -1,0 +1,1562 @@
+[
+  {
+    "name": "SC_07",
+    "parent": "41 · 층간 연결 계단",
+    "grand": "Building & Stairs",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.00, 8.45, 1.34), Extents: (4.50, 4.49, 4.04)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "41 · 층간 연결 계단",
+    "grand": "Building & Stairs",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (6.64, 7.74, 1.46), Extents: (2.58, 4.15, 2.96)"
+  },
+  {
+    "name": "SC_19",
+    "parent": "41 · 층간 연결 계단",
+    "grand": "Building & Stairs",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (6.73, 7.69, 1.82), Extents: (2.72, 4.19, 3.54)"
+  },
+  {
+    "name": "SC_01",
+    "parent": "41 · 층간 연결 계단",
+    "grand": "Building & Stairs",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (6.64, 7.64, 1.49), Extents: (2.62, 4.22, 2.96)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "40 · 건물 외장 · 기둥",
+    "grand": "Building & Stairs",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 3.87, -15.85), Extents: (7.13, 0.09, 7.10)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "40 · 건물 외장 · 기둥",
+    "grand": "Building & Stairs",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (1.17, 7.70, -8.14), Extents: (8.39, 3.98, 14.88)"
+  },
+  {
+    "name": "SC_01",
+    "parent": "40 · 건물 외장 · 기둥",
+    "grand": "Building & Stairs",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (1.16, 5.95, -8.12), Extents: (8.43, 5.95, 14.88)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "40 · 건물 외장 · 기둥",
+    "grand": "Building & Stairs",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (9.38, 7.30, 1.35), Extents: (0.01, 1.35, 4.86)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "40 · 건물 외장 · 기둥",
+    "grand": "Building & Stairs",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (8.05, 11.98, 1.33), Extents: (1.50, 0.08, 4.20)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "40 · 건물 외장 · 기둥",
+    "grand": "Building & Stairs",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (8.05, -0.15, 1.33), Extents: (1.60, 0.15, 4.25)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "20 · 2층 · 비워둔 구조",
+    "grand": "2F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-6.62, 5.71, -0.95), Extents: (0.07, 1.75, 4.29)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "20 · 2층 · 비워둔 구조",
+    "grand": "2F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.46, 3.90, 0.65), Extents: (5.14, 0.06, 5.95)"
+  },
+  {
+    "name": "SC_01",
+    "parent": "20 · 2층 · 비워둔 구조",
+    "grand": "2F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.46, 5.81, 0.62), Extents: (5.15, 1.85, 6.06)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "20 · 2층 · 비워둔 구조",
+    "grand": "2F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.46, 3.79, -1.04), Extents: (5.25, 0.11, 4.39)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "20 · 2층 · 비워둔 구조",
+    "grand": "2F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-6.65, 5.71, -0.95), Extents: (0.01, 1.70, 4.21)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "3F · 05 · 엘리베이터 내부",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 9.32, 4.87), Extents: (1.60, 1.60, 1.64)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "3F · 05 · 엘리베이터 내부",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 9.42, 4.92), Extents: (1.49, 1.44, 1.45)"
+  },
+  {
+    "name": "SC_07",
+    "parent": "3F · 05 · 엘리베이터 내부",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 9.53, 4.99), Extents: (1.46, 0.62, 1.32)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "3F · 05 · 엘리베이터 내부",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 7.96, 4.83), Extents: (1.34, 0.03, 1.43)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "3F · 05 · 엘리베이터 내부",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 10.08, 4.88), Extents: (1.57, 0.92, 1.58)"
+  },
+  {
+    "name": "SC_24",
+    "parent": "3F · 05 · 엘리베이터 내부",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-3.03, 9.83, 4.53), Extents: (0.16, 0.42, 0.83)"
+  },
+  {
+    "name": "SC_03",
+    "parent": "3F · 05 · 엘리베이터 내부",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 9.40, 4.74), Extents: (1.52, 1.47, 1.52)"
+  },
+  {
+    "name": "SC_23",
+    "parent": "3F · 05 · 엘리베이터 내부",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-3.20, 9.80, 4.26), Extents: (0.00, 0.53, 0.35)"
+  },
+  {
+    "name": "SC_05",
+    "parent": "3F · 05 · 엘리베이터 내부",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 9.99, 4.93), Extents: (1.39, 0.85, 1.26)"
+  },
+  {
+    "name": "SC_16",
+    "parent": "3F · 05 · 엘리베이터 내부",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-3.01, 10.44, 3.70), Extents: (0.02, 0.03, 0.00)"
+  },
+  {
+    "name": "SC_15",
+    "parent": "3F · 05 · 엘리베이터 내부",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 10.84, 4.87), Extents: (1.30, 0.01, 1.31)"
+  },
+  {
+    "name": "SC_07",
+    "parent": "3F · Cabin · 전면 01층 링",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (0.00, 0.00, 0.00), Extents: (0.05, 0.00, 0.05)"
+  },
+  {
+    "name": "SC_17",
+    "parent": "3F · Cabin · 전면 03층 링",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (0.00, 0.00, 0.00), Extents: (0.05, 0.00, 0.05)"
+  },
+  {
+    "name": "SC_18",
+    "parent": "3F · Cabin · 전면 비상 버튼 [높이 2.15m]",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (0.00, 0.00, 0.00), Extents: (0.06, 0.00, 0.06)"
+  },
+  {
+    "name": "SC_07",
+    "parent": "3F · Cabin · 측면 01층 링",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (0.00, 0.00, 0.00), Extents: (0.04, 0.00, 0.04)"
+  },
+  {
+    "name": "SC_17",
+    "parent": "3F · Cabin · 측면 03층 링",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (0.00, 0.00, 0.00), Extents: (0.04, 0.00, 0.04)"
+  },
+  {
+    "name": "SC_18",
+    "parent": "3F · Cabin · 측면 비상 버튼 [높이 1.28m]",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (0.00, 0.00, 0.00), Extents: (0.05, 0.00, 0.05)"
+  },
+  {
+    "name": "SC_03",
+    "parent": "3F · 04 · 엘리베이터 외장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.12, 9.31, 3.07), Extents: (2.90, 1.39, 0.10)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "3F · 04 · 엘리베이터 외장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.13, 9.36, 3.19), Extents: (2.92, 1.42, 0.23)"
+  },
+  {
+    "name": "SC_16",
+    "parent": "3F · 04 · 엘리베이터 외장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.19, 10.03, 3.00), Extents: (1.69, 0.94, 0.01)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "3F · 04 · 엘리베이터 외장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.13, 9.40, 3.07), Extents: (3.07, 1.47, 0.12)"
+  },
+  {
+    "name": "SC_05",
+    "parent": "3F · 04 · 엘리베이터 외장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.13, 9.53, 3.15), Extents: (2.85, 1.53, 0.15)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "3F · 04 · 엘리베이터 외장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.12, 10.25, 3.09), Extents: (0.05, 0.10, 0.00)"
+  },
+  {
+    "name": "SC_07",
+    "parent": "3F · 04 · 엘리베이터 외장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.12, 9.21, 3.03), Extents: (0.06, 0.17, 0.01)"
+  },
+  {
+    "name": "SC_03",
+    "parent": "3F · Lift 1 · 오른쪽 문 [슬라이드]",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 0.00, 0.00), Extents: (0.45, 1.32, 0.04)"
+  },
+  {
+    "name": "SC_03",
+    "parent": "3F · Lift 1 · 왼쪽 문 [슬라이드]",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 0.00, 0.00), Extents: (0.45, 1.32, 0.04)"
+  },
+  {
+    "name": "SC_03",
+    "parent": "3F · 06 · 엘리베이터 슬라이딩 문",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (1.55, 9.33, 3.23), Extents: (1.10, 1.32, 0.04)"
+  },
+  {
+    "name": "SC_09",
+    "parent": "31 · 3층 탈의 · 보관 복도",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 8.92, -7.28), Extents: (5.43, 0.95, 1.04)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "31 · 3층 탈의 · 보관 복도",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 8.14, -7.20), Extents: (4.39, 0.22, 0.94)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "31 · 3층 탈의 · 보관 복도",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 9.56, -6.94), Extents: (4.77, 1.54, 1.36)"
+  },
+  {
+    "name": "SC_07",
+    "parent": "31 · 3층 탈의 · 보관 복도",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 8.91, -7.38), Extents: (4.75, 0.14, 0.85)"
+  },
+  {
+    "name": "SC_15",
+    "parent": "31 · 3층 탈의 · 보관 복도",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 11.52, -7.10), Extents: (5.25, 0.01, 1.04)"
+  },
+  {
+    "name": "SC_01",
+    "parent": "31 · 3층 탈의 · 보관 복도",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 9.72, -7.05), Extents: (6.76, 1.80, 1.75)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "31 · 3층 탈의 · 보관 복도",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 11.62, -7.05), Extents: (6.75, 0.07, 1.75)"
+  },
+  {
+    "name": "SC_19",
+    "parent": "31 · 3층 탈의 · 보관 복도",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 8.38, -7.20), Extents: (4.46, 0.08, 1.20)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "31 · 3층 탈의 · 보관 복도",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 7.83, -7.05), Extents: (6.75, 0.09, 1.75)"
+  },
+  {
+    "name": "SC_19",
+    "parent": "3F · 07 · 오른쪽 올라가는 계단",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.18, 9.64, 0.55), Extents: (1.18, 1.71, 3.05)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "3F · 07 · 오른쪽 올라가는 계단",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.29, 9.76, 0.10), Extents: (1.28, 1.69, 5.28)"
+  },
+  {
+    "name": "SC_01",
+    "parent": "3F · 07 · 오른쪽 올라가는 계단",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.18, 9.62, 0.82), Extents: (1.16, 1.70, 2.54)"
+  },
+  {
+    "name": "SC_07",
+    "parent": "3F · 07 · 오른쪽 올라가는 계단",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.18, 10.25, 0.94), Extents: (1.14, 2.15, 2.63)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "3F · 07 · 오른쪽 올라가는 계단",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.36, 9.43, 0.56), Extents: (1.20, 1.80, 3.00)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "3F · 07 · 오른쪽 올라가는 계단",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.17, 10.23, 0.97), Extents: (1.12, 1.98, 2.52)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "3F · 02 · 로비 벽 / 패널",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (6.56, 11.42, 0.00), Extents: (0.01, 3.50, 4.01)"
+  },
+  {
+    "name": "SC_19",
+    "parent": "3F · 11 · 계단실 상부 / 난간",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.18, 11.79, 4.90), Extents: (1.33, 0.09, 0.46)"
+  },
+  {
+    "name": "SC_12",
+    "parent": "3F · 09 · 가구 / 화분 / 안내",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.05, 9.53, 2.33), Extents: (4.90, 0.74, 0.51)"
+  },
+  {
+    "name": "SC_14",
+    "parent": "3F · 09 · 가구 / 화분 / 안내",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.08, 9.41, 2.33), Extents: (4.61, 0.75, 0.31)"
+  },
+  {
+    "name": "SC_11",
+    "parent": "3F · 09 · 가구 / 화분 / 안내",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.14, 9.52, 2.32), Extents: (4.91, 0.69, 0.60)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "3F · 09 · 가구 / 화분 / 안내",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.74, 9.20, -1.03), Extents: (5.29, 1.25, 4.18)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "3F · 09 · 가구 / 화분 / 안내",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.81, 9.09, -1.09), Extents: (5.13, 1.15, 4.04)"
+  },
+  {
+    "name": "SC_13",
+    "parent": "3F · 09 · 가구 / 화분 / 안내",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.07, 8.66, 2.35), Extents: (4.74, 0.01, 0.47)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "3F · 02 · 로비 벽 / 패널",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.02, 9.72, -0.91), Extents: (6.58, 1.78, 4.09)"
+  },
+  {
+    "name": "SC_01",
+    "parent": "3F · 02 · 로비 벽 / 패널",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.17, 11.52, 0.12), Extents: (6.64, 3.60, 5.50)"
+  },
+  {
+    "name": "SC_15",
+    "parent": "3F · 11 · 계단실 상부 / 난간",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.17, 15.04, 0.25), Extents: (1.14, 0.01, 3.29)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "3F · 11 · 계단실 상부 / 난간",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.18, 15.14, 0.09), Extents: (1.56, 0.08, 5.48)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "3F · 11 · 계단실 상부 / 난간",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (6.48, 13.51, 1.10), Extents: (0.01, 0.74, 2.82)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "3F · 11 · 계단실 상부 / 난간",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (6.44, 13.51, 1.10), Extents: (0.03, 0.75, 1.88)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "3F · 11 · 계단실 상부 / 난간",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (6.54, 13.48, 1.30), Extents: (0.05, 0.85, 3.10)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "32 · 3층 농구 연습장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 12.81, -15.85), Extents: (7.18, 2.27, 7.15)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "32 · 3층 농구 연습장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 11.24, -15.85), Extents: (7.15, 3.62, 7.05)"
+  },
+  {
+    "name": "SC_27",
+    "parent": "32 · 3층 농구 연습장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 10.97, -21.48), Extents: (0.25, 0.02, 0.25)"
+  },
+  {
+    "name": "SC_09",
+    "parent": "32 · 3층 농구 연습장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 11.47, -21.84), Extents: (0.88, 0.50, 0.01)"
+  },
+  {
+    "name": "SC_25",
+    "parent": "32 · 3층 농구 연습장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 7.94, -15.85), Extents: (6.90, 0.03, 6.80)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "32 · 3층 농구 연습장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 12.32, -16.40), Extents: (6.94, 1.65, 6.23)"
+  },
+  {
+    "name": "SC_01",
+    "parent": "32 · 3층 농구 연습장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 11.42, -15.89), Extents: (7.11, 3.50, 7.11)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "32 · 3층 농구 연습장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 12.32, -16.40), Extents: (6.93, 1.66, 6.25)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "32 · 3층 농구 연습장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 7.97, -15.80), Extents: (6.85, 0.00, 6.60)"
+  },
+  {
+    "name": "SC_26",
+    "parent": "32 · 3층 농구 연습장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 7.98, -15.85), Extents: (6.21, 0.02, 6.16)"
+  },
+  {
+    "name": "SC_15",
+    "parent": "32 · 3층 농구 연습장",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 14.54, -16.00), Extents: (5.50, 0.01, 4.85)"
+  },
+  {
+    "name": "SC_01",
+    "parent": "3F · 08 · 뒤쪽 자동문 / 진입부",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (0.00, 9.77, -5.34), Extents: (6.70, 1.85, 0.13)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "3F · 01 · 로비 바닥 / 석재",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 7.79, -0.90), Extents: (6.80, 0.18, 4.60)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "3F · 01 · 로비 바닥 / 석재",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 7.93, -1.10), Extents: (6.60, 0.03, 4.20)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "3F · 10 · 로비 천장 [분리 가능]",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.45, 11.64, -0.94), Extents: (5.15, 0.09, 4.39)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "3F · 10 · 로비 천장 [분리 가능]",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.24, 11.58, -0.94), Extents: (5.06, 0.14, 4.43)"
+  },
+  {
+    "name": "SC_15",
+    "parent": "3F · 10 · 로비 천장 [분리 가능]",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.45, 11.49, -0.75), Extents: (4.73, 0.01, 3.33)"
+  },
+  {
+    "name": "SC_10",
+    "parent": "3F · 09 · 가구 / 화분 / 안내",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-5.66, 8.68, -0.65), Extents: (0.40, 0.35, 1.40)"
+  },
+  {
+    "name": "SC_07",
+    "parent": "3F · 09 · 가구 / 화분 / 안내",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-5.59, 8.64, -0.65), Extents: (0.28, 0.03, 1.46)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "3F · 08 · 뒤쪽 자동문 / 진입부",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 9.75, -4.75), Extents: (2.72, 1.79, 0.73)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "3F · 09 · 가구 / 화분 / 안내",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.49, 9.61, -1.03), Extents: (5.00, 0.73, 4.12)"
+  },
+  {
+    "name": "SC_19",
+    "parent": "41 · 층간 연결 계단",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (7.95, 7.83, -2.21), Extents: (1.50, 0.09, 0.49)"
+  },
+  {
+    "name": "SC_28",
+    "parent": "3F · 03 · 왼쪽 통창",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-6.64, 9.75, -0.94), Extents: (0.01, 1.63, 4.24)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "3F · 03 · 왼쪽 통창",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-6.62, 9.79, -0.94), Extents: (0.09, 1.72, 4.39)"
+  },
+  {
+    "name": "SC_09",
+    "parent": "3F · 03 · 왼쪽 통창",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-6.61, 8.96, -0.94), Extents: (0.01, 0.02, 4.24)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "3F · 03 · 왼쪽 통창",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-6.62, 8.05, -0.94), Extents: (0.11, 0.11, 4.39)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "3F · 11 · 계단실 상부 / 난간",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (2.18, 11.79, 4.94), Extents: (1.71, 0.09, 0.43)"
+  },
+  {
+    "name": "SC_10",
+    "parent": "3F · 08 · 뒤쪽 자동문 / 진입부",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 7.98, -4.60), Extents: (1.42, 0.00, 0.53)"
+  },
+  {
+    "name": "SC_05",
+    "parent": "3F · 08 · 뒤쪽 자동문 / 진입부",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 11.10, -5.16), Extents: (0.10, 0.03, 0.07)"
+  },
+  {
+    "name": "SC_09",
+    "parent": "3F · 08 · 뒤쪽 자동문 / 진입부",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 8.97, -5.32), Extents: (2.61, 0.03, 0.01)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "3F · 08 · 뒤쪽 자동문 / 진입부",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 9.61, -5.34), Extents: (2.72, 1.68, 0.17)"
+  },
+  {
+    "name": "SC_09",
+    "parent": "3F · 자동문 왼쪽 문짝 [애니메이션]",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.24, 8.97, -5.38), Extents: (0.63, 0.03, 0.01)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "3F · 자동문 왼쪽 문짝 [애니메이션]",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.24, 9.51, -5.40), Extents: (0.65, 1.54, 0.04)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "3F · 자동문 왼쪽 문짝 [애니메이션]",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.24, 9.51, -5.40), Extents: (0.64, 1.52, 0.01)"
+  },
+  {
+    "name": "SC_09",
+    "parent": "3F · 자동문 오른쪽 문짝 [애니메이션]",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.04, 8.97, -5.38), Extents: (0.63, 0.03, 0.01)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "3F · 자동문 오른쪽 문짝 [애니메이션]",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.04, 9.51, -5.40), Extents: (0.65, 1.54, 0.04)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "3F · 자동문 오른쪽 문짝 [애니메이션]",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.04, 9.51, -5.40), Extents: (0.64, 1.52, 0.01)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "3F · 08 · 뒤쪽 자동문 / 진입부",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 9.54, -5.34), Extents: (2.61, 1.55, 0.01)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "3F · 01 · 로비 바닥 / 석재",
+    "grand": "3F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.13, 7.97, 2.59), Extents: (2.18, 0.01, 0.12)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "3F · 08 · 뒤쪽 자동문 / 진입부",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 11.45, -5.12), Extents: (0.27, 0.04, 0.00)"
+  },
+  {
+    "name": "SC_05",
+    "parent": "3F · 09 · 가구 / 화분 / 안내",
+    "grand": "3F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (3.15, 8.78, 2.71), Extents: (0.13, 0.01, 0.06)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 1.40, 4.87), Extents: (1.60, 1.60, 1.64)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 1.50, 4.92), Extents: (1.49, 1.44, 1.45)"
+  },
+  {
+    "name": "SC_07",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 1.61, 4.99), Extents: (1.46, 0.62, 1.32)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 0.04, 4.83), Extents: (1.34, 0.03, 1.43)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 2.16, 4.88), Extents: (1.57, 0.92, 1.58)"
+  },
+  {
+    "name": "SC_24",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-3.01, 2.00, 3.70), Extents: (0.14, 0.06, 0.00)"
+  },
+  {
+    "name": "SC_03",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 1.48, 4.74), Extents: (1.52, 1.47, 1.52)"
+  },
+  {
+    "name": "SC_23",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-3.20, 1.88, 4.26), Extents: (0.00, 0.53, 0.35)"
+  },
+  {
+    "name": "SC_17",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.66, 1.29, 4.39), Extents: (1.26, 0.08, 0.71)"
+  },
+  {
+    "name": "SC_05",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 2.07, 4.93), Extents: (1.39, 0.85, 1.26)"
+  },
+  {
+    "name": "SC_18",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.74, 1.72, 4.05), Extents: (1.33, 0.49, 0.36)"
+  },
+  {
+    "name": "SC_16",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-3.01, 2.52, 3.70), Extents: (0.01, 0.03, 0.00)"
+  },
+  {
+    "name": "SC_15",
+    "parent": "05 · 엘리베이터 내부",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.80, 2.92, 4.87), Extents: (1.30, 0.01, 1.31)"
+  },
+  {
+    "name": "SC_03",
+    "parent": "04 · 엘리베이터 외장",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.12, 1.39, 3.07), Extents: (2.90, 1.39, 0.10)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "04 · 엘리베이터 외장",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.13, 1.44, 3.19), Extents: (2.92, 1.42, 0.23)"
+  },
+  {
+    "name": "SC_16",
+    "parent": "04 · 엘리베이터 외장",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.18, 2.11, 3.00), Extents: (1.69, 0.94, 0.01)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "04 · 엘리베이터 외장",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.13, 1.48, 3.07), Extents: (3.07, 1.47, 0.12)"
+  },
+  {
+    "name": "SC_05",
+    "parent": "04 · 엘리베이터 외장",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.13, 1.61, 3.15), Extents: (2.85, 1.53, 0.15)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "04 · 엘리베이터 외장",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.13, 2.33, 3.09), Extents: (0.03, 0.10, 0.00)"
+  },
+  {
+    "name": "SC_07",
+    "parent": "04 · 엘리베이터 외장",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.12, 1.29, 3.03), Extents: (0.06, 0.17, 0.01)"
+  },
+  {
+    "name": "SC_03",
+    "parent": "06 · 엘리베이터 슬라이딩 문",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.03, 1.41, 3.23), Extents: (2.67, 1.32, 0.04)"
+  },
+  {
+    "name": "SC_19",
+    "parent": "07 · 오른쪽 올라가는 계단",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.18, 1.72, 0.55), Extents: (1.18, 1.71, 3.05)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "07 · 오른쪽 올라가는 계단",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.29, 1.84, 0.10), Extents: (1.28, 1.69, 5.28)"
+  },
+  {
+    "name": "SC_01",
+    "parent": "07 · 오른쪽 올라가는 계단",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.18, 1.70, 0.82), Extents: (1.16, 1.70, 2.54)"
+  },
+  {
+    "name": "SC_07",
+    "parent": "07 · 오른쪽 올라가는 계단",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.18, 2.33, 0.94), Extents: (1.14, 2.15, 2.63)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "07 · 오른쪽 올라가는 계단",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.36, 1.51, 0.56), Extents: (1.20, 1.80, 3.00)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "07 · 오른쪽 올라가는 계단",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.17, 2.31, 0.97), Extents: (1.12, 1.98, 2.52)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "02 · 로비 벽 / 패널",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (6.56, 3.50, 0.00), Extents: (0.01, 3.50, 4.01)"
+  },
+  {
+    "name": "SC_19",
+    "parent": "11 · 계단실 상부 / 난간",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.18, 3.87, 4.90), Extents: (1.33, 0.09, 0.46)"
+  },
+  {
+    "name": "SC_12",
+    "parent": "09 · 가구 / 화분 / 안내",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.05, 1.61, 2.33), Extents: (4.90, 0.74, 0.51)"
+  },
+  {
+    "name": "SC_14",
+    "parent": "09 · 가구 / 화분 / 안내",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.08, 1.49, 2.33), Extents: (4.61, 0.75, 0.31)"
+  },
+  {
+    "name": "SC_11",
+    "parent": "09 · 가구 / 화분 / 안내",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.14, 1.60, 2.32), Extents: (4.91, 0.69, 0.60)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "09 · 가구 / 화분 / 안내",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.74, 1.29, -1.03), Extents: (5.29, 1.26, 4.18)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "09 · 가구 / 화분 / 안내",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.81, 1.17, -1.09), Extents: (5.13, 1.15, 4.04)"
+  },
+  {
+    "name": "SC_13",
+    "parent": "09 · 가구 / 화분 / 안내",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.07, 0.74, 2.35), Extents: (4.74, 0.01, 0.47)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "02 · 로비 벽 / 패널",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.02, 1.80, -0.91), Extents: (6.58, 1.78, 4.09)"
+  },
+  {
+    "name": "SC_01",
+    "parent": "02 · 로비 벽 / 패널",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.17, 3.60, 0.12), Extents: (6.64, 3.60, 5.50)"
+  },
+  {
+    "name": "SC_15",
+    "parent": "11 · 계단실 상부 / 난간",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.17, 7.12, 0.25), Extents: (1.14, 0.01, 3.29)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "11 · 계단실 상부 / 난간",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (5.18, 7.22, 0.09), Extents: (1.56, 0.08, 5.48)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "11 · 계단실 상부 / 난간",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (6.48, 5.59, 1.10), Extents: (0.01, 0.74, 2.82)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "11 · 계단실 상부 / 난간",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (6.44, 5.59, 1.10), Extents: (0.03, 0.75, 1.88)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "11 · 계단실 상부 / 난간",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (6.54, 5.56, 1.29), Extents: (0.05, 0.85, 3.09)"
+  },
+  {
+    "name": "SC_01",
+    "parent": "08 · 뒤쪽 자동문 / 진입부",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (0.00, 1.85, -5.34), Extents: (6.70, 1.85, 0.13)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "01 · 로비 바닥 / 석재",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, -0.13, -0.90), Extents: (6.80, 0.18, 4.60)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "01 · 로비 바닥 / 석재",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.00, 0.01, -1.10), Extents: (6.60, 0.03, 4.20)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "10 · 로비 천장 [분리 가능]",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.45, 3.72, -0.94), Extents: (5.15, 0.09, 4.39)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "10 · 로비 천장 [분리 가능]",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.24, 3.66, -0.94), Extents: (5.06, 0.14, 4.43)"
+  },
+  {
+    "name": "SC_15",
+    "parent": "10 · 로비 천장 [분리 가능]",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-1.45, 3.57, -0.75), Extents: (4.73, 0.01, 3.33)"
+  },
+  {
+    "name": "SC_10",
+    "parent": "09 · 가구 / 화분 / 안내",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-5.66, 0.76, -0.65), Extents: (0.40, 0.35, 1.40)"
+  },
+  {
+    "name": "SC_07",
+    "parent": "09 · 가구 / 화분 / 안내",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-5.59, 0.72, -0.65), Extents: (0.28, 0.03, 1.46)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "08 · 뒤쪽 자동문 / 진입부",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 1.83, -4.75), Extents: (2.72, 1.79, 0.73)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "09 · 가구 / 화분 / 안내",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.49, 1.69, -1.03), Extents: (5.00, 0.73, 4.12)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "08 · 뒤쪽 자동문 / 진입부",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, -0.03, -6.50), Extents: (3.00, 0.05, 1.11)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "03 · 왼쪽 통창",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-6.64, 1.83, -0.94), Extents: (0.01, 1.63, 4.24)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "03 · 왼쪽 통창",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-6.62, 1.87, -0.94), Extents: (0.09, 1.72, 4.39)"
+  },
+  {
+    "name": "SC_09",
+    "parent": "03 · 왼쪽 통창",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-6.61, 1.04, -0.94), Extents: (0.01, 0.02, 4.24)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "03 · 왼쪽 통창",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-6.62, 0.13, -0.94), Extents: (0.11, 0.11, 4.39)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "11 · 계단실 상부 / 난간",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (2.18, 3.87, 4.94), Extents: (1.71, 0.09, 0.43)"
+  },
+  {
+    "name": "SC_10",
+    "parent": "08 · 뒤쪽 자동문 / 진입부",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 0.06, -4.60), Extents: (1.42, 0.00, 0.53)"
+  },
+  {
+    "name": "SC_05",
+    "parent": "08 · 뒤쪽 자동문 / 진입부",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 3.18, -5.16), Extents: (0.10, 0.04, 0.07)"
+  },
+  {
+    "name": "SC_09",
+    "parent": "08 · 뒤쪽 자동문 / 진입부",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 1.05, -5.32), Extents: (2.61, 0.03, 0.01)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "08 · 뒤쪽 자동문 / 진입부",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 1.69, -5.34), Extents: (2.72, 1.68, 0.17)"
+  },
+  {
+    "name": "SC_09",
+    "parent": "자동문 왼쪽 문짝 [애니메이션]",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.24, 1.05, -5.38), Extents: (0.63, 0.03, 0.01)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "자동문 왼쪽 문짝 [애니메이션]",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.24, 1.59, -5.40), Extents: (0.65, 1.54, 0.04)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "자동문 왼쪽 문짝 [애니메이션]",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-1.24, 1.59, -5.40), Extents: (0.64, 1.52, 0.01)"
+  },
+  {
+    "name": "SC_09",
+    "parent": "자동문 오른쪽 문짝 [애니메이션]",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.04, 1.05, -5.38), Extents: (0.63, 0.03, 0.01)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "자동문 오른쪽 문짝 [애니메이션]",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.04, 1.59, -5.40), Extents: (0.65, 1.54, 0.04)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "자동문 오른쪽 문짝 [애니메이션]",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (0.04, 1.59, -5.40), Extents: (0.64, 1.52, 0.01)"
+  },
+  {
+    "name": "SC_08",
+    "parent": "08 · 뒤쪽 자동문 / 진입부",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 1.62, -5.34), Extents: (2.61, 1.55, 0.01)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "01 · 로비 바닥 / 석재",
+    "grand": "1F",
+    "active": true,
+    "collider": true,
+    "bounds": "Center: (-0.13, 0.05, 2.59), Extents: (2.18, 0.01, 0.12)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "08 · 뒤쪽 자동문 / 진입부",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 3.53, -5.12), Extents: (0.11, 0.04, 0.00)"
+  },
+  {
+    "name": "SC_05",
+    "parent": "09 · 가구 / 화분 / 안내",
+    "grand": "1F",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (3.15, 0.86, 2.71), Extents: (0.13, 0.01, 0.06)"
+  },
+  {
+    "name": "SC_22",
+    "parent": "12 · 창밖 풍경",
+    "grand": "Background",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-8.00, 15.30, -12.00), Extents: (50.00, 16.11, 65.00)"
+  },
+  {
+    "name": "SC_21",
+    "parent": "12 · 창밖 풍경",
+    "grand": "Background",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-28.00, 13.90, 13.00), Extents: (7.00, 14.50, 27.00)"
+  },
+  {
+    "name": "SC_09",
+    "parent": "12 · 창밖 풍경",
+    "grand": "Background",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-10.44, 16.35, 1.65), Extents: (20.04, 14.75, 37.51)"
+  },
+  {
+    "name": "SC_06",
+    "parent": "12 · 창밖 풍경",
+    "grand": "Background",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-23.23, 15.90, 2.50), Extents: (7.26, 13.52, 37.44)"
+  },
+  {
+    "name": "SC_14",
+    "parent": "12 · 창밖 풍경",
+    "grand": "Background",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-9.00, 0.60, -0.50), Extents: (0.08, 1.10, 2.58)"
+  },
+  {
+    "name": "SC_12",
+    "parent": "12 · 창밖 풍경",
+    "grand": "Background",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-2.82, 1.75, -4.55), Extents: (7.27, 1.40, 7.67)"
+  },
+  {
+    "name": "SC_04",
+    "parent": "12 · 창밖 풍경",
+    "grand": "Background",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 0.31, -9.10), Extents: (5.20, 0.31, 3.60)"
+  },
+  {
+    "name": "SC_02",
+    "parent": "12 · 창밖 풍경",
+    "grand": "Background",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, 0.65, -11.90), Extents: (5.21, 0.03, 0.39)"
+  },
+  {
+    "name": "SC_00",
+    "parent": "12 · 창밖 풍경",
+    "grand": "Background",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-0.60, -0.06, -9.10), Extents: (5.20, 0.06, 3.65)"
+  },
+  {
+    "name": "SC_20",
+    "parent": "12 · 창밖 풍경",
+    "grand": "Background",
+    "active": true,
+    "collider": false,
+    "bounds": "Center: (-50.00, 25.00, 0.00), Extents: (0.05, 45.00, 75.00)"
+  }
+]

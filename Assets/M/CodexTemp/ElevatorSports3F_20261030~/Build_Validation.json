@@ -1,0 +1,47 @@
+{
+  "file": "D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\ElevatorSports3F_20261030~\\엘베_맵_체육센터_3층.blend",
+  "floorHeight": 3.96,
+  "thirdFloorZ": 7.92,
+  "sourceObjects": 864,
+  "thirdFloorCopies": 750,
+  "objects": 2080,
+  "currentFloor": 3,
+  "unusedElevatorFloor": 5,
+  "facilities": [
+    [
+      "6–12F",
+      "문화 · 운영"
+    ],
+    [
+      "5F",
+      "체력단련실"
+    ],
+    [
+      "4F",
+      "운동교실"
+    ],
+    [
+      "3F",
+      "농구장 · 탈의실"
+    ],
+    [
+      "2F",
+      "준비 중"
+    ],
+    [
+      "1F",
+      "로비 · 주출입구"
+    ]
+  ],
+  "backgroundHeights": [
+    9,
+    23,
+    17,
+    29,
+    32,
+    25
+  ],
+  "directoryHasCurrentLocationHighlight": false,
+  "defaultCamera": "3F · 02 · 엘리베이터 내부",
+  "reviewViewsFinalized": true
+}

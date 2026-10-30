@@ -1,0 +1,386 @@
+{
+  "success": true,
+  "mode": "Original",
+  "passed": 94,
+  "checks": [
+    {
+      "name": "No object hint appears without hover",
+      "passed": true
+    },
+    {
+      "name": "No object glows automatically, including the correct object",
+      "passed": true
+    },
+    {
+      "name": "Multiple objects are inspectable at the same stage",
+      "passed": true
+    },
+    {
+      "name": "Unavailable upward call stays disabled",
+      "passed": true
+    },
+    {
+      "name": "Hovering a non-goal friend highlights its silhouette",
+      "passed": true
+    },
+    {
+      "name": "The hovered object's explanation appears",
+      "passed": true
+    },
+    {
+      "name": "Object explanation temporarily hides the overlapping narrative card",
+      "passed": true
+    },
+    {
+      "name": "Hint position and physical size remain fixed when the player moves",
+      "passed": true
+    },
+    {
+      "name": "Switching hover removes the previous outline",
+      "passed": true
+    },
+    {
+      "name": "Only the currently hovered explanation remains visible",
+      "passed": true
+    },
+    {
+      "name": "Hints disappear promptly after hover ends",
+      "passed": true
+    },
+    {
+      "name": "Pause card is centred in the view, even after a steep camera turn",
+      "passed": true
+    },
+    {
+      "name": "Pause remains world space",
+      "passed": true
+    },
+    {
+      "name": "Pause has four buttons with title intentionally disabled",
+      "passed": true
+    },
+    {
+      "name": "Free mouse pointer reaches the centred resume button",
+      "passed": true
+    },
+    {
+      "name": "Actual resume-button click restores play",
+      "passed": true
+    },
+    {
+      "name": "Basketball-side fixed wall or sidelight blocks passage at x=-4.5: (-4.500, 7.978, -4.980)",
+      "passed": true
+    },
+    {
+      "name": "Basketball-side fixed wall or sidelight blocks passage at x=3.9: (3.900, 7.978, -4.980)",
+      "passed": true
+    },
+    {
+      "name": "Basketball-side fixed wall or sidelight blocks passage at x=-2.58: (-2.580, 7.975, -5.081)",
+      "passed": true
+    },
+    {
+      "name": "Basketball-side fixed wall or sidelight blocks passage at x=1.38: (1.380, 7.975, -5.081)",
+      "passed": true
+    },
+    {
+      "name": "1F entrance wall also blocks passage",
+      "passed": true
+    },
+    {
+      "name": "Player crosses the sliding-door threshold and stops at the rear wall: (-0.600, 7.935, -6.075)",
+      "passed": true
+    },
+    {
+      "name": "3F descending stair entrance is blocked: (8.100, 7.935, -2.075)",
+      "passed": true
+    },
+    {
+      "name": "1F ascending stair entrance is blocked: (5.180, 0.085, -2.375)",
+      "passed": true
+    },
+    {
+      "name": "3F planter blocks the player capsule: (-5.470, 7.965, 1.628)",
+      "passed": true
+    },
+    {
+      "name": "3F bench blocks the player capsule: (-5.030, 7.965, -0.650)",
+      "passed": true
+    },
+    {
+      "name": "1F planter also blocks the player capsule",
+      "passed": true
+    },
+    {
+      "name": "Inspection available: LobbyCall",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches LobbyCall (actual 3F_Lobby_Call)",
+      "passed": true
+    },
+    {
+      "name": "Boarding completes",
+      "passed": true
+    },
+    {
+      "name": "Inspection available: FloorButtons",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches FloorButtons (actual 3F_Side_Floor01)",
+      "passed": true
+    },
+    {
+      "name": "Floor button selects 1F",
+      "passed": true
+    },
+    {
+      "name": "Inspection available: Friend",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches Friend (actual Friend_Jump_Root)",
+      "passed": true
+    },
+    {
+      "name": "Friend hands over the ball",
+      "passed": true
+    },
+    {
+      "name": "Original scene still offers its choice button",
+      "passed": true
+    },
+    {
+      "name": "The no-jump route reaches the fault",
+      "passed": true
+    },
+    {
+      "name": "Fault does not require a jump",
+      "passed": true
+    },
+    {
+      "name": "Inspection available: Door",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches Door (actual 3F_Door_KeepClear)",
+      "passed": true
+    },
+    {
+      "name": "Inspecting the door is not interpreted as forcing it open",
+      "passed": true
+    },
+    {
+      "name": "Inspection available: Notice",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches Notice (actual 3F_SafetyPoster)",
+      "passed": true
+    },
+    {
+      "name": "Inspecting the poster does not advance the fault response",
+      "passed": true
+    },
+    {
+      "name": "Inspection available: Intercom",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches Intercom (actual 3F_Side_Emergency_1.28m)",
+      "passed": true
+    },
+    {
+      "name": "Emergency button connects the operator",
+      "passed": true
+    },
+    {
+      "name": "Inspection available: Intercom",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches Intercom (actual 3F_Side_Emergency_1.28m)",
+      "passed": true
+    },
+    {
+      "name": "Pressing emergency again neither advances dialogue nor retriggers the button",
+      "passed": true
+    },
+    {
+      "name": "Exactly one dialogue Next button is available",
+      "passed": true
+    },
+    {
+      "name": "Conversation advances with a dedicated Next button",
+      "passed": true
+    },
+    {
+      "name": "Centre pointer selects Next",
+      "passed": true
+    },
+    {
+      "name": "Next uses a compact world-space button",
+      "passed": true
+    },
+    {
+      "name": "Next reports the situation, then pauses for physical identification",
+      "passed": true
+    },
+    {
+      "name": "Inspection available: Display",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches Display (actual 3F_Display_LastKnown3)",
+      "passed": true
+    },
+    {
+      "name": "Inspecting another candidate does not pretend the identity was found",
+      "passed": true
+    },
+    {
+      "name": "Inspection available: Identity",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches Identity (actual 3F_LiftIdentity_HB-EL-01)",
+      "passed": true
+    },
+    {
+      "name": "Physical identity-plate inspection still identifies the lift",
+      "passed": true
+    },
+    {
+      "name": "Exactly one dialogue Next button is available",
+      "passed": true
+    },
+    {
+      "name": "Conversation advances with a dedicated Next button",
+      "passed": true
+    },
+    {
+      "name": "Centre pointer selects Next",
+      "passed": true
+    },
+    {
+      "name": "Next uses a compact world-space button",
+      "passed": true
+    },
+    {
+      "name": "Next reports the identified location",
+      "passed": true
+    },
+    {
+      "name": "Exactly one dialogue Next button is available",
+      "passed": true
+    },
+    {
+      "name": "Conversation advances with a dedicated Next button",
+      "passed": true
+    },
+    {
+      "name": "Centre pointer selects Next",
+      "passed": true
+    },
+    {
+      "name": "Next uses a compact world-space button",
+      "passed": true
+    },
+    {
+      "name": "Next acknowledges the operator advice",
+      "passed": true
+    },
+    {
+      "name": "Waiting dialogue asks for reassurance without suggesting touching or leaning on the door",
+      "passed": true
+    },
+    {
+      "name": "Inspection available: Friend",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches Friend (actual Friend_Jump_Root)",
+      "passed": true
+    },
+    {
+      "name": "Reassuring the friend begins the waiting fade",
+      "passed": true
+    },
+    {
+      "name": "Fade leads into a checked rescue",
+      "passed": true
+    },
+    {
+      "name": "Guided exit reaches the lobby",
+      "passed": true
+    },
+    {
+      "name": "Staff transition reaches 1F despite manual stair blockers",
+      "passed": true
+    },
+    {
+      "name": "Original exit choice receives the pointer",
+      "passed": true
+    },
+    {
+      "name": "The revised scenario reaches completion",
+      "passed": true
+    },
+    {
+      "name": "Completion retains all coping outcomes",
+      "passed": true
+    },
+    {
+      "name": "Inspection available: Intercom",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches Intercom (actual 3F_Side_Emergency_1.28m)",
+      "passed": true
+    },
+    {
+      "name": "No-response branch remains available",
+      "passed": true
+    },
+    {
+      "name": "Inspection available: Phone",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches Phone (actual Cabin_Optional119Phone)",
+      "passed": true
+    },
+    {
+      "name": "Phone fallback enters simulated 119 conversation",
+      "passed": true
+    },
+    {
+      "name": "Exactly one dialogue Next button is available",
+      "passed": true
+    },
+    {
+      "name": "Conversation advances with a dedicated Next button",
+      "passed": true
+    },
+    {
+      "name": "Centre pointer selects Next",
+      "passed": true
+    },
+    {
+      "name": "Next uses a compact world-space button",
+      "passed": true
+    },
+    {
+      "name": "119 conversation also uses Next",
+      "passed": true
+    },
+    {
+      "name": "Verification exercised live player frames",
+      "passed": true
+    }
+  ],
+  "error": null,
+  "frameStart": 10704,
+  "frameEnd": 13656
+}

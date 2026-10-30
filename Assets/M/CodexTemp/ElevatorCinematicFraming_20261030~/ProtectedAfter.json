@@ -1,0 +1,62 @@
+[
+  {
+    "path": "Assets/M/Scripts/Elevator/ElevatorOutlineTarget.cs",
+    "hash": "e29d1e0ef77be0e58a47d6a29999483c2dfa512412f3193c7d1dc14d89308563",
+    "after": "e29d1e0ef77be0e58a47d6a29999483c2dfa512412f3193c7d1dc14d89308563",
+    "unchanged": true
+  },
+  {
+    "path": "Assets/M/Scripts/Elevator/ElevatorSilhouetteOutlineFeature.cs",
+    "hash": "b01cc655fb085f45723bc8a7c5e6c01c17eceb6811aaf9c40c00e07ceb86be56",
+    "after": "b01cc655fb085f45723bc8a7c5e6c01c17eceb6811aaf9c40c00e07ceb86be56",
+    "unchanged": true
+  },
+  {
+    "path": "Assets/M/Arts/Shaders/ElevatorOutlineCoverage.shader",
+    "hash": "a2d869136f0e224db592cb15bdccc919a373cc546fd3c9ec1cf9ef814bc9aeae",
+    "after": "a2d869136f0e224db592cb15bdccc919a373cc546fd3c9ec1cf9ef814bc9aeae",
+    "unchanged": true
+  },
+  {
+    "path": "Assets/M/Arts/Shaders/ElevatorOutlineDistance.shader",
+    "hash": "401aa1c4ee157b0c49ef5207ed60719e75212af68b5200ef25251b72c962da75",
+    "after": "401aa1c4ee157b0c49ef5207ed60719e75212af68b5200ef25251b72c962da75",
+    "unchanged": true
+  },
+  {
+    "path": "Assets/M/Scripts/Editor/ElevatorInteractionSetup.cs",
+    "hash": "2a3d3ca43d50d87bb409112df9036ffd1ab5d075c8f5b3d3082e170892672c2d",
+    "after": "2a3d3ca43d50d87bb409112df9036ffd1ab5d075c8f5b3d3082e170892672c2d",
+    "unchanged": true
+  },
+  {
+    "path": "Assets/M/Scripts/Editor/ElevatorMaskOutlineSetup.cs",
+    "hash": "28fe1f29707d3df66d3a906d35be38b3f9a8db7b02cc4dfe49e01ae639678ac7",
+    "after": "28fe1f29707d3df66d3a906d35be38b3f9a8db7b02cc4dfe49e01ae639678ac7",
+    "unchanged": true
+  },
+  {
+    "path": "Assets/M/Arts/Rendering/ElevatorOutlineRenderer.asset",
+    "hash": "8ce3cc65e280e5f7d45a9accdfc1da738d77d6233ee57a42e9114a9567e1a4ec",
+    "after": "8ce3cc65e280e5f7d45a9accdfc1da738d77d6233ee57a42e9114a9567e1a4ec",
+    "unchanged": true
+  },
+  {
+    "path": "Assets/M/Arts/Rendering/ElevatorScenePipeline.asset",
+    "hash": "54a8621fcd4d69d2cdd538218f99f20929f24aee605690e63c857c7bb8c7398c",
+    "after": "54a8621fcd4d69d2cdd538218f99f20929f24aee605690e63c857c7bb8c7398c",
+    "unchanged": true
+  },
+  {
+    "path": "ProjectSettings/QualitySettings.asset",
+    "hash": "3d8b7ca313429b168f54ab5495a2672cd7f64d12a946c1bd469c5fc6ff3e0414",
+    "after": "3d8b7ca313429b168f54ab5495a2672cd7f64d12a946c1bd469c5fc6ff3e0414",
+    "unchanged": true
+  },
+  {
+    "path": "ProjectSettings/GraphicsSettings.asset",
+    "hash": "9ebdebf6b2071b3d2d78766000d1522c6bc6c83d008e0c1e436a088dde652a96",
+    "after": "9ebdebf6b2071b3d2d78766000d1522c6bc6c83d008e0c1e436a088dde652a96",
+    "unchanged": true
+  }
+]

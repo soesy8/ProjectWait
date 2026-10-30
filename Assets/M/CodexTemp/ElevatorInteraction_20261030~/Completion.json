@@ -1,0 +1,21 @@
+{
+  "completedUtc": "2026-10-30T02:49:58.260Z",
+  "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+  "checks": {
+    "interaction": 32,
+    "story": 65,
+    "additional": 7,
+    "savedScene": 23
+  },
+  "silhouette": {
+    "corePixels": 5.2,
+    "haloPixels": [
+      10,
+      16
+    ],
+    "fullProjectedObjectMask": true
+  },
+  "consoleErrors": 0,
+  "protectedSettingsUnchanged": true,
+  "physicalHMDTested": false
+}

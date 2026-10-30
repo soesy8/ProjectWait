@@ -1,0 +1,11 @@
+{
+  "angle": 0.0,
+  "actual": "(22.40, 218.66, 0.00)",
+  "expected": "(22.40, 218.66, 0.00)",
+  "parent": "Elevator_Safety_Lesson",
+  "position": "(-0.80, 0.89, -8.20)",
+  "camera": "(0.00, 1.12, -7.20)",
+  "flow": "Complete",
+  "bookActive": true,
+  "viewEnabled": true
+}

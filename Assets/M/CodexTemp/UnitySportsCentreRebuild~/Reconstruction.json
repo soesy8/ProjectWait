@@ -1,0 +1,9 @@
+{
+  "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+  "model": "Assets/M/Prefabs/SportsCentre3F/SportsCentreMap.prefab",
+  "currentFloor": 3,
+  "unusedLift": 5,
+  "interactiveTargets": 11,
+  "sourceHash": "edf4f0187485b3aa5ce09ec472323225d407a4c02a5ec088e2582485c82a7ce6",
+  "backup": "Assets/M/CodexTemp/UnitySportsCentreRebuild~/BeforeSportsCentre.unity"
+}

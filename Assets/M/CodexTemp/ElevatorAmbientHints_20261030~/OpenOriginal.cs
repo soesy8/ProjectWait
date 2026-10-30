@@ -1,0 +1,2 @@
+using UnityEditor.SceneManagement;
+public static class OpenOriginalA2{public static string Main(){EditorSceneManager.OpenScene("Assets/M/Scene/Elevator_Safety_Prototype.unity",OpenSceneMode.Single);return "Original open.";}}

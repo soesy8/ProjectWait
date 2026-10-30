@@ -36,20 +36,27 @@ namespace ProjectWait.M.Elevator
         void LateUpdate(){Advance(Time.unscaledDeltaTime);}
         public void Advance(float seconds)
         {
+            if(lesson&&lesson.IsPaused)return;
             if(!lesson||lesson.Flow==null)return;if(!top)Build();
             if(run!=lesson.RunVersion){run=lesson.RunVersion;Amount=0;}
             Amount=Mathf.MoveTowards(Amount,lesson.Flow.IsCinematic?1:0,seconds/.38f);
             Position();
             top.gameObject.SetActive(Amount>0);bottom.gameObject.SetActive(Amount>0);
             var f=lesson.Flow;
-            caption.gameObject.SetActive(!lesson.view.spatial||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting);
+            caption.gameObject.SetActive(!lesson.view.spatial||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome);
             caption.text=f.Step==ElevatorStep.Entering?"친구와 함께 엘리베이터에 들어가요.":f.Step==ElevatorStep.Exiting?"안내를 따라 천천히 밖으로 나가요.":f.Step==ElevatorStep.Proposal?"친구  ·  내가 어떻게 넣었냐면…":f.Step==ElevatorStep.Jump?"친구  ·  이렇게 뛰어서!":f.Step==ElevatorStep.Stopped?"친구  ·  어? 왜 멈췄지?":f.Step==ElevatorStep.Connecting?"비상통화 연결 중…":f.Step==ElevatorStep.Rescue?"구조원  ·  문을 열고 안전을 확인할게요.":"";
             float alpha=0;
+            if(f.Step==ElevatorStep.Returning){caption.text="직원의 안내를 받아 계단으로 1층에 내려왔어요.";alpha=S(f.Elapsed,.35f,1.1f)*(1-S(f.Elapsed,2.4f,3.25f));}
+            if(f.Step==ElevatorStep.WaitingFade){caption.gameObject.SetActive(true);caption.text="문에서 떨어져 함께 기다렸어요. 잠시 후…";alpha=S(f.Elapsed,.35f,1.1f)*(1-S(f.Elapsed,3.6f,4.5f));}
+            if(f.Step==ElevatorStep.GoingHome)caption.text="1층 주출입구를 통해 친구와 집으로 가요.";
             if(XRSettings.isDeviceActive&&(f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting))
             {float middle=f.Step==ElevatorStep.Entering?3.1f:2.3f;alpha=1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.10f,.60f,Mathf.Abs(f.Elapsed-middle)));}
+            if(XRSettings.isDeviceActive&&f.Step==ElevatorStep.GoingHome)alpha=1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.12f,.65f,Mathf.Abs(f.Elapsed-3)));
+            var map=lesson.presentation.space.sportsCentre;if(map)alpha=Mathf.Max(alpha,map.ReframeFade);
             fade.gameObject.SetActive(alpha>0);fade.GetComponent<Image>().color=new Color(0,0,0,alpha);
             lesson.view.SetCinematicVisibility();
         }
+        static float S(float t,float a,float b)=>Mathf.SmoothStep(0,1,Mathf.InverseLerp(a,b,t));
         void Position()
         {
             if(!playerCamera||!top)return;

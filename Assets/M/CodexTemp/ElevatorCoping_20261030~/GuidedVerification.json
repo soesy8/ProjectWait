@@ -1,0 +1,471 @@
+{
+  "success": true,
+  "passed": 111,
+  "checks": [
+    {
+      "name": "Separate object-interaction test scene enabled",
+      "passed": true
+    },
+    {
+      "name": "Test starts without dialogue choices",
+      "passed": true
+    },
+    {
+      "name": "Friend directs player to the lower call button",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: 3F_Lobby_Call",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: 3F_Lobby_Call",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Physical call begins boarding",
+      "passed": true
+    },
+    {
+      "name": "Boarding timeline corrects a deliberately wrong view",
+      "passed": true
+    },
+    {
+      "name": "Boarding ends and releases interaction",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: 3F_Side_Floor01",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: 3F_Side_Floor01",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Direct floor button chooses 1F",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: FriendBasketball",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: FriendBasketball",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Direct friend interaction accepts the ball",
+      "passed": true
+    },
+    {
+      "name": "Poster provides the alternative no-jump object action",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: Friend_Jump_Root",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: Friend_Jump_Root",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Direct friend interaction requests shot demonstration",
+      "passed": true
+    },
+    {
+      "name": "Shot timeline keeps attention on the friend",
+      "passed": true
+    },
+    {
+      "name": "Fault intro releases direct investigation",
+      "passed": true
+    },
+    {
+      "name": "Guided shot branch contains one friend jump",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Intercom connects and releases speech interaction",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Direct communication reports the situation first",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: 3F_LiftIdentity_HB-EL-01",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: 3F_LiftIdentity_HB-EL-01",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Direct identity-plate inspection identifies the lift",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Direct communication reports the checked location",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Direct acknowledgement follows operator advice",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: Friend_Jump_Root",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: Friend_Jump_Root",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Direct friend interaction begins safe waiting fade",
+      "passed": true
+    },
+    {
+      "name": "Pause freezes the waiting timeline",
+      "passed": true
+    },
+    {
+      "name": "PC free pointer reaches world-space resume button",
+      "passed": true
+    },
+    {
+      "name": "World-space pause button resumes the scenario",
+      "passed": true
+    },
+    {
+      "name": "Faded wait leads to checked rescue",
+      "passed": true
+    },
+    {
+      "name": "Staff is the highlighted rescue object",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: FriendlyRescuer",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: FriendlyRescuer",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Player follows staff out of the lift",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: FriendlyRescuer",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: FriendlyRescuer",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Staff-guided stair transition reaches 1F",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: 1F_MainExit",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: 1F_MainExit",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Direct exit interaction completes the journey",
+      "passed": true
+    },
+    {
+      "name": "Completion uses the world notebook without dialogue choices",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: 3F_SafetyPoster",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: 3F_SafetyPoster",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Poster action takes the no-jump branch",
+      "passed": true
+    },
+    {
+      "name": "No-jump guided branch still reaches the fault",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "No response highlights the phone fallback",
+      "passed": true
+    },
+    {
+      "name": "A guided physical target is assigned",
+      "passed": true
+    },
+    {
+      "name": "Guided target glows before hovering",
+      "passed": true
+    },
+    {
+      "name": "Object is actionable: Cabin_Optional119Phone",
+      "passed": true
+    },
+    {
+      "name": "Ray selects guided object: Cabin_Optional119Phone",
+      "passed": true
+    },
+    {
+      "name": "Progress uses objects without dialogue-choice buttons",
+      "passed": true
+    },
+    {
+      "name": "Phone object starts the simulated 119 alternative",
+      "passed": true
+    },
+    {
+      "name": "Live player frames advanced through the full direct-interaction story",
+      "passed": true
+    }
+  ],
+  "error": null,
+  "frameStart": 5338,
+  "frameEnd": 8131,
+  "state": {
+    "step": "Lobby",
+    "phase": "Dialogue",
+    "PlayerHasBall": false,
+    "DestinationSelected": false,
+    "FirstJudgment": "",
+    "HelpRequested": false,
+    "LocationReported": false,
+    "UsedPhone": false,
+    "Reassured": false,
+    "ReadyToExit": false,
+    "HintLevel": 0,
+    "JumpCount": 0,
+    "Floor": 3,
+    "motorPlaying": false,
+    "friendHeight": 0.0,
+    "history": []
+  }
+}

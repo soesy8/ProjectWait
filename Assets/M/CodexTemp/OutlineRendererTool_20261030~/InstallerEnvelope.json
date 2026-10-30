@@ -1,0 +1,27 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "Assets/M/CodexTemp/OutlineRendererTool_20261030~/VerifyInstaller.cs",
+      "entry": "VerifyInstallerRI.Main",
+      "timeout_ms": "120000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 2881,
+      "executeMs": 3167,
+      "assemblyName": "PipelineRunScript_VerifyInstaller_9b9635b05a364d8989b6b8aff17ec9ac",
+      "success": true,
+      "result": "{\r\n  \"success\": true,\r\n  \"passed\": 23,\r\n  \"checks\": [\r\n    {\r\n      \"name\": \"Auto detection prefers the scene pipeline over project quality settings\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Read-only source pipeline exists\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"UI Toolkit layout and controls loaded\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Install button has a real layout width\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Install executed through the UI Toolkit button submit event\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Tool creates the feature and links the current scene\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"External pipeline and renderers are copied only to M\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Source pipeline and renderer bytes are unchanged\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Scene uses the configured owned pipeline\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Configured scene is saved\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Detection finds the installed scene override\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Exactly one active outline feature: Assets/M/Arts/Rendering/AutoOutline/Android_Preset_53a41332_OutlineRenderer.asset\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Coverage and distance shaders are serialized\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Feature IDs are serialized and resolvable\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Repeated setup reuses the existing assets and feature\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Renderer slot count is preserved\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Default renderer index is preserved\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Existing render scale is preserved\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Missing URP input reports an actionable error\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Unsaved scenes are rejected before installation\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Repeated linking does not create duplicate scene overrides\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Saved scene reopens with the configured pipeline\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Pipeline is a real scene build dependency\",\r\n      \"passed\": true\r\n    }\r\n  ],\r\n  \"pipeline\": \"Assets/M/Arts/Rendering/AutoOutline/Performance_URP_Config_fd42a132_OutlinePipeline.asset\",\r\n  \"renderers\": [\r\n    \"Assets/M/Arts/Rendering/AutoOutline/Android_Preset_53a41332_OutlineRenderer.asset\"\r\n  ],\r\n  \"error\": null\r\n}"
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

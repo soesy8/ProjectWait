@@ -1,0 +1,323 @@
+{
+  "success": true,
+  "passed": 65,
+  "checks": [
+    {
+      "name": "Actual Play Mode",
+      "passed": true
+    },
+    {
+      "name": "Exactly one EventSystem",
+      "passed": true
+    },
+    {
+      "name": "Scene and map references assigned",
+      "passed": true
+    },
+    {
+      "name": "Distinct low side / high front emergency heights",
+      "passed": true
+    },
+    {
+      "name": "Side controls placed behind the entrance",
+      "passed": true
+    },
+    {
+      "name": "Three authored floors present",
+      "passed": true
+    },
+    {
+      "name": "Ball handoff requires destination",
+      "passed": true
+    },
+    {
+      "name": "Judgment has no timeout",
+      "passed": true
+    },
+    {
+      "name": "Independent equipment stop after safe judgment",
+      "passed": true
+    },
+    {
+      "name": "First judgment preserved",
+      "passed": true
+    },
+    {
+      "name": "Help connects before identity lookup",
+      "passed": true
+    },
+    {
+      "name": "Cannot fabricate location before reading it",
+      "passed": true
+    },
+    {
+      "name": "Rescue does not require optional chats",
+      "passed": true
+    },
+    {
+      "name": "Ball handoff requires destination",
+      "passed": true
+    },
+    {
+      "name": "Judgment has no timeout",
+      "passed": true
+    },
+    {
+      "name": "Unsafe shot is paused before any jump",
+      "passed": true
+    },
+    {
+      "name": "Independent equipment stop after revised judgment",
+      "passed": true
+    },
+    {
+      "name": "First judgment preserved",
+      "passed": true
+    },
+    {
+      "name": "Help connects before identity lookup",
+      "passed": true
+    },
+    {
+      "name": "Cannot fabricate location before reading it",
+      "passed": true
+    },
+    {
+      "name": "Rescue does not require optional chats",
+      "passed": true
+    },
+    {
+      "name": "Unanswered intercom branch",
+      "passed": true
+    },
+    {
+      "name": "Simulated 119 branch reaches rescue",
+      "passed": true
+    },
+    {
+      "name": "Player starts at actual 3F height",
+      "passed": true
+    },
+    {
+      "name": "Initial dialogue is within the view",
+      "passed": true
+    },
+    {
+      "name": "Mouse ray reaches 3F_Lobby_Call",
+      "passed": true
+    },
+    {
+      "name": "Physical call button starts boarding",
+      "passed": true
+    },
+    {
+      "name": "Real-time boarding completes",
+      "passed": true
+    },
+    {
+      "name": "Cabin doors close after boarding",
+      "passed": true
+    },
+    {
+      "name": "Mouse ray reaches 3F_Side_Floor01",
+      "passed": true
+    },
+    {
+      "name": "Physical low side 1F button works",
+      "passed": true
+    },
+    {
+      "name": "Both 1F panel rings reflect selection",
+      "passed": true
+    },
+    {
+      "name": "Ball handoff leads to judgment",
+      "passed": true
+    },
+    {
+      "name": "Three judgment choices present",
+      "passed": true
+    },
+    {
+      "name": "Choices do not reveal safety through different colors",
+      "passed": true
+    },
+    {
+      "name": "Optional look-around remains available",
+      "passed": true
+    },
+    {
+      "name": "Unsafe UI choice pauses before motion",
+      "passed": true
+    },
+    {
+      "name": "Reconsidered choice resumes travel",
+      "passed": true
+    },
+    {
+      "name": "Real-time independent stop reaches investigation",
+      "passed": true
+    },
+    {
+      "name": "Last display 3, stable lighting and no jump",
+      "passed": true
+    },
+    {
+      "name": "Mouse ray reaches 3F_Front_Emergency_2.15m",
+      "passed": true
+    },
+    {
+      "name": "High front bell directs attention to reachable side bell",
+      "passed": true
+    },
+    {
+      "name": "Mouse ray reaches 3F_FacilityDirectory_NoHighlight",
+      "passed": true
+    },
+    {
+      "name": "Facility directory can be inspected optionally",
+      "passed": true
+    },
+    {
+      "name": "Mouse ray reaches 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Low side bell requests help before identifying the lift",
+      "passed": true
+    },
+    {
+      "name": "Intercom connects",
+      "passed": true
+    },
+    {
+      "name": "Situation accepted before identity",
+      "passed": true
+    },
+    {
+      "name": "Mouse ray reaches 3F_LiftIdentity_HB-EL-01",
+      "passed": true
+    },
+    {
+      "name": "Physical identity plate is readable and selectable",
+      "passed": true
+    },
+    {
+      "name": "Building, car and HB-EL-01 reported",
+      "passed": true
+    },
+    {
+      "name": "Location report leads to wait",
+      "passed": true
+    },
+    {
+      "name": "Friend is reassured",
+      "passed": true
+    },
+    {
+      "name": "Rescue first checks the landing",
+      "passed": true
+    },
+    {
+      "name": "Exit is blocked before the safety check",
+      "passed": true
+    },
+    {
+      "name": "Doors open after landing check",
+      "passed": true
+    },
+    {
+      "name": "Cabin exit remains at 3F",
+      "passed": true
+    },
+    {
+      "name": "Escorted stair transition is explicit",
+      "passed": true
+    },
+    {
+      "name": "Floor transition moves the actual rig to 1F",
+      "passed": true
+    },
+    {
+      "name": "Journey completes outside the 1F main entrance",
+      "passed": true
+    },
+    {
+      "name": "Ground automatic doors open for exit",
+      "passed": true
+    },
+    {
+      "name": "Completion notebook visible",
+      "passed": true
+    },
+    {
+      "name": "Restart resets story and returns to 3F",
+      "passed": true
+    },
+    {
+      "name": "Restart restores elevation and closes the ground door",
+      "passed": true
+    },
+    {
+      "name": "Player frames advance throughout the test",
+      "passed": true
+    }
+  ],
+  "error": null,
+  "completed": {
+    "step": "Complete",
+    "phase": "Dialogue",
+    "PlayerHasBall": false,
+    "DestinationSelected": true,
+    "FirstJudgment": "여기서 보여 줘",
+    "HelpRequested": true,
+    "LocationReported": true,
+    "UsedPhone": false,
+    "Reassured": true,
+    "ReadyToExit": true,
+    "HintLevel": 0,
+    "JumpCount": 0,
+    "Floor": 1,
+    "motorPlaying": false,
+    "friendHeight": -7.92,
+    "history": [
+      "한빛 생활체육센터 3층에서 농구를 마치고 1층으로 귀가 준비",
+      "낮은 측면 패널에서 목적지 1층을 선택함",
+      "친구의 농구공을 튀기지 않고 안고 있음",
+      "첫 시도 기록: 엘리베이터 안에서 슛을 보여 달라고 함 · 실행 전에 중단 → Wait! 중단 후 재도전",
+      "판단: 슛과 점프는 밖에서 하기로 함",
+      "설비 이상으로 운행 정지 · 앞선 판단과 무관한 독립 사건 · 마지막 표시는 3층",
+      "대처: 비상통화 장치를 찾아 도움 요청",
+      "비상통화: 관리실 연결",
+      "엘리베이터가 멈췄어요. 친구랑 둘이 있어요.",
+      "벽의 위치 표시를 직접 찾아 확인함",
+      "위치 표시를 확인하고 건물명과 승강기 번호 전달",
+      "대처: 안내를 듣고 문에서 떨어져 대기",
+      "친구에게: 문은 건드리지 말고 같이 기다리자.",
+      "구조원의 안내를 확인하고 함께 나옴",
+      "정지한 승강기를 다시 이용하지 않고 직원 안내로 계단을 이용함",
+      "1층 로비의 주출입구로 귀가"
+    ]
+  },
+  "state": {
+    "step": "Lobby",
+    "phase": "Dialogue",
+    "PlayerHasBall": false,
+    "DestinationSelected": false,
+    "FirstJudgment": "",
+    "HelpRequested": false,
+    "LocationReported": false,
+    "UsedPhone": false,
+    "Reassured": false,
+    "ReadyToExit": false,
+    "HintLevel": 0,
+    "JumpCount": 0,
+    "Floor": 3,
+    "motorPlaying": false,
+    "friendHeight": 0.0,
+    "history": []
+  },
+  "frameStart": 3442,
+  "frameEnd": 5454,
+  "mode": "Unity Editor PC Play Mode; actual mouse Input System events, UI callbacks and real-time transitions; selected waits compressed through Advance; no physical HMD"
+}

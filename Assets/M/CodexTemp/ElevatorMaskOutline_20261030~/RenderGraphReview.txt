@@ -1,0 +1,35 @@
+1. Validation Summary
+Unity 6000.3.18f1 / URP 17.3.0 / Render Graph. 마스크 생성 → 반해상도 nearest-seed 거리 전파(Jump Flood) → 원본 마스크 제외 → 외곽 색상 합성으로 교체했다. 각 대상의 여러 부품을 하나로 묶고 대상별 마스크는 분리한다. 실제 PC 플레이와 GPU 픽셀 비교를 통과했다.
+
+2. Confirmed Issues
+최종 구현에 미해결된 렌더 패스 연결 문제는 발견하지 않았다. 검토 중 Create/Dispose 후 오래된 pass가 남을 수 있던 자원 처리 경로를 수정했다. 셰이더가 없으면 null pass 상태로 유지한다. 기존 hull/stencil/복제 메시 방식과 사각형 표시 생성 코드를 제거했다.
+
+3. Likely Issues / Risky Assumptions
+실제 HMD, 기기 빌드, XR 해상도별 GPU 비용은 확인하지 않았다. XR 텍스처 차원·슬라이스와 스테레오/인스턴싱 매크로는 유지한다. ARGBFloat 미지원 환경은 Half 포맷으로 대체하므로 큰 출력 해상도에서 정확도를 확인해야 한다. 실제 구멍이나 부품 사이 빈틈의 경계는 일반적인 실루엣 경계로 남긴다. 내부 구멍 강제 채움은 하지 않는다.
+저장 검사에서 기존 XR UI Image의 Sprite 누락 8개씩을 별도로 기록했다. 작업 전후 두 씬의 m_Sprite 참조 35개씩은 모두 동일하며, 이번 강조 변경에서 해당 UI를 수정하지 않았다.
+
+4. Recommended Fixes
+이번 적용에 남은 필수 수정은 없다. 대상 HMD에서 양안 표시와 프레임 예산을 확인한다. 각 마스크·거리 텍스처는 그래프 소유이며 전역으로 공개하지 않는다. 필요한 URP Depth 입력만 요청한다. 색상 합성은 현재 컬러를 샘플링하지 않고 attachment blending으로 수행한다.
+커스텀 raster blit은 대상별 scissor, 개별 MaterialPropertyBlock, 원본 마스크와 깊이 입력, 합성의 ReadWrite attachment가 필요하므로 유지했다. 단순 복사 패스가 아니다.
+
+5. Corrected Snippets
+CoreUtils.Destroy(maskMaterial); CoreUtils.Destroy(distanceMaterial);
+maskMaterial = distanceMaterial = null; pass = null;
+builder.UseTexture(source, AccessFlags.Read);
+// TextureHandle은 실행 중 해석해 각 패스의 전용 property block에 명시적으로 연결한다.
+d.properties.SetTexture(SourceID, d.source);
+if (d.mask.IsValid()) d.properties.SetTexture(MaskID, d.mask);
+// 모든 pass-data 필드와 shader parameter는 기록 시 새로 대입한다.
+// RenderFunc는 static이며 source/mask/depth 읽기와 destination 쓰기를 모두 선언한다.
+
+6. Missing Information
+대상 HMD 모델, 기기 그래픽 API 및 실제 기기의 GPU/메모리 프로파일링 결과가 없다. PC 검증은 1920×1080이며 13개의 표시 대상에서 약 60fps였다.
+
+검증 파일
+OriginalVerification.json (125)
+GuidedVerification.json (119)
+SavedSceneValidation.json (34)
+PixelVerification.json (7; 바깥 31466 / 내부 0 / 완전 가림 0 픽셀)
+Cleanup.json (구형 자산 19개 삭제; 정적 메시 20개 GUID 유지 이동)
+ProtectedAfter.json (공용 렌더러/품질 설정 4개 해시 동일)
+UnchangedSpriteReferences.json (기존 UI 참조 보존)

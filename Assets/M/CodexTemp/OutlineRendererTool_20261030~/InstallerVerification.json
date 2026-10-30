@@ -1,0 +1,103 @@
+{
+  "success": true,
+  "passed": 23,
+  "checks": [
+    {
+      "name": "Auto detection prefers the scene pipeline over project quality settings",
+      "passed": true
+    },
+    {
+      "name": "Read-only source pipeline exists",
+      "passed": true
+    },
+    {
+      "name": "UI Toolkit layout and controls loaded",
+      "passed": true
+    },
+    {
+      "name": "Install button has a real layout width",
+      "passed": true
+    },
+    {
+      "name": "Install executed through the UI Toolkit button submit event",
+      "passed": true
+    },
+    {
+      "name": "Tool creates the feature and links the current scene",
+      "passed": true
+    },
+    {
+      "name": "External pipeline and renderers are copied only to M",
+      "passed": true
+    },
+    {
+      "name": "Source pipeline and renderer bytes are unchanged",
+      "passed": true
+    },
+    {
+      "name": "Scene uses the configured owned pipeline",
+      "passed": true
+    },
+    {
+      "name": "Configured scene is saved",
+      "passed": true
+    },
+    {
+      "name": "Detection finds the installed scene override",
+      "passed": true
+    },
+    {
+      "name": "Exactly one active outline feature: Assets/M/Arts/Rendering/AutoOutline/Android_Preset_53a41332_OutlineRenderer.asset",
+      "passed": true
+    },
+    {
+      "name": "Coverage and distance shaders are serialized",
+      "passed": true
+    },
+    {
+      "name": "Feature IDs are serialized and resolvable",
+      "passed": true
+    },
+    {
+      "name": "Repeated setup reuses the existing assets and feature",
+      "passed": true
+    },
+    {
+      "name": "Renderer slot count is preserved",
+      "passed": true
+    },
+    {
+      "name": "Default renderer index is preserved",
+      "passed": true
+    },
+    {
+      "name": "Existing render scale is preserved",
+      "passed": true
+    },
+    {
+      "name": "Missing URP input reports an actionable error",
+      "passed": true
+    },
+    {
+      "name": "Unsaved scenes are rejected before installation",
+      "passed": true
+    },
+    {
+      "name": "Repeated linking does not create duplicate scene overrides",
+      "passed": true
+    },
+    {
+      "name": "Saved scene reopens with the configured pipeline",
+      "passed": true
+    },
+    {
+      "name": "Pipeline is a real scene build dependency",
+      "passed": true
+    }
+  ],
+  "pipeline": "Assets/M/Arts/Rendering/AutoOutline/Performance_URP_Config_fd42a132_OutlinePipeline.asset",
+  "renderers": [
+    "Assets/M/Arts/Rendering/AutoOutline/Android_Preset_53a41332_OutlineRenderer.asset"
+  ],
+  "error": null
+}

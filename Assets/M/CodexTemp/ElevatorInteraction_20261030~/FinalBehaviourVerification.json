@@ -1,0 +1,35 @@
+{
+  "success": true,
+  "passed": 7,
+  "checks": [
+    {
+      "name": "Boarding animation starts",
+      "passed": true
+    },
+    {
+      "name": "Pause freezes scripted boarding and doors",
+      "passed": true
+    },
+    {
+      "name": "Scripted boarding resumes",
+      "passed": true
+    },
+    {
+      "name": "Full-object silhouette mask assigned",
+      "passed": true
+    },
+    {
+      "name": "Player remains grounded on exterior courtyard after completion",
+      "passed": true
+    },
+    {
+      "name": "Completion notebook present",
+      "passed": true
+    },
+    {
+      "name": "Whole notebook faces the walking player",
+      "passed": true
+    }
+  ],
+  "error": null
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "path": "ProjectSettings/GraphicsSettings.asset",
+    "hash": "9ebdebf6b2071b3d2d78766000d1522c6bc6c83d008e0c1e436a088dde652a96"
+  },
+  {
+    "path": "ProjectSettings/QualitySettings.asset",
+    "hash": "3d8b7ca313429b168f54ab5495a2672cd7f64d12a946c1bd469c5fc6ff3e0414"
+  },
+  {
+    "path": "Assets/Settings/Project Configuration/Performance URP Config.asset",
+    "hash": "169ea265757c9740f96def755fa19387c6df5c985f79bb719dfa9fea6cec8b23"
+  },
+  {
+    "path": "Assets/Settings/Project Configuration/Android Preset.asset",
+    "hash": "7262da89578af3a232d688fe2fd6005035b6db0ef5abf5946f27da97ed60eede"
+  },
+  {
+    "path": "Assets/M/Arts/Rendering/ElevatorScenePipeline.asset",
+    "hash": "54a8621fcd4d69d2cdd538218f99f20929f24aee605690e63c857c7bb8c7398c"
+  },
+  {
+    "path": "Assets/M/Arts/Rendering/ElevatorOutlineRenderer.asset",
+    "hash": "8ce3cc65e280e5f7d45a9accdfc1da738d77d6233ee57a42e9114a9567e1a4ec"
+  },
+  {
+    "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+    "hash": "7e1f25e0ce399af335a43cf58c45ed2b13ca1e237c38aff5b81fc9bd3c629a8b"
+  },
+  {
+    "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+    "hash": "fbad9024452f9f1c2faef2dceefc5516ead2772cc884c75ce1a1b911442cbf1f"
+  }
+]

@@ -1,0 +1,200 @@
+{
+  "success": true,
+  "passed": 47,
+  "checks": [
+    {
+      "name": "Original: Saved scene opens cleanly",
+      "passed": true
+    },
+    {
+      "name": "Original: Correct interaction mode",
+      "passed": true
+    },
+    {
+      "name": "Original: No missing scripts",
+      "passed": true
+    },
+    {
+      "name": "Original: No temporary runtime dependencies",
+      "passed": true
+    },
+    {
+      "name": "Original: All canvases are world space",
+      "passed": true
+    },
+    {
+      "name": "Original: Screen HUD stays hidden",
+      "passed": true
+    },
+    {
+      "name": "Original: World dialogue has overlay materials",
+      "passed": true
+    },
+    {
+      "name": "Original: Upper XR call disabled",
+      "passed": true
+    },
+    {
+      "name": "Original: Down call has its own small collider",
+      "passed": true
+    },
+    {
+      "name": "Original: Down-only highlight geometry",
+      "passed": true
+    },
+    {
+      "name": "Original: Normal and replacement face meshes assigned",
+      "passed": true
+    },
+    {
+      "name": "Original: Skin preserved while expression is hidden",
+      "passed": true
+    },
+    {
+      "name": "Original: No whites or covers in replacement expression",
+      "passed": true
+    },
+    {
+      "name": "Original: Expression is black spiral and wavy lines",
+      "passed": true
+    },
+    {
+      "name": "Original: Normal expression initially shown",
+      "passed": true
+    },
+    {
+      "name": "Original: Staff participates in direct interaction",
+      "passed": true
+    },
+    {
+      "name": "Original: Fixed hint references valid",
+      "passed": true
+    },
+    {
+      "name": "Original: Physical buttons have feedback",
+      "passed": true
+    },
+    {
+      "name": "Original: Nine invisible boundary walls saved",
+      "passed": true
+    },
+    {
+      "name": "Original: Shake pivot wraps tracked camera",
+      "passed": true
+    },
+    {
+      "name": "Original: Pause is world space and initially hidden",
+      "passed": true
+    },
+    {
+      "name": "Original: No missing active materials",
+      "passed": true
+    },
+    {
+      "name": "Test: Saved scene opens cleanly",
+      "passed": true
+    },
+    {
+      "name": "Test: Correct interaction mode",
+      "passed": true
+    },
+    {
+      "name": "Test: No missing scripts",
+      "passed": true
+    },
+    {
+      "name": "Test: No temporary runtime dependencies",
+      "passed": true
+    },
+    {
+      "name": "Test: All canvases are world space",
+      "passed": true
+    },
+    {
+      "name": "Test: Screen HUD stays hidden",
+      "passed": true
+    },
+    {
+      "name": "Test: World dialogue has overlay materials",
+      "passed": true
+    },
+    {
+      "name": "Test: Upper XR call disabled",
+      "passed": true
+    },
+    {
+      "name": "Test: Down call has its own small collider",
+      "passed": true
+    },
+    {
+      "name": "Test: Down-only highlight geometry",
+      "passed": true
+    },
+    {
+      "name": "Test: Normal and replacement face meshes assigned",
+      "passed": true
+    },
+    {
+      "name": "Test: Skin preserved while expression is hidden",
+      "passed": true
+    },
+    {
+      "name": "Test: No whites or covers in replacement expression",
+      "passed": true
+    },
+    {
+      "name": "Test: Expression is black spiral and wavy lines",
+      "passed": true
+    },
+    {
+      "name": "Test: Normal expression initially shown",
+      "passed": true
+    },
+    {
+      "name": "Test: Staff participates in direct interaction",
+      "passed": true
+    },
+    {
+      "name": "Test: Fixed hint references valid",
+      "passed": true
+    },
+    {
+      "name": "Test: Physical buttons have feedback",
+      "passed": true
+    },
+    {
+      "name": "Test: Nine invisible boundary walls saved",
+      "passed": true
+    },
+    {
+      "name": "Test: Shake pivot wraps tracked camera",
+      "passed": true
+    },
+    {
+      "name": "Test: Pause is world space and initially hidden",
+      "passed": true
+    },
+    {
+      "name": "Test: No missing active materials",
+      "passed": true
+    },
+    {
+      "name": "Original and test scene GUIDs are different",
+      "passed": true
+    },
+    {
+      "name": "Normal time and audio restored",
+      "passed": true
+    },
+    {
+      "name": "Original render pipeline restored",
+      "passed": true
+    }
+  ],
+  "paths": [
+    "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+    "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity"
+  ],
+  "physicalHMDTested": false,
+  "completedUtc": "2026-10-30T04:43:50.8346995Z"
+}

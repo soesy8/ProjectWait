@@ -1,0 +1,10 @@
+﻿{
+    "scene":  "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+    "runtimePassed":  65,
+    "runtimeSuccess":  true,
+    "savedScenePassed":  19,
+    "savedSceneSuccess":  true,
+    "actualHMDTested":  false,
+    "stairDescent":  "Staff-guided fade transition",
+    "finishedUtc":  "2026-10-30T01:08:32.9258460Z"
+}

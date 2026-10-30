@@ -1,0 +1,480 @@
+{
+  "success": true,
+  "mode": "Original",
+  "passed": 118,
+  "checks": [
+    {
+      "name": "Many description objects share the same idle affordance, without choosing one answer",
+      "passed": true
+    },
+    {
+      "name": "Description objects remain highlighted without hover",
+      "passed": true
+    },
+    {
+      "name": "Descriptions themselves stay hidden until hover",
+      "passed": true
+    },
+    {
+      "name": "Unavailable upward call is not highlighted",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: Friend",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: Ball",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: Door",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: Intercom",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: FrontIntercom",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: Identity",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: FacilityGuide",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: Notice",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: FloorButtons",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: FrontFloorButtons",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: Display",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: LobbyCall",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: GroundExit",
+      "passed": true
+    },
+    {
+      "name": "Much stronger warm idle outline: Phone",
+      "passed": true
+    },
+    {
+      "name": "All outer-glow layers are active in the idle state",
+      "passed": true
+    },
+    {
+      "name": "Simultaneously outlined objects have independent silhouette masks",
+      "passed": true
+    },
+    {
+      "name": "01_LobbyFriend: actual ray reaches the object (Friend_Jump_Root)",
+      "passed": true
+    },
+    {
+      "name": "01_LobbyFriend: hover changes this object to the hover state",
+      "passed": true
+    },
+    {
+      "name": "01_LobbyFriend: blue is preserved with twice the prior core width",
+      "passed": true
+    },
+    {
+      "name": "01_LobbyFriend: description appears on hover",
+      "passed": true
+    },
+    {
+      "name": "01_LobbyFriend: dialogue remains fully visible",
+      "passed": true
+    },
+    {
+      "name": "01_LobbyFriend: description does not overlap dialogue",
+      "passed": true
+    },
+    {
+      "name": "01_LobbyFriend: description avoids button Choice0",
+      "passed": true
+    },
+    {
+      "name": "01_LobbyFriend: explanation does not cover the friend's face",
+      "passed": true
+    },
+    {
+      "name": "01_LobbyFriend: description remains within the view",
+      "passed": true
+    },
+    {
+      "name": "Description keeps a fixed world position and size after placement",
+      "passed": true
+    },
+    {
+      "name": "02_LobbyCall: actual ray reaches the object (3F_Lobby_Call)",
+      "passed": true
+    },
+    {
+      "name": "02_LobbyCall: hover changes this object to the hover state",
+      "passed": true
+    },
+    {
+      "name": "02_LobbyCall: blue is preserved with twice the prior core width",
+      "passed": true
+    },
+    {
+      "name": "02_LobbyCall: description appears on hover",
+      "passed": true
+    },
+    {
+      "name": "02_LobbyCall: dialogue remains fully visible",
+      "passed": true
+    },
+    {
+      "name": "02_LobbyCall: description does not overlap dialogue",
+      "passed": true
+    },
+    {
+      "name": "02_LobbyCall: description avoids button Choice0",
+      "passed": true
+    },
+    {
+      "name": "02_LobbyCall: explanation does not cover the friend's face",
+      "passed": true
+    },
+    {
+      "name": "02_LobbyCall: description remains within the view",
+      "passed": true
+    },
+    {
+      "name": "Previous hover returns to the warm idle outline",
+      "passed": true
+    },
+    {
+      "name": "Leaving hover hides the descriptions, without hiding idle outlines",
+      "passed": true
+    },
+    {
+      "name": "Rear wall now stops the capsule two metres farther behind the door: (-0.600, 7.935, -8.075)",
+      "passed": true
+    },
+    {
+      "name": "Real basketball-side wall still blocks passage",
+      "passed": true
+    },
+    {
+      "name": "03_ProposalFriend: actual ray reaches the object (Friend_Jump_Root)",
+      "passed": true
+    },
+    {
+      "name": "03_ProposalFriend: hover changes this object to the hover state",
+      "passed": true
+    },
+    {
+      "name": "03_ProposalFriend: blue is preserved with twice the prior core width",
+      "passed": true
+    },
+    {
+      "name": "03_ProposalFriend: description appears on hover",
+      "passed": true
+    },
+    {
+      "name": "03_ProposalFriend: dialogue remains fully visible",
+      "passed": true
+    },
+    {
+      "name": "03_ProposalFriend: description does not overlap dialogue",
+      "passed": true
+    },
+    {
+      "name": "03_ProposalFriend: description avoids button Choice0",
+      "passed": true
+    },
+    {
+      "name": "03_ProposalFriend: description avoids button Choice1",
+      "passed": true
+    },
+    {
+      "name": "03_ProposalFriend: description avoids button Choice2",
+      "passed": true
+    },
+    {
+      "name": "03_ProposalFriend: explanation does not cover the friend's face",
+      "passed": true
+    },
+    {
+      "name": "03_ProposalFriend: description remains within the view",
+      "passed": true
+    },
+    {
+      "name": "04_CabinFriend: actual ray reaches the object (Friend_Jump_Root)",
+      "passed": true
+    },
+    {
+      "name": "04_CabinFriend: hover changes this object to the hover state",
+      "passed": true
+    },
+    {
+      "name": "04_CabinFriend: blue is preserved with twice the prior core width",
+      "passed": true
+    },
+    {
+      "name": "04_CabinFriend: description appears on hover",
+      "passed": true
+    },
+    {
+      "name": "04_CabinFriend: dialogue remains fully visible",
+      "passed": true
+    },
+    {
+      "name": "04_CabinFriend: description does not overlap dialogue",
+      "passed": true
+    },
+    {
+      "name": "04_CabinFriend: explanation does not cover the friend's face",
+      "passed": true
+    },
+    {
+      "name": "04_CabinFriend: description remains within the view",
+      "passed": true
+    },
+    {
+      "name": "05_Emergency: actual ray reaches the object (3F_Side_Emergency_1.28m)",
+      "passed": true
+    },
+    {
+      "name": "05_Emergency: hover changes this object to the hover state",
+      "passed": true
+    },
+    {
+      "name": "05_Emergency: blue is preserved with twice the prior core width",
+      "passed": true
+    },
+    {
+      "name": "05_Emergency: description appears on hover",
+      "passed": true
+    },
+    {
+      "name": "05_Emergency: dialogue remains fully visible",
+      "passed": true
+    },
+    {
+      "name": "05_Emergency: description does not overlap dialogue",
+      "passed": true
+    },
+    {
+      "name": "05_Emergency: explanation does not cover the friend's face",
+      "passed": true
+    },
+    {
+      "name": "05_Emergency: description remains within the view",
+      "passed": true
+    },
+    {
+      "name": "06_Poster: actual ray reaches the object (3F_SafetyPoster)",
+      "passed": true
+    },
+    {
+      "name": "06_Poster: hover changes this object to the hover state",
+      "passed": true
+    },
+    {
+      "name": "06_Poster: blue is preserved with twice the prior core width",
+      "passed": true
+    },
+    {
+      "name": "06_Poster: description appears on hover",
+      "passed": true
+    },
+    {
+      "name": "06_Poster: dialogue remains fully visible",
+      "passed": true
+    },
+    {
+      "name": "06_Poster: description does not overlap dialogue",
+      "passed": true
+    },
+    {
+      "name": "06_Poster: explanation does not cover the friend's face",
+      "passed": true
+    },
+    {
+      "name": "06_Poster: description remains within the view",
+      "passed": true
+    },
+    {
+      "name": "07_Directory: actual ray reaches the object (3F_FacilityDirectory_NoHighlight)",
+      "passed": true
+    },
+    {
+      "name": "07_Directory: hover changes this object to the hover state",
+      "passed": true
+    },
+    {
+      "name": "07_Directory: blue is preserved with twice the prior core width",
+      "passed": true
+    },
+    {
+      "name": "07_Directory: description appears on hover",
+      "passed": true
+    },
+    {
+      "name": "07_Directory: dialogue remains fully visible",
+      "passed": true
+    },
+    {
+      "name": "07_Directory: description does not overlap dialogue",
+      "passed": true
+    },
+    {
+      "name": "07_Directory: description remains within the view",
+      "passed": true
+    },
+    {
+      "name": "08_OperatorDescription: actual ray reaches the object (3F_Side_Emergency_1.28m)",
+      "passed": true
+    },
+    {
+      "name": "08_OperatorDescription: hover changes this object to the hover state",
+      "passed": true
+    },
+    {
+      "name": "08_OperatorDescription: blue is preserved with twice the prior core width",
+      "passed": true
+    },
+    {
+      "name": "08_OperatorDescription: description appears on hover",
+      "passed": true
+    },
+    {
+      "name": "08_OperatorDescription: dialogue remains fully visible",
+      "passed": true
+    },
+    {
+      "name": "08_OperatorDescription: description does not overlap dialogue",
+      "passed": true
+    },
+    {
+      "name": "08_OperatorDescription: description avoids button DialogueNext",
+      "passed": true
+    },
+    {
+      "name": "08_OperatorDescription: explanation does not cover the friend's face",
+      "passed": true
+    },
+    {
+      "name": "08_OperatorDescription: description remains within the view",
+      "passed": true
+    },
+    {
+      "name": "Separate Next control stays reachable",
+      "passed": true
+    },
+    {
+      "name": "Next dialogue progression is unaffected",
+      "passed": true
+    },
+    {
+      "name": "09_Identity: actual ray reaches the object (3F_LiftIdentity_HB-EL-01)",
+      "passed": true
+    },
+    {
+      "name": "09_Identity: hover changes this object to the hover state",
+      "passed": true
+    },
+    {
+      "name": "09_Identity: blue is preserved with twice the prior core width",
+      "passed": true
+    },
+    {
+      "name": "09_Identity: description appears on hover",
+      "passed": true
+    },
+    {
+      "name": "09_Identity: dialogue remains fully visible",
+      "passed": true
+    },
+    {
+      "name": "09_Identity: description does not overlap dialogue",
+      "passed": true
+    },
+    {
+      "name": "09_Identity: explanation does not cover the friend's face",
+      "passed": true
+    },
+    {
+      "name": "09_Identity: description remains within the view",
+      "passed": true
+    },
+    {
+      "name": "Identity is still inspected directly",
+      "passed": true
+    },
+    {
+      "name": "Separate Next control stays reachable",
+      "passed": true
+    },
+    {
+      "name": "Next still reports the location",
+      "passed": true
+    },
+    {
+      "name": "Separate Next control stays reachable",
+      "passed": true
+    },
+    {
+      "name": "Conversation proceeds to the reassurance stage",
+      "passed": true
+    },
+    {
+      "name": "10_WaitingFriend: actual ray reaches the object (Friend_Jump_Root)",
+      "passed": true
+    },
+    {
+      "name": "10_WaitingFriend: hover changes this object to the hover state",
+      "passed": true
+    },
+    {
+      "name": "10_WaitingFriend: blue is preserved with twice the prior core width",
+      "passed": true
+    },
+    {
+      "name": "10_WaitingFriend: description appears on hover",
+      "passed": true
+    },
+    {
+      "name": "10_WaitingFriend: dialogue remains fully visible",
+      "passed": true
+    },
+    {
+      "name": "10_WaitingFriend: description does not overlap dialogue",
+      "passed": true
+    },
+    {
+      "name": "10_WaitingFriend: description avoids button Choice0",
+      "passed": true
+    },
+    {
+      "name": "10_WaitingFriend: explanation does not cover the friend's face",
+      "passed": true
+    },
+    {
+      "name": "10_WaitingFriend: description remains within the view",
+      "passed": true
+    }
+  ],
+  "error": null
+}

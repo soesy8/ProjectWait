@@ -1,0 +1,939 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "console",
+    "parameters": {},
+    "result": {
+      "entries": [
+        {
+          "seq": 21509,
+          "timestampUtc": "2026-10-30T04:08:10.5952622Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21510,
+          "timestampUtc": "2026-10-30T04:08:11.1296532Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21511,
+          "timestampUtc": "2026-10-30T04:08:11.1340281Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21512,
+          "timestampUtc": "2026-10-30T04:08:11.3904773Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21513,
+          "timestampUtc": "2026-10-30T04:12:11.4427265Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21514,
+          "timestampUtc": "2026-10-30T04:12:11.7003414Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21515,
+          "timestampUtc": "2026-10-30T04:12:11.7048527Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21516,
+          "timestampUtc": "2026-10-30T04:12:11.9569674Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21517,
+          "timestampUtc": "2026-10-30T04:23:09.4855475Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21518,
+          "timestampUtc": "2026-10-30T04:23:09.9850005Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21519,
+          "timestampUtc": "2026-10-30T04:23:09.9887185Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21520,
+          "timestampUtc": "2026-10-30T04:23:10.2413973Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21521,
+          "timestampUtc": "2026-10-30T04:27:07.4565084Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "Assets\\M\\Scripts\\Editor\\ElevatorCopingSetup.cs(75,235): error CS0136: A local or parameter named 'mouth' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 21522,
+          "timestampUtc": "2026-10-30T04:28:05.0255037Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene)\nProjectWait.M.Editor.ElevatorCopingSetup:ApplyOriginal () (at Assets/M/Scripts/Editor/ElevatorCopingSetup.cs:153)\nPipelineEvaluation.PipelineEval_41588107:Execute ()\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Compilation.EvalCodeCompiler:ExecuteCompiledAssembly (System.Reflection.Assembly) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:190)\nUnity.Pipeline.Compilation.EvalCodeCompiler:CompileAndExecuteOnMainThread (string,int,System.Diagnostics.Stopwatch) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:54)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateSource (string,int,string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:112)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateFile (string,int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:54)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21523,
+          "timestampUtc": "2026-10-30T04:28:28.2474278Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Editor is already in edit mode",
+          "stackTrace": "UnityEngine.Debug:LogWarning (object)\nUnity.Pipeline.Editor.Commands.PlayModeCommands:ExitPlayMode () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/PlayModeCommands.cs:33)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21524,
+          "timestampUtc": "2026-10-30T04:29:16.5509268Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene)\nProjectWait.M.Editor.ElevatorCopingSetup:ApplyOriginal () (at Assets/M/Scripts/Editor/ElevatorCopingSetup.cs:158)\nPipelineEvaluation.PipelineEval_2fab5672:Execute ()\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Compilation.EvalCodeCompiler:ExecuteCompiledAssembly (System.Reflection.Assembly) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:190)\nUnity.Pipeline.Compilation.EvalCodeCompiler:CompileAndExecuteOnMainThread (string,int,System.Diagnostics.Stopwatch) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:54)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateSource (string,int,string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:112)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateFile (string,int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:54)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21525,
+          "timestampUtc": "2026-10-30T04:29:22.6781341Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21526,
+          "timestampUtc": "2026-10-30T04:29:23.0050152Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21527,
+          "timestampUtc": "2026-10-30T04:29:23.0090398Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21528,
+          "timestampUtc": "2026-10-30T04:29:23.3845969Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21529,
+          "timestampUtc": "2026-10-30T04:33:26.8088698Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene)\nProjectWait.M.Editor.ElevatorInteractionSetup:Apply () (at Assets/M/Scripts/Editor/ElevatorInteractionSetup.cs:201)\nProjectWait.M.Editor.ElevatorCopingSetup:ApplyOriginal () (at Assets/M/Scripts/Editor/ElevatorCopingSetup.cs:136)\nPipelineEvaluation.PipelineEval_f3bfda00:Execute ()\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Compilation.EvalCodeCompiler:ExecuteCompiledAssembly (System.Reflection.Assembly) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:190)\nUnity.Pipeline.Compilation.EvalCodeCompiler:CompileAndExecuteOnMainThread (string,int,System.Diagnostics.Stopwatch) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:54)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateSource (string,int,string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:112)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateFile (string,int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:54)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21530,
+          "timestampUtc": "2026-10-30T04:33:28.0053702Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene)\nProjectWait.M.Editor.ElevatorCopingSetup:ApplyOriginal () (at Assets/M/Scripts/Editor/ElevatorCopingSetup.cs:159)\nPipelineEvaluation.PipelineEval_f3bfda00:Execute ()\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Compilation.EvalCodeCompiler:ExecuteCompiledAssembly (System.Reflection.Assembly) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:190)\nUnity.Pipeline.Compilation.EvalCodeCompiler:CompileAndExecuteOnMainThread (string,int,System.Diagnostics.Stopwatch) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:54)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateSource (string,int,string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:112)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateFile (string,int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:54)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21531,
+          "timestampUtc": "2026-10-30T04:33:33.8931664Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21532,
+          "timestampUtc": "2026-10-30T04:33:34.381038Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21533,
+          "timestampUtc": "2026-10-30T04:34:39.5245223Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene,string,bool)\nPipelineEvaluation.PipelineEval_a0c69bc1:Execute ()\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Compilation.EvalCodeCompiler:ExecuteCompiledAssembly (System.Reflection.Assembly) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:190)\nUnity.Pipeline.Compilation.EvalCodeCompiler:CompileAndExecuteOnMainThread (string,int,System.Diagnostics.Stopwatch) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:54)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateSource (string,int,string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:112)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateFile (string,int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:54)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21534,
+          "timestampUtc": "2026-10-30T04:34:46.2320456Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21535,
+          "timestampUtc": "2026-10-30T04:34:46.7410948Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21536,
+          "timestampUtc": "2026-10-30T04:37:50.9747564Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene)\nProjectWait.M.Editor.ElevatorInteractionSetup:Apply () (at Assets/M/Scripts/Editor/ElevatorInteractionSetup.cs:201)\nProjectWait.M.Editor.ElevatorCopingSetup:ApplyOriginal () (at Assets/M/Scripts/Editor/ElevatorCopingSetup.cs:137)\nPipelineEvaluation.PipelineEval_9376c698:Execute ()\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Compilation.EvalCodeCompiler:ExecuteCompiledAssembly (System.Reflection.Assembly) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:190)\nUnity.Pipeline.Compilation.EvalCodeCompiler:CompileAndExecuteOnMainThread (string,int,System.Diagnostics.Stopwatch) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:54)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateSource (string,int,string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:112)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateFile (string,int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:54)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21537,
+          "timestampUtc": "2026-10-30T04:37:52.1171069Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene)\nProjectWait.M.Editor.ElevatorCopingSetup:ApplyOriginal () (at Assets/M/Scripts/Editor/ElevatorCopingSetup.cs:160)\nPipelineEvaluation.PipelineEval_9376c698:Execute ()\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Compilation.EvalCodeCompiler:ExecuteCompiledAssembly (System.Reflection.Assembly) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:190)\nUnity.Pipeline.Compilation.EvalCodeCompiler:CompileAndExecuteOnMainThread (string,int,System.Diagnostics.Stopwatch) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:54)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateSource (string,int,string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:112)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateFile (string,int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:54)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21538,
+          "timestampUtc": "2026-10-30T04:37:59.3783074Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21539,
+          "timestampUtc": "2026-10-30T04:37:59.8802866Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21540,
+          "timestampUtc": "2026-10-30T04:43:06.2108179Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene)\nPipelineEvaluation.PipelineEval_d6c370b3:Execute ()\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Compilation.EvalCodeCompiler:ExecuteCompiledAssembly (System.Reflection.Assembly) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:190)\nUnity.Pipeline.Compilation.EvalCodeCompiler:CompileAndExecuteOnMainThread (string,int,System.Diagnostics.Stopwatch) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Compilation/EvalCodeCompiler.cs:54)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateSource (string,int,string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:112)\nUnity.Pipeline.Runtime.Commands.CodeEvalCommand:EvaluateFile (string,int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Commands/CodeEvalCommand.cs:54)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21541,
+          "timestampUtc": "2026-10-30T05:13:59.9608174Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21542,
+          "timestampUtc": "2026-10-30T05:14:00.7012191Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21543,
+          "timestampUtc": "2026-10-30T05:14:00.7041823Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21544,
+          "timestampUtc": "2026-10-30T05:14:00.9925814Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21545,
+          "timestampUtc": "2026-10-30T05:39:44.5059514Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21546,
+          "timestampUtc": "2026-10-30T05:39:44.7720928Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21547,
+          "timestampUtc": "2026-10-30T05:39:44.775604Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21548,
+          "timestampUtc": "2026-10-30T05:39:45.0273148Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21549,
+          "timestampUtc": "2026-10-30T05:55:40.7365353Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene)\nProjectWait.M.Editor.ElevatorHoverRefinementSetup:ApplyBoth () (at Assets/M/Scripts/Editor/ElevatorHoverRefinementSetup.cs:80)\nApplyHoverHV:Main () (at Assets/M/CodexTemp/ElevatorHoverReview_20261030~/Apply.cs:2)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/Scripts/RunScriptCommand.cs:219)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Editor.Commands.Scripts.RunScriptResponse>:Start<Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2> (Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2&)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand:RunEphemeral (string,string,Newtonsoft.Json.Linq.JArray,string[],string[],bool,bool,int,System.Diagnostics.Stopwatch)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/Scripts/RunScriptCommand.cs:77)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Editor.Commands.Scripts.RunScriptResponse>:Start<Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1> (Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1&)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand:RunScript (string,string,Newtonsoft.Json.Linq.JArray,string,string[],string[],bool,int,bool)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21550,
+          "timestampUtc": "2026-10-30T05:57:46.5009196Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21551,
+          "timestampUtc": "2026-10-30T05:57:46.7688449Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21552,
+          "timestampUtc": "2026-10-30T05:57:46.7728749Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21553,
+          "timestampUtc": "2026-10-30T05:57:47.0386414Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21554,
+          "timestampUtc": "2026-10-30T06:05:14.5526689Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene)\nProjectWait.M.Editor.ElevatorHoverRefinementSetup:ApplyBoth () (at Assets/M/Scripts/Editor/ElevatorHoverRefinementSetup.cs:87)\nApplyHoverHV:Main () (at Assets/M/CodexTemp/ElevatorHoverReview_20261030~/Apply.cs:2)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/Scripts/RunScriptCommand.cs:219)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Editor.Commands.Scripts.RunScriptResponse>:Start<Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2> (Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2&)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand:RunEphemeral (string,string,Newtonsoft.Json.Linq.JArray,string[],string[],bool,bool,int,System.Diagnostics.Stopwatch)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/Scripts/RunScriptCommand.cs:77)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Editor.Commands.Scripts.RunScriptResponse>:Start<Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1> (Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1&)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand:RunScript (string,string,Newtonsoft.Json.Linq.JArray,string,string[],string[],bool,int,bool)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21555,
+          "timestampUtc": "2026-10-30T06:06:04.3621893Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21556,
+          "timestampUtc": "2026-10-30T06:06:04.629534Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21557,
+          "timestampUtc": "2026-10-30T06:06:04.6368148Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21558,
+          "timestampUtc": "2026-10-30T06:06:04.9117886Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21559,
+          "timestampUtc": "2026-10-30T06:09:58.8038492Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21560,
+          "timestampUtc": "2026-10-30T06:09:59.0667918Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21561,
+          "timestampUtc": "2026-10-30T06:09:59.0729347Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21562,
+          "timestampUtc": "2026-10-30T06:09:59.3349603Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21563,
+          "timestampUtc": "2026-10-30T06:40:13.127975Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21564,
+          "timestampUtc": "2026-10-30T06:40:13.3877595Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21565,
+          "timestampUtc": "2026-10-30T06:40:13.39131Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21566,
+          "timestampUtc": "2026-10-30T06:40:13.6621151Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21567,
+          "timestampUtc": "2026-10-30T06:47:20.4315386Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21568,
+          "timestampUtc": "2026-10-30T06:47:20.684399Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21569,
+          "timestampUtc": "2026-10-30T06:47:20.689195Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21570,
+          "timestampUtc": "2026-10-30T06:47:20.9758091Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21571,
+          "timestampUtc": "2026-10-30T07:04:44.8931121Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene,string,bool)\nApplyA2:Main () (at Assets/M/CodexTemp/ElevatorAmbientHints_20261030~/Apply.cs:11)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/Scripts/RunScriptCommand.cs:219)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Editor.Commands.Scripts.RunScriptResponse>:Start<Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2> (Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2&)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand:RunEphemeral (string,string,Newtonsoft.Json.Linq.JArray,string[],string[],bool,bool,int,System.Diagnostics.Stopwatch)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/Scripts/RunScriptCommand.cs:77)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Editor.Commands.Scripts.RunScriptResponse>:Start<Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1> (Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1&)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand:RunScript (string,string,Newtonsoft.Json.Linq.JArray,string,string[],string[],bool,int,bool)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21572,
+          "timestampUtc": "2026-10-30T07:07:57.2176892Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21573,
+          "timestampUtc": "2026-10-30T07:07:57.4889479Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21574,
+          "timestampUtc": "2026-10-30T07:07:57.4925484Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21575,
+          "timestampUtc": "2026-10-30T07:07:57.7544596Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21576,
+          "timestampUtc": "2026-10-30T07:14:29.322221Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21577,
+          "timestampUtc": "2026-10-30T07:14:29.5771591Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21578,
+          "timestampUtc": "2026-10-30T07:14:29.5812652Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21579,
+          "timestampUtc": "2026-10-30T07:14:29.8570867Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21580,
+          "timestampUtc": "2026-10-30T07:18:00.0190708Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21581,
+          "timestampUtc": "2026-10-30T07:18:00.4679168Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21582,
+          "timestampUtc": "2026-10-30T07:18:00.470949Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21583,
+          "timestampUtc": "2026-10-30T07:18:00.7636787Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21584,
+          "timestampUtc": "2026-10-30T07:22:25.4740691Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene)\nProjectWait.M.Editor.ElevatorHoverRefinementSetup:ApplyBoth () (at Assets/M/Scripts/Editor/ElevatorHoverRefinementSetup.cs:89)\nApplyA2:Main () (at Assets/M/CodexTemp/ElevatorAmbientHints_20261030~/Apply.cs:12)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/Scripts/RunScriptCommand.cs:219)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Editor.Commands.Scripts.RunScriptResponse>:Start<Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2> (Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2&)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand:RunEphemeral (string,string,Newtonsoft.Json.Linq.JArray,string[],string[],bool,bool,int,System.Diagnostics.Stopwatch)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/Scripts/RunScriptCommand.cs:77)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Editor.Commands.Scripts.RunScriptResponse>:Start<Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1> (Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1&)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand:RunScript (string,string,Newtonsoft.Json.Linq.JArray,string,string[],string[],bool,int,bool)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21585,
+          "timestampUtc": "2026-10-30T07:23:53.5819069Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21586,
+          "timestampUtc": "2026-10-30T07:23:53.8499917Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21587,
+          "timestampUtc": "2026-10-30T07:23:53.8539036Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21588,
+          "timestampUtc": "2026-10-30T07:23:54.1531665Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21589,
+          "timestampUtc": "2026-10-30T07:26:40.4444343Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21590,
+          "timestampUtc": "2026-10-30T07:26:41.0162544Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21591,
+          "timestampUtc": "2026-10-30T08:08:28.0472019Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.AssetDatabase:CopyAsset (string,string)\nMigrateMO:Main () (at Assets/M/CodexTemp/ElevatorMaskOutline_20261030~/Migrate.cs:21)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/Scripts/RunScriptCommand.cs:219)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Editor.Commands.Scripts.RunScriptResponse>:Start<Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2> (Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2&)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand:RunEphemeral (string,string,Newtonsoft.Json.Linq.JArray,string[],string[],bool,bool,int,System.Diagnostics.Stopwatch)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/Scripts/RunScriptCommand.cs:77)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Editor.Commands.Scripts.RunScriptResponse>:Start<Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1> (Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1&)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand:RunScript (string,string,Newtonsoft.Json.Linq.JArray,string,string[],string[],bool,int,bool)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21592,
+          "timestampUtc": "2026-10-30T08:08:40.247144Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21593,
+          "timestampUtc": "2026-10-30T08:08:43.1766991Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21594,
+          "timestampUtc": "2026-10-30T08:08:43.1807113Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21595,
+          "timestampUtc": "2026-10-30T08:08:43.5168232Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21596,
+          "timestampUtc": "2026-10-30T08:24:13.9011983Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "UnityEditor.SceneManagement.EditorSceneManager:SaveScene (UnityEngine.SceneManagement.Scene)\nCleanupMaskMO:Main () (at Assets/M/CodexTemp/ElevatorMaskOutline_20261030~/Cleanup.cs:24)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/Scripts/RunScriptCommand.cs:219)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Editor.Commands.Scripts.RunScriptResponse>:Start<Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2> (Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunEphemeral>d__2&)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand:RunEphemeral (string,string,Newtonsoft.Json.Linq.JArray,string[],string[],bool,bool,int,System.Diagnostics.Stopwatch)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/Commands/Scripts/RunScriptCommand.cs:77)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Unity.Pipeline.Editor.Commands.Scripts.RunScriptResponse>:Start<Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1> (Unity.Pipeline.Editor.Commands.Scripts.RunScriptCommand/<RunScript>d__1&)\nUnity.Pipeline.Editor.Commands.Scripts.RunScriptCommand:RunScript (string,string,Newtonsoft.Json.Linq.JArray,string,string[],string[],bool,int,bool)\nSystem.Reflection.MethodBase:Invoke (object,object[])\nUnity.Pipeline.BasePipelineServer:ExecuteCommandDirect (Unity.Pipeline.Commands.CommandInfo,object[]) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2820)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass138_0:<ExecuteCommand>b__1 () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2694)\nUnity.Pipeline.Threading.Dispatcher/WorkItem`1<object>:ExecuteCore () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:284)\nUnity.Pipeline.Threading.Dispatcher/WorkItem:Execute () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:229)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue (int) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:195)\nUnity.Pipeline.Threading.Dispatcher:ProcessWorkQueue () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/Dispatcher.cs:210)\nUnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21597,
+          "timestampUtc": "2026-10-30T08:25:34.4897794Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21598,
+          "timestampUtc": "2026-10-30T08:25:35.8324791Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21599,
+          "timestampUtc": "2026-10-30T08:25:35.8375217Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21600,
+          "timestampUtc": "2026-10-30T08:25:36.5348906Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21601,
+          "timestampUtc": "2026-10-30T08:32:00.090779Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21602,
+          "timestampUtc": "2026-10-30T08:32:00.3978045Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21603,
+          "timestampUtc": "2026-10-30T08:32:00.4019064Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21604,
+          "timestampUtc": "2026-10-30T08:32:00.7208327Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21605,
+          "timestampUtc": "2026-10-30T08:39:09.1107851Z",
+          "level": "log",
+          "logType": "Log",
+          "message": "Loading OpenXR loader library at path: D:\\project\\ProjectWait\\Library\\PackageCache\\com.unity.xr.openxr@58837b2992e0\\RuntimeLoaders\\windows\\x64\\openxr_loader.dll",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad () (at ./Library/PackageCache/com.unity.xr.management@ca5b202bb583/Runtime/XRGeneralSettings.cs:99)\n",
+          "seeded": false
+        },
+        {
+          "seq": 21606,
+          "timestampUtc": "2026-10-30T08:39:09.380631Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21607,
+          "timestampUtc": "2026-10-30T08:39:09.3845766Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21608,
+          "timestampUtc": "2026-10-30T08:39:09.7183647Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        }
+      ],
+      "cursor": 21608,
+      "session": "37f4f48aec3b4d19acf5900d52ea6646",
+      "returned": 100,
+      "dropped": false,
+      "reset": false,
+      "counts": {
+        "error": 1,
+        "warn": 97,
+        "log": 30
+      },
+      "groundTruth": {
+        "sampledUtc": "2026-10-30T08:42:29.6660802Z",
+        "ageMs": 230,
+        "compilationFailed": false,
+        "compiling": false,
+        "consoleErrors": 0,
+        "consoleWarnings": 3,
+        "consoleLogs": 1,
+        "seeded": true
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

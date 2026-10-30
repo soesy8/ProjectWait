@@ -1,0 +1,80 @@
+﻿{
+    "Date":  "2026-10-30",
+    "FileCount":  11,
+    "AllDeliveredFilesIntact":  true,
+    "PreviousReopenChecksPassed":  true,
+    "CheckCount":  29,
+    "AllSixRendersComplete":  true,
+    "OriginalUserFilePreserved":  true,
+    "RemainingRequiredTasks":  [
+
+                               ],
+    "Files":  [
+                  {
+                      "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\엘베_맵_체육센터.blend",
+                      "Exists":  true,
+                      "HashMatches":  true,
+                      "SizeMatches":  true
+                  },
+                  {
+                      "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\건물콘셉트_시나리오.txt",
+                      "Exists":  true,
+                      "HashMatches":  true,
+                      "SizeMatches":  true
+                  },
+                  {
+                      "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\엘리베이터_안전포스터.png",
+                      "Exists":  true,
+                      "HashMatches":  true,
+                      "SizeMatches":  true
+                  },
+                  {
+                      "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\안전포스터_생성프롬프트.txt",
+                      "Exists":  true,
+                      "HashMatches":  true,
+                      "SizeMatches":  true
+                  },
+                  {
+                      "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_읽어주세요.txt",
+                      "Exists":  true,
+                      "HashMatches":  true,
+                      "SizeMatches":  true
+                  },
+                  {
+                      "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_01_로비.png",
+                      "Exists":  true,
+                      "HashMatches":  true,
+                      "SizeMatches":  true
+                  },
+                  {
+                      "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_02_내부.png",
+                      "Exists":  true,
+                      "HashMatches":  true,
+                      "SizeMatches":  true
+                  },
+                  {
+                      "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_03_뒤쪽_자동문.png",
+                      "Exists":  true,
+                      "HashMatches":  true,
+                      "SizeMatches":  true
+                  },
+                  {
+                      "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_04_전체배치.png",
+                      "Exists":  true,
+                      "HashMatches":  true,
+                      "SizeMatches":  true
+                  },
+                  {
+                      "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_05_버튼패널.png",
+                      "Exists":  true,
+                      "HashMatches":  true,
+                      "SizeMatches":  true
+                  },
+                  {
+                      "File":  "E:\\ProjectWait\\Blender\\엘베 맵\\체육센터_06_식별정보_포스터.png",
+                      "Exists":  true,
+                      "HashMatches":  true,
+                      "SizeMatches":  true
+                  }
+              ]
+}

@@ -1,0 +1,39 @@
+{
+  "success": true,
+  "checks": [
+    {
+      "name": "Several separate meshes form one white coverage mask",
+      "passed": true
+    },
+    {
+      "name": "Mask and final output share screen dimensions",
+      "passed": true
+    },
+    {
+      "name": "A strong outline is rendered around the grouped silhouette",
+      "passed": true
+    },
+    {
+      "name": "At least 99.8 percent of outline pixels lie outside the original object mask; no internal surface lines",
+      "passed": true
+    },
+    {
+      "name": "A fully occluded target has no outline through the wall",
+      "passed": true
+    },
+    {
+      "name": "Partial occlusion keeps the visible contour without drawing on the foreground wall",
+      "passed": true
+    },
+    {
+      "name": "Validation executed the new Render Graph feature with one grouped target",
+      "passed": true
+    }
+  ],
+  "coloured": 31466,
+  "inside": 0,
+  "outside": 31466,
+  "occluded": 0,
+  "fixtureFPS": 60.6666679,
+  "error": null
+}

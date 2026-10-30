@@ -1,0 +1,175 @@
+{
+  "success": true,
+  "passed": 34,
+  "checks": [
+    {
+      "name": "One active outline feature in M renderer",
+      "passed": true
+    },
+    {
+      "name": "Both rendering shaders are serialized build dependencies",
+      "passed": true
+    },
+    {
+      "name": "Only M pipeline points to the dedicated M renderer",
+      "passed": true
+    },
+    {
+      "name": "Clean shader compile: ProjectWait/M/Outline Coverage",
+      "passed": true
+    },
+    {
+      "name": "Clean shader compile: ProjectWait/M/Outline Distance",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: 16 saved targets",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: all descriptions have grouped mask geometry",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: mask source references resolve after reopening",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: static mask anchors create no visible duplicate renderers",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: legacy renderer objects and components absent",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: button feedback reuses its target mask",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: no missing scripts",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: no broken outline source or component references",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: no temporary runtime dependencies",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: no legacy shader or script dependencies",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: original/test scenario mode retained",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: 16 saved targets",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: all descriptions have grouped mask geometry",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: mask source references resolve after reopening",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: static mask anchors create no visible duplicate renderers",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: legacy renderer objects and components absent",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: button feedback reuses its target mask",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: no missing scripts",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: no broken outline source or component references",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: no temporary runtime dependencies",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: no legacy shader or script dependencies",
+      "passed": true
+    },
+    {
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: original/test scenario mode retained",
+      "passed": true
+    },
+    {
+      "name": "Removed obsolete asset and meta: Assets/M/Scripts/Elevator/ElevatorShapeHighlight.cs",
+      "passed": true
+    },
+    {
+      "name": "Removed obsolete asset and meta: Assets/M/Arts/Shaders/ElevatorSkyHighlight.shader",
+      "passed": true
+    },
+    {
+      "name": "Removed obsolete asset and meta: Assets/M/Arts/Shaders/ElevatorSkyHighlightMask.shader",
+      "passed": true
+    },
+    {
+      "name": "Removed obsolete asset and meta: Assets/M/Arts/Materials/ElevatorInteraction/SkyGlowMask.mat",
+      "passed": true
+    },
+    {
+      "name": "Removed obsolete asset and meta: Assets/M/Arts/Materials/ElevatorInteraction/SkyGlow_0.mat",
+      "passed": true
+    },
+    {
+      "name": "Removed obsolete asset and meta: Assets/M/Arts/Materials/ElevatorInteraction/SkyGlow_1.mat",
+      "passed": true
+    },
+    {
+      "name": "Removed obsolete asset and meta: Assets/M/Arts/Materials/ElevatorInteraction/SkyGlow_2.mat",
+      "passed": true
+    }
+  ],
+  "scenes": [
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+      "targets": 16,
+      "parts": 29,
+      "missing": [
+        "Radial/Image/m_Sprite",
+        "Radial Icon/Image/m_Sprite",
+        "Click/Image/m_Sprite",
+        "Icon/Image/m_Sprite",
+        "Radial/Image/m_Sprite",
+        "Radial Icon/Image/m_Sprite",
+        "Click/Image/m_Sprite",
+        "Icon/Image/m_Sprite"
+      ]
+    },
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+      "targets": 16,
+      "parts": 29,
+      "missing": [
+        "Radial/Image/m_Sprite",
+        "Radial Icon/Image/m_Sprite",
+        "Click/Image/m_Sprite",
+        "Icon/Image/m_Sprite",
+        "Radial/Image/m_Sprite",
+        "Radial Icon/Image/m_Sprite",
+        "Click/Image/m_Sprite",
+        "Icon/Image/m_Sprite"
+      ]
+    }
+  ],
+  "error": null
+}

@@ -1,0 +1,176 @@
+{
+  "success": true,
+  "mode": "Guided",
+  "passed": 42,
+  "checks": [
+    {
+      "name": "Input is blocked during cabin reposition",
+      "passed": true
+    },
+    {
+      "name": "PC reposition is a short movement, not an instant cut",
+      "passed": true
+    },
+    {
+      "name": "Shot ends at the authored cabin position",
+      "passed": true
+    },
+    {
+      "name": "Reposition finishes",
+      "passed": true
+    },
+    {
+      "name": "Jump cinematic: dialogue is visible",
+      "passed": true
+    },
+    {
+      "name": "Jump cinematic: dialogue text is revealed",
+      "passed": true
+    },
+    {
+      "name": "Jump cinematic: speech fits viewport: (0.428, 0.633, 1.589);(0.422, 0.764, 1.520);(0.720, 0.792, 1.367);(0.713, 0.647, 1.437)",
+      "passed": true
+    },
+    {
+      "name": "Jump cinematic: speaker tab fits viewport: (0.435, 0.746, 1.522);(0.433, 0.794, 1.498);(0.497, 0.801, 1.463);(0.498, 0.752, 1.487)",
+      "passed": true
+    },
+    {
+      "name": "Friend and speech are in the same shot",
+      "passed": true
+    },
+    {
+      "name": "Exploration is released after placement and does not snap back",
+      "passed": true
+    },
+    {
+      "name": "Walking still works between story beats",
+      "passed": true
+    },
+    {
+      "name": "Operator dialogue: dialogue is visible",
+      "passed": true
+    },
+    {
+      "name": "Operator dialogue: dialogue text is revealed",
+      "passed": true
+    },
+    {
+      "name": "Operator dialogue: speech fits viewport: (0.397, 0.666, 1.602);(0.390, 0.797, 1.523);(0.677, 0.809, 1.452);(0.669, 0.671, 1.531)",
+      "passed": true
+    },
+    {
+      "name": "Operator dialogue: speaker tab fits viewport: (0.404, 0.779, 1.530);(0.402, 0.827, 1.503);(0.513, 0.832, 1.475);(0.513, 0.783, 1.502)",
+      "passed": true
+    },
+    {
+      "name": "Operator dialogue: DialogueNext fits viewport: (0.481, 0.564, 1.645);(0.480, 0.629, 1.602);(0.580, 0.630, 1.575);(0.579, 0.564, 1.618)",
+      "passed": true
+    },
+    {
+      "name": "Reading the ID starts a fresh reposition within the same dialogue step",
+      "passed": true
+    },
+    {
+      "name": "Identity report returns to the conversation viewpoint",
+      "passed": true
+    },
+    {
+      "name": "Identity report: dialogue is visible",
+      "passed": true
+    },
+    {
+      "name": "Identity report: dialogue text is revealed",
+      "passed": true
+    },
+    {
+      "name": "Identity report: speech fits viewport: (0.340, 0.661, 1.549);(0.330, 0.837, 1.444);(0.620, 0.827, 1.497);(0.611, 0.658, 1.602)",
+      "passed": true
+    },
+    {
+      "name": "Identity report: speaker tab fits viewport: (0.345, 0.817, 1.458);(0.342, 0.868, 1.429);(0.421, 0.865, 1.443);(0.422, 0.814, 1.472)",
+      "passed": true
+    },
+    {
+      "name": "Identity report: DialogueNext fits viewport: (0.429, 0.556, 1.633);(0.428, 0.622, 1.588);(0.527, 0.621, 1.608);(0.526, 0.556, 1.653)",
+      "passed": true
+    },
+    {
+      "name": "Next button can be reached by the real pointer",
+      "passed": true
+    },
+    {
+      "name": "Next reports the location after the camera correction",
+      "passed": true
+    },
+    {
+      "name": "Next button can be reached by the real pointer",
+      "passed": true
+    },
+    {
+      "name": "Next still reaches the waiting stage",
+      "passed": true
+    },
+    {
+      "name": "Waiting: dialogue is visible",
+      "passed": true
+    },
+    {
+      "name": "Waiting: dialogue text is revealed",
+      "passed": true
+    },
+    {
+      "name": "Waiting: speech fits viewport: (0.427, 0.603, 1.590);(0.418, 0.819, 1.473);(0.726, 0.849, 1.323);(0.712, 0.608, 1.441)",
+      "passed": true
+    },
+    {
+      "name": "Waiting: speaker tab fits viewport: (0.432, 0.801, 1.476);(0.430, 0.851, 1.450);(0.496, 0.858, 1.416);(0.496, 0.807, 1.442)",
+      "passed": true
+    },
+    {
+      "name": "4:3 proposal: dialogue is visible",
+      "passed": true
+    },
+    {
+      "name": "4:3 proposal: dialogue text is revealed",
+      "passed": true
+    },
+    {
+      "name": "4:3 proposal: speech fits viewport: (0.403, 0.598, 1.592);(0.390, 0.814, 1.476);(0.801, 0.844, 1.327);(0.782, 0.603, 1.442)",
+      "passed": true
+    },
+    {
+      "name": "4:3 proposal: speaker tab fits viewport: (0.409, 0.796, 1.479);(0.406, 0.846, 1.454);(0.494, 0.853, 1.420);(0.495, 0.802, 1.445)",
+      "passed": true
+    },
+    {
+      "name": "Pause freezes reposition and its story clock",
+      "passed": true
+    },
+    {
+      "name": "Resume completes the same reposition",
+      "passed": true
+    },
+    {
+      "name": "Waiting fade still leads to rescue",
+      "passed": true
+    },
+    {
+      "name": "Rescue cinematic: dialogue is visible",
+      "passed": true
+    },
+    {
+      "name": "Rescue cinematic: dialogue text is revealed",
+      "passed": true
+    },
+    {
+      "name": "Rescue cinematic: speech fits viewport: (0.415, 0.577, 3.499);(0.414, 0.670, 3.429);(0.537, 0.667, 3.487);(0.536, 0.575, 3.556)",
+      "passed": true
+    },
+    {
+      "name": "Rescue cinematic: speaker tab fits viewport: (0.420, 0.662, 3.438);(0.420, 0.682, 3.423);(0.448, 0.682, 3.436);(0.448, 0.661, 3.451)",
+      "passed": true
+    }
+  ],
+  "error": null
+}

@@ -1,0 +1,34 @@
+{
+  "success": true,
+  "original": 125,
+  "guided": 119,
+  "saved": 34,
+  "pixel": 7,
+  "protectedAssets": [
+    {
+      "path": "ProjectSettings/QualitySettings.asset",
+      "unchanged": true,
+      "before": "3d8b7ca313429b168f54ab5495a2672cd7f64d12a946c1bd469c5fc6ff3e0414",
+      "after": "3d8b7ca313429b168f54ab5495a2672cd7f64d12a946c1bd469c5fc6ff3e0414"
+    },
+    {
+      "path": "ProjectSettings/GraphicsSettings.asset",
+      "unchanged": true,
+      "before": "9ebdebf6b2071b3d2d78766000d1522c6bc6c83d008e0c1e436a088dde652a96",
+      "after": "9ebdebf6b2071b3d2d78766000d1522c6bc6c83d008e0c1e436a088dde652a96"
+    },
+    {
+      "path": "Assets/Settings/Project Configuration/Performance URP Config.asset",
+      "unchanged": true,
+      "before": "169ea265757c9740f96def755fa19387c6df5c985f79bb719dfa9fea6cec8b23",
+      "after": "169ea265757c9740f96def755fa19387c6df5c985f79bb719dfa9fea6cec8b23"
+    },
+    {
+      "path": "Assets/Settings/Project Configuration/Android Preset.asset",
+      "unchanged": true,
+      "before": "7262da89578af3a232d688fe2fd6005035b6db0ef5abf5946f27da97ed60eede",
+      "after": "7262da89578af3a232d688fe2fd6005035b6db0ef5abf5946f27da97ed60eede"
+    }
+  ],
+  "review": "RenderGraphReview.txt"
+}

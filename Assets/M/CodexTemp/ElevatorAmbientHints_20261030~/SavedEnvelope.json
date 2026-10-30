@@ -1,0 +1,26 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "Assets/M/CodexTemp/ElevatorAmbientHints_20261030~/Validate.cs",
+      "entry": "ValidateA2.Main"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 151,
+      "executeMs": 2969,
+      "assemblyName": "PipelineRunScript_Validate_e04ee6d3422a4d52bcb59e95d0a7e069",
+      "success": true,
+      "result": "{\r\n  \"success\": true,\r\n  \"passed\": 32,\r\n  \"checks\": [\r\n    {\r\n      \"name\": \"Shader compiles: ProjectWait/M/Sky Highlight\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Independent silhouette reference: ProjectWait/M/Sky Highlight\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Shader compiles: ProjectWait/M/Sky Highlight Mask\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Independent silhouette reference: ProjectWait/M/Sky Highlight Mask\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: saved scene reopens cleanly\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: scene mode is preserved\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: no missing scripts\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: no runtime temporary dependencies\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: all fifteen described objects have idle-outline metadata\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: descriptions preserve fixed size and begin hidden\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: shared warm idle colour is saved\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: stronger idle and hover widths are saved\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: dialogue is not saved hidden\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: rear barrier is saved two metres farther back\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: stair blockers remain\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: furniture collisions remain\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: fixed entrance walls and glass retain collision\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Original: character face meshes are preserved\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: saved scene reopens cleanly\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: scene mode is preserved\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: no missing scripts\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: no runtime temporary dependencies\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: all fifteen described objects have idle-outline metadata\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: descriptions preserve fixed size and begin hidden\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: shared warm idle colour is saved\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: stronger idle and hover widths are saved\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: dialogue is not saved hidden\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: rear barrier is saved two metres farther back\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: stair blockers remain\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: furniture collisions remain\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: fixed entrance walls and glass retain collision\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Guided: character face meshes are preserved\",\r\n      \"passed\": true\r\n    }\r\n  ],\r\n  \"scenes\": [\r\n    {\r\n      \"path\": \"Assets/M/Scene/Elevator_Safety_Prototype.unity\",\r\n      \"guid\": \"c043886542fe3bb44a4b7c9cd44999ee\",\r\n      \"descriptions\": 15,\r\n      \"barrierZ\": -8.4\r\n    },\r\n    {\r\n      \"path\": \"Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity\",\r\n      \"guid\": \"15150070df9075f469705970ed12661a\",\r\n      \"descriptions\": 15,\r\n      \"barrierZ\": -8.4\r\n    }\r\n  ],\r\n  \"error\": null\r\n}"
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

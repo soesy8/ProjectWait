@@ -1,0 +1,27 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "Assets/M/CodexTemp/ElevatorMaskOutline_20261030~/VerifyPixels.cs",
+      "entry": "VerifyPixelsMO.Main",
+      "timeout_ms": "120000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 384,
+      "executeMs": 3159,
+      "assemblyName": "PipelineRunScript_VerifyPixels_ccea2e2fabea4bd7bc6241efbcfa4fbc",
+      "success": true,
+      "result": "{\r\n  \"success\": true,\r\n  \"checks\": [\r\n    {\r\n      \"name\": \"Several separate meshes form one white coverage mask\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Mask and final output share screen dimensions\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"A strong outline is rendered around the grouped silhouette\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"At least 99.8 percent of outline pixels lie outside the original object mask; no internal surface lines\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"A fully occluded target has no outline through the wall\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Partial occlusion keeps the visible contour without drawing on the foreground wall\",\r\n      \"passed\": true\r\n    },\r\n    {\r\n      \"name\": \"Validation executed the new Render Graph feature with one grouped target\",\r\n      \"passed\": true\r\n    }\r\n  ],\r\n  \"coloured\": 31466,\r\n  \"inside\": 0,\r\n  \"outside\": 31466,\r\n  \"occluded\": 0,\r\n  \"fixtureFPS\": 60.6666679,\r\n  \"error\": null\r\n}"
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

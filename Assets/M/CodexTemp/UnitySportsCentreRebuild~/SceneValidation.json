@@ -1,0 +1,118 @@
+{
+  "success": true,
+  "passed": 19,
+  "checks": [
+    {
+      "name": "Saved M scene reopened",
+      "passed": true
+    },
+    {
+      "name": "No missing scripts",
+      "passed": true
+    },
+    {
+      "name": "No missing active materials or unsupported shaders",
+      "passed": true
+    },
+    {
+      "name": "Native map and panels assigned",
+      "passed": true
+    },
+    {
+      "name": "Main doors bound to imported model",
+      "passed": true
+    },
+    {
+      "name": "Story identity correct",
+      "passed": true
+    },
+    {
+      "name": "Start pose is 3F",
+      "passed": true
+    },
+    {
+      "name": "UI readable backdrops persisted",
+      "passed": true
+    },
+    {
+      "name": "No temporary runtime asset dependency",
+      "passed": true
+    },
+    {
+      "name": "Legacy lobby hidden",
+      "passed": true
+    },
+    {
+      "name": "Walkable floor at (0.00, 0.70, 0.00)",
+      "passed": true
+    },
+    {
+      "name": "Walkable floor at (0.00, 4.60, 0.00)",
+      "passed": true
+    },
+    {
+      "name": "Walkable floor at (0.00, 8.60, 0.00)",
+      "passed": true
+    },
+    {
+      "name": "Walkable floor at (-4.00, 8.60, -14.00)",
+      "passed": true
+    },
+    {
+      "name": "3F window collision",
+      "passed": true
+    },
+    {
+      "name": "Collision changes preserve ray to 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Collision changes preserve ray to 3F_LiftIdentity_HB-EL-01",
+      "passed": true
+    },
+    {
+      "name": "Active floor 3 and unused lift 5",
+      "passed": true
+    },
+    {
+      "name": "Directory has no current-floor highlight",
+      "passed": true
+    }
+  ],
+  "prefabColliders": 33,
+  "sceneColliders": 0,
+  "floors": [
+    {
+      "origin": "(0.00, 0.70, 0.00)",
+      "hit": true,
+      "height": 0.0300000012,
+      "expected": 0.0,
+      "passed": true
+    },
+    {
+      "origin": "(0.00, 4.60, 0.00)",
+      "hit": true,
+      "height": 3.96,
+      "expected": 3.96,
+      "passed": true
+    },
+    {
+      "origin": "(0.00, 8.60, 0.00)",
+      "hit": true,
+      "height": 7.950001,
+      "expected": 7.92,
+      "passed": true
+    },
+    {
+      "origin": "(-4.00, 8.60, -14.00)",
+      "hit": true,
+      "height": 7.97350025,
+      "expected": 7.92,
+      "passed": true
+    }
+  ],
+  "tempDependencies": [],
+  "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+  "dependencyCount": 412,
+  "completedUtc": "2026-10-30T01:05:08.4602164Z"
+}

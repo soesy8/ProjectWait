@@ -1,0 +1,157 @@
+{
+  "success": true,
+  "passed": 32,
+  "checks": [
+    {
+      "name": "Movement controller active",
+      "passed": true
+    },
+    {
+      "name": "PC HUD is screen overlay",
+      "passed": true
+    },
+    {
+      "name": "Scene-local 60m shadow pipeline active",
+      "passed": true
+    },
+    {
+      "name": "W moves forward with actual keyboard events",
+      "passed": true
+    },
+    {
+      "name": "D strafes with actual keyboard events",
+      "passed": true
+    },
+    {
+      "name": "Mouse delta rotates yaw and pitch without a held button",
+      "passed": true
+    },
+    {
+      "name": "Off-centre cursor still selects the centre-ray target",
+      "passed": true
+    },
+    {
+      "name": "Central beam and reticle visible",
+      "passed": true
+    },
+    {
+      "name": "Reticle has visible rendered geometry at screen centre",
+      "passed": true
+    },
+    {
+      "name": "Ray endpoint is centred",
+      "passed": true
+    },
+    {
+      "name": "Actual call-button meshes glow",
+      "passed": true
+    },
+    {
+      "name": "Glow uses the silhouette shader",
+      "passed": true
+    },
+    {
+      "name": "Escape pauses game time and audio",
+      "passed": true
+    },
+    {
+      "name": "Four menu buttons with title placeholder disabled",
+      "passed": true
+    },
+    {
+      "name": "Pause clears glow, beam and reticle",
+      "passed": true
+    },
+    {
+      "name": "Pause freezes scenario, walking and mouse-look",
+      "passed": true
+    },
+    {
+      "name": "Pause pointer reaches Resume",
+      "passed": true
+    },
+    {
+      "name": "Resume restores gameplay and centre mouse-look",
+      "passed": true
+    },
+    {
+      "name": "Window collision blocks walking through the wall",
+      "passed": true
+    },
+    {
+      "name": "World dialogue faces the player after walking",
+      "passed": true
+    },
+    {
+      "name": "World dialogue also faces the player from the other side",
+      "passed": true
+    },
+    {
+      "name": "HUD text materials draw above geometry",
+      "passed": true
+    },
+    {
+      "name": "Centre ray reaches friend silhouette",
+      "passed": true
+    },
+    {
+      "name": "Skinned friend receives matching silhouette glow",
+      "passed": true
+    },
+    {
+      "name": "VR action resolves only the left-hand stick",
+      "passed": true
+    },
+    {
+      "name": "VR movement path moves the capsule with left-stick input",
+      "passed": true
+    },
+    {
+      "name": "3F automatic door opens for an approaching player",
+      "passed": true
+    },
+    {
+      "name": "Pause pointer reaches Restart",
+      "passed": true
+    },
+    {
+      "name": "Pause restart resets scenario and floor",
+      "passed": true
+    },
+    {
+      "name": "Restart returns the moving player to the 3F start",
+      "passed": true
+    },
+    {
+      "name": "Escape also resumes the game",
+      "passed": true
+    },
+    {
+      "name": "Actual player frames advance",
+      "passed": true
+    }
+  ],
+  "error": null,
+  "frameStart": 3067,
+  "frameEnd": 3550,
+  "actualHMD": false,
+  "mode": "PC Play Mode with actual virtual mouse/keyboard events; virtual left/right XR stick action and capsule movement; no physical HMD",
+  "state": {
+    "step": "Lobby",
+    "phase": "Dialogue",
+    "PlayerHasBall": false,
+    "DestinationSelected": false,
+    "FirstJudgment": "",
+    "HelpRequested": false,
+    "LocationReported": false,
+    "UsedPhone": false,
+    "Reassured": false,
+    "ReadyToExit": false,
+    "HintLevel": 0,
+    "JumpCount": 0,
+    "Floor": 3,
+    "motorPlaying": false,
+    "friendHeight": 0.0,
+    "history": []
+  }
+}

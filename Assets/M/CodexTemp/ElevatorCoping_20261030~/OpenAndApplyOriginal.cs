@@ -1,0 +1,1 @@
+UnityEditor.SceneManagement.EditorSceneManager.OpenScene(ProjectWait.M.Editor.ElevatorCopingSetup.Original,UnityEditor.SceneManagement.OpenSceneMode.Single);ProjectWait.M.Editor.ElevatorCopingSetup.ApplyOriginal();return "Original expression islands isolated without removing skin.";

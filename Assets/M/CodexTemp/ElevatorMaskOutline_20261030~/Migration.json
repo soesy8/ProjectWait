@@ -1,0 +1,17 @@
+{
+  "renderer": "Assets/M/Arts/Rendering/ElevatorOutlineRenderer.asset",
+  "scenes": [
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+      "targets": 16,
+      "groupedParts": 29,
+      "removedMeshRenderers": 116
+    },
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+      "targets": 16,
+      "groupedParts": 29,
+      "removedMeshRenderers": 116
+    }
+  ]
+}

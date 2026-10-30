@@ -1,0 +1,27 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "Assets/M/CodexTemp/ElevatorCinematicFraming_20261030~/SaveAndOpen.cs",
+      "entry": "SaveFramingEF.Main",
+      "timeout_ms": "90000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 122,
+      "executeMs": 2477,
+      "assemblyName": "PipelineRunScript_SaveAndOpen_cdd875359ef54e1b8cc61ba6307219ed",
+      "success": true,
+      "result": "{\r\n  \"success\": true,\r\n  \"scenes\": [\r\n    {\r\n      \"path\": \"Assets/M/Scene/Elevator_Safety_Prototype.unity\",\r\n      \"mode\": false,\r\n      \"duration\": 0.6,\r\n      \"targets\": 16,\r\n      \"missingScripts\": 0\r\n    },\r\n    {\r\n      \"path\": \"Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity\",\r\n      \"mode\": true,\r\n      \"duration\": 0.6,\r\n      \"targets\": 16,\r\n      \"missingScripts\": 0\r\n    }\r\n  ]\r\n}"
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

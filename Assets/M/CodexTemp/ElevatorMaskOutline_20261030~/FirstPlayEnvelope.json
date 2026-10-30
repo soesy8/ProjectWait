@@ -1,0 +1,27 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "Assets/M/CodexTemp/ElevatorMaskOutline_20261030~/FirstPlay.cs",
+      "entry": "FirstPlayMO.Main",
+      "timeout_ms": "90000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 2176,
+      "executeMs": 1514,
+      "assemblyName": "PipelineRunScript_FirstPlay_16839723bd8e410ba6fbf50da994edc1",
+      "success": true,
+      "result": "{\r\n  \"frame\": 43,\r\n  \"featureFrame\": 42,\r\n  \"drawn\": 13,\r\n  \"targets\": [\r\n    {\r\n      \"name\": \"Cabin_Optional119Phone\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 2\r\n    },\r\n    {\r\n      \"name\": \"3F_Lobby_Up_Unavailable\",\r\n      \"Visible\": false,\r\n      \"Hovered\": false,\r\n      \"geometry\": 0\r\n    },\r\n    {\r\n      \"name\": \"1F_MainExit\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 8\r\n    },\r\n    {\r\n      \"name\": \"3F_Lobby_Call\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 1\r\n    },\r\n    {\r\n      \"name\": \"3F_Display_LastKnown3\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 1\r\n    },\r\n    {\r\n      \"name\": \"3F_Front_Floor01\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 1\r\n    },\r\n    {\r\n      \"name\": \"3F_Side_Floor01\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 1\r\n    },\r\n    {\r\n      \"name\": \"3F_SafetyPoster\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 1\r\n    },\r\n    {\r\n      \"name\": \"3F_FacilityDirectory_NoHighlight\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 1\r\n    },\r\n    {\r\n      \"name\": \"3F_LiftIdentity_HB-EL-01\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 1\r\n    },\r\n    {\r\n      \"name\": \"3F_Front_Emergency_2.15m\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 1\r\n    },\r\n    {\r\n      \"name\": \"3F_Side_Emergency_1.28m\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 1\r\n    },\r\n    {\r\n      \"name\": \"3F_Door_KeepClear\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 2\r\n    },\r\n    {\r\n      \"name\": \"FriendBasketball\",\r\n      \"Visible\": true,\r\n      \"Hovered\": false,\r\n      \"geometry\": 1\r\n    },\r\n    {\r\n      \"name\": \"Friend_Jump_Root\",\r\n      \"Visible\": true,\r\n      \"Hovered\": true,\r\n      \"geometry\": 5\r\n    }\r\n  ]\r\n}"
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

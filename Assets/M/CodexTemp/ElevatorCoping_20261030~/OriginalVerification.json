@@ -1,0 +1,255 @@
+{
+  "success": true,
+  "passed": 57,
+  "checks": [
+    {
+      "name": "Original scene is running",
+      "passed": true
+    },
+    {
+      "name": "Chosen branch begins no jump travel",
+      "passed": true
+    },
+    {
+      "name": "Jump count is branch specific",
+      "passed": true
+    },
+    {
+      "name": "Both branches reach equipment fault",
+      "passed": true
+    },
+    {
+      "name": "Situation is reported before identity lookup",
+      "passed": true
+    },
+    {
+      "name": "Completed coping enters faded wait",
+      "passed": true
+    },
+    {
+      "name": "Wait fade leads to staff arrival",
+      "passed": true
+    },
+    {
+      "name": "Branch completes staff-guided return",
+      "passed": true
+    },
+    {
+      "name": "Chosen branch begins friend jump",
+      "passed": true
+    },
+    {
+      "name": "Jump count is branch specific",
+      "passed": true
+    },
+    {
+      "name": "Both branches reach equipment fault",
+      "passed": true
+    },
+    {
+      "name": "Situation is reported before identity lookup",
+      "passed": true
+    },
+    {
+      "name": "Completed coping enters faded wait",
+      "passed": true
+    },
+    {
+      "name": "Wait fade leads to staff arrival",
+      "passed": true
+    },
+    {
+      "name": "Branch completes staff-guided return",
+      "passed": true
+    },
+    {
+      "name": "Every scene canvas is world space",
+      "passed": true
+    },
+    {
+      "name": "Screen HUD is removed from play",
+      "passed": true
+    },
+    {
+      "name": "Upper call button does not select the down call",
+      "passed": true
+    },
+    {
+      "name": "Upper call click cannot board",
+      "passed": true
+    },
+    {
+      "name": "Only the lower call-button geometry highlights",
+      "passed": true
+    },
+    {
+      "name": "Object hint appears beside lower call button",
+      "passed": true
+    },
+    {
+      "name": "Object hint position stays fixed when player moves",
+      "passed": true
+    },
+    {
+      "name": "Fixed hint faces the player",
+      "passed": true
+    },
+    {
+      "name": "Transparent stair wall blocks walking out",
+      "passed": true
+    },
+    {
+      "name": "Transparent terrace wall blocks leaving the floor",
+      "passed": true
+    },
+    {
+      "name": "Centre ray selects 3F_Lobby_Call",
+      "passed": true
+    },
+    {
+      "name": "Lower call has button press feedback",
+      "passed": true
+    },
+    {
+      "name": "Friend faces the actual boarding walking direction",
+      "passed": true
+    },
+    {
+      "name": "Friend leg gait advances with movement",
+      "passed": true
+    },
+    {
+      "name": "Boarding finishes normally",
+      "passed": true
+    },
+    {
+      "name": "Centre ray selects 3F_Side_Floor01",
+      "passed": true
+    },
+    {
+      "name": "Floor button selects destination and confirms press",
+      "passed": true
+    },
+    {
+      "name": "Pressed floor button returns to its rest position",
+      "passed": true
+    },
+    {
+      "name": "Original scene retains dialogue choices",
+      "passed": true
+    },
+    {
+      "name": "World dialogue text uses geometry-independent depth",
+      "passed": true
+    },
+    {
+      "name": "Visible world UI remains selectable through geometry",
+      "passed": true
+    },
+    {
+      "name": "Show-shot choice performs an actual friend jump",
+      "passed": true
+    },
+    {
+      "name": "Friend visibly rises during the jump",
+      "passed": true
+    },
+    {
+      "name": "Jump branch reaches fault",
+      "passed": true
+    },
+    {
+      "name": "Fault starts a decaying camera clunk shake",
+      "passed": true
+    },
+    {
+      "name": "Dizzy spiral expression appears after fault",
+      "passed": true
+    },
+    {
+      "name": "Original eye and mouth geometry is hidden during panic",
+      "passed": true
+    },
+    {
+      "name": "Panic face has no white eyes or mouth covers",
+      "passed": true
+    },
+    {
+      "name": "Panic expression uses plain black lines",
+      "passed": true
+    },
+    {
+      "name": "Centre ray selects 3F_Side_Emergency_1.28m",
+      "passed": true
+    },
+    {
+      "name": "Reachable side emergency button connects",
+      "passed": true
+    },
+    {
+      "name": "Situation reported through original choice",
+      "passed": true
+    },
+    {
+      "name": "Centre ray selects 3F_LiftIdentity_HB-EL-01",
+      "passed": true
+    },
+    {
+      "name": "Identity plate inspection works",
+      "passed": true
+    },
+    {
+      "name": "Advice leads to reassuring the friend",
+      "passed": true
+    },
+    {
+      "name": "Reassuring the friend begins faded waiting",
+      "passed": true
+    },
+    {
+      "name": "Normal expression returns after reassurance",
+      "passed": true
+    },
+    {
+      "name": "Faded waiting connects to rescue",
+      "passed": true
+    },
+    {
+      "name": "Original scenario completes at the 1F exit",
+      "passed": true
+    },
+    {
+      "name": "Player remains grounded at completion",
+      "passed": true
+    },
+    {
+      "name": "Pause menu also remains world space",
+      "passed": true
+    },
+    {
+      "name": "Live frames advanced throughout verification",
+      "passed": true
+    }
+  ],
+  "error": null,
+  "frameStart": 588,
+  "frameEnd": 1468,
+  "state": {
+    "step": "Lobby",
+    "phase": "Dialogue",
+    "PlayerHasBall": false,
+    "DestinationSelected": false,
+    "FirstJudgment": "",
+    "HelpRequested": false,
+    "LocationReported": false,
+    "UsedPhone": false,
+    "Reassured": false,
+    "ReadyToExit": false,
+    "HintLevel": 0,
+    "JumpCount": 0,
+    "Floor": 3,
+    "motorPlaying": false,
+    "friendHeight": 0.0,
+    "history": []
+  }
+}

@@ -99,20 +99,7 @@ namespace ProjectWait.M.Editor
             skin=AssetDatabase.LoadAssetAtPath<Material>(Materials+"RescuerSkin.mat");
             paper=AssetDatabase.LoadAssetAtPath<Material>(Materials+"Paper.mat");
             p.friendBall.localPosition=new Vector3(0,.71f,-.24f);p.playerBall.localScale=Vector3.one*.85f;
-            foreach(var observation in l.GetComponentsInChildren<ElevatorObservation>(true))
-            {
-                var line=observation.outline;
-                if(!line.useWorldSpace)continue;
-                var points=new Vector3[line.positionCount];line.GetPositions(points);
-                if(observation.clue==ElevatorClue.Friend || observation.clue==ElevatorClue.Door)
-                {
-                    var center=observation.clue==ElevatorClue.Friend ? l.friend.position+new Vector3(0,.74f,-.31f) : new Vector3(0,1.1f,1.437f);
-                    var d=observation.clue==ElevatorClue.Friend ? new Vector2(.36f,.76f) : new Vector2(.84f,1.1f);
-                    points=new[]{center+new Vector3(-d.x,-d.y,0),center+new Vector3(-d.x,d.y,0),center+new Vector3(d.x,d.y,0),center+new Vector3(d.x,-d.y,0)};
-                }
-                for(int i=0;i<points.Length;i++)points[i]=line.transform.InverseTransformPoint(points[i]);
-                line.useWorldSpace=false;line.SetPositions(points);line.enabled=false;
-            }
+
             var cabin=l.transform.Find("Cabin");
             foreach(var slot in cabin.GetComponentsInChildren<Transform>(true).Where(t=>t.name=="SpeakerSlot"))
             {

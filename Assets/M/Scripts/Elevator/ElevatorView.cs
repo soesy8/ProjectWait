@@ -46,7 +46,7 @@ namespace ProjectWait.M.Elevator
             if(!GetComponent<TrackedDeviceGraphicRaycaster>())gameObject.AddComponent<TrackedDeviceGraphicRaycaster>();
             var root=(RectTransform)transform;root.sizeDelta=new Vector2(1280,720);
             mission=Card("Chapter",root,new Vector2(420,78),Vector2.zero,Paper);
-            title=Label("StoryTitle",mission,new Vector2(376,26),new Vector2(0,21),15);title.color=Teal;title.text="그 슛은 밖에서 보여줘!";
+            title=Label("StoryTitle",mission,new Vector2(376,26),new Vector2(0,21),15);title.color=Teal;title.text="멈춰도 함께, 안전하게";
             subtitle=Label("Objective",mission,new Vector2(376,38),new Vector2(0,-11),23);
             progress=Label("TeamProgress",root,new Vector2(400,36),Vector2.zero,18);progress.alignment=TextAlignmentOptions.MidlineRight;
             progress.color=Ink;
@@ -69,7 +69,8 @@ namespace ProjectWait.M.Elevator
         public void PrepareCompactPresentation()
         {
             if(!speaker||!mission) return; // The migration rebuilds the obsolete UI exactly once in Edit Mode.
-            title.text="그 슛은 밖에서 보여줘!";
+            title.text="멈춰도 함께, 안전하게";
+            developerPanel.Find("Stage2").GetComponentInChildren<TMP_Text>().text="안전 판단";
             for(int i=0;i<7;i++){int n=i;Bind(developerPanel.Find("Stage"+i).GetComponent<Button>(),()=>lesson.DeveloperJump(n));}
             Bind(developerPanel.Find("NoResponse").GetComponent<Button>(),()=>{lesson.simulateNoResponse=!lesson.simulateNoResponse;Refresh();});
             ApplyCompactLayout();
@@ -158,17 +159,22 @@ namespace ProjectWait.M.Elevator
                 case ElevatorStep.Entering:objective="친구와 함께 탑승하기";line="친구와 함께 엘리베이터에 들어가요.";break;
                 case ElevatorStep.Exiting:objective="안내를 따라 나가기";line="안내를 따라 천천히 밖으로 나가요.";break;
                 case ElevatorStep.Lobby:
-                    objective="농구를 마치고, 친구 집으로";line=lesson.settings.lobbyDialogue;Add("1   친구와 엘리베이터 타기",lesson.Continue);break;
+                    objective="3층 운동을 마치고, 1층으로";line=lesson.settings.lobbyDialogue;Add("1   친구와 1호기 타기",lesson.Continue);break;
                 case ElevatorStep.Boarding:
-                    objective="친구의 공을 받아 주세요";line="공 좀 잠깐 맡아 줘!\n내가 어떻게 넣었는지 보여 줄게.";Add("1   공 받아 주기",lesson.Continue);break;
+                    if(!f.DestinationSelected){objective="낮은 측면 패널에서 1층 선택";who="나의 미션";line="목적지는 1층 주출입구예요.\n손잡이 위 측면 패널의 1층 버튼을 선택해요.";Add("1   측면 패널에서 1층 누르기",lesson.SelectFloor);}
+                    else{objective="공을 튀기지 않고 안고 있기";line=lesson.settings.handoffDialogue;Add("1   공 받아 안고 있기",lesson.Continue);}break;
                 case ElevatorStep.Proposal:
-                    objective="친구가 슛을 보여 줘요";line="내가 어떻게 넣었냐면…";break;
+                    objective="슛 이야기에 어떻게 답할까요?";line="아까 그 슛, 멋있었지?\n내가 어떻게 넣었는지 보여 줄까?";
+                    Add("1   밖에서 다시 해 보자",lesson.SafeProposal);Add("2   여기서 보여 줘",lesson.UnsafeProposal);
+                    if(f.Phase!=InteractionPhase.Investigation)Add("3   주변을 더 살펴본다",lesson.ObserveProposal);break;
+                case ElevatorStep.Travel:
+                    objective="1층으로 내려가는 중";line="좋아, 슛은 밖에서 하자.\n공을 안고 천천히 내려가자.";break;
                 case ElevatorStep.Jump:
                     objective="친구가 슛을 보여 줘요";line="이렇게 뛰어서!  멋졌지?";break;
                 case ElevatorStep.Stopped:
                     objective="도움을 요청할 장치 찾기";
                     if(f.Phase==InteractionPhase.Dialogue)line="어? 왜 멈췄지?";
-                    else{who="나의 미션";line=f.HintLevel==0?"주변을 둘러보고, 도움을 요청할\n장치를 선택해 보세요.":"문 오른쪽에 벨 표시와 스피커가 있는 장치가 있어요.";}
+                    else{who="나의 미션";line=f.HintLevel==0?"주변을 둘러보고, 도움을 요청할\n장치를 선택해 보세요.":"뒤쪽 측면 패널에 손이 닿는 비상벨이 있어요.\n난간이나 물건 위로 올라가지 않아요.";}
                     break;
                 case ElevatorStep.Connecting:
                     objective="비상통화 연결 중";who="비상통화";line="띠링… 관리실에 연결하고 있어요.\n스피커의 응답을 기다려 주세요.";break;
@@ -176,26 +182,34 @@ namespace ProjectWait.M.Elevator
                     objective="다른 방법으로 도움 요청";who="나의 미션";line="응답이 없어요. 휴대폰으로 119에 위치와 상황을 알려요.\n이 체험의 통화는 모의 상황이에요.";Add("1   휴대폰으로 119 모의 신고",lesson.Phone);break;
                 case ElevatorStep.Call:
                     who=f.UsedPhone?"119 · 모의 통화":"관리실 · 통화 중";
-                    if(!f.SituationReported){objective="무슨 일이 생겼는지 말하기";line="연결됐어요. 어떤 상황인가요?";Add("1   "+lesson.settings.reportDialogue,lesson.ReportSituation);}
-                    else if(!f.IdentityFound){objective="벽의 위치 표시 확인하기";line="벽에 건물명과 승강기 번호가 있나요?\n위치 표시를 찾아 선택해 주세요.";if(f.HintLevel>0)line="문 오른쪽 위의 ‘햇살아파트 · M-01’\n표시를 선택해 주세요.";}
-                    else if(!f.LocationReported){objective="찾은 위치를 알려 주세요";line="찾았다!  "+lesson.settings.building+" · "+lesson.settings.liftId;who="나의 발견";Add("1   "+lesson.settings.building+", "+lesson.settings.liftId+" 승강기예요.",lesson.Report);}
-                    else{objective="안내 듣기";line="위치를 확인했어요. 문에서 떨어져 기다려 주세요.\n도착하면 안전하게 나올 수 있도록 안내할게요.";Add("1   네, 친구와 기다릴게요.",lesson.Advice);}break;
+                    if(!f.SituationReported){objective="무슨 일이 생겼는지 말하기";line="연결됐어요. 어떤 상황인가요?";Add("다음",lesson.ReportSituation);}
+                    else if(!f.IdentityFound){objective="전면 비상벨 아래 식별판 확인";line="멈췄고 친구와 둘이 있다고 알려 줬군요.\n식별판에서 건물과 승강기 번호를 찾아 주세요.";if(f.HintLevel>0)line="높은 전면 비상벨 아래 식별판을 선택해 주세요.\n한빛 생활체육센터 · 본관 1호기 · HB-EL-01";}
+                    else if(!f.LocationReported){objective="찾은 위치를 알려 주세요";line="찾았다!  "+lesson.settings.building+" · "+lesson.settings.liftId;who="나의 발견";Add("다음",lesson.Report);}
+                    else{objective="상황을 보완하고 안내 듣기";line="위치를 확인했어요. 문에서 떨어져 기다려 주세요.\n직원이 안전하게 나올 수 있도록 안내할게요.";Add("다음",lesson.Advice);}break;
                 case ElevatorStep.Waiting:
                     objective="친구와 함께 기다리기";
-                    if(!f.Reassured){line="문이 열리나? 한 번 만져 볼까…?";Add("1   "+lesson.settings.waitDialogue,lesson.Reassure);}
+                    if(!f.Reassured){line="아직 가슴이 두근거리고 조금 무서워…\n내 옆에서 같이 기다려 줄래?";Add("1   "+lesson.settings.waitDialogue,lesson.Reassure);}
                     else{string[] replies={"고마워. 네가 옆에 있으니까 마음이 놓여.","맞아, 아까 그 슛! 나도 깜짝 놀랐다니까.","다음에는 같이 패스 연습하자. 밖에서!","우리 둘이 잘 해냈네. 같이 기다려 줘서 고마워."};line=replies[Mathf.Clamp(f.Encouragements,0,3)];if(f.Encouragements<3)Add(f.Encouragements==0?"1   아까 그 슛, 정말 멋졌어!":f.Encouragements==1?"1   다음엔 밖에서 같이 연습하자.":"1   응, 우리 같이 기다리자.",lesson.Encourage);}break;
+                case ElevatorStep.WaitingFade:objective="문에서 떨어져 함께 기다리기";who="친구";line="도움을 요청했으니 문을 건드리지 말고\n직원의 안내를 기다리자.";break;
                 case ElevatorStep.Retry:
-                    objective="문에서 한 걸음 떨어져요";who="잠깐, 안전하게";line="문은 직접 열지 않아요.\n비상통화로 도움을 요청하고 안내를 기다려요.";Add("1   알겠어, 다시 살펴보기",lesson.Retry);break;
+                    objective=f.ProposalRetry?"Wait! 슛은 밖에서 해요":"문에서 한 걸음 떨어져요";who="잠깐, 안전하게";line=f.ProposalRetry?"좁은 엘리베이터 안에서는 뛰거나 공을 던지지 않아요.\n친구가 움직이기 전에 잠깐 멈추고 다시 생각해요.":"문은 직접 열지 않아요.\n비상통화로 도움을 요청하고 안내를 기다려요.";Add("1   알겠어, 다시 생각하기",lesson.Retry);break;
                 case ElevatorStep.Rescue:
-                    objective="구조원의 안내를 들어요";who="구조원";line=f.ReadyToExit?"안전을 확인했어요. 이제 천천히 나와 주세요.":"잘 기다려 줬어요. 문을 열고 안전을 확인할게요.";if(f.ReadyToExit)Add("1   안내에 따라 천천히 나가기",lesson.Continue);break;
+                    objective="구조원의 안내를 들어요";who="구조원";line=f.ReadyToExit?"3층 승강장과 바닥 높이, 나갈 경로를 확인했어요.\n이제 안내에 따라 천천히 나와 주세요.":"잘 기다려 줬어요. 문 밖 바닥과 경로를 확인할게요.\n안내할 때까지 안에서 기다려 주세요.";if(f.ReadyToExit)Add("1   안내에 따라 천천히 나가기",lesson.Continue);break;
+                case ElevatorStep.ReturnLobby:
+                    objective="직원과 계단으로 1층 이동";who="직원";line="이 승강기는 점검이 필요해요.\n계단으로 1층까지 함께 내려가 드릴게요.";Add("1   직원의 안내를 받아 내려가기",lesson.Continue);break;
+                case ElevatorStep.Returning:objective="직원과 함께 1층으로";who="이동";line="안내를 받아 계단으로 내려가요.";break;
+                case ElevatorStep.GroundFloor:
+                    objective="1층 주출입구로 귀가";line="1층에 도착했어! 오늘 같이 기다려 줘서 고마워.\n이제 집에 가자.";Add("1   친구와 주출입구로 나가기",lesson.Continue);break;
+                case ElevatorStep.GoingHome:objective="친구와 집으로";line="공은 안고, 천천히 나가요.";break;
                 case ElevatorStep.Complete:
-                    objective="우리 둘이 해냈어!";who="친구";line="그 슛은 밖에서 보여 줄게!\n도움을 요청하고, 위치를 알리고, 함께 기다렸어요.";Add("1   우리가 해낸 일",ShowHistory);Add("2   한 번 더 해보기",lesson.Restart);break;
+                    objective="고장난 엘리베이터에서 안전하게 대처했어요";who="친구";line="도움을 요청하고, 위치를 알리고,\n문을 건드리지 않고 함께 기다렸어요.";Add("1   우리가 해낸 일",ShowHistory);Add("2   한 번 더 해보기",lesson.Restart);break;
             }
+            if(lesson.scenario){lesson.scenario.Describe(ref who,ref line);if(lesson.scenario.objectGuidedScene&&f.Step!=ElevatorStep.Call){actions.Clear();labels.Clear();}}
             subtitle.text=objective;normalLine=line;normalSpeaker=who;speaker.text=who;dialogueText.text=line;
             progress.text=(f.HelpRequested?"<color=#297A70>● 도움 요청</color>":"○ 도움 요청")+"   "+(f.LocationReported?"<color=#297A70>● 위치 전달</color>":"○ 위치 전달")+"   "+(f.Reassured?"<color=#297A70>● 함께 대기</color>":"○ 함께 대기");
             revealStarted=Time.unscaledTime;dialogueText.maxVisibleCharacters=Application.isPlaying?0:int.MaxValue;
             int revision=f.Revision,run=lesson.RunVersion;
-            for(int i=0;i<actions.Count;i++){var action=actions[i];var b=MakeButton("Choice"+i,actionPanel,new Vector2(790,56),Vector2.zero,labels[i],()=>{if(!lesson.CinematicBlocking&&lesson.Flow.Revision==revision&&lesson.RunVersion==run)action();});ChoiceButtons.Add(b);}
+            for(int i=0;i<actions.Count;i++){var action=actions[i];var b=MakeButton(f.Step==ElevatorStep.Call?"DialogueNext":"Choice"+i,actionPanel,new Vector2(790,56),Vector2.zero,labels[i],()=>{if(!lesson.CinematicBlocking&&lesson.Flow.Revision==revision&&lesson.RunVersion==run)action();});ChoiceButtons.Add(b);}
             actionPanel.gameObject.SetActive(actions.Count>0);
             if(spatial)spatial.Present(who,line,objective);
             ApplyCompactLayout();SetCinematicVisibility();InteractionRevision++;
@@ -211,7 +225,7 @@ namespace ProjectWait.M.Elevator
         void ShowHistory()
         {
             if(spatial){spatial.ShowHistory();return;}
-            string[] lines={"도움 요청 성공!  비상통화로 우리 상황을 알렸어요.","위치 전달 성공!  벽의 표시에서 건물명과 승강기 번호를 찾았어요.","함께 대기 성공!  문을 만지려던 친구를 안심시키고 안내를 기다렸어요."};
+            string[] lines={"도움 요청 성공!  비상통화로 우리 상황을 알렸어요.","위치 전달 성공!  벽의 표시에서 건물명과 승강기 번호를 찾았어요.","함께 대기 성공!  놀란 친구를 안심시키고 안내를 기다렸어요."};
             ShowThought(lines[historyPage%3]);speaker.text="우리가 해낸 일 · "+(historyPage%3+1)+" / 3";historyPage++;
         }
         public void RestoreThoughtLayout(){historyPage=0;observing=false;if(spatial)spatial.Restore();}

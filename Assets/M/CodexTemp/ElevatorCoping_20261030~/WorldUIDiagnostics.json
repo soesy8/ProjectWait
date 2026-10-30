@@ -1,0 +1,64 @@
+{
+  "view": "Elevator_World_Dialogue",
+  "parent": "scene root",
+  "isLessonChild": false,
+  "director": true,
+  "texts": [
+    {
+      "name": "Dialogue",
+      "shader": "TextMeshPro/Mobile/Distance Field",
+      "mat": "Noto Sans CJK KR - Medium Material",
+      "canvas": "Elevator_World_Dialogue",
+      "active": true
+    },
+    {
+      "name": "Speaker",
+      "shader": "TextMeshPro/Mobile/Distance Field",
+      "mat": "Noto Sans CJK KR - Medium Material",
+      "canvas": "Elevator_World_Dialogue",
+      "active": true
+    },
+    {
+      "name": "Label",
+      "shader": "TextMeshPro/Mobile/Distance Field",
+      "mat": "Noto Sans CJK KR - Medium Material",
+      "canvas": "Elevator_World_Dialogue",
+      "active": true
+    },
+    {
+      "name": "Label",
+      "shader": "TextMeshPro/Mobile/Distance Field",
+      "mat": "Noto Sans CJK KR - Medium Material",
+      "canvas": "Elevator_World_Dialogue",
+      "active": true
+    },
+    {
+      "name": "Label",
+      "shader": "TextMeshPro/Mobile/Distance Field",
+      "mat": "Noto Sans CJK KR - Medium Material",
+      "canvas": "Elevator_World_Dialogue",
+      "active": true
+    }
+  ],
+  "canvases": [
+    "CinematicLetterbox",
+    "Elevator_Screen_Thoughts",
+    "PageSurface",
+    "PageSurface",
+    "ElevatorPauseCanvas",
+    "Hint_Friend_Jump_Root",
+    "Hint_FriendBasketball",
+    "Hint_3F_Door_KeepClear",
+    "Hint_3F_Side_Emergency_1.28m",
+    "Hint_3F_Front_Emergency_2.15m",
+    "Hint_3F_LiftIdentity_HB-EL-01",
+    "Hint_3F_FacilityDirectory_NoHighlight",
+    "Hint_3F_SafetyPoster",
+    "Hint_3F_Side_Floor01",
+    "Hint_3F_Front_Floor01",
+    "Hint_3F_Display_LastKnown3",
+    "Hint_3F_Lobby_Call",
+    "Hint_1F_MainExit",
+    "Hint_Cabin_Optional119Phone"
+  ]
+}

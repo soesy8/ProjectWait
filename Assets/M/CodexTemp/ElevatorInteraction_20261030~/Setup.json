@@ -1,0 +1,8 @@
+{
+  "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+  "targets": 15,
+  "shadowDistance": 60.0,
+  "pipeline": "Assets/M/Arts/Rendering/ElevatorScenePipeline.asset",
+  "pc": "WASD / mouse / centre ray / Escape",
+  "vr": "Left-hand primary2DAxis; menu or right B pauses"
+}

@@ -1,0 +1,51 @@
+﻿{
+    "entries":  [
+                    {
+                        "seq":  21471,
+                        "timestampUtc":  "2026-10-30T00:59:07.4099687Z",
+                        "level":  "warn",
+                        "logType":  "Warning",
+                        "message":  "XR: Error setting active audio output driver. Falling back to default.",
+                        "stackTrace":  "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+                        "seeded":  false
+                    },
+                    {
+                        "seq":  21472,
+                        "timestampUtc":  "2026-10-30T00:59:07.4145442Z",
+                        "level":  "warn",
+                        "logType":  "Warning",
+                        "message":  "XR: Error setting active audio output driver. Falling back to default.",
+                        "stackTrace":  "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+                        "seeded":  false
+                    },
+                    {
+                        "seq":  21473,
+                        "timestampUtc":  "2026-10-30T00:59:07.6377436Z",
+                        "level":  "warn",
+                        "logType":  "Warning",
+                        "message":  "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+                        "stackTrace":  "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+                        "seeded":  false
+                    }
+                ],
+    "cursor":  21473,
+    "session":  "37f4f48aec3b4d19acf5900d52ea6646",
+    "returned":  3,
+    "dropped":  false,
+    "reset":  false,
+    "counts":  {
+                   "error":  0,
+                   "warn":  3,
+                   "log":  1
+               },
+    "groundTruth":  {
+                        "sampledUtc":  "2026-10-30T01:02:02.1352786Z",
+                        "ageMs":  144,
+                        "compilationFailed":  false,
+                        "compiling":  false,
+                        "consoleErrors":  0,
+                        "consoleWarnings":  3,
+                        "consoleLogs":  1,
+                        "seeded":  true
+                    }
+}

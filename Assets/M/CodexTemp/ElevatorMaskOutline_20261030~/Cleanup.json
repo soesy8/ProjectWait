@@ -1,0 +1,120 @@
+{
+  "success": true,
+  "scenes": [
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+      "targets": 16,
+      "parts": 29,
+      "legacyLinesRemoved": 8
+    },
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+      "targets": 16,
+      "parts": 29,
+      "legacyLinesRemoved": 8
+    }
+  ],
+  "moved": [
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_2_0.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_2_0.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_2_1.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_2_1.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_3_0.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_3_0.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_4_0.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_4_0.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_5_0.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_5_0.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_6_0.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_6_0.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_7_0.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_7_0.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_8_0.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_8_0.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_9_0.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_9_0.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_10_0.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_10_0.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_11_0.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_11_0.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_11_1.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_11_1.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_12_0.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_12_0.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_12_1.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_12_1.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_12_2.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_12_2.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_12_3.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_12_3.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_12_4.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_12_4.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_12_5.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_12_5.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_12_6.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_12_6.asset"
+    },
+    {
+      "path": "Assets/M/Arts/Models/ElevatorInteraction/Target_12_7.asset",
+      "destination": "Assets/M/Arts/Models/ElevatorMaskOutline/MaskGeometry_12_7.asset"
+    }
+  ],
+  "removed": [
+    "Assets/M/Arts/Shaders/ElevatorSkyHighlight.shader",
+    "Assets/M/Arts/Shaders/ElevatorSkyHighlightMask.shader",
+    "Assets/M/Arts/Materials/ElevatorInteraction/SkyGlowMask.mat",
+    "Assets/M/Arts/Materials/ElevatorInteraction/SkyGlow_0.mat",
+    "Assets/M/Arts/Materials/ElevatorInteraction/SkyGlow_1.mat",
+    "Assets/M/Arts/Materials/ElevatorInteraction/SkyGlow_2.mat",
+    "Assets/M/Arts/Models/ElevatorInteraction/Actor_0_0.asset",
+    "Assets/M/Arts/Models/ElevatorInteraction/Actor_0_1.asset",
+    "Assets/M/Arts/Models/ElevatorInteraction/Actor_0_2.asset",
+    "Assets/M/Arts/Models/ElevatorInteraction/Actor_0_3.asset",
+    "Assets/M/Arts/Models/ElevatorInteraction/Actor_0_4.asset",
+    "Assets/M/Arts/Models/ElevatorInteraction/Actor_1_0.asset",
+    "Assets/M/Arts/Models/ElevatorInteraction/Actor_14_0.asset",
+    "Assets/M/Arts/Models/ElevatorInteraction/Actor_14_1.asset",
+    "Assets/M/Arts/Models/ElevatorInteraction/Actor_90_0.asset",
+    "Assets/M/Arts/Models/ElevatorInteraction/Actor_90_1.asset",
+    "Assets/M/Arts/Models/ElevatorInteraction/Actor_91_0.asset",
+    "Assets/M/Arts/Models/ElevatorInteraction/Actor_91_1.asset",
+    "Assets/M/Scripts/Elevator/ElevatorShapeHighlight.cs"
+  ]
+}

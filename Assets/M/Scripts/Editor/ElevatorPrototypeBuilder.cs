@@ -179,13 +179,7 @@ namespace ProjectWait.M.Editor
         static void Observe(GameObject g,ElevatorClue clue,Vector3 size,Vector3 offset=default)
         {
             var interact=g.AddComponent<XRSimpleInteractable>();var target=g.AddComponent<ElevatorObservation>();target.clue=clue;target.lesson=lesson;
-            var edge=new GameObject("ObservationOutline").AddComponent<LineRenderer>();edge.transform.SetParent(g.transform,false);
-            // World-sized rectangle ignores the primitive's non-uniform scale.
-            edge.useWorldSpace=true;edge.loop=true;edge.positionCount=4;
-            Vector3 center=g.transform.position+offset;if(offset==Vector3.zero)center.z-=g.transform.lossyScale.z*.5f+.018f;
-            var d=size*.5f;edge.SetPositions(new[]{center+new Vector3(-d.x,-d.y,0),center+new Vector3(-d.x,d.y,0),center+new Vector3(d.x,d.y,0),center+new Vector3(d.x,-d.y,0)});
-            edge.widthMultiplier=.006f;edge.numCornerVertices=4;edge.numCapVertices=4;
-            edge.sharedMaterial=Mat("ObservationTeal",new Color(.16f,.48f,.44f),0);edge.sharedMaterial.SetFloat("_EmissionStrength",1);target.outline=edge;
+
         }
         static Bounds BoundsOf(GameObject g) {var rr=g.GetComponentsInChildren<Renderer>();var b=rr[0].bounds;foreach(var r in rr)b.Encapsulate(r.bounds);return b;}
         static AudioClip MakeAudio(string name,bool hum)

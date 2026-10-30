@@ -1,0 +1,101 @@
+{
+  "success": true,
+  "passed": 23,
+  "checks": [
+    {
+      "name": "Saved M scene reopened cleanly",
+      "passed": true
+    },
+    {
+      "name": "No missing scripts",
+      "passed": true
+    },
+    {
+      "name": "No missing materials or unsupported shaders",
+      "passed": true
+    },
+    {
+      "name": "No CodexTemp runtime dependencies",
+      "passed": true
+    },
+    {
+      "name": "Movement and collision enabled",
+      "passed": true
+    },
+    {
+      "name": "Only custom movement owns translation",
+      "passed": true
+    },
+    {
+      "name": "Reticle has CanvasRenderer",
+      "passed": true
+    },
+    {
+      "name": "HUD is screen overlay",
+      "passed": true
+    },
+    {
+      "name": "Four pause buttons saved",
+      "passed": true
+    },
+    {
+      "name": "Title is an unwired placeholder",
+      "passed": true
+    },
+    {
+      "name": "Pause initially hidden",
+      "passed": true
+    },
+    {
+      "name": "All active observations have mesh silhouettes",
+      "passed": true
+    },
+    {
+      "name": "Every silhouette uses a projected mask",
+      "passed": true
+    },
+    {
+      "name": "Old rectangles disabled",
+      "passed": true
+    },
+    {
+      "name": "Glow initially hidden",
+      "passed": true
+    },
+    {
+      "name": "Interaction shaders compile",
+      "passed": true
+    },
+    {
+      "name": "M-scoped shadow preset saved",
+      "passed": true
+    },
+    {
+      "name": "Global pipeline restored",
+      "passed": true
+    },
+    {
+      "name": "Normal time and audio restored",
+      "passed": true
+    },
+    {
+      "name": "Quit menu ended Play Mode",
+      "passed": true
+    },
+    {
+      "name": "Exterior courtyard is walkable",
+      "passed": true
+    },
+    {
+      "name": "3F and cabin references preserved",
+      "passed": true
+    },
+    {
+      "name": "3F automatic door references saved",
+      "passed": true
+    }
+  ],
+  "activeObservations": 13,
+  "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+  "completedUtc": "2026-10-30T02:49:12.4845242Z"
+}

@@ -3,14 +3,17 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 namespace ProjectWait.M.Elevator
 {
-    public enum ElevatorClue { Friend, Door, Display, Intercom, Notice, Identity, Ball, FloorButtons, Advertisement, LobbyCall }
+    public enum ElevatorClue { Friend, Door, Display, Intercom, Notice, Identity, Ball, FloorButtons, Advertisement, LobbyCall, FrontIntercom, FacilityGuide, GroundExit, FrontFloorButtons, LobbyCallUp, Phone, Rescuer }
 
     [RequireComponent(typeof(XRSimpleInteractable))]
     public sealed class ElevatorObservation : MonoBehaviour
     {
         public ElevatorLesson lesson;
         public ElevatorClue clue;
-        public LineRenderer outline;
+        public ElevatorOutlineTarget outlineTarget;
+        public ElevatorButtonFeedback feedback;
+        public bool hasDescription;
+        public bool IsHovered => hovered;
         bool hovered;
         int runVersion;
         XRSimpleInteractable interaction;
@@ -27,14 +30,11 @@ namespace ProjectWait.M.Elevator
             hovered = value;
             if(!value)lesson.ClearThought(clue);
         }
-        public void Activate() { lesson.Activate(clue); }
-        public void ResetHover() { hovered = false; if (outline) outline.enabled = false; }
+        public void Activate() { if(!lesson.CanInteract(clue))return; if(feedback&&(clue!=ElevatorClue.Intercom||lesson.Flow.Step==ElevatorStep.Stopped))feedback.Press(); lesson.Activate(clue); }
+        public void ResetHover() { hovered=false;if(outlineTarget)outlineTarget.SetVisible(false); }
         void LateUpdate()
         {
-            if (outline == null || lesson.Flow == null) return;
-            outline.enabled = hovered && lesson.CanInteract(clue);
-            outline.widthMultiplier = .005f;
-            // Only the pointed object is outlined. All targets use the same affordance.
+            if(outlineTarget)outlineTarget.SetPresentation(hasDescription&&lesson&&lesson.Flow!=null&&lesson.CanInteract(clue),hovered);
         }
         void OnDisable() { ResetHover(); }
     }

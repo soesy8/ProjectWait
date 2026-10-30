@@ -1,0 +1,19 @@
+{
+  "normal": 407493,
+  "actual": 378420,
+  "expected": 378420,
+  "hidden": [
+    10057,
+    11080,
+    67085,
+    67304,
+    67727,
+    67906,
+    67950,
+    70003,
+    72138,
+    72139
+  ],
+  "normalPath": "Assets/M/Arts/Models/Elevator/Optimized/CharacterPalette0.asset",
+  "panicPath": "Assets/M/Arts/Models/ElevatorInteraction/FriendPanicBase.asset"
+}

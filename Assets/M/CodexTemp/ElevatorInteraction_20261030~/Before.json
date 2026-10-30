@@ -1,0 +1,311 @@
+{
+  "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+  "playing": false,
+  "dirty": false,
+  "pipeline": {
+    "name": "Performance URP Config",
+    "path": "Assets/Settings/Project Configuration/Performance URP Config.asset",
+    "shadowDistance": 2.5,
+    "shadowCascadeCount": 1,
+    "renderers": [
+      {
+        "name": "Android Preset",
+        "features": []
+      }
+    ]
+  },
+  "camera": {
+    "fieldOfView": 68.0,
+    "nearClipPlane": 0.06,
+    "farClipPlane": 180.0,
+    "renderShadows": true,
+    "renderPostProcessing": true,
+    "position": "(-1.80, 9.03, -1.80)",
+    "children": [
+      {
+        "name": "Main Camera",
+        "active": true,
+        "components": [
+          "Transform",
+          "Camera",
+          "AudioListener",
+          "TrackedPoseDriver",
+          "UniversalAdditionalCameraData"
+        ]
+      },
+      {
+        "name": "TunnelingVignette",
+        "active": false,
+        "components": [
+          "Transform",
+          "MeshRenderer",
+          "MeshFilter",
+          "TunnelingVignetteController",
+          "SortingGroup"
+        ]
+      }
+    ]
+  },
+  "lights": [
+    {
+      "name": "Neutral interior fill",
+      "type": "Point",
+      "intensity": 18.0,
+      "shadows": "None",
+      "shadowStrength": 1.0,
+      "position": "(-1.80, 2.60, 4.90)"
+    },
+    {
+      "name": "Warm cabin light",
+      "type": "Directional",
+      "intensity": 1.6,
+      "shadows": "Soft",
+      "shadowStrength": 1.0,
+      "position": "(0.00, 0.00, 0.00)"
+    },
+    {
+      "name": "Neutral interior fill",
+      "type": "Point",
+      "intensity": 7.0,
+      "shadows": "None",
+      "shadowStrength": 1.0,
+      "position": "(0.00, 10.80, -0.30)"
+    },
+    {
+      "name": "Neutral interior fill",
+      "type": "Point",
+      "intensity": 18.0,
+      "shadows": "None",
+      "shadowStrength": 1.0,
+      "position": "(-1.80, 10.50, 4.90)"
+    },
+    {
+      "name": "Neutral interior fill",
+      "type": "Point",
+      "intensity": 7.0,
+      "shadows": "None",
+      "shadowStrength": 1.0,
+      "position": "(0.00, 11.00, -14.00)"
+    },
+    {
+      "name": "Neutral interior fill",
+      "type": "Point",
+      "intensity": 7.0,
+      "shadows": "None",
+      "shadowStrength": 1.0,
+      "position": "(0.00, 2.80, -0.30)"
+    }
+  ],
+  "controller": "{\"CharacterController\":{\"m_Material\":{\"instanceID\":0},\"m_IncludeLayers\":{\"serializedVersion\":\"2\",\"m_Bits\":0},\"m_ExcludeLayers\":{\"serializedVersion\":\"2\",\"m_Bits\":0},\"m_LayerOverridePriority\":0,\"m_ProvidesContacts\":false,\"m_Enabled\":false,\"serializedVersion\":\"3\",\"m_Height\":1.3614399433135987,\"m_Radius\":0.10000000149011612,\"m_SlopeLimit\":45.0,\"m_StepOffset\":0.5,\"m_SkinWidth\":0.07999999821186066,\"m_MinMoveDistance\":0.0010000000474974514,\"m_Center\":{\"x\":0.0,\"y\":0.7607200145721436,\"z\":0.0}}}",
+  "locomotion": [
+    {
+      "name": "TunnelingVignette",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.Comfort.TunnelingVignetteController",
+      "enabled": false,
+      "active": false
+    },
+    {
+      "name": "Locomotion",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.LocomotionMediator",
+      "enabled": false,
+      "active": true
+    },
+    {
+      "name": "Locomotion",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.XRBodyTransformer",
+      "enabled": false,
+      "active": true
+    },
+    {
+      "name": "Turn",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning.SnapTurnProvider",
+      "enabled": false,
+      "active": true
+    },
+    {
+      "name": "Turn",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning.ContinuousTurnProvider",
+      "enabled": false,
+      "active": true
+    },
+    {
+      "name": "Grab Move",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement.GrabMoveProvider",
+      "enabled": false,
+      "active": false
+    },
+    {
+      "name": "Grab Move",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement.GrabMoveProvider",
+      "enabled": false,
+      "active": false
+    },
+    {
+      "name": "Grab Move",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement.TwoHandedGrabMoveProvider",
+      "enabled": false,
+      "active": false
+    },
+    {
+      "name": "Teleportation",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation.TeleportationProvider",
+      "enabled": false,
+      "active": true
+    },
+    {
+      "name": "Climb",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.Climbing.ClimbProvider",
+      "enabled": false,
+      "active": true
+    },
+    {
+      "name": "Climb Teleport",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.Climbing.ClimbTeleportInteractor",
+      "enabled": false,
+      "active": true
+    },
+    {
+      "name": "Gravity",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.Gravity.GravityProvider",
+      "enabled": false,
+      "active": true
+    },
+    {
+      "name": "Jump",
+      "type": "UnityEngine.XR.Interaction.Toolkit.Locomotion.Jump.JumpProvider",
+      "enabled": false,
+      "active": true
+    }
+  ],
+  "canvases": [
+    {
+      "name": "Tooltip Canvas",
+      "mode": "WorldSpace",
+      "sortingOrder": 0,
+      "planeDistance": 100.0,
+      "materials": [
+        "UI/Default"
+      ]
+    },
+    {
+      "name": "Tooltip Canvas",
+      "mode": "WorldSpace",
+      "sortingOrder": 0,
+      "planeDistance": 100.0,
+      "materials": [
+        "UI/Default"
+      ]
+    },
+    {
+      "name": "Elevator_World_Dialogue",
+      "mode": "WorldSpace",
+      "sortingOrder": 20,
+      "planeDistance": 100.0,
+      "materials": [
+        "UI/Default"
+      ]
+    },
+    {
+      "name": "Canvas",
+      "mode": "WorldSpace",
+      "sortingOrder": 0,
+      "planeDistance": 100.0,
+      "materials": [
+        "Sprites/Default"
+      ]
+    },
+    {
+      "name": "Tooltip Canvas",
+      "mode": "WorldSpace",
+      "sortingOrder": 0,
+      "planeDistance": 100.0,
+      "materials": [
+        "UI/Default"
+      ]
+    },
+    {
+      "name": "Tooltip Canvas",
+      "mode": "WorldSpace",
+      "sortingOrder": 0,
+      "planeDistance": 100.0,
+      "materials": [
+        "UI/Default"
+      ]
+    },
+    {
+      "name": "Tooltip Canvas",
+      "mode": "WorldSpace",
+      "sortingOrder": 0,
+      "planeDistance": 100.0,
+      "materials": [
+        "UI/Default"
+      ]
+    },
+    {
+      "name": "Canvas",
+      "mode": "WorldSpace",
+      "sortingOrder": 0,
+      "planeDistance": 100.0,
+      "materials": [
+        "Sprites/Default"
+      ]
+    },
+    {
+      "name": "PageSurface",
+      "mode": "WorldSpace",
+      "sortingOrder": 24,
+      "planeDistance": 100.0,
+      "materials": [
+        "UI/Default"
+      ]
+    },
+    {
+      "name": "Elevator_Screen_Thoughts",
+      "mode": "ScreenSpaceCamera",
+      "sortingOrder": 35,
+      "planeDistance": 0.4,
+      "materials": [
+        "UI/Default",
+        "TextMeshPro/Mobile/Distance Field"
+      ]
+    },
+    {
+      "name": "PageSurface",
+      "mode": "WorldSpace",
+      "sortingOrder": 24,
+      "planeDistance": 100.0,
+      "materials": [
+        "UI/Default"
+      ]
+    },
+    {
+      "name": "CinematicLetterbox",
+      "mode": "WorldSpace",
+      "sortingOrder": 100,
+      "planeDistance": 100.0,
+      "materials": [
+        "ProjectWait/M/Cinematic Overlay",
+        "UI/Default"
+      ]
+    },
+    {
+      "name": "Tooltip Canvas",
+      "mode": "WorldSpace",
+      "sortingOrder": 0,
+      "planeDistance": 100.0,
+      "materials": [
+        "UI/Default"
+      ]
+    },
+    {
+      "name": "Tooltip Canvas",
+      "mode": "WorldSpace",
+      "sortingOrder": 0,
+      "planeDistance": 100.0,
+      "materials": [
+        "UI/Default"
+      ]
+    }
+  ],
+  "volumes": []
+}

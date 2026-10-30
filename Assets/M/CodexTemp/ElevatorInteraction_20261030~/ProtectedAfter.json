@@ -1,0 +1,17 @@
+﻿[
+    {
+        "Path":  "D:\\project\\ProjectWait\\ProjectSettings\\QualitySettings.asset",
+        "Unchanged":  true,
+        "Hash":  "3D8B7CA313429B168F54AB5495A2672CD7F64D12A946C1BD469C5FC6FF3E0414"
+    },
+    {
+        "Path":  "D:\\project\\ProjectWait\\ProjectSettings\\GraphicsSettings.asset",
+        "Unchanged":  true,
+        "Hash":  "9EBDEBF6B2071B3D2D78766000D1522C6BC6C83D008E0C1E436A088DDE652A96"
+    },
+    {
+        "Path":  "D:\\project\\ProjectWait\\Assets\\Settings\\Project Configuration\\Performance URP Config.asset",
+        "Unchanged":  true,
+        "Hash":  "169EA265757C9740F96DEF755FA19387C6DF5C985F79BB719DFA9FEA6CEC8B23"
+    }
+]

@@ -63,14 +63,14 @@ namespace ProjectWait.M.Elevator
             friendBall.localPosition=ballHome+Vector3.up*(Mathf.Sin(f.Elapsed*2.2f)*.007f);
             float open=f.Step==ElevatorStep.Rescue?Mathf.SmoothStep(0,1,(f.Elapsed-.35f)/1.8f):0;
             if(!space){leftDoor.localPosition=new Vector3(-.41f-open*.80f,1.10f,1.74f);rightDoor.localPosition=new Vector3(.41f+open*.80f,1.10f,1.74f);closedDoorCollider.enabled=f.Step!=ElevatorStep.Rescue;}
-            if(f.Step==ElevatorStep.Waiting&&!f.Reassured)value.friend.localPosition=Vector3.Lerp(home,home+new Vector3(.25f,0,.30f),Mathf.SmoothStep(0,1,f.Elapsed/2));
-            if(f.Step==ElevatorStep.Proposal)value.friend.localPosition=home+Vector3.down*(Mathf.Sin(f.Elapsed/.9f*Mathf.PI)*.06f);
+            // Waiting keeps the friend in place instead of moving toward the door.
+            if(f.Step==ElevatorStep.Proposal&&!(space&&space.sportsCentre))value.friend.localPosition=home+Vector3.down*(Mathf.Sin(f.Elapsed/.9f*Mathf.PI)*.06f);
             if(f.Step!=ElevatorStep.Jump&&f.Step!=ElevatorStep.Proposal)value.friend.localPosition+=Vector3.up*(Mathf.Sin(f.Elapsed*2.5f)*.006f);
             if(space)space.Apply();
             var held=value.playerCamera.transform.TransformPoint(value.playerCamera.aspect>=1.6f?new Vector3(-.62f,-.47f,.95f):new Vector3(-.68f,-.60f,.95f));
             float handoff=f.Step==ElevatorStep.Proposal?Mathf.SmoothStep(0,1,f.Elapsed/.7f):1;
             playerBall.SetPositionAndRotation(Vector3.Lerp(friendBall.position,held,handoff),value.playerCamera.transform.rotation*Quaternion.Euler(0,0,25*handoff));
-            if(friendShadow){friendShadow.position=new Vector3(value.friend.position.x,.012f,value.friend.position.z);friendShadow.localScale=new Vector3(.58f,.008f,.34f)*(1-Mathf.Max(0,value.friend.position.y)*.6f);}
+            if(friendShadow&&!(space&&space.sportsCentre)){friendShadow.position=new Vector3(value.friend.position.x,.012f,value.friend.position.z);friendShadow.localScale=new Vector3(.58f,.008f,.34f)*(1-Mathf.Max(0,value.friend.position.y)*.6f);}
             if(intercomButton)intercomButton.localScale=lampScale*(f.Step==ElevatorStep.Connecting?1+Mathf.Sin(f.Elapsed*7)*.04f:1);
             if(reactionMarks)
             {
@@ -91,10 +91,11 @@ namespace ProjectWait.M.Elevator
         }
         void LateUpdate()
         {
+            if(lesson.IsPaused)return;
             if(lesson.Flow==null||rest==null)return;
             for(int i=0;i<joints.Length;i++)if(joints[i])joints[i].localRotation=rest[i];
             var f=lesson.Flow;var p=lesson.friend.position;
-            bool shooting=f.Step==ElevatorStep.Proposal||f.Step==ElevatorStep.Jump,holding=!f.PlayerHasBall,reaching=f.Step==ElevatorStep.Waiting&&!f.Reassured;
+            bool shooting=f.Step==ElevatorStep.Jump,holding=!f.PlayerHasBall,anxious=f.Step==ElevatorStep.Waiting&&!f.Reassured;
             float lift=f.Step==ElevatorStep.Jump?Mathf.SmoothStep(0,1,(f.Elapsed-lesson.settings.friendReplySeconds+.25f)/.4f):0;
             if(shooting)
             {
@@ -113,7 +114,13 @@ namespace ProjectWait.M.Elevator
                 PoseArm(rightArm,rightForearm,rightHand,p+lesson.friend.rotation*new Vector3(-.25f,.69f,-.12f),p+lesson.friend.rotation*new Vector3(-.13f,.71f,-.22f));
                 if(head)head.localRotation*=Quaternion.Euler(0,Mathf.Sin(f.Elapsed*1.3f)*3,Mathf.Sin(f.Elapsed*1.8f)*3);
             }
-            else if(reaching)PoseArm(leftArm,leftForearm,leftHand,p+lesson.friend.rotation*new Vector3(.28f,.84f,.12f),p+lesson.friend.rotation*new Vector3(.40f,.94f,.36f));
+            else if(anxious)
+            {
+                // Hold both hands close and breathe, without reaching for the door.
+                PoseArm(leftArm,leftForearm,leftHand,p+lesson.friend.rotation*new Vector3(.25f,.70f,-.04f),p+lesson.friend.rotation*new Vector3(.10f,.81f,-.18f));
+                PoseArm(rightArm,rightForearm,rightHand,p+lesson.friend.rotation*new Vector3(-.25f,.70f,-.04f),p+lesson.friend.rotation*new Vector3(-.10f,.81f,-.18f));
+                if(head)head.localRotation*=Quaternion.Euler(Mathf.Sin(f.Elapsed*2f)*1.5f,0,-3);
+            }
             else if(f.Step==ElevatorStep.Stopped||f.Step==ElevatorStep.Connecting)
             {
                 PoseArm(leftArm,leftForearm,leftHand,p+lesson.friend.rotation*new Vector3(.30f,.76f,-.10f),p+lesson.friend.rotation*new Vector3(.32f,.90f,-.15f));
@@ -124,7 +131,7 @@ namespace ProjectWait.M.Elevator
                 PoseArm(leftArm,leftForearm,leftHand,p+lesson.friend.rotation*new Vector3(.30f,.79f,-.09f),p+lesson.friend.rotation*new Vector3(.36f,.95f+Mathf.Sin(f.Elapsed*3)*.025f,-.15f));
                 if(head)head.localRotation*=Quaternion.Euler(Mathf.Sin(f.Elapsed*3)*3,0,3);
             }
-            if(f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting)
+            if(!lesson.GetComponent<ElevatorCharacterPerformance>()&&(f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting))
             {
                 float walk=Mathf.Sin(f.Elapsed*7)*16;
                 if(leftThigh)leftThigh.localRotation*=Quaternion.Euler(0,0,walk);if(rightThigh)rightThigh.localRotation*=Quaternion.Euler(0,0,-walk);

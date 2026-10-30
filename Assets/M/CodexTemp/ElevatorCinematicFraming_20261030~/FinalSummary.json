@@ -1,0 +1,61 @@
+{
+  "success": true,
+  "originalChecks": 46,
+  "testChecks": 42,
+  "sceneSave": {
+    "success": true,
+    "scenes": [
+      {
+        "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+        "mode": false,
+        "duration": 0.6,
+        "targets": 16,
+        "missingScripts": 0
+      },
+      {
+        "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+        "mode": true,
+        "duration": 0.6,
+        "targets": 16,
+        "missingScripts": 0
+      }
+    ]
+  },
+  "outlineGuard": [
+    {
+      "scene": "Elevator_Safety_Prototype.unity",
+      "count": 16,
+      "outlineDataUnchanged": true
+    },
+    {
+      "scene": "Elevator_Safety_ObjectInteraction_Test.unity",
+      "count": 16,
+      "outlineDataUnchanged": true
+    }
+  ],
+  "protectedUnchanged": true,
+  "console": {
+    "sampledUtc": "2026-10-30T09:24:59.5903317Z",
+    "ageMs": 108,
+    "compilationFailed": false,
+    "compiling": false,
+    "consoleErrors": 0,
+    "consoleWarnings": 1,
+    "consoleLogs": 1,
+    "seeded": true
+  },
+  "verified": [
+    "PC 1920x1080",
+    "4:3 camera aspect",
+    "smooth movement from nearby and corner positions",
+    "speech and choice visibility",
+    "identity-report viewpoint",
+    "pointer Next buttons",
+    "pause/resume",
+    "waiting fade to rescue"
+  ],
+  "notVerified": [
+    "physical HMD",
+    "device build"
+  ]
+}

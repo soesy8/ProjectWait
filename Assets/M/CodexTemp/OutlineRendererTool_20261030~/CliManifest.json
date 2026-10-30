@@ -1,0 +1,92 @@
+﻿{
+    "version":  "1.0.0-beta.15",
+    "binaries":  {
+                     "darwin-arm64":  {
+                                          "filename":  "unity-darwin-arm64",
+                                          "sha256":  "1e9e09d429062338dc6a56290075829e731763a9b3a3b6c963f3be0c12b248f4",
+                                          "size":  34225072,
+                                          "brotli":  {
+                                                         "filename":  "unity-darwin-arm64.br",
+                                                         "sha256":  "6974823b04edac7e2e0ecf58c5c74cfdbadbe9e13994a573d42cfd6314601a0a",
+                                                         "size":  10835031
+                                                     }
+                                      },
+                     "darwin-x64":  {
+                                        "filename":  "unity-darwin-x64",
+                                        "sha256":  "865ed9de4dd13a4bcb331a343770dee66c8babefb6e1ad98f1256c5296ad1674",
+                                        "size":  36210368,
+                                        "brotli":  {
+                                                       "filename":  "unity-darwin-x64.br",
+                                                       "sha256":  "b909743c40194c57202aeee2576485bd422eb951dbb951a9bb20acf9a82a480f",
+                                                       "size":  12184374
+                                                   }
+                                    },
+                     "linux-arm64":  {
+                                         "filename":  "unity-linux-arm64",
+                                         "sha256":  "919178bee9ba827f4f52b0fc5e713fcae663abf23512db73488dbcdb2342295f",
+                                         "size":  34513336,
+                                         "brotli":  {
+                                                        "filename":  "unity-linux-arm64.br",
+                                                        "sha256":  "bc9162cc4d0d032daa8958b129d355a03b3f9229de03a9ddc55265064f3b1cc9",
+                                                        "size":  10984257
+                                                    }
+                                     },
+                     "linux-arm64-appimage":  {
+                                                  "filename":  "unity-linux-arm64.AppImage",
+                                                  "sha256":  "281518f565c46772acca7a2f8c0e591d62b8fc9f6ee029f75b30f1b484cc4a1c",
+                                                  "size":  16058888
+                                              },
+                     "linux-x64":  {
+                                       "filename":  "unity-linux-x64",
+                                       "sha256":  "cf3ddef260bba536332348bd5570fb80d90a8092784a893b30971f8ebf2a489e",
+                                       "size":  39636832,
+                                       "brotli":  {
+                                                      "filename":  "unity-linux-x64.br",
+                                                      "sha256":  "e3c223374acac7289c32245a008b249e64463d6f11e81cfaac5819d7be1270f1",
+                                                      "size":  12548547
+                                                  }
+                                   },
+                     "linux-x64-appimage":  {
+                                                "filename":  "unity-linux-x64.AppImage",
+                                                "sha256":  "57119069cbb726885c7e617d6e9f6d4f4d96d18b5f5321b3510949afbe81b57f",
+                                                "size":  17795576
+                                            },
+                     "win32-arm64":  {
+                                         "filename":  "unity-windows-arm64.exe",
+                                         "sha256":  "d871f7b6d84c9e414eb16a52258c4730a75ca215166249a3eb3e0cb1574b13da",
+                                         "size":  36733360,
+                                         "brotli":  {
+                                                        "filename":  "unity-windows-arm64.exe.br",
+                                                        "sha256":  "ac3bda527457139252994f26da0203f3a7fe3082d682dec4a8b1bb9d7a971876",
+                                                        "size":  11137572
+                                                    }
+                                     },
+                     "win32-x64":  {
+                                       "filename":  "unity-windows-x64.exe",
+                                       "sha256":  "d0b19648ec313017958649abf524b8779fb0aadcdeb65ff7bb54a96bb1c1f0bb",
+                                       "size":  42174888,
+                                       "brotli":  {
+                                                      "filename":  "unity-windows-x64.exe.br",
+                                                      "sha256":  "9e5a8a1adf14bec59d7359884294935c5155c15fbbc1318ba3070957322a0054",
+                                                      "size":  12383574
+                                                  }
+                                   }
+                 },
+    "packageManagers":  {
+                            "apt":  {
+                                        "package":  "unity-cli"
+                                    },
+                            "rpm":  {
+                                        "package":  "unity-cli"
+                                    },
+                            "homebrew":  {
+                                             "package":  "unity-cli"
+                                         },
+                            "npm":  {
+                                        "package":  "@unity/cli"
+                                    },
+                            "winget":  {
+                                           "package":  "Unity.CLI"
+                                       }
+                        }
+}

@@ -1,0 +1,39 @@
+{
+  "completed": true,
+  "original": {
+    "report": "OriginalVerification.json",
+    "passed": 94
+  },
+  "guided": {
+    "report": "GuidedVerification.json",
+    "passed": 100
+  },
+  "savedScenes": {
+    "report": "SavedSceneValidation.json",
+    "passed": 47
+  },
+  "scenes": [
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+      "guid": "c043886542fe3bb44a4b7c9cd44999ee",
+      "hints": 15,
+      "boundaries": 11,
+      "props": 22,
+      "fixedEntranceMeshes": 17
+    },
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+      "guid": "15150070df9075f469705970ed12661a",
+      "hints": 15,
+      "boundaries": 11,
+      "props": 22,
+      "fixedEntranceMeshes": 17
+    }
+  ],
+  "verified": "Live PC mouse input, capsule movement, hover timing, pause, Next-button dialogue, rescue, no-response fallback, saved references",
+  "unverified": [
+    "Physical HMD",
+    "Device build"
+  ],
+  "scope": "Assets/M only; pre-existing XR settings modification preserved"
+}

@@ -1,0 +1,1 @@
+using UnityEngine;using UnityEditor;using ProjectWait.M.Elevator;public static class QuitInteractionQA {public static string Main(){var p=Object.FindFirstObjectByType<ElevatorPauseMenu>();p.Pause();p.quitButton.onClick.Invoke();SessionState.SetBool("M_Elevator_Quit_QA",p.QuitRequested);return "Quit button invoked; requested="+p.QuitRequested;}}

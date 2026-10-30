@@ -1,0 +1,11 @@
+{
+  "source": "D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\ElevatorSports3F_20261030~\\엘베_맵_체육센터_3층.blend",
+  "sourceSha256": "edf4f0187485b3aa5ce09ec472323225d407a4c02a5ec088e2582485c82a7ce6",
+  "sourceParts": 2029,
+  "chunks": 195,
+  "vertices": 529301,
+  "triangles": 390732,
+  "floorHeight": 3.96,
+  "thirdFloor": 7.92,
+  "modelPrefab": "Assets/M/Prefabs/SportsCentre3F/SportsCentreMap.prefab"
+}
