@@ -1,0 +1,61 @@
+{
+  "part": "corridor",
+  "success": true,
+  "checks": [
+    {
+      "name": "Player frames advance",
+      "passed": true,
+      "detail": {
+        "startFrame": 555,
+        "endFrame": 575
+      }
+    },
+    {
+      "name": "Screenshot 14 saved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Screenshot 15 saved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Unsafe corridor route shows retry",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Screenshot 16 saved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Retry returns to choices",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Safe corridor route reaches reward",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Screenshot 17 saved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "One stamp awarded",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Stamp is not duplicated",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "errors": [],
+  "error": null
+}

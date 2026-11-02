@@ -52,7 +52,7 @@ namespace ProjectWait.M.Editor
             spatial.mission.GetComponent<CorridorBubbleGraphic>().extrusion=5;
             view.title.fontSize=13;view.subtitle.fontSize=21;
             view.thoughtPanel=Card("PlayerThought",hudRect,new Vector2(480,120),Vector2.zero,Paper);
-            var thoughtGraphic=view.thoughtPanel.GetComponent<CorridorBubbleGraphic>();thoughtGraphic.extrusion=7;thoughtGraphic.bevelWidth=4;thoughtGraphic.borderWidth=2;thoughtGraphic.cornerRadius=22;
+            var thoughtGraphic=view.thoughtPanel.GetComponent<CorridorBubbleGraphic>();thoughtGraphic.thoughtCloud=true;thoughtGraphic.extrusion=7;thoughtGraphic.bevelWidth=4;thoughtGraphic.borderWidth=2;thoughtGraphic.cornerRadius=22;
             spatial.thoughtHeading=Text("ThoughtHeading",view.thoughtPanel,new Vector2(428,26),Vector2.zero,"나의 생각 · 힌트",16,Teal);
             view.thought=Text("Thought",view.thoughtPanel,new Vector2(428,66),new Vector2(0,-16),"",24,Ink);
             view.thoughtPanel.gameObject.SetActive(false);

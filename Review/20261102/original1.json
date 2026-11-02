@@ -1,0 +1,61 @@
+{
+  "part": "original1",
+  "success": true,
+  "checks": [
+    {
+      "name": "Player frames advance",
+      "passed": true,
+      "detail": {
+        "startFrame": 912,
+        "endFrame": 932
+      }
+    },
+    {
+      "name": "Screenshot 1 saved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reached Boarding",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Screenshot 2 saved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "1F destination selected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reached Proposal",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Screenshot 3 saved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reached Stopped",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Fault enters investigation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Screenshot 4 saved",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "errors": [],
+  "error": null
+}

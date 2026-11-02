@@ -1,0 +1,51 @@
+{
+  "part": "guidedresume",
+  "success": true,
+  "checks": [
+    {
+      "name": "Player frames advance",
+      "passed": true,
+      "detail": {
+        "startFrame": 7324,
+        "endFrame": 7344
+      }
+    },
+    {
+      "name": "Fault camera transition releases input",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reached Unanswered",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Screenshot 12 saved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reached Call",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "119 simulation used",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Pause freezes narrative while frames advance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Screenshot 13 saved",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "errors": [],
+  "error": null
+}

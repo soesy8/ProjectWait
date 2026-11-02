@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 33}
-  m_SizeDelta: {x: 428, y: 24}
+  m_AnchoredPosition: {x: 0, y: 46.755}
+  m_SizeDelta: {x: 273.6, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7738709547323913334
 CanvasRenderer:
@@ -99,8 +99,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 4096
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -171,11 +171,11 @@ RectTransform:
   - {fileID: 4010641001558567983}
   m_Father: {fileID: 8460086447544850169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 28, y: 52}
-  m_SizeDelta: {x: 480, y: 112}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0.55}
+  m_AnchorMax: {x: 1, y: 0.55}
+  m_AnchoredPosition: {x: -32, y: 0}
+  m_SizeDelta: {x: 380, y: 200}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &1227803429124965618
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  thoughtCloud: 0
+  thoughtCloud: 1
   speechTail: 0
   borderColor: {r: 0.28, g: 0.19, b: 0.14, a: 1}
   borderWidth: 2
@@ -270,7 +270,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -333,7 +333,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -16}
-  m_SizeDelta: {x: 428, y: 62}
+  m_SizeDelta: {x: 273.6, y: 69.51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &631651627758860595
 CanvasRenderer:
@@ -372,7 +372,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4280561735
   m_fontColor: {r: 0.28, g: 0.19, b: 0.14, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3

@@ -1,0 +1,132 @@
+{
+  "date": "2026-11-02T11:40:18.0521821+09:00",
+  "scenes": [
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+      "gameObjects": 1379,
+      "missingScripts": [],
+      "missingGuids": [
+        "364a613a8d65a38469900c9133e5e4d1",
+        "d0aadb92d3d05c14b8125b75d8c3e487",
+        "5c6ccbe197b55e8488026ad8ba0e9e76",
+        "cf1def1317ea06e4ca9ae70ca079cf15"
+      ],
+      "emptyMaterials": [],
+      "cameras": [
+        {
+          "name": "Main Camera",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+      "gameObjects": 1379,
+      "missingScripts": [],
+      "missingGuids": [
+        "364a613a8d65a38469900c9133e5e4d1",
+        "d0aadb92d3d05c14b8125b75d8c3e487",
+        "5c6ccbe197b55e8488026ad8ba0e9e76",
+        "cf1def1317ea06e4ca9ae70ca079cf15"
+      ],
+      "emptyMaterials": [],
+      "cameras": [
+        {
+          "name": "Main Camera",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "path": "Assets/Test/Scenes/WetCorridor_Test.unity",
+      "gameObjects": 915,
+      "missingScripts": [],
+      "missingGuids": [
+        "364a613a8d65a38469900c9133e5e4d1",
+        "cf1def1317ea06e4ca9ae70ca079cf15",
+        "d0aadb92d3d05c14b8125b75d8c3e487",
+        "5c6ccbe197b55e8488026ad8ba0e9e76"
+      ],
+      "emptyMaterials": [],
+      "cameras": [
+        {
+          "name": "Main Camera",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "path": "Assets/Test/Scenes/WetCorridor_Friend_Test.unity",
+      "gameObjects": 936,
+      "missingScripts": [],
+      "missingGuids": [
+        "364a613a8d65a38469900c9133e5e4d1",
+        "cf1def1317ea06e4ca9ae70ca079cf15",
+        "d0aadb92d3d05c14b8125b75d8c3e487",
+        "5c6ccbe197b55e8488026ad8ba0e9e76"
+      ],
+      "emptyMaterials": [],
+      "cameras": [
+        {
+          "name": "Main Camera",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "path": "Assets/Test/Scenes/Friend_Animation_Test.unity",
+      "gameObjects": 953,
+      "missingScripts": [],
+      "missingGuids": [
+        "364a613a8d65a38469900c9133e5e4d1",
+        "cf1def1317ea06e4ca9ae70ca079cf15",
+        "d0aadb92d3d05c14b8125b75d8c3e487",
+        "5c6ccbe197b55e8488026ad8ba0e9e76"
+      ],
+      "emptyMaterials": [],
+      "cameras": [
+        {
+          "name": "Main Camera",
+          "enabled": false
+        },
+        {
+          "name": "Friend_Preview_Camera",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "path": "Assets/Scenes/New Scene.unity",
+      "gameObjects": 2,
+      "missingScripts": [],
+      "missingGuids": [],
+      "emptyMaterials": [],
+      "cameras": [
+        {
+          "name": "Main Camera",
+          "enabled": true
+        }
+      ]
+    }
+  ],
+  "buildScenes": [
+    {
+      "path": "Assets/Scenes/SampleScene.unity",
+      "enabled": true,
+      "exists": false
+    }
+  ],
+  "shaders": [
+    {
+      "name": "ProjectWait/Storybook Toon",
+      "exists": true,
+      "hasError": false
+    },
+    {
+      "name": "ProjectWait/Illustrated Water",
+      "exists": true,
+      "hasError": false
+    }
+  ],
+  "limits": "Unity Editor desktop play review. No physical XR hardware or player build verification."
+}

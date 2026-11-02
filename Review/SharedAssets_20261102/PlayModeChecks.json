@@ -1,0 +1,82 @@
+{
+  "checks": [
+    {
+      "name": "Play Mode is advancing",
+      "passed": true
+    },
+    {
+      "name": "Connected roots automatically collect three child meshes without colliders",
+      "passed": true
+    },
+    {
+      "name": "Render Graph actually renders all three shared highlights",
+      "passed": true
+    },
+    {
+      "name": "Null, duplicate and overlapping roots do not duplicate renderers",
+      "passed": true
+    },
+    {
+      "name": "Pointer raycast hits Choice1",
+      "passed": true
+    },
+    {
+      "name": "Pointer click is handled: Choice1",
+      "passed": true
+    },
+    {
+      "name": "UI event hides all highlights",
+      "passed": true
+    },
+    {
+      "name": "Pointer raycast hits Choice0",
+      "passed": true
+    },
+    {
+      "name": "Pointer click is handled: Choice0",
+      "passed": true
+    },
+    {
+      "name": "UI event shows all highlights",
+      "passed": true
+    },
+    {
+      "name": "Pointer raycast hits DialogueNext",
+      "passed": true
+    },
+    {
+      "name": "Pointer click is handled: DialogueNext",
+      "passed": true
+    },
+    {
+      "name": "UI event switches to the blue highlight state",
+      "passed": true
+    },
+    {
+      "name": "Pointer raycast hits Choice2",
+      "passed": true
+    },
+    {
+      "name": "Pointer click is handled: Choice2",
+      "passed": true
+    },
+    {
+      "name": "UI event flashes the shared targets",
+      "passed": true
+    },
+    {
+      "name": "Disabling the shared component removes its targets from the renderer registry",
+      "passed": true
+    },
+    {
+      "name": "Re-enabling reconstructs the connected targets",
+      "passed": true
+    },
+    {
+      "name": "Exactly one EventSystem",
+      "passed": true
+    }
+  ],
+  "count": 19,
+  "passed": true
+}

@@ -1,0 +1,26 @@
+{
+  "scenes": [
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+      "missingScripts": 0,
+      "imageCount": 12
+    },
+    {
+      "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+      "missingScripts": 0,
+      "imageCount": 12
+    }
+  ],
+  "prefabs": [
+    "Assets/M/UI/Storybook/Prefabs/DialogueCard.prefab",
+    "Assets/M/UI/Storybook/Prefabs/IntercomDialogueCard.prefab",
+    "Assets/M/UI/Storybook/Prefabs/ThoughtCloud.prefab",
+    "Assets/M/UI/Storybook/Prefabs/ObservationCard.prefab",
+    "Assets/M/UI/Storybook/Prefabs/ChoiceCard.prefab",
+    "Assets/M/UI/Storybook/Prefabs/MissionCard.prefab",
+    "Assets/M/UI/Storybook/Prefabs/CompletionCard.prefab",
+    "Assets/M/UI/Storybook/Prefabs/PausePanel.prefab",
+    "Assets/M/UI/Storybook/Prefabs/NextButton.prefab"
+  ],
+  "sprites": 9
+}

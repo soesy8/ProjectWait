@@ -1,0 +1,41 @@
+{
+  "part": "guidedfinish",
+  "success": false,
+  "checks": [
+    {
+      "name": "Player frames advance",
+      "passed": true,
+      "detail": {
+        "startFrame": 8847,
+        "endFrame": 8866
+      }
+    },
+    {
+      "name": "Guided call reports situation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reached Waiting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reached Rescue",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Guided rescuer verifies exit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reached ReturnLobby",
+      "passed": false,
+      "detail": null
+    }
+  ],
+  "errors": [],
+  "error": "System.Exception: Timed out: Reached ReturnLobby\r\n  at ProjectRuntimeReview.Wait (System.Func`1[TResult] condition, System.String label, System.Int32 seconds) [0x000d5] in D:\\mbcAcademy\\ProjectDwtD\\Review\\20261102\\ReviewRuntime.cs:25 \r\n  at ProjectRuntimeReview.Step (ProjectWait.M.Elevator.ElevatorStep step, System.Int32 seconds) [0x0006f] in D:\\mbcAcademy\\ProjectDwtD\\Review\\20261102\\ReviewRuntime.cs:44 \r\n  at ProjectRuntimeReview.Main (System.String part) [0x026c4] in D:\\mbcAcademy\\ProjectDwtD\\Review\\20261102\\ReviewRuntime.cs:153 "
+}

@@ -1,0 +1,200 @@
+[
+  {
+    "name": "ButtonCream",
+    "width": 2172,
+    "height": 724,
+    "transparent": true,
+    "rect": [
+      31.0,
+      111.0,
+      2109.0,
+      503.0
+    ],
+    "border": [
+      337.44,
+      140.84,
+      337.44,
+      140.84
+    ],
+    "imported": [
+      1988.59668,
+      474.5152
+    ]
+  },
+  {
+    "name": "ButtonTeal",
+    "width": 2172,
+    "height": 724,
+    "transparent": true,
+    "rect": [
+      44.0,
+      91.0,
+      2078.0,
+      529.0
+    ],
+    "border": [
+      332.47998,
+      148.12,
+      332.47998,
+      148.12
+    ],
+    "imported": [
+      1959.36658,
+      499.042816
+    ]
+  },
+  {
+    "name": "DialogueFrame",
+    "width": 1942,
+    "height": 809,
+    "transparent": true,
+    "rect": [
+      35.0,
+      53.0,
+      1865.0,
+      686.0
+    ],
+    "border": [
+      261.1,
+      123.48,
+      261.1,
+      123.48
+    ],
+    "imported": [
+      1865.0,
+      686.0
+    ]
+  },
+  {
+    "name": "FriendPortrait",
+    "width": 1254,
+    "height": 1254,
+    "transparent": true,
+    "rect": [
+      72.0,
+      74.0,
+      1076.0,
+      1111.0
+    ],
+    "border": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "imported": [
+      1076.0,
+      1111.0
+    ]
+  },
+  {
+    "name": "ObservationNote",
+    "width": 1902,
+    "height": 827,
+    "transparent": true,
+    "rect": [
+      44.0,
+      36.0,
+      1814.0,
+      758.0
+    ],
+    "border": [
+      453.5,
+      189.5,
+      380.94,
+      250.140015
+    ],
+    "imported": [
+      1814.0,
+      758.0
+    ]
+  },
+  {
+    "name": "SpeakerRibbon",
+    "width": 2172,
+    "height": 724,
+    "transparent": true,
+    "rect": [
+      64.0,
+      91.0,
+      2028.0,
+      561.0
+    ],
+    "border": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "imported": [
+      1912.22107,
+      529.230652
+    ]
+  },
+  {
+    "name": "SpeechTail",
+    "width": 1448,
+    "height": 1086,
+    "transparent": true,
+    "rect": [
+      250.0,
+      256.0,
+      941.0,
+      505.0
+    ],
+    "border": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "imported": [
+      941.0,
+      505.0
+    ]
+  },
+  {
+    "name": "ThoughtCloud",
+    "width": 1536,
+    "height": 1024,
+    "transparent": true,
+    "rect": [
+      81.0,
+      25.0,
+      1375.0,
+      979.0
+    ],
+    "border": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "imported": [
+      1375.0,
+      979.0
+    ]
+  },
+  {
+    "name": "ThoughtRibbon",
+    "width": 2172,
+    "height": 724,
+    "transparent": true,
+    "rect": [
+      416.0,
+      140.0,
+      1338.0,
+      457.0
+    ],
+    "border": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "imported": [
+      1261.61328,
+      431.120178
+    ]
+  }
+]

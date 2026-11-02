@@ -139,7 +139,7 @@ namespace ProjectWait.M.Elevator
         }
         public void Activate(ElevatorClue clue)
         {
-            if (!CanInteract(clue)) return;
+            if (!CanInteract(clue) || !CollectObservations().Any(o => o && o.clue == clue && o.CanActivate)) return;
             Inspect(clue);
             if(scenario&&scenario.objectGuidedScene&&scenario.HandleObjectAction(clue))return;
             if(clue==ElevatorClue.LobbyCall&&Flow.Step==ElevatorStep.Lobby)Continue();

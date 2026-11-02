@@ -1,0 +1,645 @@
+{
+  "success": true,
+  "command": "command console",
+  "data": {
+    "command": "console",
+    "parameters": {
+      "tail": "100",
+      "level": "warn"
+    },
+    "result": {
+      "entries": [
+        {
+          "seq": 1,
+          "timestampUtc": "2026-11-02T02:29:07.535043Z",
+          "level": "error",
+          "logType": "Exception",
+          "message": "DirectoryNotFoundException: Could not find a part of the path 'C:\\Program Files\\JetBrains\\JetBrains Rider 2026.2.0.2\\plugins\\rider-unity\\EditorPlugin'.",
+          "stackTrace": "System.IO.Enumeration.FileSystemEnumerator`1[TResult].CreateDirectoryHandle (System.String path, System.Boolean ignoreNotFound) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerator`1[TResult]..ctor (System.String directory, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1+DelegateEnumerator[TResult]..ctor (System.IO.Enumeration.FileSystemEnumerable`1[TResult] enumerable) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1[TResult]..ctor (System.String directory, System.IO.Enumeration.FileSystemEnumerable`1+FindTransform[TResult] transform, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerableFactory.UserFiles (System.String directory, System.String expression, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.InternalEnumeratePaths (System.String path, System.String searchPattern, System.IO.SearchTarget searchTarget, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.EnumerationOptions enumerationOptions) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.SearchOption searchOption) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nPackages.Rider.Editor.RiderInitializer.Initialize (System.String editorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderInitializer.cs:40)\nPackages.Rider.Editor.RiderScriptEditor.InitializeInternal (System.String currentEditorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:294)\nPackages.Rider.Editor.RiderScriptEditor..cctor () (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:36)\nUnityEngine.Debug:LogException(Exception)\nPackages.Rider.Editor.RiderScriptEditor:.cctor() (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:41)\nUnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes(Type[])\n",
+          "seeded": false
+        },
+        {
+          "seq": 2,
+          "timestampUtc": "2026-11-02T02:29:14.3302777Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Eye glints / teeth' does not match filename 'Eye_glints_teeth'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 3,
+          "timestampUtc": "2026-11-02T02:29:14.3686415Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Walk' does not match filename 'Friend_Walk'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 4,
+          "timestampUtc": "2026-11-02T02:29:14.4716252Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Teal piping' does not match filename 'Teal_piping'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 5,
+          "timestampUtc": "2026-11-02T02:29:14.5129738Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Shoes & bag label • warm cream' does not match filename 'Shoes_bag_label_warm_cream'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 6,
+          "timestampUtc": "2026-11-02T02:29:14.530888Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Shorts seam' does not match filename 'Shorts_seam'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 7,
+          "timestampUtc": "2026-11-02T02:29:14.5324344Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Skin • #FFC08A' does not match filename 'Skin_FFC08A'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 8,
+          "timestampUtc": "2026-11-02T02:29:14.5586368Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Fall' does not match filename 'Friend_Fall'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 9,
+          "timestampUtc": "2026-11-02T02:29:14.5682332Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Hair chestnut 01' does not match filename 'Hair_chestnut_01'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 10,
+          "timestampUtc": "2026-11-02T02:29:14.5692664Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Ink • #493327' does not match filename 'Ink_493327'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 11,
+          "timestampUtc": "2026-11-02T02:29:14.590163Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Hoodie • #FF8C2D' does not match filename 'Hoodie_FF8C2D'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 12,
+          "timestampUtc": "2026-11-02T02:29:14.5962098Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Mouth inside' does not match filename 'Mouth_inside'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 13,
+          "timestampUtc": "2026-11-02T02:29:14.6046804Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Shoulder straps' does not match filename 'Shoulder_straps'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 14,
+          "timestampUtc": "2026-11-02T02:29:14.608755Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Hair chestnut 02' does not match filename 'Hair_chestnut_02'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 15,
+          "timestampUtc": "2026-11-02T02:29:14.6097824Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Soles • warm grey' does not match filename 'Soles_warm_grey'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 16,
+          "timestampUtc": "2026-11-02T02:29:14.6143217Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Backpack teal' does not match filename 'Backpack_teal'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 17,
+          "timestampUtc": "2026-11-02T02:29:14.6408707Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Teal stitch' does not match filename 'Teal_stitch'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 18,
+          "timestampUtc": "2026-11-02T02:29:14.6423677Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Cuff & hem • #E87927' does not match filename 'Cuff_hem_E87927'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 19,
+          "timestampUtc": "2026-11-02T02:29:14.6837908Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Eyes • espresso' does not match filename 'Eyes_espresso'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 20,
+          "timestampUtc": "2026-11-02T02:29:14.700483Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Socks • ivory' does not match filename 'Socks_ivory'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 21,
+          "timestampUtc": "2026-11-02T02:29:14.7015086Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Hair chestnut 04' does not match filename 'Hair_chestnut_04'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 22,
+          "timestampUtc": "2026-11-02T02:29:14.7405217Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Cheeks • soft coral' does not match filename 'Cheeks_soft_coral'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 23,
+          "timestampUtc": "2026-11-02T02:29:14.7666512Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Idle' does not match filename 'Friend_Idle'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 24,
+          "timestampUtc": "2026-11-02T02:29:14.7681834Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Shorts • #3B3E48' does not match filename 'Shorts_3B3E48'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 25,
+          "timestampUtc": "2026-11-02T02:29:14.7707534Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Ear warm coral' does not match filename 'Ear_warm_coral'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 26,
+          "timestampUtc": "2026-11-02T02:29:14.7878532Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Hair chestnut 00' does not match filename 'Hair_chestnut_00'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 27,
+          "timestampUtc": "2026-11-02T02:29:14.7944535Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Hair chestnut 03' does not match filename 'Hair_chestnut_03'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 28,
+          "timestampUtc": "2026-11-02T02:29:14.7966827Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Orange stitch' does not match filename 'Orange_stitch'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 29,
+          "timestampUtc": "2026-11-02T02:29:15.5241725Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'Drop_Fill_25'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 30,
+          "timestampUtc": "2026-11-02T02:29:15.5292291Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'Drop_Fill_23'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 31,
+          "timestampUtc": "2026-11-02T02:29:15.9327492Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'FloorGrout'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 32,
+          "timestampUtc": "2026-11-02T02:29:15.9828309Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'Sunbeam_11'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 33,
+          "timestampUtc": "2026-11-02T02:29:15.988924Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'Puddle_Blue_20'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 34,
+          "timestampUtc": "2026-11-02T02:29:16.0244052Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'Sunbeam_12'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 35,
+          "timestampUtc": "2026-11-02T02:29:16.0440324Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'IrregularPuddle'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 36,
+          "timestampUtc": "2026-11-02T02:29:16.1462197Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'Sunbeam_13'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 37,
+          "timestampUtc": "2026-11-02T02:29:16.1993861Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'Puddle_Ink_Edge_19'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 38,
+          "timestampUtc": "2026-11-02T02:29:16.2619175Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'UmbrellaHook'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 39,
+          "timestampUtc": "2026-11-02T02:29:16.3950115Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'Drop_Edge_22'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 40,
+          "timestampUtc": "2026-11-02T02:29:16.4694479Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'Sunbeam_14'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 41,
+          "timestampUtc": "2026-11-02T02:29:16.5803298Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'Drop_Edge_24'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 42,
+          "timestampUtc": "2026-11-02T02:29:16.6265413Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name '' does not match filename 'Puddle_Light_Band_21'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 43,
+          "timestampUtc": "2026-11-02T02:29:16.7076492Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Main Object Name 'Friend original expression hidden' does not match filename 'FriendPanicBase'",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 44,
+          "timestampUtc": "2026-11-02T02:29:27.6164926Z",
+          "level": "error",
+          "logType": "Exception",
+          "message": "DirectoryNotFoundException: Could not find a part of the path 'C:\\Program Files\\JetBrains\\JetBrains Rider 2026.2.0.2\\plugins\\rider-unity\\EditorPlugin'.",
+          "stackTrace": "System.IO.Enumeration.FileSystemEnumerator`1[TResult].CreateDirectoryHandle (System.String path, System.Boolean ignoreNotFound) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerator`1[TResult]..ctor (System.String directory, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1+DelegateEnumerator[TResult]..ctor (System.IO.Enumeration.FileSystemEnumerable`1[TResult] enumerable) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1[TResult]..ctor (System.String directory, System.IO.Enumeration.FileSystemEnumerable`1+FindTransform[TResult] transform, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerableFactory.UserFiles (System.String directory, System.String expression, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.InternalEnumeratePaths (System.String path, System.String searchPattern, System.IO.SearchTarget searchTarget, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.EnumerationOptions enumerationOptions) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.SearchOption searchOption) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nPackages.Rider.Editor.RiderInitializer.Initialize (System.String editorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderInitializer.cs:40)\nPackages.Rider.Editor.RiderScriptEditor.InitializeInternal (System.String currentEditorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:294)\nPackages.Rider.Editor.RiderScriptEditor..cctor () (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:36)\nUnityEngine.Debug:LogException(Exception)\nPackages.Rider.Editor.RiderScriptEditor:.cctor() (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:41)\nUnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes(Type[])\n",
+          "seeded": false
+        },
+        {
+          "seq": 45,
+          "timestampUtc": "2026-11-02T02:30:43.1020683Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "[Worker3] Import Error Code:(4)\nMessage: Build asset version error: assets/xr/settings/openxrpackagesettings.asset in SourceAssetDB has modification time of '2026-11-02T02:29:28.9612829Z' while content on disk has modification time of '2026-11-02T02:30:41.5289602Z'\n",
+          "stackTrace": "",
+          "seeded": false
+        },
+        {
+          "seq": 46,
+          "timestampUtc": "2026-11-02T02:30:50.847164Z",
+          "level": "error",
+          "logType": "Exception",
+          "message": "DirectoryNotFoundException: Could not find a part of the path 'C:\\Program Files\\JetBrains\\JetBrains Rider 2026.2.0.2\\plugins\\rider-unity\\EditorPlugin'.",
+          "stackTrace": "System.IO.Enumeration.FileSystemEnumerator`1[TResult].CreateDirectoryHandle (System.String path, System.Boolean ignoreNotFound) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerator`1[TResult]..ctor (System.String directory, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1+DelegateEnumerator[TResult]..ctor (System.IO.Enumeration.FileSystemEnumerable`1[TResult] enumerable) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1[TResult]..ctor (System.String directory, System.IO.Enumeration.FileSystemEnumerable`1+FindTransform[TResult] transform, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerableFactory.UserFiles (System.String directory, System.String expression, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.InternalEnumeratePaths (System.String path, System.String searchPattern, System.IO.SearchTarget searchTarget, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.EnumerationOptions enumerationOptions) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.SearchOption searchOption) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nPackages.Rider.Editor.RiderInitializer.Initialize (System.String editorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderInitializer.cs:40)\nPackages.Rider.Editor.RiderScriptEditor.InitializeInternal (System.String currentEditorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:294)\nPackages.Rider.Editor.RiderScriptEditor..cctor () (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:36)\nUnityEngine.Debug:LogException(Exception)\nPackages.Rider.Editor.RiderScriptEditor:.cctor() (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:41)\nUnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes(Type[])\n",
+          "seeded": false
+        },
+        {
+          "seq": 47,
+          "timestampUtc": "2026-11-02T02:30:51.1244924Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "ExecuteCommandByName: No command named 'editor status' is available. Available: [set_serialized_field, clear_baked_lighting, set_player_settings, remove_animation_curve, open_scene, set_selection, cancel_occlusion_bake, add_animator_transition, delete_gameobject, set_build_settings, get_player_settings, set_active, set_authoring_root, set_tags_layers, create_timeline, clear_occlusion_culling, set_layer, instantiate_prefab, add_component, cancel_lighting_bake, set_time_settings, bake_navmesh_surfaces, set_transform, get_lighting_settings, build, attach_script, write_text_file, get_navmesh_settings, remove_component, set_autotick, read_text_file, set_active_scene, wait_for, unpack_prefab, create_animation_clip, add_scene_to_build, switch_build_target, get_input_settings, find_gameobjects, get_timeline, set_input_settings, cancel_navmesh_bake, delete_asset, add_animator_state, create_scene, create_prefab_variant, package_add, get_component_properties, screenshot, get_graphics_settings, set_graphics_settings, list_open_scenes, get_tags_layers, rename_asset, get_performance_stats, get_quality_settings, audit, package_list, set_runtime_pipeline_settings, create_prefab, set_navmesh_settings, wait_status, build_status, batch, list_shaders, create_folder, test_status, set_audio_settings, menu, get_audio_settings, set_animation_curve, get_runtime_pipeline_settings, package_remove, set_lighting_settings, get_shader_properties, revert_prefab_overrides, editor_stop, switch_build_target_status, save_all, move_asset, wait_cancel, apply_prefab_overrides, reload_file_player_interpreter, set_parent, copy_asset, create_asset, get_serialized_fields, package_search, get_scene_hierarchy, set_component_properties, set_quality_settings, navmesh_bake_status, import_asset, occlusion_bake_status, set_import_settings, bake_occlusion_culling, list_build_profiles, get_build_settings, get_animation_clip, editor_play, get_time_settings, audit_status, set_physics_settings, capture_scene_view, recompile, clear_navmesh, add_animator_layer, search, capture_game_view, create_script, add_animator_parameter, save_prefab_contents, package_status, rename_gameobject, editor_focus, create_gameobjects, bake_navmesh, get_animator_controller, create_animator_controller, save_scene, editor_status, get_selection, recompile_status, find_assets, get_material_properties, get_physics_settings, add_timeline_track, create_gameobject, get_import_settings, add_timeline_clip, set_tag, set_material_properties, editor_pause, list_tests, run_script, remove_scene_from_build, package_resolve, bake_lighting, list_build_targets, run_tests, get_authoring_root, cancel_tests, lighting_bake_status, clear_console, eval_file, console_status, report_evals, runtime_status, cleanup_codereload, log, reload_file_editor_interpreter, codereload_status, simulate_pointer, quit, set_target_framerate, simulate_key, set_timescale, console, eval, reload_file]",
+          "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer:ResolveCommand (string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2622)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2085)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<int>:SetResult (int)\nUnity.Pipeline.MaxLengthStream/<ReadAsync>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/MaxLengthStream.cs:46)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 49,
+          "timestampUtc": "2026-11-02T02:30:52.3424706Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 50,
+          "timestampUtc": "2026-11-02T02:32:32.0501211Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "ExecuteCommandByName: No command named 'editor status' is available. Available: [set_serialized_field, clear_baked_lighting, set_player_settings, remove_animation_curve, open_scene, set_selection, cancel_occlusion_bake, add_animator_transition, delete_gameobject, set_build_settings, get_player_settings, set_active, set_authoring_root, set_tags_layers, create_timeline, clear_occlusion_culling, set_layer, instantiate_prefab, add_component, cancel_lighting_bake, set_time_settings, bake_navmesh_surfaces, set_transform, get_lighting_settings, build, attach_script, write_text_file, get_navmesh_settings, remove_component, set_autotick, read_text_file, set_active_scene, wait_for, unpack_prefab, create_animation_clip, add_scene_to_build, switch_build_target, get_input_settings, find_gameobjects, get_timeline, set_input_settings, cancel_navmesh_bake, delete_asset, add_animator_state, create_scene, create_prefab_variant, package_add, get_component_properties, screenshot, get_graphics_settings, set_graphics_settings, list_open_scenes, get_tags_layers, rename_asset, get_performance_stats, get_quality_settings, audit, package_list, set_runtime_pipeline_settings, create_prefab, set_navmesh_settings, wait_status, build_status, batch, list_shaders, create_folder, test_status, set_audio_settings, menu, get_audio_settings, set_animation_curve, get_runtime_pipeline_settings, package_remove, set_lighting_settings, get_shader_properties, revert_prefab_overrides, editor_stop, switch_build_target_status, save_all, move_asset, wait_cancel, apply_prefab_overrides, reload_file_player_interpreter, set_parent, copy_asset, create_asset, get_serialized_fields, package_search, get_scene_hierarchy, set_component_properties, set_quality_settings, navmesh_bake_status, import_asset, occlusion_bake_status, set_import_settings, bake_occlusion_culling, list_build_profiles, get_build_settings, get_animation_clip, editor_play, get_time_settings, audit_status, set_physics_settings, capture_scene_view, recompile, clear_navmesh, add_animator_layer, search, capture_game_view, create_script, add_animator_parameter, save_prefab_contents, package_status, rename_gameobject, editor_focus, create_gameobjects, bake_navmesh, get_animator_controller, create_animator_controller, save_scene, editor_status, get_selection, recompile_status, find_assets, get_material_properties, get_physics_settings, add_timeline_track, create_gameobject, get_import_settings, add_timeline_clip, set_tag, set_material_properties, editor_pause, list_tests, run_script, remove_scene_from_build, package_resolve, bake_lighting, list_build_targets, run_tests, get_authoring_root, cancel_tests, lighting_bake_status, clear_console, eval_file, console_status, report_evals, runtime_status, cleanup_codereload, log, reload_file_editor_interpreter, codereload_status, simulate_pointer, quit, set_target_framerate, simulate_key, set_timescale, console, eval, reload_file]",
+          "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer:ResolveCommand (string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2622)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2085)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<int>:SetResult (int)\nUnity.Pipeline.MaxLengthStream/<ReadAsync>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/MaxLengthStream.cs:46)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 51,
+          "timestampUtc": "2026-11-02T02:32:37.0167182Z",
+          "level": "error",
+          "logType": "Exception",
+          "message": "DirectoryNotFoundException: Could not find a part of the path 'C:\\Program Files\\JetBrains\\JetBrains Rider 2026.2.0.2\\plugins\\rider-unity\\EditorPlugin'.",
+          "stackTrace": "System.IO.Enumeration.FileSystemEnumerator`1[TResult].CreateDirectoryHandle (System.String path, System.Boolean ignoreNotFound) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerator`1[TResult]..ctor (System.String directory, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1+DelegateEnumerator[TResult]..ctor (System.IO.Enumeration.FileSystemEnumerable`1[TResult] enumerable) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1[TResult]..ctor (System.String directory, System.IO.Enumeration.FileSystemEnumerable`1+FindTransform[TResult] transform, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerableFactory.UserFiles (System.String directory, System.String expression, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.InternalEnumeratePaths (System.String path, System.String searchPattern, System.IO.SearchTarget searchTarget, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.EnumerationOptions enumerationOptions) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.SearchOption searchOption) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nPackages.Rider.Editor.RiderInitializer.Initialize (System.String editorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderInitializer.cs:40)\nPackages.Rider.Editor.RiderScriptEditor.InitializeInternal (System.String currentEditorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:294)\nPackages.Rider.Editor.RiderScriptEditor..cctor () (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:36)\nUnityEngine.Debug:LogException(Exception)\nPackages.Rider.Editor.RiderScriptEditor:.cctor() (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:41)\nUnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes(Type[])\n",
+          "seeded": false
+        },
+        {
+          "seq": 52,
+          "timestampUtc": "2026-11-02T02:32:37.2490362Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "ExecuteCommandByName: No command named 'editor status' is available. Available: [set_serialized_field, clear_baked_lighting, set_player_settings, remove_animation_curve, open_scene, set_selection, cancel_occlusion_bake, add_animator_transition, delete_gameobject, set_build_settings, get_player_settings, set_active, set_authoring_root, set_tags_layers, create_timeline, clear_occlusion_culling, set_layer, instantiate_prefab, add_component, cancel_lighting_bake, set_time_settings, bake_navmesh_surfaces, set_transform, get_lighting_settings, build, attach_script, write_text_file, get_navmesh_settings, remove_component, set_autotick, read_text_file, set_active_scene, wait_for, unpack_prefab, create_animation_clip, add_scene_to_build, switch_build_target, get_input_settings, find_gameobjects, get_timeline, set_input_settings, cancel_navmesh_bake, delete_asset, add_animator_state, create_scene, create_prefab_variant, package_add, get_component_properties, screenshot, get_graphics_settings, set_graphics_settings, list_open_scenes, get_tags_layers, rename_asset, get_performance_stats, get_quality_settings, audit, package_list, set_runtime_pipeline_settings, create_prefab, set_navmesh_settings, wait_status, build_status, batch, list_shaders, create_folder, test_status, set_audio_settings, menu, get_audio_settings, set_animation_curve, get_runtime_pipeline_settings, package_remove, set_lighting_settings, get_shader_properties, revert_prefab_overrides, editor_stop, switch_build_target_status, save_all, move_asset, wait_cancel, apply_prefab_overrides, reload_file_player_interpreter, set_parent, copy_asset, create_asset, get_serialized_fields, package_search, get_scene_hierarchy, set_component_properties, set_quality_settings, navmesh_bake_status, import_asset, occlusion_bake_status, set_import_settings, bake_occlusion_culling, list_build_profiles, get_build_settings, get_animation_clip, editor_play, get_time_settings, audit_status, set_physics_settings, capture_scene_view, recompile, clear_navmesh, add_animator_layer, search, capture_game_view, create_script, add_animator_parameter, save_prefab_contents, package_status, rename_gameobject, editor_focus, create_gameobjects, bake_navmesh, get_animator_controller, create_animator_controller, save_scene, editor_status, get_selection, recompile_status, find_assets, get_material_properties, get_physics_settings, add_timeline_track, create_gameobject, get_import_settings, add_timeline_clip, set_tag, set_material_properties, editor_pause, list_tests, run_script, remove_scene_from_build, package_resolve, bake_lighting, list_build_targets, run_tests, get_authoring_root, cancel_tests, lighting_bake_status, clear_console, eval_file, console_status, report_evals, runtime_status, cleanup_codereload, log, reload_file_editor_interpreter, codereload_status, simulate_pointer, quit, set_target_framerate, simulate_key, set_timescale, console, eval, reload_file]",
+          "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer:ResolveCommand (string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2622)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2085)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<int>:SetResult (int)\nUnity.Pipeline.MaxLengthStream/<ReadAsync>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/MaxLengthStream.cs:46)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 54,
+          "timestampUtc": "2026-11-02T02:32:38.3542178Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 55,
+          "timestampUtc": "2026-11-02T02:36:35.8212888Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "ExecuteCommandByName: No command named 'editor status' is available. Available: [set_serialized_field, clear_baked_lighting, set_player_settings, remove_animation_curve, open_scene, set_selection, cancel_occlusion_bake, add_animator_transition, delete_gameobject, set_build_settings, get_player_settings, set_active, set_authoring_root, set_tags_layers, create_timeline, clear_occlusion_culling, set_layer, instantiate_prefab, add_component, cancel_lighting_bake, set_time_settings, bake_navmesh_surfaces, set_transform, get_lighting_settings, build, attach_script, write_text_file, get_navmesh_settings, remove_component, set_autotick, read_text_file, set_active_scene, wait_for, unpack_prefab, create_animation_clip, add_scene_to_build, switch_build_target, get_input_settings, find_gameobjects, get_timeline, set_input_settings, cancel_navmesh_bake, delete_asset, add_animator_state, create_scene, create_prefab_variant, package_add, get_component_properties, screenshot, get_graphics_settings, set_graphics_settings, list_open_scenes, get_tags_layers, rename_asset, get_performance_stats, get_quality_settings, audit, package_list, set_runtime_pipeline_settings, create_prefab, set_navmesh_settings, wait_status, build_status, batch, list_shaders, create_folder, test_status, set_audio_settings, menu, get_audio_settings, set_animation_curve, get_runtime_pipeline_settings, package_remove, set_lighting_settings, get_shader_properties, revert_prefab_overrides, editor_stop, switch_build_target_status, save_all, move_asset, wait_cancel, apply_prefab_overrides, reload_file_player_interpreter, set_parent, copy_asset, create_asset, get_serialized_fields, package_search, get_scene_hierarchy, set_component_properties, set_quality_settings, navmesh_bake_status, import_asset, occlusion_bake_status, set_import_settings, bake_occlusion_culling, list_build_profiles, get_build_settings, get_animation_clip, editor_play, get_time_settings, audit_status, set_physics_settings, capture_scene_view, recompile, clear_navmesh, add_animator_layer, search, capture_game_view, create_script, add_animator_parameter, save_prefab_contents, package_status, rename_gameobject, editor_focus, create_gameobjects, bake_navmesh, get_animator_controller, create_animator_controller, save_scene, editor_status, get_selection, recompile_status, find_assets, get_material_properties, get_physics_settings, add_timeline_track, create_gameobject, get_import_settings, add_timeline_clip, set_tag, set_material_properties, editor_pause, list_tests, run_script, remove_scene_from_build, package_resolve, bake_lighting, list_build_targets, run_tests, get_authoring_root, cancel_tests, lighting_bake_status, clear_console, eval_file, console_status, report_evals, runtime_status, cleanup_codereload, log, reload_file_editor_interpreter, codereload_status, simulate_pointer, quit, set_target_framerate, simulate_key, set_timescale, console, eval, reload_file]",
+          "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer:ResolveCommand (string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2622)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2085)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<int>:SetResult (int)\nUnity.Pipeline.MaxLengthStream/<ReadAsync>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/MaxLengthStream.cs:46)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 56,
+          "timestampUtc": "2026-11-02T02:36:40.8964828Z",
+          "level": "error",
+          "logType": "Exception",
+          "message": "DirectoryNotFoundException: Could not find a part of the path 'C:\\Program Files\\JetBrains\\JetBrains Rider 2026.2.0.2\\plugins\\rider-unity\\EditorPlugin'.",
+          "stackTrace": "System.IO.Enumeration.FileSystemEnumerator`1[TResult].CreateDirectoryHandle (System.String path, System.Boolean ignoreNotFound) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerator`1[TResult]..ctor (System.String directory, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1+DelegateEnumerator[TResult]..ctor (System.IO.Enumeration.FileSystemEnumerable`1[TResult] enumerable) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1[TResult]..ctor (System.String directory, System.IO.Enumeration.FileSystemEnumerable`1+FindTransform[TResult] transform, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerableFactory.UserFiles (System.String directory, System.String expression, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.InternalEnumeratePaths (System.String path, System.String searchPattern, System.IO.SearchTarget searchTarget, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.EnumerationOptions enumerationOptions) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.SearchOption searchOption) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nPackages.Rider.Editor.RiderInitializer.Initialize (System.String editorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderInitializer.cs:40)\nPackages.Rider.Editor.RiderScriptEditor.InitializeInternal (System.String currentEditorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:294)\nPackages.Rider.Editor.RiderScriptEditor..cctor () (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:36)\nUnityEngine.Debug:LogException(Exception)\nPackages.Rider.Editor.RiderScriptEditor:.cctor() (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:41)\nUnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes(Type[])\n",
+          "seeded": false
+        },
+        {
+          "seq": 57,
+          "timestampUtc": "2026-11-02T02:36:41.2422917Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "ExecuteCommandByName: No command named 'editor status' is available. Available: [set_serialized_field, clear_baked_lighting, set_player_settings, remove_animation_curve, open_scene, set_selection, cancel_occlusion_bake, add_animator_transition, delete_gameobject, set_build_settings, get_player_settings, set_active, set_authoring_root, set_tags_layers, create_timeline, clear_occlusion_culling, set_layer, instantiate_prefab, add_component, cancel_lighting_bake, set_time_settings, bake_navmesh_surfaces, set_transform, get_lighting_settings, build, attach_script, write_text_file, get_navmesh_settings, remove_component, set_autotick, read_text_file, set_active_scene, wait_for, unpack_prefab, create_animation_clip, add_scene_to_build, switch_build_target, get_input_settings, find_gameobjects, get_timeline, set_input_settings, cancel_navmesh_bake, delete_asset, add_animator_state, create_scene, create_prefab_variant, package_add, get_component_properties, screenshot, get_graphics_settings, set_graphics_settings, list_open_scenes, get_tags_layers, rename_asset, get_performance_stats, get_quality_settings, audit, package_list, set_runtime_pipeline_settings, create_prefab, set_navmesh_settings, wait_status, build_status, batch, list_shaders, create_folder, test_status, set_audio_settings, menu, get_audio_settings, set_animation_curve, get_runtime_pipeline_settings, package_remove, set_lighting_settings, get_shader_properties, revert_prefab_overrides, editor_stop, switch_build_target_status, save_all, move_asset, wait_cancel, apply_prefab_overrides, reload_file_player_interpreter, set_parent, copy_asset, create_asset, get_serialized_fields, package_search, get_scene_hierarchy, set_component_properties, set_quality_settings, navmesh_bake_status, import_asset, occlusion_bake_status, set_import_settings, bake_occlusion_culling, list_build_profiles, get_build_settings, get_animation_clip, editor_play, get_time_settings, audit_status, set_physics_settings, capture_scene_view, recompile, clear_navmesh, add_animator_layer, search, capture_game_view, create_script, add_animator_parameter, save_prefab_contents, package_status, rename_gameobject, editor_focus, create_gameobjects, bake_navmesh, get_animator_controller, create_animator_controller, save_scene, editor_status, get_selection, recompile_status, find_assets, get_material_properties, get_physics_settings, add_timeline_track, create_gameobject, get_import_settings, add_timeline_clip, set_tag, set_material_properties, editor_pause, list_tests, run_script, remove_scene_from_build, package_resolve, bake_lighting, list_build_targets, run_tests, get_authoring_root, cancel_tests, lighting_bake_status, clear_console, eval_file, console_status, report_evals, runtime_status, cleanup_codereload, log, reload_file_editor_interpreter, codereload_status, simulate_pointer, quit, set_target_framerate, simulate_key, set_timescale, console, eval, reload_file]",
+          "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer:ResolveCommand (string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2622)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2085)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<int>:SetResult (int)\nUnity.Pipeline.MaxLengthStream/<ReadAsync>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/MaxLengthStream.cs:46)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 59,
+          "timestampUtc": "2026-11-02T02:36:42.1501915Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 60,
+          "timestampUtc": "2026-11-02T02:38:04.7444101Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "ExecuteCommandByName: No command named 'editor status' is available. Available: [set_serialized_field, clear_baked_lighting, set_player_settings, remove_animation_curve, open_scene, set_selection, cancel_occlusion_bake, add_animator_transition, delete_gameobject, set_build_settings, get_player_settings, set_active, set_authoring_root, set_tags_layers, create_timeline, clear_occlusion_culling, set_layer, instantiate_prefab, add_component, cancel_lighting_bake, set_time_settings, bake_navmesh_surfaces, set_transform, get_lighting_settings, build, attach_script, write_text_file, get_navmesh_settings, remove_component, set_autotick, read_text_file, set_active_scene, wait_for, unpack_prefab, create_animation_clip, add_scene_to_build, switch_build_target, get_input_settings, find_gameobjects, get_timeline, set_input_settings, cancel_navmesh_bake, delete_asset, add_animator_state, create_scene, create_prefab_variant, package_add, get_component_properties, screenshot, get_graphics_settings, set_graphics_settings, list_open_scenes, get_tags_layers, rename_asset, get_performance_stats, get_quality_settings, audit, package_list, set_runtime_pipeline_settings, create_prefab, set_navmesh_settings, wait_status, build_status, batch, list_shaders, create_folder, test_status, set_audio_settings, menu, get_audio_settings, set_animation_curve, get_runtime_pipeline_settings, package_remove, set_lighting_settings, get_shader_properties, revert_prefab_overrides, editor_stop, switch_build_target_status, save_all, move_asset, wait_cancel, apply_prefab_overrides, reload_file_player_interpreter, set_parent, copy_asset, create_asset, get_serialized_fields, package_search, get_scene_hierarchy, set_component_properties, set_quality_settings, navmesh_bake_status, import_asset, occlusion_bake_status, set_import_settings, bake_occlusion_culling, list_build_profiles, get_build_settings, get_animation_clip, editor_play, get_time_settings, audit_status, set_physics_settings, capture_scene_view, recompile, clear_navmesh, add_animator_layer, search, capture_game_view, create_script, add_animator_parameter, save_prefab_contents, package_status, rename_gameobject, editor_focus, create_gameobjects, bake_navmesh, get_animator_controller, create_animator_controller, save_scene, editor_status, get_selection, recompile_status, find_assets, get_material_properties, get_physics_settings, add_timeline_track, create_gameobject, get_import_settings, add_timeline_clip, set_tag, set_material_properties, editor_pause, list_tests, run_script, remove_scene_from_build, package_resolve, bake_lighting, list_build_targets, run_tests, get_authoring_root, cancel_tests, lighting_bake_status, clear_console, eval_file, console_status, report_evals, runtime_status, cleanup_codereload, log, reload_file_editor_interpreter, codereload_status, simulate_pointer, quit, set_target_framerate, simulate_key, set_timescale, console, eval, reload_file]",
+          "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer:ResolveCommand (string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2622)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2085)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<int>:SetResult (int)\nUnity.Pipeline.MaxLengthStream/<ReadAsync>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/MaxLengthStream.cs:46)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 61,
+          "timestampUtc": "2026-11-02T02:38:09.7605059Z",
+          "level": "error",
+          "logType": "Exception",
+          "message": "DirectoryNotFoundException: Could not find a part of the path 'C:\\Program Files\\JetBrains\\JetBrains Rider 2026.2.0.2\\plugins\\rider-unity\\EditorPlugin'.",
+          "stackTrace": "System.IO.Enumeration.FileSystemEnumerator`1[TResult].CreateDirectoryHandle (System.String path, System.Boolean ignoreNotFound) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerator`1[TResult]..ctor (System.String directory, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1+DelegateEnumerator[TResult]..ctor (System.IO.Enumeration.FileSystemEnumerable`1[TResult] enumerable) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1[TResult]..ctor (System.String directory, System.IO.Enumeration.FileSystemEnumerable`1+FindTransform[TResult] transform, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerableFactory.UserFiles (System.String directory, System.String expression, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.InternalEnumeratePaths (System.String path, System.String searchPattern, System.IO.SearchTarget searchTarget, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.EnumerationOptions enumerationOptions) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.SearchOption searchOption) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nPackages.Rider.Editor.RiderInitializer.Initialize (System.String editorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderInitializer.cs:40)\nPackages.Rider.Editor.RiderScriptEditor.InitializeInternal (System.String currentEditorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:294)\nPackages.Rider.Editor.RiderScriptEditor..cctor () (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:36)\nUnityEngine.Debug:LogException(Exception)\nPackages.Rider.Editor.RiderScriptEditor:.cctor() (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:41)\nUnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes(Type[])\n",
+          "seeded": false
+        },
+        {
+          "seq": 62,
+          "timestampUtc": "2026-11-02T02:38:10.0022434Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "ExecuteCommandByName: No command named 'editor status' is available. Available: [set_serialized_field, clear_baked_lighting, set_player_settings, remove_animation_curve, open_scene, set_selection, cancel_occlusion_bake, add_animator_transition, delete_gameobject, set_build_settings, get_player_settings, set_active, set_authoring_root, set_tags_layers, create_timeline, clear_occlusion_culling, set_layer, instantiate_prefab, add_component, cancel_lighting_bake, set_time_settings, bake_navmesh_surfaces, set_transform, get_lighting_settings, build, attach_script, write_text_file, get_navmesh_settings, remove_component, set_autotick, read_text_file, set_active_scene, wait_for, unpack_prefab, create_animation_clip, add_scene_to_build, switch_build_target, get_input_settings, find_gameobjects, get_timeline, set_input_settings, cancel_navmesh_bake, delete_asset, add_animator_state, create_scene, create_prefab_variant, package_add, get_component_properties, screenshot, get_graphics_settings, set_graphics_settings, list_open_scenes, get_tags_layers, rename_asset, get_performance_stats, get_quality_settings, audit, package_list, set_runtime_pipeline_settings, create_prefab, set_navmesh_settings, wait_status, build_status, batch, list_shaders, create_folder, test_status, set_audio_settings, menu, get_audio_settings, set_animation_curve, get_runtime_pipeline_settings, package_remove, set_lighting_settings, get_shader_properties, revert_prefab_overrides, editor_stop, switch_build_target_status, save_all, move_asset, wait_cancel, apply_prefab_overrides, reload_file_player_interpreter, set_parent, copy_asset, create_asset, get_serialized_fields, package_search, get_scene_hierarchy, set_component_properties, set_quality_settings, navmesh_bake_status, import_asset, occlusion_bake_status, set_import_settings, bake_occlusion_culling, list_build_profiles, get_build_settings, get_animation_clip, editor_play, get_time_settings, audit_status, set_physics_settings, capture_scene_view, recompile, clear_navmesh, add_animator_layer, search, capture_game_view, create_script, add_animator_parameter, save_prefab_contents, package_status, rename_gameobject, editor_focus, create_gameobjects, bake_navmesh, get_animator_controller, create_animator_controller, save_scene, editor_status, get_selection, recompile_status, find_assets, get_material_properties, get_physics_settings, add_timeline_track, create_gameobject, get_import_settings, add_timeline_clip, set_tag, set_material_properties, editor_pause, list_tests, run_script, remove_scene_from_build, package_resolve, bake_lighting, list_build_targets, run_tests, get_authoring_root, cancel_tests, lighting_bake_status, clear_console, eval_file, console_status, report_evals, runtime_status, cleanup_codereload, log, reload_file_editor_interpreter, codereload_status, simulate_pointer, quit, set_target_framerate, simulate_key, set_timescale, console, eval, reload_file]",
+          "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer:ResolveCommand (string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2622)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2085)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<int>:SetResult (int)\nUnity.Pipeline.MaxLengthStream/<ReadAsync>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/MaxLengthStream.cs:46)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 64,
+          "timestampUtc": "2026-11-02T02:38:11.0104217Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        },
+        {
+          "seq": 65,
+          "timestampUtc": "2026-11-02T02:39:13.7938106Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "ExecuteCommandByName: No command named 'editor status' is available. Available: [set_serialized_field, clear_baked_lighting, set_player_settings, remove_animation_curve, open_scene, set_selection, cancel_occlusion_bake, add_animator_transition, delete_gameobject, set_build_settings, get_player_settings, set_active, set_authoring_root, set_tags_layers, create_timeline, clear_occlusion_culling, set_layer, instantiate_prefab, add_component, cancel_lighting_bake, set_time_settings, bake_navmesh_surfaces, set_transform, get_lighting_settings, build, attach_script, write_text_file, get_navmesh_settings, remove_component, set_autotick, read_text_file, set_active_scene, wait_for, unpack_prefab, create_animation_clip, add_scene_to_build, switch_build_target, get_input_settings, find_gameobjects, get_timeline, set_input_settings, cancel_navmesh_bake, delete_asset, add_animator_state, create_scene, create_prefab_variant, package_add, get_component_properties, screenshot, get_graphics_settings, set_graphics_settings, list_open_scenes, get_tags_layers, rename_asset, get_performance_stats, get_quality_settings, audit, package_list, set_runtime_pipeline_settings, create_prefab, set_navmesh_settings, wait_status, build_status, batch, list_shaders, create_folder, test_status, set_audio_settings, menu, get_audio_settings, set_animation_curve, get_runtime_pipeline_settings, package_remove, set_lighting_settings, get_shader_properties, revert_prefab_overrides, editor_stop, switch_build_target_status, save_all, move_asset, wait_cancel, apply_prefab_overrides, reload_file_player_interpreter, set_parent, copy_asset, create_asset, get_serialized_fields, package_search, get_scene_hierarchy, set_component_properties, set_quality_settings, navmesh_bake_status, import_asset, occlusion_bake_status, set_import_settings, bake_occlusion_culling, list_build_profiles, get_build_settings, get_animation_clip, editor_play, get_time_settings, audit_status, set_physics_settings, capture_scene_view, recompile, clear_navmesh, add_animator_layer, search, capture_game_view, create_script, add_animator_parameter, save_prefab_contents, package_status, rename_gameobject, editor_focus, create_gameobjects, bake_navmesh, get_animator_controller, create_animator_controller, save_scene, editor_status, get_selection, recompile_status, find_assets, get_material_properties, get_physics_settings, add_timeline_track, create_gameobject, get_import_settings, add_timeline_clip, set_tag, set_material_properties, editor_pause, list_tests, run_script, remove_scene_from_build, package_resolve, bake_lighting, list_build_targets, run_tests, get_authoring_root, cancel_tests, lighting_bake_status, clear_console, eval_file, console_status, report_evals, runtime_status, cleanup_codereload, log, reload_file_editor_interpreter, codereload_status, simulate_pointer, quit, set_target_framerate, simulate_key, set_timescale, console, eval, reload_file]",
+          "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer:ResolveCommand (string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2622)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2085)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<int>:SetResult (int)\nUnity.Pipeline.MaxLengthStream/<ReadAsync>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/MaxLengthStream.cs:46)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 66,
+          "timestampUtc": "2026-11-02T02:39:18.9856654Z",
+          "level": "error",
+          "logType": "Exception",
+          "message": "DirectoryNotFoundException: Could not find a part of the path 'C:\\Program Files\\JetBrains\\JetBrains Rider 2026.2.0.2\\plugins\\rider-unity\\EditorPlugin'.",
+          "stackTrace": "System.IO.Enumeration.FileSystemEnumerator`1[TResult].CreateDirectoryHandle (System.String path, System.Boolean ignoreNotFound) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerator`1[TResult]..ctor (System.String directory, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1+DelegateEnumerator[TResult]..ctor (System.IO.Enumeration.FileSystemEnumerable`1[TResult] enumerable) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1[TResult]..ctor (System.String directory, System.IO.Enumeration.FileSystemEnumerable`1+FindTransform[TResult] transform, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerableFactory.UserFiles (System.String directory, System.String expression, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.InternalEnumeratePaths (System.String path, System.String searchPattern, System.IO.SearchTarget searchTarget, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.EnumerationOptions enumerationOptions) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.SearchOption searchOption) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nPackages.Rider.Editor.RiderInitializer.Initialize (System.String editorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderInitializer.cs:40)\nPackages.Rider.Editor.RiderScriptEditor.InitializeInternal (System.String currentEditorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:294)\nPackages.Rider.Editor.RiderScriptEditor..cctor () (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:36)\nUnityEngine.Debug:LogException(Exception)\nPackages.Rider.Editor.RiderScriptEditor:.cctor() (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:41)\nUnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes(Type[])\n",
+          "seeded": false
+        },
+        {
+          "seq": 67,
+          "timestampUtc": "2026-11-02T02:39:19.232568Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "ExecuteCommandByName: No command named 'editor status' is available. Available: [set_serialized_field, clear_baked_lighting, set_player_settings, remove_animation_curve, open_scene, set_selection, cancel_occlusion_bake, add_animator_transition, delete_gameobject, set_build_settings, get_player_settings, set_active, set_authoring_root, set_tags_layers, create_timeline, clear_occlusion_culling, set_layer, instantiate_prefab, add_component, cancel_lighting_bake, set_time_settings, bake_navmesh_surfaces, set_transform, get_lighting_settings, build, attach_script, write_text_file, get_navmesh_settings, remove_component, set_autotick, read_text_file, set_active_scene, wait_for, unpack_prefab, create_animation_clip, add_scene_to_build, switch_build_target, get_input_settings, find_gameobjects, get_timeline, set_input_settings, cancel_navmesh_bake, delete_asset, add_animator_state, create_scene, create_prefab_variant, package_add, get_component_properties, screenshot, get_graphics_settings, set_graphics_settings, list_open_scenes, get_tags_layers, rename_asset, get_performance_stats, get_quality_settings, audit, package_list, set_runtime_pipeline_settings, create_prefab, set_navmesh_settings, wait_status, build_status, batch, list_shaders, create_folder, test_status, set_audio_settings, menu, get_audio_settings, set_animation_curve, get_runtime_pipeline_settings, package_remove, set_lighting_settings, get_shader_properties, revert_prefab_overrides, editor_stop, switch_build_target_status, save_all, move_asset, wait_cancel, apply_prefab_overrides, reload_file_player_interpreter, set_parent, copy_asset, create_asset, get_serialized_fields, package_search, get_scene_hierarchy, set_component_properties, set_quality_settings, navmesh_bake_status, import_asset, occlusion_bake_status, set_import_settings, bake_occlusion_culling, list_build_profiles, get_build_settings, get_animation_clip, editor_play, get_time_settings, audit_status, set_physics_settings, capture_scene_view, recompile, clear_navmesh, add_animator_layer, search, capture_game_view, create_script, add_animator_parameter, save_prefab_contents, package_status, rename_gameobject, editor_focus, create_gameobjects, bake_navmesh, get_animator_controller, create_animator_controller, save_scene, editor_status, get_selection, recompile_status, find_assets, get_material_properties, get_physics_settings, add_timeline_track, create_gameobject, get_import_settings, add_timeline_clip, set_tag, set_material_properties, editor_pause, list_tests, run_script, remove_scene_from_build, package_resolve, bake_lighting, list_build_targets, run_tests, get_authoring_root, cancel_tests, lighting_bake_status, clear_console, eval_file, console_status, report_evals, runtime_status, cleanup_codereload, log, reload_file_editor_interpreter, codereload_status, simulate_pointer, quit, set_target_framerate, simulate_key, set_timescale, console, eval, reload_file]",
+          "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer:ResolveCommand (string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2622)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2085)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<int>:SetResult (int)\nUnity.Pipeline.MaxLengthStream/<ReadAsync>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/MaxLengthStream.cs:46)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 69,
+          "timestampUtc": "2026-11-02T02:39:47.5158657Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "ExecuteCommandByName: No command named 'editor status' is available. Available: [set_serialized_field, clear_baked_lighting, set_player_settings, remove_animation_curve, open_scene, set_selection, cancel_occlusion_bake, add_animator_transition, delete_gameobject, set_build_settings, get_player_settings, set_active, set_authoring_root, set_tags_layers, create_timeline, clear_occlusion_culling, set_layer, instantiate_prefab, add_component, cancel_lighting_bake, set_time_settings, bake_navmesh_surfaces, set_transform, get_lighting_settings, build, attach_script, write_text_file, get_navmesh_settings, remove_component, set_autotick, read_text_file, set_active_scene, wait_for, unpack_prefab, create_animation_clip, add_scene_to_build, switch_build_target, get_input_settings, find_gameobjects, get_timeline, set_input_settings, cancel_navmesh_bake, delete_asset, add_animator_state, create_scene, create_prefab_variant, package_add, get_component_properties, screenshot, get_graphics_settings, set_graphics_settings, list_open_scenes, get_tags_layers, rename_asset, get_performance_stats, get_quality_settings, audit, package_list, set_runtime_pipeline_settings, create_prefab, set_navmesh_settings, wait_status, build_status, batch, list_shaders, create_folder, test_status, set_audio_settings, menu, get_audio_settings, set_animation_curve, get_runtime_pipeline_settings, package_remove, set_lighting_settings, get_shader_properties, revert_prefab_overrides, editor_stop, switch_build_target_status, save_all, move_asset, wait_cancel, apply_prefab_overrides, reload_file_player_interpreter, set_parent, copy_asset, create_asset, get_serialized_fields, package_search, get_scene_hierarchy, set_component_properties, set_quality_settings, navmesh_bake_status, import_asset, occlusion_bake_status, set_import_settings, bake_occlusion_culling, list_build_profiles, get_build_settings, get_animation_clip, editor_play, get_time_settings, audit_status, set_physics_settings, capture_scene_view, recompile, clear_navmesh, add_animator_layer, search, capture_game_view, create_script, add_animator_parameter, save_prefab_contents, package_status, rename_gameobject, editor_focus, create_gameobjects, bake_navmesh, get_animator_controller, create_animator_controller, save_scene, editor_status, get_selection, recompile_status, find_assets, get_material_properties, get_physics_settings, add_timeline_track, create_gameobject, get_import_settings, add_timeline_clip, set_tag, set_material_properties, editor_pause, list_tests, run_script, remove_scene_from_build, package_resolve, bake_lighting, list_build_targets, run_tests, get_authoring_root, cancel_tests, lighting_bake_status, clear_console, eval_file, console_status, report_evals, runtime_status, cleanup_codereload, log, reload_file_editor_interpreter, codereload_status, simulate_pointer, quit, set_target_framerate, simulate_key, set_timescale, console, eval, reload_file]",
+          "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer:ResolveCommand (string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2622)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2085)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<int>:SetResult (int)\nUnity.Pipeline.MaxLengthStream/<ReadAsync>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/MaxLengthStream.cs:46)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 70,
+          "timestampUtc": "2026-11-02T02:39:52.3850365Z",
+          "level": "error",
+          "logType": "Exception",
+          "message": "DirectoryNotFoundException: Could not find a part of the path 'C:\\Program Files\\JetBrains\\JetBrains Rider 2026.2.0.2\\plugins\\rider-unity\\EditorPlugin'.",
+          "stackTrace": "System.IO.Enumeration.FileSystemEnumerator`1[TResult].CreateDirectoryHandle (System.String path, System.Boolean ignoreNotFound) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerator`1[TResult]..ctor (System.String directory, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1+DelegateEnumerator[TResult]..ctor (System.IO.Enumeration.FileSystemEnumerable`1[TResult] enumerable) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerable`1[TResult]..ctor (System.String directory, System.IO.Enumeration.FileSystemEnumerable`1+FindTransform[TResult] transform, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Enumeration.FileSystemEnumerableFactory.UserFiles (System.String directory, System.String expression, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.InternalEnumeratePaths (System.String path, System.String searchPattern, System.IO.SearchTarget searchTarget, System.IO.EnumerationOptions options) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.EnumerationOptions enumerationOptions) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nSystem.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.SearchOption searchOption) (at <41d29b352f6a475ab1bf7c6628b82790>:0)\nPackages.Rider.Editor.RiderInitializer.Initialize (System.String editorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderInitializer.cs:40)\nPackages.Rider.Editor.RiderScriptEditor.InitializeInternal (System.String currentEditorPath) (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:294)\nPackages.Rider.Editor.RiderScriptEditor..cctor () (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:36)\nUnityEngine.Debug:LogException(Exception)\nPackages.Rider.Editor.RiderScriptEditor:.cctor() (at ./Library/PackageCache/com.unity.ide.rider@e4950c6d131b/Rider/Editor/RiderScriptEditor.cs:41)\nUnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes(Type[])\n",
+          "seeded": false
+        },
+        {
+          "seq": 71,
+          "timestampUtc": "2026-11-02T02:39:52.8033924Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "ExecuteCommandByName: No command named 'editor status' is available. Available: [set_serialized_field, clear_baked_lighting, set_player_settings, remove_animation_curve, open_scene, set_selection, cancel_occlusion_bake, add_animator_transition, delete_gameobject, set_build_settings, get_player_settings, set_active, set_authoring_root, set_tags_layers, create_timeline, clear_occlusion_culling, set_layer, instantiate_prefab, add_component, cancel_lighting_bake, set_time_settings, bake_navmesh_surfaces, set_transform, get_lighting_settings, build, attach_script, write_text_file, get_navmesh_settings, remove_component, set_autotick, read_text_file, set_active_scene, wait_for, unpack_prefab, create_animation_clip, add_scene_to_build, switch_build_target, get_input_settings, find_gameobjects, get_timeline, set_input_settings, cancel_navmesh_bake, delete_asset, add_animator_state, create_scene, create_prefab_variant, package_add, get_component_properties, screenshot, get_graphics_settings, set_graphics_settings, list_open_scenes, get_tags_layers, rename_asset, get_performance_stats, get_quality_settings, audit, package_list, set_runtime_pipeline_settings, create_prefab, set_navmesh_settings, wait_status, build_status, batch, list_shaders, create_folder, test_status, set_audio_settings, menu, get_audio_settings, set_animation_curve, get_runtime_pipeline_settings, package_remove, set_lighting_settings, get_shader_properties, revert_prefab_overrides, editor_stop, switch_build_target_status, save_all, move_asset, wait_cancel, apply_prefab_overrides, reload_file_player_interpreter, set_parent, copy_asset, create_asset, get_serialized_fields, package_search, get_scene_hierarchy, set_component_properties, set_quality_settings, navmesh_bake_status, import_asset, occlusion_bake_status, set_import_settings, bake_occlusion_culling, list_build_profiles, get_build_settings, get_animation_clip, editor_play, get_time_settings, audit_status, set_physics_settings, capture_scene_view, recompile, clear_navmesh, add_animator_layer, search, capture_game_view, create_script, add_animator_parameter, save_prefab_contents, package_status, rename_gameobject, editor_focus, create_gameobjects, bake_navmesh, get_animator_controller, create_animator_controller, save_scene, editor_status, get_selection, recompile_status, find_assets, get_material_properties, get_physics_settings, add_timeline_track, create_gameobject, get_import_settings, add_timeline_clip, set_tag, set_material_properties, editor_pause, list_tests, run_script, remove_scene_from_build, package_resolve, bake_lighting, list_build_targets, run_tests, get_authoring_root, cancel_tests, lighting_bake_status, clear_console, eval_file, console_status, report_evals, runtime_status, cleanup_codereload, log, reload_file_editor_interpreter, codereload_status, simulate_pointer, quit, set_target_framerate, simulate_key, set_timescale, console, eval, reload_file]",
+          "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer:ResolveCommand (string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2622)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2085)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<int>:SetResult (int)\nUnity.Pipeline.MaxLengthStream/<ReadAsync>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/MaxLengthStream.cs:46)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 73,
+          "timestampUtc": "2026-11-02T02:40:07.0486225Z",
+          "level": "error",
+          "logType": "Error",
+          "message": "ExecuteCommandByName: No command named 'editor status' is available. Available: [set_serialized_field, clear_baked_lighting, set_player_settings, remove_animation_curve, open_scene, set_selection, cancel_occlusion_bake, add_animator_transition, delete_gameobject, set_build_settings, get_player_settings, set_active, set_authoring_root, set_tags_layers, create_timeline, clear_occlusion_culling, set_layer, instantiate_prefab, add_component, cancel_lighting_bake, set_time_settings, bake_navmesh_surfaces, set_transform, get_lighting_settings, build, attach_script, write_text_file, get_navmesh_settings, remove_component, set_autotick, read_text_file, set_active_scene, wait_for, unpack_prefab, create_animation_clip, add_scene_to_build, switch_build_target, get_input_settings, find_gameobjects, get_timeline, set_input_settings, cancel_navmesh_bake, delete_asset, add_animator_state, create_scene, create_prefab_variant, package_add, get_component_properties, screenshot, get_graphics_settings, set_graphics_settings, list_open_scenes, get_tags_layers, rename_asset, get_performance_stats, get_quality_settings, audit, package_list, set_runtime_pipeline_settings, create_prefab, set_navmesh_settings, wait_status, build_status, batch, list_shaders, create_folder, test_status, set_audio_settings, menu, get_audio_settings, set_animation_curve, get_runtime_pipeline_settings, package_remove, set_lighting_settings, get_shader_properties, revert_prefab_overrides, editor_stop, switch_build_target_status, save_all, move_asset, wait_cancel, apply_prefab_overrides, reload_file_player_interpreter, set_parent, copy_asset, create_asset, get_serialized_fields, package_search, get_scene_hierarchy, set_component_properties, set_quality_settings, navmesh_bake_status, import_asset, occlusion_bake_status, set_import_settings, bake_occlusion_culling, list_build_profiles, get_build_settings, get_animation_clip, editor_play, get_time_settings, audit_status, set_physics_settings, capture_scene_view, recompile, clear_navmesh, add_animator_layer, search, capture_game_view, create_script, add_animator_parameter, save_prefab_contents, package_status, rename_gameobject, editor_focus, create_gameobjects, bake_navmesh, get_animator_controller, create_animator_controller, save_scene, editor_status, get_selection, recompile_status, find_assets, get_material_properties, get_physics_settings, add_timeline_track, create_gameobject, get_import_settings, add_timeline_clip, set_tag, set_material_properties, editor_pause, list_tests, run_script, remove_scene_from_build, package_resolve, bake_lighting, list_build_targets, run_tests, get_authoring_root, cancel_tests, lighting_bake_status, clear_console, eval_file, console_status, report_evals, runtime_status, cleanup_codereload, log, reload_file_editor_interpreter, codereload_status, simulate_pointer, quit, set_target_framerate, simulate_key, set_timescale, console, eval, reload_file]",
+          "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer:ResolveCommand (string) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2622)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2085)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<int>:SetResult (int)\nUnity.Pipeline.MaxLengthStream/<ReadAsync>d__6:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/MaxLengthStream.cs:46)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+          "seeded": false
+        }
+      ],
+      "cursor": 73,
+      "session": "8d55c06af2304e228dc030939b3352e8",
+      "returned": 67,
+      "dropped": false,
+      "reset": false,
+      "counts": {
+        "error": 20,
+        "warn": 47,
+        "log": 6
+      },
+      "groundTruth": {
+        "sampledUtc": "2026-11-02T02:40:29.6369508Z",
+        "ageMs": 113,
+        "compilationFailed": false,
+        "compiling": false,
+        "consoleErrors": 2,
+        "consoleWarnings": 0,
+        "consoleLogs": 1,
+        "seeded": true
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\mbcAcademy\\ProjectDwtD"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

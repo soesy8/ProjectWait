@@ -1,0 +1,250 @@
+{
+  "checks": [
+    {
+      "name": "Original scene is clean and in Edit Mode",
+      "passed": true
+    },
+    {
+      "name": "One-click setup supports a saved scene outside Assets/M",
+      "passed": true
+    },
+    {
+      "name": "Generated rendering assets stay inside Shared Assets",
+      "passed": true
+    },
+    {
+      "name": "Nine UI prefabs exist in Shared Assets",
+      "passed": true
+    },
+    {
+      "name": "Non-zero dimensions: ChoiceCard",
+      "passed": true
+    },
+    {
+      "name": "World Space Canvas: ChoiceCard",
+      "passed": true
+    },
+    {
+      "name": "PC/XR raycasters: ChoiceCard",
+      "passed": true
+    },
+    {
+      "name": "No missing scripts: ChoiceCard",
+      "passed": true
+    },
+    {
+      "name": "Text fonts and materials: ChoiceCard",
+      "passed": true
+    },
+    {
+      "name": "No scenario callbacks in shared prefab: Choice0",
+      "passed": true
+    },
+    {
+      "name": "No scenario callbacks in shared prefab: Choice1",
+      "passed": true
+    },
+    {
+      "name": "No scenario callbacks in shared prefab: Choice2",
+      "passed": true
+    },
+    {
+      "name": "Non-zero dimensions: CompletionCard",
+      "passed": true
+    },
+    {
+      "name": "World Space Canvas: CompletionCard",
+      "passed": true
+    },
+    {
+      "name": "PC/XR raycasters: CompletionCard",
+      "passed": true
+    },
+    {
+      "name": "No missing scripts: CompletionCard",
+      "passed": true
+    },
+    {
+      "name": "Text fonts and materials: CompletionCard",
+      "passed": true
+    },
+    {
+      "name": "No scenario callbacks in shared prefab: KeepMemory",
+      "passed": true
+    },
+    {
+      "name": "Non-zero dimensions: DialogueCard",
+      "passed": true
+    },
+    {
+      "name": "World Space Canvas: DialogueCard",
+      "passed": true
+    },
+    {
+      "name": "PC/XR raycasters: DialogueCard",
+      "passed": true
+    },
+    {
+      "name": "No missing scripts: DialogueCard",
+      "passed": true
+    },
+    {
+      "name": "Text fonts and materials: DialogueCard",
+      "passed": true
+    },
+    {
+      "name": "Non-zero dimensions: IntercomDialogueCard",
+      "passed": true
+    },
+    {
+      "name": "World Space Canvas: IntercomDialogueCard",
+      "passed": true
+    },
+    {
+      "name": "PC/XR raycasters: IntercomDialogueCard",
+      "passed": true
+    },
+    {
+      "name": "No missing scripts: IntercomDialogueCard",
+      "passed": true
+    },
+    {
+      "name": "Text fonts and materials: IntercomDialogueCard",
+      "passed": true
+    },
+    {
+      "name": "Non-zero dimensions: MissionCard",
+      "passed": true
+    },
+    {
+      "name": "World Space Canvas: MissionCard",
+      "passed": true
+    },
+    {
+      "name": "PC/XR raycasters: MissionCard",
+      "passed": true
+    },
+    {
+      "name": "No missing scripts: MissionCard",
+      "passed": true
+    },
+    {
+      "name": "Text fonts and materials: MissionCard",
+      "passed": true
+    },
+    {
+      "name": "Non-zero dimensions: NextButton",
+      "passed": true
+    },
+    {
+      "name": "World Space Canvas: NextButton",
+      "passed": true
+    },
+    {
+      "name": "PC/XR raycasters: NextButton",
+      "passed": true
+    },
+    {
+      "name": "No missing scripts: NextButton",
+      "passed": true
+    },
+    {
+      "name": "Text fonts and materials: NextButton",
+      "passed": true
+    },
+    {
+      "name": "No scenario callbacks in shared prefab: DialogueNext",
+      "passed": true
+    },
+    {
+      "name": "Non-zero dimensions: ObservationCard",
+      "passed": true
+    },
+    {
+      "name": "World Space Canvas: ObservationCard",
+      "passed": true
+    },
+    {
+      "name": "PC/XR raycasters: ObservationCard",
+      "passed": true
+    },
+    {
+      "name": "No missing scripts: ObservationCard",
+      "passed": true
+    },
+    {
+      "name": "Text fonts and materials: ObservationCard",
+      "passed": true
+    },
+    {
+      "name": "Non-zero dimensions: PausePanel",
+      "passed": true
+    },
+    {
+      "name": "World Space Canvas: PausePanel",
+      "passed": true
+    },
+    {
+      "name": "PC/XR raycasters: PausePanel",
+      "passed": true
+    },
+    {
+      "name": "No missing scripts: PausePanel",
+      "passed": true
+    },
+    {
+      "name": "Text fonts and materials: PausePanel",
+      "passed": true
+    },
+    {
+      "name": "No scenario callbacks in shared prefab: ResumeButton",
+      "passed": true
+    },
+    {
+      "name": "No scenario callbacks in shared prefab: RestartButton",
+      "passed": true
+    },
+    {
+      "name": "No scenario callbacks in shared prefab: TitleButton",
+      "passed": true
+    },
+    {
+      "name": "Non-zero dimensions: ThoughtCloud",
+      "passed": true
+    },
+    {
+      "name": "World Space Canvas: ThoughtCloud",
+      "passed": true
+    },
+    {
+      "name": "PC/XR raycasters: ThoughtCloud",
+      "passed": true
+    },
+    {
+      "name": "No missing scripts: ThoughtCloud",
+      "passed": true
+    },
+    {
+      "name": "Text fonts and materials: ThoughtCloud",
+      "passed": true
+    },
+    {
+      "name": "Repeated setup reuses the pipeline, renderers and feature",
+      "passed": true
+    },
+    {
+      "name": "Repeated setup keeps one shared highlight list",
+      "passed": true
+    },
+    {
+      "name": "Source pipelines, renderers and assets are unchanged",
+      "passed": true
+    },
+    {
+      "name": "Moved setup window loads its UXML",
+      "passed": true
+    }
+  ],
+  "count": 61,
+  "passed": true
+}

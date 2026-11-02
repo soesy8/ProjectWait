@@ -1,0 +1,68 @@
+{
+  "part": "guidedexit",
+  "success": true,
+  "checks": [
+    {
+      "name": "Player frames advance",
+      "passed": true,
+      "detail": {
+        "startFrame": 12393,
+        "endFrame": 12413
+      }
+    },
+    {
+      "name": "Rescue camera transition releases input",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reached ReturnLobby",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Lobby transition releases input",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reached GroundFloor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Ground floor transition releases input",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reached Complete",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Guided 119 route completes",
+      "passed": true,
+      "detail": [
+        "한빛 생활체육센터 3층에서 농구를 마치고 1층으로 귀가 준비",
+        "낮은 측면 패널에서 목적지 1층을 선택함",
+        "친구의 농구공을 튀기지 않고 안고 있음",
+        "판단: 슛과 점프는 밖에서 하기로 함",
+        "설비 이상으로 운행 정지 · 두 경로 모두 고장 대처 체험으로 진행 · 표시만으로 원인을 판단하지 않음",
+        "대처: 비상통화 장치를 찾아 도움 요청",
+        "비상통화: 응답 없음",
+        "대처: 휴대폰 119 모의 신고",
+        "엘리베이터가 멈췄어요. 친구랑 둘이 있어요.",
+        "벽의 위치 표시를 직접 찾아 확인함",
+        "위치 표시를 확인하고 건물명과 승강기 번호 전달",
+        "대처: 안내를 듣고 문에서 떨어져 대기",
+        "친구에게: 도움을 요청했으니 여기서 천천히 숨을 고르며 함께 기다리자.",
+        "구조원의 안내를 확인하고 함께 나옴",
+        "정지한 승강기를 다시 이용하지 않고 직원 안내로 계단을 이용함",
+        "1층 로비의 주출입구로 귀가"
+      ]
+    }
+  ],
+  "errors": [],
+  "error": null
+}

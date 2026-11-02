@@ -1,0 +1,36 @@
+{
+  "part": "friendcorridor",
+  "success": true,
+  "checks": [
+    {
+      "name": "Player frames advance",
+      "passed": true,
+      "detail": {
+        "startFrame": 1241,
+        "endFrame": 1261
+      }
+    },
+    {
+      "name": "Friend model unsafe animation reaches retry",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Screenshot 18 saved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Friend model safe route reaches reward",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Friend model route awards stamp",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "errors": [],
+  "error": null
+}

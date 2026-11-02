@@ -10,6 +10,7 @@ namespace ProjectWait.M.Elevator
     public sealed class ElevatorSpatialUI : MonoBehaviour
     {
         public ElevatorView view;
+        public ElevatorStorybookUI storybook;
         public Canvas hud;
         public RectTransform mission, speakerTab;
         public TMP_Text speaker, progress, controls, thoughtHeading;
@@ -44,6 +45,7 @@ namespace ProjectWait.M.Elevator
         CanvasGroup worldGroup, hudGroup;
         float layoutAspect=-1;
         int layoutWidth,layoutHeight;
+        Vector2 layoutHudSize;
 
         void OnEnable(){Application.onBeforeRender+=PositionHud;}
         void OnDisable(){Application.onBeforeRender-=PositionHud;}
@@ -97,11 +99,14 @@ namespace ProjectWait.M.Elevator
             label.text = label.text.Replace("요. ","요.\n");
             label.color = Paper; label.fontSize = 28;
             label.fontStyle = FontStyles.Normal;
+            if(storybook)storybook.SkinButton(button);
         }
 
         public void ShowThought(string value)
         {
-            observed = value ?? "";
+            value = value ?? "";
+            if (observed == value) return;
+            observed = value;
             UpdateThought();
             LayoutHud();
         }
@@ -118,6 +123,7 @@ namespace ProjectWait.M.Elevator
         public void Restore()
         {
             historyPage = 0; placedRun = -1; observed = baseThought = "";
+            if(storybook)storybook.HighlightHistory(-1);
             if(notebook)notebook.gameObject.SetActive(false);
             UpdateThought();
         }
@@ -134,6 +140,7 @@ namespace ProjectWait.M.Elevator
             notebookCaption.text = titles[page];
             notebookDetail.text = details[page];
             for(int i=0;i<completionRows.Length;i++)completionRows[i].GetComponent<CorridorBubbleGraphic>().color = i==page ? Mint : Paper;
+            if(storybook)storybook.HighlightHistory(page);
         }
 
         public void Layout()
@@ -143,8 +150,8 @@ namespace ProjectWait.M.Elevator
             root.sizeDelta = new Vector2(580,460);
             root.localScale = Vector3.one * worldPixelSize;
             const float width = 510;
-            float body = Mathf.Max(64, view.dialogueText.GetPreferredValues(view.dialogueText.text,width-56,0).y+8);
-            float height = body + 68;
+            float body = Mathf.Max(64, view.dialogueText.GetPreferredValues(view.dialogueText.text,width-(storybook?92:56),0).y+8);
+            float height = body + (storybook?88:68);
             view.dialoguePanel.sizeDelta = new Vector2(width,height);
             view.dialoguePanel.anchoredPosition = Vector2.zero;
             view.dialogueText.rectTransform.sizeDelta = new Vector2(width-56,body);
@@ -162,10 +169,10 @@ namespace ProjectWait.M.Elevator
                 float buttonWidth = complete ? 211 : button.name=="DialogueNext"?190:width;
                 var r = (RectTransform)button.transform;
                 var label = button.GetComponentInChildren<TMP_Text>();
-                label.fontSize = complete ? 21 : 28;
+                label.fontSize = complete ? 21 : storybook ? 26 : 28;
                 label.textWrappingMode=TextWrappingModes.Normal;
                 if(complete)label.text = i==0 ? "우리가 해낸 일" : "다시 해보기";
-                float buttonHeight=complete?70:button.name=="DialogueNext"?72:Mathf.Max(88,label.GetPreferredValues(label.text,buttonWidth-44,0).y+28);
+                float buttonHeight=complete?70:button.name=="DialogueNext"?72:Mathf.Max(88,label.GetPreferredValues(label.text,buttonWidth-(storybook?80:44),0).y+30);
                 r.sizeDelta=new Vector2(buttonWidth,buttonHeight);
                 r.anchoredPosition=complete?new Vector2((i-.5f)*227,0):new Vector2(0,-buttonY-buttonHeight*.5f);
                 r.localPosition=new Vector3(r.localPosition.x,r.localPosition.y,-1);
@@ -173,6 +180,7 @@ namespace ProjectWait.M.Elevator
                 buttonY+=buttonHeight+18;
             }
             view.actionPanel.anchoredPosition=complete?new Vector2(0,-216):new Vector2(0,-height*.5f-40);
+            if(storybook)storybook.LayoutWorld();
             LayoutHud();
             PositionWorld();
             layoutAspect=view.playerCamera.aspect;layoutWidth=Screen.width;layoutHeight=Screen.height;
@@ -180,7 +188,8 @@ namespace ProjectWait.M.Elevator
 
         void LayoutHud()
         {
-            if(view.lesson.scenario){hud.renderMode=RenderMode.WorldSpace;hud.gameObject.SetActive(false);return;}
+            bool descriptionsOnly = view.lesson.scenario;
+            hud.gameObject.SetActive(true);
             var camera = view.playerCamera;
             bool xr = XRSettings.isDeviceActive;
             hud.renderMode = xr ? RenderMode.WorldSpace : RenderMode.ScreenSpaceOverlay;
@@ -189,32 +198,42 @@ namespace ProjectWait.M.Elevator
             var scaler = hud.GetComponent<UnityEngine.UI.CanvasScaler>();
             scaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1280,720); scaler.matchWidthOrHeight = 1;
-            float width = 720*camera.aspect;
+            var hudRect = (RectTransform)hud.transform;
+            float width = xr ? 720*camera.aspect : hudRect.rect.width;
             if(xr)
             {
                 var hr = (RectTransform)hud.transform; hr.sizeDelta=new Vector2(width,720);
                 PositionHud();
             }
             mission.anchorMin=mission.anchorMax=mission.pivot=new Vector2(0,1);
+            mission.gameObject.SetActive(!complete&&!descriptionsOnly);
             mission.sizeDelta=new Vector2(Mathf.Min(370,width-48),72);mission.anchoredPosition=new Vector2(24,-22);
             view.title.rectTransform.sizeDelta=new Vector2(mission.rect.width-32,20);view.title.rectTransform.anchoredPosition=new Vector2(0,20);
             view.subtitle.rectTransform.sizeDelta=new Vector2(mission.rect.width-32,36);view.subtitle.rectTransform.anchoredPosition=new Vector2(0,-10);
             progress.rectTransform.anchorMin=progress.rectTransform.anchorMax=progress.rectTransform.pivot=new Vector2(1,1);
             progress.rectTransform.anchoredPosition=new Vector2(-24,-24);progress.rectTransform.sizeDelta=new Vector2(530,32);
-            progress.fontSize=16;progress.gameObject.SetActive(!complete&&camera.aspect>1.5f);
+            progress.fontSize=16;progress.gameObject.SetActive(!complete&&!descriptionsOnly&&camera.aspect>1.5f);
             if(progressBackdrop){progressBackdrop.anchorMin=progressBackdrop.anchorMax=progressBackdrop.pivot=Vector2.one;progressBackdrop.anchoredPosition=new Vector2(-14,-16);progressBackdrop.sizeDelta=new Vector2(550,48);progressBackdrop.gameObject.SetActive(progress.gameObject.activeSelf);}
             controls.rectTransform.anchorMin=controls.rectTransform.anchorMax=new Vector2(.5f,0);
             controls.rectTransform.anchoredPosition=new Vector2(0,12);controls.rectTransform.sizeDelta=new Vector2(width-40,22);
-            controls.gameObject.SetActive(!xr&&!complete);
+            controls.gameObject.SetActive(!xr&&!complete&&!descriptionsOnly);
             if(controlsBackdrop){controlsBackdrop.anchorMin=controlsBackdrop.anchorMax=new Vector2(.5f,0);controlsBackdrop.pivot=new Vector2(.5f,0);controlsBackdrop.anchoredPosition=new Vector2(0,6);controlsBackdrop.sizeDelta=new Vector2(Mathf.Min(800,width-40),32);controlsBackdrop.gameObject.SetActive(controls.gameObject.activeSelf);}
             controls.text="WASD 이동  ·  마우스로 둘러보기  ·  중앙 조준 후 클릭  ·  Esc 일시정지";
-            float thoughtWidth=Mathf.Min(480,width-48);
-            float thoughtHeight=Mathf.Max(112,view.thought.GetPreferredValues(view.thought.text,thoughtWidth-54,0).y+56);
-            view.thoughtPanel.anchorMin=view.thoughtPanel.anchorMax=view.thoughtPanel.pivot=Vector2.zero;
+            float thoughtWidth=Mathf.Min(380,width-48);
+            float bodyWidth=thoughtWidth*.72f;
+            float bodyHeight=Mathf.Max(56,view.thought.GetPreferredValues(view.thought.text,bodyWidth,0).y);
+            float thoughtHeight=Mathf.Max(200,(bodyHeight+58)/.70f);
+            view.thoughtPanel.anchorMin=view.thoughtPanel.anchorMax=new Vector2(1,.55f);
+            view.thoughtPanel.pivot=new Vector2(1,.5f);
             view.thoughtPanel.sizeDelta=new Vector2(thoughtWidth,thoughtHeight);
-            view.thoughtPanel.anchoredPosition=new Vector2(28,52);
-            thoughtHeading.rectTransform.sizeDelta=new Vector2(thoughtWidth-52,24);thoughtHeading.rectTransform.anchoredPosition=new Vector2(0,thoughtHeight*.5f-23);
-            view.thought.rectTransform.sizeDelta=new Vector2(thoughtWidth-52,thoughtHeight-50);view.thought.rectTransform.anchoredPosition=new Vector2(0,-16);
+            view.thoughtPanel.anchoredPosition=new Vector2(-32,0);
+            var cloud=view.thoughtPanel.GetComponent<CorridorBubbleGraphic>();
+            if(cloud&&!cloud.thoughtCloud){cloud.thoughtCloud=true;cloud.speechTail=false;cloud.SetVerticesDirty();}
+            thoughtHeading.alignment=TextAlignmentOptions.Center;
+            thoughtHeading.rectTransform.sizeDelta=new Vector2(bodyWidth,24);thoughtHeading.rectTransform.anchoredPosition=new Vector2(0,bodyHeight*.5f+12);
+            view.thought.rectTransform.sizeDelta=new Vector2(bodyWidth,bodyHeight);view.thought.rectTransform.anchoredPosition=new Vector2(0,-16);
+            if(storybook)storybook.LayoutThought(!string.IsNullOrEmpty(observed));
+            layoutHudSize=hudRect.rect.size;
         }
 
         void PositionWorld()
@@ -269,7 +288,9 @@ namespace ProjectWait.M.Elevator
 
         public void Tick()
         {
-            if(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height)Layout();
+            // CanvasScaler may resize after the screen/camera change was observed.
+            // Reflow against the actual canvas once its new size has been applied.
+            if(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height||layoutHudSize!=((RectTransform)hud.transform).rect.size)Layout();
             else PositionWorld();
             PositionHud();SetCinematicVisibility();
             if(view.lesson.Flow!=null)view.dialogueText.maxVisibleCharacters=Mathf.Max(1,(int)((Time.time-revealStarted)*42));

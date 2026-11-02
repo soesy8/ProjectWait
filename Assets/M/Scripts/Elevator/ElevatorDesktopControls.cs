@@ -36,7 +36,7 @@ namespace ProjectWait.M.Elevator
         InputAction restartAction,developerAction,clickAction;
         int pendingChoice=-1,pendingRevision,pendingRun,clickRevision,clickRun,viewRevision=-1;
         bool pendingRestart,pendingDeveloper,pendingClick;
-        static readonly Color Idle=new Color(.85f,.94f,1),Target=new Color(.35f,.86f,1);
+        static readonly Color Idle=new Color(.85f,.94f,1),Target=new Color(.35f,.86f,1),OutOfRange=new Color(1,.70f,.28f);
         void OnEnable()
         {
             tint=new MaterialPropertyBlock();if(laserDot)dotRenderer=laserDot.GetComponent<Renderer>();
@@ -172,10 +172,12 @@ namespace ProjectWait.M.Elevator
                 target=button.gameObject;distance=d;uiDistance=d;
                 if(pointer!=null)pointer.pointerCurrentRaycast=new RaycastResult{gameObject=target,distance=d,worldPosition=point,worldNormal=-rect.forward};
             }
-            SetTarget(target);var color=hovered?Target:Idle;
+            SetTarget(target);var observation=hovered?hovered.GetComponent<ElevatorObservation>():null;
+            bool reachable=hovered&&(!observation||observation.CanActivate);
+            var color=hovered?(reachable?Target:OutOfRange):Idle;
             if(centerLaser){centerLaser.SetPosition(0,targetCamera.transform.TransformPoint(new Vector3(0,-.022f,.13f)));centerLaser.SetPosition(1,ray.GetPoint(Mathf.Clamp(distance,.15f,laserRange)));tint.SetColor("_BaseColor",color);tint.SetColor("_Color",color);centerLaser.SetPropertyBlock(tint);}
             if(laserDot){laserDot.position=ray.GetPoint(Mathf.Clamp(distance-.008f,.12f,laserRange));laserDot.localScale=Vector3.one*Mathf.Clamp(distance*.003f,.007f,.02f);if(dotRenderer)dotRenderer.SetPropertyBlock(tint);}
-            if(reticle)reticle.SetFocused(hovered);
+            if(reticle)reticle.SetFocused(reachable);
         }
         public void SelectCenterTarget()
         {

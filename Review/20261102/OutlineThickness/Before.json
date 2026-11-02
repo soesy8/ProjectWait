@@ -1,0 +1,50 @@
+[
+  {
+    "ortho": false,
+    "distance": 1.0,
+    "objectHalfWidth": 95,
+    "coreWidth": 6,
+    "outlineTargets": 1,
+    "path": "Review/20261102/OutlineThickness/Before_Perspective_1m.png"
+  },
+  {
+    "ortho": false,
+    "distance": 2.0,
+    "objectHalfWidth": 47,
+    "coreWidth": 6,
+    "outlineTargets": 1,
+    "path": "Review/20261102/OutlineThickness/Before_Perspective_2m.png"
+  },
+  {
+    "ortho": false,
+    "distance": 4.0,
+    "objectHalfWidth": 24,
+    "coreWidth": 5,
+    "outlineTargets": 1,
+    "path": "Review/20261102/OutlineThickness/Before_Perspective_4m.png"
+  },
+  {
+    "ortho": true,
+    "distance": 1.0,
+    "objectHalfWidth": 91,
+    "coreWidth": 6,
+    "outlineTargets": 1,
+    "path": "Review/20261102/OutlineThickness/Before_Ortho_1m.png"
+  },
+  {
+    "ortho": true,
+    "distance": 2.0,
+    "objectHalfWidth": 91,
+    "coreWidth": 6,
+    "outlineTargets": 1,
+    "path": "Review/20261102/OutlineThickness/Before_Ortho_2m.png"
+  },
+  {
+    "ortho": true,
+    "distance": 4.0,
+    "objectHalfWidth": 91,
+    "coreWidth": 6,
+    "outlineTargets": 1,
+    "path": "Review/20261102/OutlineThickness/Before_Ortho_4m.png"
+  }
+]

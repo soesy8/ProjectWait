@@ -1,0 +1,106 @@
+{
+  "prefabs": [
+    {
+      "path": "Assets/Shared Assets/UI/Prefabs/ChoiceCard.prefab",
+      "scale": "(0.00, 0.00, 0.00)",
+      "texts": [
+        "Label",
+        "Label",
+        "Label"
+      ],
+      "buttons": [
+        "Choice0",
+        "Choice1",
+        "Choice2"
+      ]
+    },
+    {
+      "path": "Assets/Shared Assets/UI/Prefabs/CompletionCard.prefab",
+      "scale": "(0.00, 0.00, 0.00)",
+      "texts": [
+        "Heading",
+        "Title",
+        "Done0",
+        "Done1",
+        "Done2",
+        "Label"
+      ],
+      "buttons": [
+        "KeepMemory"
+      ]
+    },
+    {
+      "path": "Assets/Shared Assets/UI/Prefabs/DialogueCard.prefab",
+      "scale": "(0.00, 0.00, 0.00)",
+      "texts": [
+        "Speaker",
+        "Dialogue"
+      ],
+      "buttons": []
+    },
+    {
+      "path": "Assets/Shared Assets/UI/Prefabs/IntercomDialogueCard.prefab",
+      "scale": "(0.00, 0.00, 0.00)",
+      "texts": [
+        "Speaker",
+        "Dialogue"
+      ],
+      "buttons": []
+    },
+    {
+      "path": "Assets/Shared Assets/UI/Prefabs/MissionCard.prefab",
+      "scale": "(0.00, 0.00, 0.00)",
+      "texts": [
+        "Heading",
+        "Objective"
+      ],
+      "buttons": []
+    },
+    {
+      "path": "Assets/Shared Assets/UI/Prefabs/NextButton.prefab",
+      "scale": "(0.00, 0.00, 0.00)",
+      "texts": [
+        "Label"
+      ],
+      "buttons": [
+        "DialogueNext"
+      ]
+    },
+    {
+      "path": "Assets/Shared Assets/UI/Prefabs/ObservationCard.prefab",
+      "scale": "(0.00, 0.00, 0.00)",
+      "texts": [
+        "Heading",
+        "Description"
+      ],
+      "buttons": []
+    },
+    {
+      "path": "Assets/Shared Assets/UI/Prefabs/PausePanel.prefab",
+      "scale": "(0.00, 0.00, 0.00)",
+      "texts": [
+        "Heading",
+        "Title",
+        "Label",
+        "Label",
+        "Label"
+      ],
+      "buttons": [
+        "ResumeButton",
+        "RestartButton",
+        "TitleButton"
+      ]
+    },
+    {
+      "path": "Assets/Shared Assets/UI/Prefabs/ThoughtCloud.prefab",
+      "scale": "(0.00, 0.00, 0.00)",
+      "texts": [
+        "Heading",
+        "Thought"
+      ],
+      "buttons": []
+    }
+  ],
+  "copiedSupportAssets": 14,
+  "externalProjectDependencies": []
+}

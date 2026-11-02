@@ -20,9 +20,7 @@ namespace ProjectWait.M.Elevator
         ElevatorObservation[] observations;Canvas[] canvases;
         ElevatorDesktopControls desktop;
         public ElevatorObservation PrimaryTarget {get;private set;}
-        int lastRevision=-1,lastRun=-1;
-        void Awake(){lesson.scenario=this;observations=lesson.CollectObservations();desktop=FindFirstObjectByType<ElevatorDesktopControls>();HideHud();}
-        void HideHud(){if(lesson.view.spatial&&lesson.view.spatial.hud){lesson.view.spatial.hud.renderMode=RenderMode.WorldSpace;lesson.view.spatial.hud.gameObject.SetActive(false);}}
+        void Awake(){lesson.scenario=this;observations=lesson.CollectObservations();desktop=FindFirstObjectByType<ElevatorDesktopControls>();}
         public bool Allows(ElevatorClue clue)=>lesson.CanInteract(clue);
         public bool HandleObjectAction(ElevatorClue clue)
         {
@@ -75,18 +73,15 @@ namespace ProjectWait.M.Elevator
         }
         void LateUpdate()
         {
-            if(!lesson||lesson.Flow==null)return;HideHud();
+            if(!lesson||lesson.Flow==null)return;
             if(observations==null)observations=lesson.CollectObservations();
             PrimaryTarget=observations.FirstOrDefault(o=>o&&o.gameObject.activeInHierarchy&&o.IsHovered&&lesson.CanInteract(o.clue));
-            bool reposition=lastRun!=lesson.RunVersion||lastRevision!=lesson.Flow.Revision;
+            lesson.view.ShowThought(PrimaryTarget?Hint(PrimaryTarget.clue):"");
+            // Object descriptions share the screen thought bubble; retire the old world labels.
             if(hints!=null)foreach(var h in hints)
             {
-                if(!h||!h.observation)continue;var o=h.observation;
-                bool show=!lesson.CinematicBlocking&&!lesson.IsPaused&&o.gameObject.activeInHierarchy&&lesson.CanInteract(o.clue)&&o.IsHovered;
-                string text=Hint(o.clue);
-                h.Present(show,text,lesson.playerCamera,reposition,lesson.view);
+                if(h)h.Present(false,"",lesson.playerCamera,false,lesson.view);
             }
-            lastRun=lesson.RunVersion;lastRevision=lesson.Flow.Revision;
             ApplyWorldMaterials();
         }
         void ApplyWorldMaterials()
