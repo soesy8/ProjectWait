@@ -20621,7 +20621,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292605695
+    rgba: 4279772218
   m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -21471,7 +21471,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ""
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9ab7d3ed2f29755499ee532ca0d58e37, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: fd61bfbdf8e745f4bbec270c716c54c7, type: 2}
@@ -44968,7 +44968,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6673345794478238243, guid: 0f9f8066473cc2f4d8374b9992d9e565, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3345597431309930970, guid: 0f9f8066473cc2f4d8374b9992d9e565, type: 3}
       insertIndex: -1
@@ -48447,7 +48448,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280561735
+    rgba: 4279772218
   m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
