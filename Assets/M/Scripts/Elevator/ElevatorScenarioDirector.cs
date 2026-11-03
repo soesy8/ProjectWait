@@ -15,13 +15,53 @@ namespace ProjectWait.M.Elevator
         public bool objectGuidedScene;
         public Material worldOverlay;
         public ElevatorObjectHint[] hints;
-        public bool LockView => objectGuidedScene && lesson && lesson.Flow!=null && lesson.Flow.IsCinematic && !lesson.IsPaused;
         readonly Dictionary<Material,Material> fontOverlays=new Dictionary<Material,Material>();
         ElevatorObservation[] observations;Canvas[] canvases;
         ElevatorDesktopControls desktop;
         public ElevatorObservation PrimaryTarget {get;private set;}
+        [Min(0)] public float guidanceDelay=8;
+        [Min(.1f)] public float guidanceCycleSeconds=1;
+        public ElevatorClue? GuidanceTarget {get;private set;}
+        public float GuidanceElapsed {get;private set;}
+        public bool GuidanceActive=>GuidanceTarget.HasValue&&GuidanceElapsed>=guidanceDelay&&!lesson.CinematicBlocking;
+        public float GuidanceBlend=>GuidanceActive?.5f-.5f*Mathf.Cos((GuidanceElapsed-guidanceDelay)*Mathf.PI*2/guidanceCycleSeconds):0;
+        int guidanceRun=-1;
         void Awake(){lesson.scenario=this;observations=lesson.CollectObservations();desktop=FindFirstObjectByType<ElevatorDesktopControls>();}
         public bool Allows(ElevatorClue clue)=>lesson.CanInteract(clue);
+        ElevatorClue? RequiredTarget()
+        {
+            var f=lesson.Flow;
+            if(f.IsCinematic)return null;
+            switch(f.Step)
+            {
+                case ElevatorStep.Lobby:return ElevatorClue.LobbyCall;
+                case ElevatorStep.Boarding:return f.DestinationSelected?ElevatorClue.Ball:ElevatorClue.FloorButtons;
+                case ElevatorStep.Proposal:return objectGuidedScene?(ElevatorClue?)ElevatorClue.Notice:null;
+                case ElevatorStep.Stopped:return ElevatorClue.Intercom;
+                case ElevatorStep.Unanswered:return ElevatorClue.Phone;
+                case ElevatorStep.Call:return f.SituationReported&&!f.IdentityFound?(ElevatorClue?)ElevatorClue.Identity:null;
+                case ElevatorStep.Waiting:return ElevatorClue.Friend;
+                case ElevatorStep.Retry:return !f.ProposalRetry&&objectGuidedScene?(ElevatorClue?)ElevatorClue.Intercom:null;
+                case ElevatorStep.Rescue:case ElevatorStep.ReturnLobby:return objectGuidedScene?(ElevatorClue?)ElevatorClue.Rescuer:null;
+                case ElevatorStep.GroundFloor:return ElevatorClue.GroundExit;
+                default:return null;
+            }
+        }
+        public void AdvanceGuidance(float seconds)
+        {
+            if(!lesson||lesson.Flow==null)return;
+            var target=RequiredTarget();
+            if(guidanceRun!=lesson.RunVersion||GuidanceTarget!=target)
+            {guidanceRun=lesson.RunVersion;GuidanceTarget=target;GuidanceElapsed=0;}
+            if(!target.HasValue||lesson.CinematicBlocking||seconds<=0||float.IsNaN(seconds)||float.IsInfinity(seconds))return;
+            GuidanceElapsed+=seconds;
+        }
+        public void NotifySelection(ElevatorClue clue)
+        {
+            if(clue==GuidanceTarget||GuidanceTarget==ElevatorClue.FloorButtons&&clue==ElevatorClue.FrontFloorButtons)
+                GuidanceElapsed=0;
+        }
+        public bool IsGuidanceTarget(ElevatorClue clue)=>GuidanceActive&&GuidanceTarget==clue;
         public bool HandleObjectAction(ElevatorClue clue)
         {
             var f=lesson.Flow;
@@ -60,13 +100,13 @@ namespace ProjectWait.M.Elevator
             if(!objectGuidedScene)return;var f=lesson.Flow;
             switch(f.Step)
             {
-                case ElevatorStep.Lobby:who="친구";line="운동도 마쳤으니 1층으로 내려가자.\n아래쪽 호출 버튼으로 엘리베이터를 불러 줄래?";break;
-                case ElevatorStep.Boarding:who="친구";line=f.DestinationSelected?"1층 눌렀구나! 내 공을 받아 줄래?\n공을 선택하면 건네줄게.":"우리는 1층으로 가자.\n손잡이 위의 낮은 패널에서 1을 찾아봐.";break;
-                case ElevatorStep.Proposal:who="친구";line="아까 슛 동작, 내가 보여 줄까?\n나를 선택해 부탁하거나 포스터를 살펴보고 밖에서 하자고 말해 줘.";break;
-                case ElevatorStep.Stopped:who="친구";line=f.CanObserve?"어지러워… 뭐부터 해야 하지?\n손이 닿는 비상벨로 도움을 요청하자.":"덜컹! 어? 멈췄어… 머리가 빙빙 돌아.";break;
-                case ElevatorStep.Waiting:who="친구";line="아직 가슴이 두근거리고 조금 무서워…\n내 옆에서 같이 기다려 줄래?";break;
-                case ElevatorStep.Rescue:who="직원";line=f.ReadyToExit?"바닥 높이와 나갈 경로를 확인했어요.\n저를 선택하면 안내를 따라 천천히 나와요.":"잘 기다렸어요. 문 밖이 안전한지 확인할게요.\n제가 안내할 때까지 기다려 주세요.";break;
-                case ElevatorStep.ReturnLobby:who="직원";line="승강기는 점검이 필요해요.\n저를 선택하면 함께 계단으로 1층에 내려갈게요.";break;
+                case ElevatorStep.Lobby:who="친구";line="1층으로 내려가자.\n아래쪽 호출 버튼을 눌러 줄래?";break;
+                case ElevatorStep.Boarding:who="친구";line=f.DestinationSelected?"1층 눌렀구나!\n공을 선택해서 받아 줄래?":"1층으로 가자.\n낮은 측면 패널에서\n1층 버튼을 찾아봐.";break;
+                case ElevatorStep.Proposal:who="친구";line="슛 동작을 보여 줄까?\n나를 선택하거나\n안전 포스터를 살펴봐 줘.";break;
+                case ElevatorStep.Stopped:who="친구";line=f.CanObserve?"어지러워… 어떻게 하지?\n낮은 비상벨로 도움을 요청하자.":"덜컹! 어? 멈췄어…";break;
+                case ElevatorStep.Waiting:who="친구";line="아직 조금 무서워…\n옆에서 같이 기다려 줄래?";break;
+                case ElevatorStep.Rescue:who="직원";line=f.ReadyToExit?"바닥 높이와 나갈 길을 확인했어요.\n저를 선택해 천천히 따라오세요.":"문 밖이 안전한지 확인할게요.\n안내할 때까지 안에서 기다려 주세요.";break;
+                case ElevatorStep.ReturnLobby:who="직원";line="승강기는 점검이 필요해요.\n저를 선택하면 계단으로\n1층까지 함께 내려갈게요.";break;
                 case ElevatorStep.GroundFloor:who="친구";line="이제 안전한 1층이야.\n주출입구를 선택해서 함께 나가자.";break;
                 case ElevatorStep.Complete:who="친구";line="도움을 요청하고, 위치를 알리고,\n문을 건드리지 않고 함께 기다렸어. 고마워!";break;
             }
@@ -74,13 +114,14 @@ namespace ProjectWait.M.Elevator
         void LateUpdate()
         {
             if(!lesson||lesson.Flow==null)return;
+            AdvanceGuidance(Time.unscaledDeltaTime);
             if(observations==null)observations=lesson.CollectObservations();
             PrimaryTarget=observations.FirstOrDefault(o=>o&&o.gameObject.activeInHierarchy&&o.IsHovered&&lesson.CanInteract(o.clue));
             lesson.view.ShowThought(PrimaryTarget?Hint(PrimaryTarget.clue):"");
             // Object descriptions share the screen thought bubble; retire the old world labels.
             if(hints!=null)foreach(var h in hints)
             {
-                if(h)h.Present(false,"",lesson.playerCamera,false,lesson.view);
+                if(h){if(h.group){h.group.alpha=0;h.group.blocksRaycasts=h.group.interactable=false;}h.gameObject.SetActive(false);}
             }
             ApplyWorldMaterials();
         }

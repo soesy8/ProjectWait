@@ -1,0 +1,14 @@
+﻿=== Only generated caches restored ===
+=== Whitespace ===
+=== Existing shared UI changes preserved ===
+ M "Assets/Shared Assets/UI/Prefabs/ChoiceCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/CompletionCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/DialogueCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/IntercomDialogueCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/MissionCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/NextButton.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/ObservationCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/PausePanel.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/ThoughtCloud.prefab"
+=== Local instruction ===
+.git/info/exclude:9:/AGENTS.md	AGENTS.md

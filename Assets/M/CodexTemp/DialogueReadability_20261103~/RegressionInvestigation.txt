@@ -1,0 +1,123 @@
+﻿
+> Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3629:        public V
+ector2 GetPreferredValues(string text)
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3630:        {
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3631:            m_is
+CalculatingPreferredValues = true;
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3632:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3633:            SetT
+extInternal(text);
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3634:            SetA
+rraySizes(m_TextProcessingArray);
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3635:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3636:            Vect
+or2 margin = k_LargePositiveVector2;
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3637:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3638:            // C
+ALCULATE PREFERRED WIDTH
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3639:            floa
+t preferredWidth = GetPreferredWidth(margin);
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3640:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3641:            // C
+ALCULATE PREFERRED HEIGHT
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3642:            floa
+t preferredHeight = GetPreferredHeight(margin);
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3643:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3644:            retu
+rn new Vector2(preferredWidth, preferredHeight);
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3645:        }
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3646:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3647:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3648:        /// <sum
+mary>
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3649:        ///  Fun
+ction to Calculate the Preferred Width and Height of the text object given a certain string and 
+size of text container.
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3650:        /// </su
+mmary>
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3651:        /// <par
+am name="text"></param>
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3652:        /// <ret
+urns></returns>
+> Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3653:        public V
+ector2 GetPreferredValues(string text, float width, float height)
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3654:        {
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3655:            m_is
+CalculatingPreferredValues = true;
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3656:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3657:            SetT
+extInternal(text);
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3658:            SetA
+rraySizes(m_TextProcessingArray);
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3659:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3660:            Vect
+or2 margin = new Vector2(width, height);
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3661:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3662:            // C
+ALCULATE PREFERRED WIDTH
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3663:            floa
+t preferredWidth = GetPreferredWidth(margin, m_TextWrappingMode);
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3664:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3665:            // C
+ALCULATE PREFERRED HEIGHT
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3666:            floa
+t preferredHeight = GetPreferredHeight(margin);
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3667:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3668:            retu
+rn new Vector2(preferredWidth, preferredHeight);
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3669:        }
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3670:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3671:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3672:        /// <sum
+mary>
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3673:        /// Meth
+od to calculate the preferred width of a text object.
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3674:        /// </su
+mmary>
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3675:        /// <ret
+urns></returns>
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3676:        protecte
+d float GetPreferredWidth()
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3677:        {
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3678:            if (
+TMP_Settings.instance == null) return 0;
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3679:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3680:            // R
+eturn cached preferred height if already computed
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3681:            if (
+!m_isPreferredWidthDirty)
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3682:                
+return m_preferredWidth;
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3683:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3684:            floa
+t fontSize = m_enableAutoSizing ? m_fontSizeMax : m_fontSize;
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3685:
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3686:            // R
+eset auto sizing point size bounds
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3687:            m_mi
+nFontSize = m_fontSizeMin;
+  Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:3688:            m_ma
+xFontSize = m_fontSizeMax;
+=== Waiting copy ===
+=== Camera regression waiting ===
+            await NoReframe("Hint revision",()=>lesson.Advance(lesson.settings.secondHintSeconds+1));
+            await NoReframe("Emergency call / Connecting",()=>lesson.Intercom());
+            await CinematicInputs("Connecting");
+            // With the overlay disabled, the flow itself must still protect actions.
+            var overlay=lesson.presentation.space.overlay;bool overlayEnabled=overlay.enabled;overlay.enabled=false;
+            Check(lesson.CinematicBlocking,"Flow-level cinematic lock does not depend on an active overlay component");overlay.enabled=overlayEnabled;
+            await NoReframe("Call connected",()=>lesson.Advance(lesson.settings.connectionSeconds+.1f));SettleOverlay();
+            await NoReframe("Report situation",()=>lesson.ReportSituation());
+            await NoReframe("Find identity panel",()=>lesson.FindIdentity(),750);
+            await NoReframe("Report location",()=>lesson.Report());
+            await NoReframe("Follow waiting advice",()=>lesson.Advice());
+            await NoReframe("Reassure friend / Waiting fade",()=>lesson.Reassure());
+            await CinematicInputs("Waiting fade");
+            await NoReframe("Rescuer arrival",()=>lesson.Advance(4.9f));
+            await CinematicInputs("Rescue");
+            lesson.Advance(lesson.settings.rescueSubtitleSeconds+.1f);SettleOverlay();
+            Check(!lesson.CinematicBlocking&&movement.CanMove,"Movement/actions unlock after cinematic and fade finish");
+            int clickRun=lesson.RunVersion;
+            Check(clickRun==lesson.RunVersion&&!(bool)GetPending("pendingRestart"),"Cinematic restart input does not replay after unlock");
+
+

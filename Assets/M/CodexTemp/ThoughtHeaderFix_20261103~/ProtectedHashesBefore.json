@@ -1,0 +1,32 @@
+﻿[
+    {
+        "Algorithm":  "SHA256",
+        "Hash":  "F05CF21F6D52601486C1F91166BD1CB002E221CB5AC2AEFAFA6FFEF6670264A1",
+        "Path":  "D:\\project\\ProjectWait\\Assets\\M\\Arts\\Fonts\\ElevatorKoreanFallback.asset"
+    },
+    {
+        "Algorithm":  "SHA256",
+        "Hash":  "7F5775124BED050C4E35FCD124D46E2C97FE4680BC258B4F319A1A7A03C4BFA3",
+        "Path":  "D:\\project\\ProjectWait\\Assets\\Shared Assets\\UI\\Fonts\\ElevatorKoreanFallback.asset"
+    },
+    {
+        "Algorithm":  "SHA256",
+        "Hash":  "16B6EEAAF28B9214805482B9ADB2BF896A9B76B9446776428FBAC88F90EE2097",
+        "Path":  "D:\\project\\ProjectWait\\Assets\\Shared Assets\\UI\\Prefabs\\ThoughtCloud.prefab"
+    },
+    {
+        "Algorithm":  "SHA256",
+        "Hash":  "9570E82618F6CEE7980F4E03E0213326DFDAA121D8F43A0CB01CA95CDEADC828",
+        "Path":  "D:\\project\\ProjectWait\\Assets\\Shared Assets\\UI\\Prefabs\\ObservationCard.prefab"
+    },
+    {
+        "Algorithm":  "SHA256",
+        "Hash":  "1388899CF2516A7A7FD7495C5AD2F9D0C180446F8F828BE2A78AB91B1082D65B",
+        "Path":  "D:\\project\\ProjectWait\\Assets\\M\\Scene\\Elevator_Safety_Prototype.unity"
+    },
+    {
+        "Algorithm":  "SHA256",
+        "Hash":  "0FB3E19F766DE31169395B3871BEFE70796D3D467779D9326BF3C8E729CA3C0D",
+        "Path":  "D:\\project\\ProjectWait\\Assets\\M\\Scene\\Elevator_Safety_ObjectInteraction_Test.unity"
+    }
+]

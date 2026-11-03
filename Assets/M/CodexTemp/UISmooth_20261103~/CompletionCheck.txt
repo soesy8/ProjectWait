@@ -1,0 +1,42 @@
+﻿=== Final runtime files ===
+
+FullName                                                                         Length
+--------                                                                         ------
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorUITransitions.cs         13754
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSmoothButtonFeedback.cs   2012
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs             30064
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs           15530
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorView.cs                  23083
+=== Saved scenes unchanged ===
+
+
+
+
+Algorithm : SHA256
+Hash      : FD03C722FA7FCBC8B1601CBFAA9E9BA7D57042DDE42E0B005314DFCC14AE25A9
+Path      : D:\project\ProjectWait\Assets\M\Scene\Elevator_Safety_Prototype.unity
+
+Algorithm : SHA256
+Hash      : B413F293C524DA0E0694D3E23A046ADBA2DB65926BEC1A12662A9B395B38D781
+Path      : D:\project\ProjectWait\Assets\M\Scene\Elevator_Safety_ObjectInteraction_Test.unity
+
+
+
+=== Whitespace ===
+=== Instructions ===
+.git/info/exclude:9:/AGENTS.md	AGENTS.md
+=== Generated cache status ===
+=== Verification completion ===
+SUCCESS
+PrototypeEnvelope success=True passed=37/37
+PrototypeReadability success=True passed=220/220
+PrototypePolish success=True passed=54/54
+PrototypeCamera success=True passed=126/126
+PrototypeInteraction success=True passed=32/32
+TestEnvelope success=True passed=37/37
+TestReadability success=True passed=203/203
+TestPolish success=True passed=54/54
+TestCamera success=True passed=126/126
+TestInteraction success=True passed=32/32
+Total passed=921
+

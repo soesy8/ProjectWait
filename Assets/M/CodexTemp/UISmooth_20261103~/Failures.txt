@@ -1,0 +1,29 @@
+﻿
+
+name   : Changed dialogue retains an outgoing non-interactive text layer
+passed : True
+
+name   : New dialogue begins transparent and old text cannot intercept selection
+passed : True
+
+name   : Dialogue changes crossfade through intermediate opacity
+passed : True
+
+name   : Identical refresh does not restart text fading
+passed : True
+
+name   : Finished text transition removes its outgoing layer
+passed : True
+
+name   : Rapid dialogue updates leave no old text layers
+passed : True
+
+name   : UI transitions never move or turn the player
+passed : False
+
+
+
+
+System.Exception: UI transitions never move or turn the player
+  at VerifySmoothUI.Check (System.Boolean pass, System.String name) [0x00022] in D:\project\ProjectWait\Assets\M\CodexTemp\UISmooth_20261103~\Verify.cs:18 
+  at VerifySmoothUI.Main () [0x00c47] in D:\project\ProjectWait\Assets\M\CodexTemp\UISmooth_20261103~\Verify.cs:63 

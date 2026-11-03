@@ -1,0 +1,24 @@
+﻿D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorSpatialUISetup.cs:56             spatial.thoughtHeading=Text("ThoughtHeading",view.thoughtPanel,new Vector2(428,26),Vector2.zero,"나의 생각 · 힌트",16,Teal);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:16         public TMP_Text speaker, progress, controls, thoughtHeading;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:217             thoughtHeading.text = string.IsNullOrEmpty(observed) ? "나의 생각 · 힌트" : "";
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:218             thoughtHeading.gameObject.SetActive(string.IsNullOrEmpty(observed));
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:347             thoughtHeading.alignment=TextAlignmentOptions.Center;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:348             thoughtHeading.rectTransform.sizeDelta=new Vector2(bodyWidth,24);thoughtHeading.rectTransform.anchoredPosition=new Vector2(0,bodyHeight*.5f+12);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:350             if(storybook)storybook.LayoutThought(!string.IsNullOrEmpty(observed));
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:13         public Sprite speakerRibbon, thoughtRibbon, observationNote, friendPortrait, speechTail;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:92             Readable(spatial.thoughtHeading, Ink, 18, true);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:133             var tag = Artwork(spatial.speakerTab, call ? thoughtRibbon : speakerRibbon, false);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:173         public void LayoutThought(bool observation)
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:189             var ribbon = Decoration(panel, "ThoughtRibbon", thoughtRibbon, new Vector2(160, 43), new Vector2(0, height * .5f - 55));
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:191             Readable(spatial.thoughtHeading, Ink, 18, true);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:192             spatial.thoughtHeading.text = observation ? "" : "나의 생각";
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:193             spatial.thoughtHeading.gameObject.SetActive(!observation);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:194             spatial.thoughtHeading.rectTransform.sizeDelta = new Vector2(observation ? 90 : 140, 32);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:195             spatial.thoughtHeading.rectTransform.anchoredPosition = observation ? new Vector2(147 - width * .5f, height * .5f - 40) : new Vector2(0, height * .5f - 55);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:196             spatial.thoughtHeading.alignment = TextAlignmentOptions.Center;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:197             spatial.thoughtHeading.transform.SetAsLastSibling();
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:220             // Legacy Heading/ThoughtRibbon and any outgoing heading copy must stay gone.
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:226                    (text.name=="ThoughtHeading"||text.name=="Heading"||text.text.Contains("살펴보니")))
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:230             bubbleHeading.text = observation ? "" : "나의 생각";
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs:244             var ribbon = thoughtBubble.Find("ThoughtRibbon") as RectTransform;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorUITransitions.cs:76             if(!text||!text.gameObject.activeInHierarchy||text.name=="TransitionText"||text.name=="RetiredText"||text.name=="Heading"||text.name=="ThoughtHeading")return;

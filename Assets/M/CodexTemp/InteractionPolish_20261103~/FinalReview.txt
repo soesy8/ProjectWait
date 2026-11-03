@@ -1,0 +1,174 @@
+﻿=== QA ===
+Elevator_Safety_Prototype Verification 54/54 success=True
+Elevator_Safety_Prototype CameraRegression 126/126 success=True
+Elevator_Safety_ObjectInteraction_Test Verification 54/54 success=True
+Elevator_Safety_ObjectInteraction_Test CameraRegression 126/126 success=True
+=== Git ===
+ M Assets/M/Arts/Fonts/ElevatorKoreanFallback.asset
+ M Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity
+ M Assets/M/Scene/Elevator_Safety_Prototype.unity
+ M Assets/M/Scripts/Editor/ElevatorInteractionSetup.cs
+ M Assets/M/Scripts/Elevator/ElevatorCameraEffects.cs
+ M Assets/M/Scripts/Elevator/ElevatorCinematicOverlay.cs
+ M Assets/M/Scripts/Elevator/ElevatorDesktopControls.cs
+ M Assets/M/Scripts/Elevator/ElevatorLesson.cs
+ M Assets/M/Scripts/Elevator/ElevatorObservation.cs
+ M Assets/M/Scripts/Elevator/ElevatorScenarioDirector.cs
+ M Assets/M/Scripts/Elevator/ElevatorSpacePresentation.cs
+ M Assets/M/Scripts/Elevator/ElevatorSportsCentreMap.cs
+ M Assets/M/Scripts/Elevator/ElevatorStoryPresentation.cs
+ M Assets/M/Scripts/Elevator/ElevatorStorybookUI.cs
+ M "Assets/Shared Assets/UI/Fonts/ElevatorKoreanFallback.asset"
+ M "Assets/Shared Assets/UI/Prefabs/ChoiceCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/CompletionCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/DialogueCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/IntercomDialogueCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/MissionCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/NextButton.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/ObservationCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/PausePanel.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/ThoughtCloud.prefab"
+ M Assets/XR/Settings/OpenXRPackageSettings.asset
+?? Assets/M/Arts/Materials/Elevator/BallHandoffFade.mat
+?? Assets/M/Arts/Materials/Elevator/BallHandoffFade.mat.meta
+?? Assets/M/Arts/Shaders/ElevatorBallFade.shader
+?? Assets/M/Arts/Shaders/ElevatorBallFade.shader.meta
+?? Assets/M/CodexTemp/CameraFreedom_20261103~/
+?? Assets/M/CodexTemp/InteractionFix_20261103~/
+?? Assets/M/CodexTemp/InteractionPolish_20261103~/
+?? "Assets/Shared Assets/Highlight/Rendering/Android_Preset_53a41332_OutlineRenderer.asset"
+?? "Assets/Shared Assets/Highlight/Rendering/Android_Preset_53a41332_OutlineRenderer.asset.meta"
+?? "Assets/Shared Assets/Highlight/Rendering/Performance_URP_Config_fd42a132_OutlinePipeline.asset"
+?? "Assets/Shared Assets/Highlight/Rendering/Performance_URP_Config_fd42a132_OutlinePipeline.asset.meta"
+=== Changed code ===
+=== Scene incremental ===
+diff --git "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\InteractionPolish_20261103~\\Before\\Elevator_Safety_Prototype.unity" "b/D:\\project\\ProjectWait\\Assets\\M\\Scene\\Elevator_Safety_Prototype.unity"
+index d3a5985..9ce756f 100644
+--- "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\InteractionPolish_20261103~\\Before\\Elevator_Safety_Prototype.unity"
++++ "b/D:\\project\\ProjectWait\\Assets\\M\\Scene\\Elevator_Safety_Prototype.unity"
+@@ -1624,8 +1624,8 @@ Transform:
+   m_GameObject: {fileID: 122613065}
+   serializedVersion: 2
+   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+-  m_LocalPosition: {x: -0.018, y: 0, z: 0}
+-  m_LocalScale: {x: 0.007, y: 0.19, z: 0.108}
++  m_LocalPosition: {x: -0.016, y: 0.05, z: 0}
++  m_LocalScale: {x: 0.006, y: 0.045, z: 0.065}
+   m_ConstrainProportionsScale: 0
+   m_Children: []
+   m_Father: {fileID: 1123425624}
+@@ -7088,6 +7088,8 @@ MonoBehaviour:
+   reactionMarks: {fileID: 1138435835}
+   intercomLamp: {fileID: 0}
+   space: {fileID: 326520098}
++  ballFadeMaterial: {fileID: 2100000, guid: 20e06410ddaca184bb8566543fb49271, type: 2}
++  ballHandoffSeconds: 1.1
+ --- !u!114 &326520098
+ MonoBehaviour:
+   m_ObjectHideFlags: 0
+@@ -7147,7 +7149,6 @@ MonoBehaviour:
+   friendLobby: {x: -3.2, y: 7.92, z: 1.4}
+   groundLobby: {x: -1.4, y: 0, z: -0.4}
+   groundExit: {x: -0.8, y: 0, z: -7.2}
+-  interiorReframeSeconds: 0.6
+ --- !u!114 &326520100
+ MonoBehaviour:
+   m_ObjectHideFlags: 0
+@@ -7211,6 +7212,8 @@ MonoBehaviour:
+   - {fileID: 1308380600}
+   - {fileID: 1882968785}
+   - {fileID: 1126273126}
++  guidanceDelay: 8
++  guidanceCycleSeconds: 1
+ --- !u!114 &326520103
+ MonoBehaviour:
+   m_ObjectHideFlags: 0
+@@ -8446,7 +8449,7 @@ Transform:
+   serializedVersion: 2
+   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+   m_LocalPosition: {x: 0, y: 0, z: 0}
+-  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
++  m_LocalScale: {x: 1, y: 1, z: 1}
+   m_ConstrainProportionsScale: 0
+   m_Children: []
+   m_Father: {fileID: 326520096}
+@@ -8476,7 +8479,7 @@ MeshRenderer:
+   m_RenderingLayerMask: 1
+   m_RendererPriority: 0
+   m_Materials:
+-  - {fileID: 2100000, guid: 79630df03bb1937459af3f423b1a33e3, type: 2}
++  - {fileID: 2100000, guid: 20e06410ddaca184bb8566543fb49271, type: 2}
+   m_StaticBatchInfo:
+     firstSubMesh: 0
+     subMeshCount: 0
+@@ -17182,6 +17185,9 @@ PrefabInstance:
+     m_RemovedComponents: []
+     m_RemovedGameObjects: []
+     m_AddedGameObjects:
++    - targetCorrespondingSourceObject: {fileID: 7234564686518999048, guid: 6be11a9d44963364ea42a3812d87e166, type: 3}
++      insertIndex: -1
++      addedObject: {fileID: 1123425624}
+     - targetCorrespondingSourceObject: {fileID: 490985005272188325, guid: 6be11a9d44963364ea42a3812d87e166, type: 3}
+       insertIndex: -1
+       addedObject: {fileID: 1653360947}
+@@ -17192,6 +17198,11 @@ Transform:
+   m_CorrespondingSourceObject: {fileID: 6995416712411228484, guid: 6be11a9d44963364ea42a3812d87e166, type: 3}
+   m_PrefabInstance: {fileID: 797866907}
+   m_PrefabAsset: {fileID: 0}
++--- !u!4 &797866909 stripped
++Transform:
++  m_CorrespondingSourceObject: {fileID: 7234564686518999048, guid: 6be11a9d44963364ea42a3812d87e166, type: 3}
++  m_PrefabInstance: {fileID: 797866907}
++  m_PrefabAsset: {fileID: 0}
+ --- !u!1 &799326349
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -25289,14 +25300,14 @@ Transform:
+   m_PrefabAsset: {fileID: 0}
+   m_GameObject: {fileID: 1123425621}
+   serializedVersion: 2
+-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+-  m_LocalPosition: {x: -0.48, y: 8.98, z: 5.6}
+-  m_LocalScale: {x: 1, y: 1, z: 1}
++  m_LocalRotation: {x: -0.030843556, y: -0.7064337, z: -0.030843556, w: -0.70643383}
++  m_LocalPosition: {x: -0.19038539, y: 0.17690113, z: 0.14028382}
++  m_LocalScale: {x: 0.8517238, y: 0.8517238, z: 0.8517238}
+   m_ConstrainProportionsScale: 0
+   m_Children:
+   - {fileID: 1647471776}
+   - {fileID: 122613066}
+-  m_Father: {fileID: 1909913694}
++  m_Father: {fileID: 797866909}
+   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+ --- !u!114 &1123425625
+ MonoBehaviour:
+@@ -25391,8 +25402,8 @@ BoxCollider:
+   m_ProvidesContacts: 0
+   m_Enabled: 1
+   serializedVersion: 3
+-  m_Size: {x: 0.08, y: 0.26, z: 0.16}
+-  m_Center: {x: 0, y: 0, z: 0}
++  m_Size: {x: 0.1, y: 0.09, z: 0.1}
++  m_Center: {x: -0.1, y: 0.045, z: -0.03}
+ --- !u!114 &1123425627
+ MonoBehaviour:
+   m_ObjectHideFlags: 0
+@@ -36815,8 +36826,8 @@ Transform:
+   m_GameObject: {fileID: 1647471775}
+   serializedVersion: 2
+   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+-  m_LocalPosition: {x: 0, y: 0, z: 0}
+-  m_LocalScale: {x: 0.03, y: 0.24, z: 0.135}
++  m_LocalPosition: {x: 0, y: 0.04, z: 0}
++  m_LocalScale: {x: 0.025, y: 0.09, z: 0.085}
+   m_ConstrainProportionsScale: 0
+   m_Children: []
+   m_Father: {fileID: 1123425624}
+@@ -42186,7 +42197,6 @@ Transform:
+   - {fileID: 1408867934}
+   - {fileID: 1296603372}
+   - {fileID: 729979719}
+-  - {fileID: 1123425624}
+   m_Father: {fileID: 326520096}
+   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+ --- !u!1 &1910284304

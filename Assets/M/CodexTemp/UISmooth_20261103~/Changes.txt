@@ -1,0 +1,223 @@
+﻿diff --git "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UISmooth_20261103~\\Before\\ElevatorSpatialUI.cs" "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorSpatialUI.cs"
+index e934c06..521b806 100644
+--- "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UISmooth_20261103~\\Before\\ElevatorSpatialUI.cs"
++++ "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorSpatialUI.cs"
+@@ -59,12 +59,23 @@ namespace ProjectWait.M.Elevator
+         public int DialoguePageCount => dialoguePages.Length;
+         public bool DialogueFullyRevealed => revealComplete;
+         public float DialogueStartedAt => revealStarted;
++        ElevatorUITransitions transitions;
++        public ElevatorUITransitions Transitions
++        {
++            get
++            {
++                if(!Application.isPlaying)return null;
++                if(!transitions){transitions=GetComponent<ElevatorUITransitions>();if(!transitions)transitions=gameObject.AddComponent<ElevatorUITransitions>();transitions.Initialize(view);}
++                return transitions;
++            }
++        }
+ 
+         void OnEnable(){Application.onBeforeRender+=PositionHud;}
+         void OnDisable(){Application.onBeforeRender-=PositionHud;}
+ 
+         public void Present(string who, string line, string objective)
+         {
++            Transitions?.Begin();
+             var f = view.lesson.Flow;
+             complete = f.Step == ElevatorStep.Complete;
+             screenOnly = !view.lesson.scenario && (who == "?섏쓽 誘몄뀡" || who == "?섏쓽 諛쒓껄");
+@@ -77,13 +88,13 @@ namespace ProjectWait.M.Elevator
+                 baseThought = f.HintLevel > 0 ? "?꾨㈃ 鍮꾩긽踰??꾨옒???앸퀎?먯뿉??嫄대Ъ紐낃낵 愿由щ쾲?몃? 李얠븘蹂댁옄." : "踰쎌쓽 ?앸퀎?먯쓣 李얠븘 ?좏깮??蹂댁옄.";
+             }
+             speaker.text = who;
+-            view.dialoguePanel.gameObject.SetActive(!screenOnly);
++            SetPanelVisible(view.dialoguePanel,!screenOnly);
+             view.actionPanel.SetParent(complete ? rightPage : view.transform, false);
+             view.actionPanel.localScale = Vector3.one;
+             if(complete)
+             {
+                 view.dialogueText.text = "怨좎옣 ?ъ쓣 ?뚮룄 ?④퍡 ?덉쟾?섍쾶 ?泥섑뻽??";
+-                view.dialoguePanel.gameObject.SetActive(true);
++                SetPanelVisible(view.dialoguePanel,true);
+                 bool[] done = {f.HelpRequested, f.LocationReported, f.Reassured};
+                 for(int i=0;i<completionMarks.Length;i++)
+                 {
+@@ -108,6 +119,7 @@ namespace ProjectWait.M.Elevator
+             UpdateDialogueReveal();
+             UpdateThought();
+             Layout();
++            Transitions?.End();
+         }
+ 
+         public bool TryReadDialogue()
+@@ -115,8 +127,9 @@ namespace ProjectWait.M.Elevator
+             if(!view.lesson||view.lesson.CinematicBlocking||screenOnly||complete||!view.dialoguePanel.gameObject.activeInHierarchy)return false;
+             if(!revealComplete){revealComplete=true;UpdateDialogueReveal();return true;}
+             if(dialoguePage+1>=dialoguePages.Length)return false;
++            Transitions?.Begin();
+             dialoguePage++;view.dialogueText.text=dialoguePages[dialoguePage];
+-            revealStarted=Time.time;revealComplete=false;UpdateDialogueReveal();Layout();return true;
++            revealStarted=Time.time;revealComplete=false;UpdateDialogueReveal();Layout();Transitions?.End();return true;
+         }
+ 
+         void UpdateDialogueReveal()
+@@ -177,9 +190,11 @@ namespace ProjectWait.M.Elevator
+         {
+             value = value ?? "";
+             if (observed == value) return;
++            Transitions?.Begin();
+             observed = value;
+             UpdateThought();
+             LayoutHud();
++            Transitions?.End();
+         }
+ 
+         void UpdateThought()
+@@ -188,7 +203,14 @@ namespace ProjectWait.M.Elevator
+             view.thought.text = text;
+             view.thought.maxVisibleCharacters = int.MaxValue;
+             thoughtHeading.text = string.IsNullOrEmpty(observed) ? "?섏쓽 ?앷컖 쨌 ?뚰듃" : "?댄렣蹂대땲??;
+-            view.thoughtPanel.gameObject.SetActive(!complete && !string.IsNullOrEmpty(text));
++            SetPanelVisible(view.thoughtPanel,!complete && !string.IsNullOrEmpty(text));
++        }
++
++        public void SetPanelVisible(RectTransform panel,bool visible)
++        {
++            if(Transitions)Transitions.Visibility(panel,visible);else panel.gameObject.SetActive(visible);
++            if(panel==view.dialoguePanel&&speakerTab)
++            {if(Transitions)Transitions.Visibility(speakerTab,visible);else speakerTab.gameObject.SetActive(visible);}
+         }
+ 
+         public void Restore()
+@@ -201,6 +223,7 @@ namespace ProjectWait.M.Elevator
+ 
+         public void ShowHistory()
+         {
++            Transitions?.Begin();
+             string[] titles = {"01  ?꾩????붿껌?덉뼱??, "02  ?꾩튂瑜??꾨떖?덉뼱??, "03  ?④퍡 湲곕떎?몄뼱??};
+             string[] details = {
+                 "鍮꾩긽?듯솕濡?硫덉텣 ?곹솴怨?n?④퍡 ?덈뒗 ?щ엺???뚮졇?댁슂.",
+@@ -212,11 +235,13 @@ namespace ProjectWait.M.Elevator
+             notebookDetail.text = details[page];
+             for(int i=0;i<completionRows.Length;i++)completionRows[i].GetComponent<CorridorBubbleGraphic>().color = i==page ? Mint : Paper;
+             if(storybook)storybook.HighlightHistory(page);
++            Transitions?.End();
+         }
+ 
+         public void Layout()
+         {
+             if(!view || !hud || !view.playerCamera)return;
++            Transitions?.Begin();
+             var root = (RectTransform)view.transform;
+             root.sizeDelta = new Vector2(660,620);
+             root.localScale = Vector3.one * worldPixelSize;
+@@ -257,6 +282,7 @@ namespace ProjectWait.M.Elevator
+             LayoutHud();
+             PositionWorld();
+             layoutAspect=view.playerCamera.aspect;layoutWidth=Screen.width;layoutHeight=Screen.height;
++            Transitions?.End();
+         }
+ 
+         void LayoutHud()
+@@ -378,12 +404,15 @@ namespace ProjectWait.M.Elevator
+ 
+         public void Tick()
+         {
++            Transitions?.Begin();
+             // CanvasScaler may resize after the screen/camera change was observed.
+             // Reflow against the actual canvas once its new size has been applied.
+             if(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height||layoutHudSize!=((RectTransform)hud.transform).rect.size)Layout();
+             else PositionWorld();
+             PositionHud();SetCinematicVisibility();PlaceThoughtOutsideDialogue();
+             if(view.lesson.Flow!=null&&!view.lesson.IsPaused)UpdateDialogueReveal();
++            Transitions?.End();
++            Transitions?.Advance(view.lesson.IsPaused?0:Time.unscaledDeltaTime);
+         }
+ 
+         bool ScreenRect(RectTransform rect,out Rect bounds)
+@@ -419,6 +448,7 @@ namespace ProjectWait.M.Elevator
+                 if(p.z>0)readingObstacles.Add(new Rect(p.x-28,p.y-28,56,56));
+             }
+             var panel=view.thoughtPanel;
++            var previousPlacement=panel.anchorMin;
+             var candidates=new[]{new Vector2(1,.55f),new Vector2(0,.55f),new Vector2(1,.24f),new Vector2(0,.24f),new Vector2(1,.78f),new Vector2(0,.78f)};
+             float best=float.MaxValue;Vector2 selected=candidates[0];
+             var hudCamera=hud.renderMode==RenderMode.ScreenSpaceOverlay?null:view.playerCamera;
+@@ -431,6 +461,8 @@ namespace ProjectWait.M.Elevator
+                 float score=(area-Overlap(rect,new Rect(12,12,Screen.width-24,Screen.height-24)))*4;
+                 foreach(var avoid in readingObstacles)score+=Overlap(rect,Rect.MinMaxRect(avoid.xMin-16,avoid.yMin-16,avoid.xMax+16,avoid.yMax+16));
+                 score+=Vector2.Distance(candidate,new Vector2(1,.55f))*40;
++                // Keep the chosen side until another position is meaningfully clearer.
++                if(candidate!=previousPlacement)score+=area*.04f;
+                 if(score<best){best=score;selected=candidate;}
+             }
+             panel.anchorMin=panel.anchorMax=selected;panel.pivot=new Vector2(selected.x,.5f);panel.anchoredPosition=new Vector2(selected.x>0?-24:24,0);
+diff --git "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UISmooth_20261103~\\Before\\ElevatorStorybookUI.cs" "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorStorybookUI.cs"
+index d5d9898..ac0c698 100644
+--- "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UISmooth_20261103~\\Before\\ElevatorStorybookUI.cs"
++++ "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorStorybookUI.cs"
+@@ -116,8 +116,10 @@ namespace ProjectWait.M.Elevator
+             Readable(label, primary ? Paper : Ink, 26, true);
+             var oldDepth = button.GetComponent<CorridorButtonDepth>();
+             if (oldDepth) oldDepth.enabled = false;
+-            var feedback = button.GetComponent<StorybookButtonFeedback>();
+-            if (!feedback) feedback = button.gameObject.AddComponent<StorybookButtonFeedback>();
++            var legacyFeedback=button.GetComponent<StorybookButtonFeedback>();
++            if(legacyFeedback)legacyFeedback.enabled=false;
++            var feedback = button.GetComponent<ElevatorSmoothButtonFeedback>();
++            if (!feedback) feedback = button.gameObject.AddComponent<ElevatorSmoothButtonFeedback>();
+             feedback.Configure(button, image.rectTransform, label ? label.rectTransform : null);
+         }
+ 
+@@ -161,7 +163,7 @@ namespace ProjectWait.M.Elevator
+                 var r = (RectTransform)button.transform;
+                 label.rectTransform.sizeDelta = r.sizeDelta - (r.rect.width < 300 ? new Vector2(38, 18) : new Vector2(80, 26));
+                 label.rectTransform.anchoredPosition = Vector2.zero;
+-                var feedback = button.GetComponent<StorybookButtonFeedback>();
++                var feedback = button.GetComponent<ElevatorSmoothButtonFeedback>();
+                 if (feedback) feedback.CaptureRest();
+             }
+             spatial.speakerTab.SetAsLastSibling();
+diff --git "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UISmooth_20261103~\\Before\\ElevatorView.cs" "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorView.cs"
+index 3829dc6..299cd89 100644
+--- "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UISmooth_20261103~\\Before\\ElevatorView.cs"
++++ "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorView.cs"
+@@ -151,7 +151,9 @@ namespace ProjectWait.M.Elevator
+         public void Refresh()
+         {
+             if(!lesson||lesson.Flow==null||!speaker)return;
+-            foreach(Transform c in actionPanel){c.gameObject.SetActive(false);if(Application.isPlaying)Destroy(c.gameObject);else DestroyImmediate(c.gameObject);}
++            spatial?.Transitions?.Begin();
++            var previousButtons=new List<Button>(ChoiceButtons);
++            var previousLabels=new List<string>(labels);
+             actions.Clear();labels.Clear();ChoiceButtons.Clear();observing=false;
+             var f=lesson.Flow;string objective="",line="",who="移쒓뎄";
+             switch(f.Step)
+@@ -210,10 +212,25 @@ namespace ProjectWait.M.Elevator
+             progress.text=(f.HelpRequested?"<color=#297A70>???꾩? ?붿껌</color>":"???꾩? ?붿껌")+"   "+(f.LocationReported?"<color=#297A70>???꾩튂 ?꾨떖</color>":"???꾩튂 ?꾨떖")+"   "+(f.Reassured?"<color=#297A70>???④퍡 ?湲?/color>":"???④퍡 ?湲?);
+             if(!spatial){revealStarted=Time.unscaledTime;dialogueText.maxVisibleCharacters=Application.isPlaying?0:int.MaxValue;}
+             int revision=f.Revision,run=lesson.RunVersion;
+-            for(int i=0;i<actions.Count;i++){var action=actions[i];var b=MakeButton(f.Step==ElevatorStep.Call?"DialogueNext":"Choice"+i,actionPanel,new Vector2(790,56),Vector2.zero,labels[i],()=>{if(!lesson.CinematicBlocking&&lesson.Flow.Revision==revision&&lesson.RunVersion==run){if(spatial&&spatial.TryReadDialogue())return;action();}});ChoiceButtons.Add(b);}
+-            actionPanel.gameObject.SetActive(actions.Count>0);
++            for(int i=0;i<actions.Count;i++)
++            {
++                var action=actions[i];string name=f.Step==ElevatorStep.Call?"DialogueNext":"Choice"+i;
++                Button b=i<previousButtons.Count&&i<previousLabels.Count&&previousLabels[i]==labels[i]&&previousButtons[i]&&previousButtons[i].name==name?previousButtons[i]:null;
++                if(b){previousButtons[i]=null;b.onClick.RemoveAllListeners();}
++                else{b=MakeButton(name,actionPanel,new Vector2(790,56),Vector2.zero,labels[i],()=>{});spatial?.Transitions?.Visibility((RectTransform)b.transform,true);}
++                b.onClick.AddListener(()=>{if(!lesson.CinematicBlocking&&lesson.Flow.Revision==revision&&lesson.RunVersion==run){if(spatial&&spatial.TryReadDialogue())return;action();}});
++                ChoiceButtons.Add(b);
++            }
++            foreach(var old in previousButtons)
++            {
++                if(!old)continue;
++                if(spatial&&spatial.Transitions)spatial.Transitions.RetireChoice((RectTransform)old.transform);
++                else{old.gameObject.SetActive(false);if(Application.isPlaying)Destroy(old.gameObject);else DestroyImmediate(old.gameObject);}
++            }
++            if(spatial)spatial.SetPanelVisible(actionPanel,actions.Count>0);else actionPanel.gameObject.SetActive(actions.Count>0);
+             if(spatial)spatial.Present(who,line,objective);
+             ApplyCompactLayout();SetCinematicVisibility();InteractionRevision++;
++            spatial?.Transitions?.End();
+         }
+         public void SetCinematicVisibility()
+         {

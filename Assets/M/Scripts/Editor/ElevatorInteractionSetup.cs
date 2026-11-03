@@ -65,7 +65,7 @@ namespace ProjectWait.M.Editor
             }
             else if(observation.clue==ElevatorClue.Friend||observation.clue==ElevatorClue.Ball||observation.clue==ElevatorClue.Rescuer||observation.clue==ElevatorClue.Phone)
             {
-                foreach(var source in observation.GetComponentsInChildren<Renderer>(true).Where(r=>!(r is LineRenderer)&&!r.name.Contains("Reaction")&&!r.name.Contains("Shadow")&&!r.name.StartsWith("FaceExpression_")&&!r.name.StartsWith("ButtonPress")&&!r.GetComponent<TMP_Text>()))
+                foreach(var source in observation.GetComponentsInChildren<Renderer>(true).Where(r=>r.GetComponentInParent<ElevatorObservation>()==observation&&!(r is LineRenderer)&&!r.name.Contains("Reaction")&&!r.name.Contains("Shadow")&&!r.name.StartsWith("FaceExpression_")&&!r.name.StartsWith("ButtonPress")&&!r.GetComponent<TMP_Text>()))
                     if(source is SkinnedMeshRenderer||source.GetComponent<MeshFilter>())inputs.Add(new ElevatorOutlineGeometry{sourceRenderer=source});
             }
             var target=observation.GetComponent<ElevatorOutlineTarget>();if(!target)target=observation.gameObject.AddComponent<ElevatorOutlineTarget>();target.geometry=inputs.ToArray();target.SetVisible(false);observation.outlineTarget=target;EditorUtility.SetDirty(observation);EditorUtility.SetDirty(target);

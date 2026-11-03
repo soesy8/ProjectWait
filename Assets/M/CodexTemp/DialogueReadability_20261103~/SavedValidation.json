@@ -1,0 +1,30 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\DialogueReadability_20261103~\\ValidateSaved.cs"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 67,
+      "executeMs": 1198,
+      "assemblyName": "PipelineRunScript_ValidateSaved_99e5bb6e66ee477c8483cbc47d366a65",
+      "success": true,
+      "result": {
+        "success": true,
+        "validated": 2,
+        "compilationFailed": false,
+        "restoredScene": "Assets/M/Scene/Elevator_Safety_Prototype.unity"
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

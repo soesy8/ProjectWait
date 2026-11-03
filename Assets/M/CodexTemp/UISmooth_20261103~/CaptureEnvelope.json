@@ -1,0 +1,61 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UISmooth_20261103~\\Capture.cs"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 52,
+      "executeMs": 839,
+      "assemblyName": "PipelineRunScript_Capture_638c8b6cfb814bc0b516a3f9f7e1dbda",
+      "success": true,
+      "result": {
+        "success": true,
+        "frames": [
+          {
+            "stage": "appearance",
+            "opacity": 0.739408851,
+            "position": "(-616.00, 36.00, 0.00)"
+          },
+          {
+            "stage": "appearance",
+            "opacity": 0.96271807,
+            "position": "(-616.00, 36.00, 0.00)"
+          },
+          {
+            "stage": "appearance",
+            "opacity": 1,
+            "position": "(-616.00, 36.00, 0.00)"
+          },
+          {
+            "stage": "replacement",
+            "opacity": 1,
+            "position": "(-616.00, 36.00, 0.00)"
+          },
+          {
+            "stage": "replacement",
+            "opacity": 1,
+            "position": "(-616.00, 36.00, 0.00)"
+          },
+          {
+            "stage": "replacement",
+            "opacity": 1,
+            "position": "(-616.00, 36.00, 0.00)"
+          }
+        ],
+        "activeChoiceRoots": 1,
+        "currentChoices": 1
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

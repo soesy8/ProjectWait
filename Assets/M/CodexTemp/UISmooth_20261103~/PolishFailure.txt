@@ -1,0 +1,23 @@
+﻿
+
+name   : Manager dialogue is spatially anchored beside the emergency bell
+passed : True
+
+name   : World dialogue canvas actually uses intercom placement
+passed : True
+
+name   : Manager speech stays at the bell while player looks or walks
+passed : True
+
+name   : Observed screen bubble has no heading text or heading panel
+passed : True
+
+name   : Observed bubble and readable description remain
+passed : False
+
+
+
+
+System.Exception: Observed bubble and readable description remain
+  at VerifyInteractionPolish.Check (System.Boolean pass, System.String name) [0x00022] in D:\project\ProjectWait\Assets\M\CodexTemp\InteractionPolish_20261103~\Verify.cs:21 
+  at VerifyInteractionPolish.Main () [0x01655] in D:\project\ProjectWait\Assets\M\CodexTemp\InteractionPolish_20261103~\Verify.cs:102 

@@ -24,8 +24,7 @@ namespace ProjectWait.M.Elevator
         public string Thought { get; private set; } = "";
         public int Floor { get; private set; } = 3;
         public int RunVersion { get; private set; }
-        public bool IsReframing => presentation&&presentation.space&&presentation.space.sportsCentre&&presentation.space.sportsCentre.IsFraming;
-        public bool CinematicBlocking => IsPaused||IsReframing||presentation&&presentation.space&&presentation.space.overlay&&presentation.space.overlay.Blocking;
+        public bool CinematicBlocking => IsPaused||Flow!=null&&Flow.IsCinematic||presentation&&presentation.space&&presentation.space.overlay&&presentation.space.overlay.Blocking;
         Vector3 friendHome;
         int renderedRevision = -1;
         bool previousMoving;
@@ -140,6 +139,7 @@ namespace ProjectWait.M.Elevator
         public void Activate(ElevatorClue clue)
         {
             if (!CanInteract(clue) || !CollectObservations().Any(o => o && o.clue == clue && o.CanActivate)) return;
+            if(scenario)scenario.NotifySelection(clue);
             Inspect(clue);
             if(scenario&&scenario.objectGuidedScene&&scenario.HandleObjectAction(clue))return;
             if(clue==ElevatorClue.LobbyCall&&Flow.Step==ElevatorStep.Lobby)Continue();

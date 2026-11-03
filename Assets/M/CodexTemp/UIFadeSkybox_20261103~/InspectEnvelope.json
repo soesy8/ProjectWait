@@ -1,0 +1,126 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UIFadeSkybox_20261103~\\Inspect.cs"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 2077,
+      "executeMs": 24,
+      "assemblyName": "PipelineRunScript_Inspect_96a4d0916e8a4d2fbd758d5b986fbd02",
+      "success": true,
+      "result": {
+        "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+        "dirty": false,
+        "playing": false,
+        "skybox": "",
+        "ambient": "Trilight",
+        "cameras": [
+          {
+            "name": "Main Camera",
+            "main": true,
+            "active": true,
+            "clear": "SolidColor",
+            "skybox": null
+          }
+        ],
+        "skyMeshes": [],
+        "headers": [
+          {
+            "name": "ThoughtHeading",
+            "parent": "PlayerThought",
+            "active": true,
+            "text": "?섏쓽 ?앷컖"
+          }
+        ],
+        "hintObjects": [
+          {
+            "name": "Hint_Cabin_Optional119Phone",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_FriendlyRescuer",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_FriendBasketball",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_3F_Lobby_Call",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_3F_Side_Emergency_1.28m",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_3F_Door_KeepClear",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_3F_Side_Floor01",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_3F_SafetyPoster",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_3F_Display_LastKnown3",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_3F_Front_Emergency_2.15m",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_1F_MainExit",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_Friend_Jump_Root",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_3F_LiftIdentity_HB-EL-01",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_3F_FacilityDirectory_NoHighlight",
+            "alpha": 0,
+            "heading": null
+          },
+          {
+            "name": "Hint_3F_Front_Floor01",
+            "alpha": 0,
+            "heading": null
+          }
+        ]
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

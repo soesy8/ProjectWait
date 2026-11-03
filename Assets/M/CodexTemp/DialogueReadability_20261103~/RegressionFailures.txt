@@ -1,0 +1,49 @@
+﻿TestCameraRegression
+success=False checks=77
+System.Exception: Waiting fade: story dialogue remains available
+  at VerifyCameraFreedomRegression.Check (System.Boolean passed, System.String name) [0x00022] in D:\project\ProjectWait\Assets\M\CodexTemp\InteractionPolish_20261103~\CameraRegression.cs:28 
+  at VerifyCameraFreedomRegression.CinematicInputs (System.String name) [0x00554] in D:\project\ProjectWait\Assets\M\CodexTemp\InteractionPolish_20261103~\CameraRegression.cs:79 
+  at VerifyCameraFreedomRegression.Main () [0x00d6b] in D:\project\ProjectWait\Assets\M\CodexTemp\InteractionPolish_20261103~\CameraRegression.cs:125 
+
+
+name   : Waiting fade: no hidden click or developer UI activation
+passed : True
+
+name   : Waiting fade: attempted walking cannot move player
+passed : True
+
+name   : Waiting fade: blocked inputs are discarded, not queued
+passed : True
+
+name   : Waiting fade: gameplay pointer is hidden
+passed : True
+
+name   : Waiting fade: story dialogue remains available
+passed : False
+
+
+
+TestInteractionRegression
+success=False checks=8
+System.Exception: Moving aim to friend exits basketball hover independently
+  at VerifyInteractionFix.Check (System.Boolean pass, System.String name) [0x00022] in D:\project\ProjectWait\Assets\M\CodexTemp\InteractionFix_20261103~\Verify.cs:21 
+  at VerifyInteractionFix.Main () [0x00459] in D:\project\ProjectWait\Assets\M\CodexTemp\InteractionFix_20261103~\Verify.cs:74 
+
+
+name   : Ball retains its own silhouette geometry
+passed : True
+
+name   : All described targets retain non-empty outline geometry
+passed : True
+
+name   : XR colliders are not shared by friend and ball
+passed : True
+
+name   : Aiming at the held ball selects only basketball, not its parent friend
+passed : True
+
+name   : Moving aim to friend exits basketball hover independently
+passed : False
+
+
+

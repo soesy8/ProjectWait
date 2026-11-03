@@ -1,0 +1,41 @@
+﻿{
+  "success": true,
+  "command": "command console",
+  "data": {
+    "command": "console",
+    "parameters": {
+      "level": "error",
+      "tail": "15"
+    },
+    "result": {
+      "entries": [],
+      "cursor": 48,
+      "session": "ac927fc09d5c4897a10fe6b72460c810",
+      "returned": 0,
+      "dropped": false,
+      "reset": false,
+      "counts": {
+        "error": 0,
+        "warn": 34,
+        "log": 14
+      },
+      "groundTruth": {
+        "sampledUtc": "2026-11-03T03:53:43.4802393Z",
+        "ageMs": 207,
+        "compilationFailed": false,
+        "compiling": false,
+        "consoleErrors": 0,
+        "consoleWarnings": 1,
+        "consoleLogs": 1,
+        "seeded": true
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

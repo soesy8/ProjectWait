@@ -1,0 +1,132 @@
+﻿=== Incremental desktop diff ===
+diff --git "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\CameraFreedom_20261103~\\Before\\ElevatorDesktopControls.cs" "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorDesktopControls.cs"
+index b63c881..acf8898 100644
+--- "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\CameraFreedom_20261103~\\Before\\ElevatorDesktopControls.cs"
++++ "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorDesktopControls.cs"
+@@ -45,12 +45,12 @@ namespace ProjectWait.M.Elevator
+             for(int i=0;i<4;i++)
+             {
+                 int n=i;choices[i]=new InputAction("ElevatorChoice"+(i+1),InputActionType.Button,"<Keyboard>/"+(i+1));
+-                choices[i].performed+=_=>{if(pendingChoice<0&&lesson&&lesson.Flow!=null){pendingChoice=n;pendingRevision=lesson.Flow.Revision;pendingRun=lesson.RunVersion;}};choices[i].Enable();
++                choices[i].performed+=_=>{if(pendingChoice<0&&lesson&&lesson.Flow!=null&&!lesson.CinematicBlocking){pendingChoice=n;pendingRevision=lesson.Flow.Revision;pendingRun=lesson.RunVersion;}};choices[i].Enable();
+             }
+-            restartAction=new InputAction("RestartElevator",InputActionType.Button,"<Keyboard>/r");restartAction.performed+=_=>pendingRestart=true;restartAction.Enable();
+-            developerAction=new InputAction("ElevatorDeveloper",InputActionType.Button,"<Keyboard>/f8");developerAction.performed+=_=>pendingDeveloper=true;developerAction.Enable();
++            restartAction=new InputAction("RestartElevator",InputActionType.Button,"<Keyboard>/r");restartAction.performed+=_=>{if(lesson&&!lesson.CinematicBlocking)pendingRestart=true;};restartAction.Enable();
++            developerAction=new InputAction("ElevatorDeveloper",InputActionType.Button,"<Keyboard>/f8");developerAction.performed+=_=>{if(lesson&&!lesson.CinematicBlocking)pendingDeveloper=true;};developerAction.Enable();
+             clickAction=new InputAction("ElevatorCenterClick",InputActionType.Button,"<Mouse>/leftButton");
+-            clickAction.performed+=_=>{if(lesson&&lesson.Flow!=null){pendingClick=true;clickRevision=lesson.Flow.Revision;clickRun=lesson.RunVersion;}};clickAction.Enable();
++            clickAction.performed+=_=>{if(lesson&&lesson.Flow!=null&&(lesson.IsPaused||!lesson.CinematicBlocking)){pendingClick=true;clickRevision=lesson.Flow.Revision;clickRun=lesson.RunVersion;}};clickAction.Enable();
+         }
+         void Start(){wasFocused=Application.isFocused;RefreshMode();}
+         void RefreshMode()
+@@ -78,20 +78,27 @@ namespace ProjectWait.M.Elevator
+                 pendingChoice=-1;pendingRestart=pendingDeveloper=false;SetMouseLook(false);RefreshLaserVisibility();
+                 if(IsDesktop){UpdateMenuPointer();if(click)SelectCenterTarget();}return;
+             }
++            if(IsDesktop)
++            {
++                if(!MouseLookActive)SetMouseLook(true);
++                bool focused=Application.isFocused;
++                if(focused!=wasFocused){wasFocused=focused;SetMouseLook(true);skipDelta=true;}
++                // Looking remains available during every cinematic; only actions are blocked.
++                var mouse=Mouse.current;
++                if(mouse!=null)
++                {
++                    Vector2 delta=skipDelta?Vector2.zero:mouse.delta.ReadValue();skipDelta=false;
++                    SetLookAngles(yaw+delta.x*sensitivity,pitch-delta.y*sensitivity);
++                }
++            }
++            if(lesson.CinematicBlocking)
++            {
++                pendingChoice=-1;pendingRestart=pendingDeveloper=false;
++                ClearTarget();RefreshLaserVisibility();return;
++            }
+             if(pendingDeveloper){pendingDeveloper=false;lesson.view.ToggleDeveloper();}
+             if(pendingRestart){pendingRestart=false;pendingChoice=-1;click=false;lesson.Restart();}
+             if(!IsDesktop)return;
+-            if(!MouseLookActive)SetMouseLook(true);
+-            bool focused=Application.isFocused;
+-            if(focused!=wasFocused){wasFocused=focused;SetMouseLook(true);skipDelta=true;}
+-            bool scripted=lesson.IsReframing||lesson.Flow.IsCinematic||lesson.scenario&&lesson.scenario.LockView||lesson.Flow.Step==ElevatorStep.Entering||lesson.Flow.Step==ElevatorStep.Exiting||lesson.Flow.Step==ElevatorStep.Returning||lesson.Flow.Step==ElevatorStep.GoingHome;
+-            var mouse=Mouse.current;
+-            if(!scripted&&mouse!=null)
+-            {
+-                Vector2 delta=skipDelta?Vector2.zero:mouse.delta.ReadValue();skipDelta=false;
+-                SetLookAngles(yaw+delta.x*sensitivity,pitch-delta.y*sensitivity);
+-            }
+-            if(lesson.CinematicBlocking){pendingChoice=-1;ClearTarget();RefreshLaserVisibility();return;}
+             if(pendingChoice>=0)
+             {
+                 int n=pendingChoice;pendingChoice=-1;
+@@ -155,6 +162,7 @@ namespace ProjectWait.M.Elevator
+         }
+         void UpdateCenterRay()
+         {
++            if(!lesson||lesson.CinematicBlocking){ClearTarget();return;}
+             var screen=new Vector2(Screen.width*.5f,Screen.height*.5f);var ray=targetCamera.ViewportPointToRay(new Vector3(.5f,.5f));
+             float distance=laserRange;GameObject target=null;
+             // laserRange controls the visual beam only, never interaction reach.
+@@ -182,7 +190,7 @@ namespace ProjectWait.M.Elevator
+         }
+         public void SelectCenterTarget()
+         {
+-            if(!IsDesktop||!hovered)return;ClickCount++;
++            if(!IsDesktop||!hovered||!lesson||!lesson.IsPaused&&lesson.CinematicBlocking)return;ClickCount++;
+             var observation=hovered.GetComponent<ElevatorObservation>();if(observation&&!lesson.IsPaused){observation.Activate();return;}
+             if(pointer==null)return;
+             ExecuteEvents.Execute(hovered,pointer,ExecuteEvents.pointerDownHandler);ExecuteEvents.Execute(hovered,pointer,ExecuteEvents.pointerUpHandler);ExecuteEvents.Execute(hovered,pointer,ExecuteEvents.pointerClickHandler);
+=== Incremental observation diff ===
+diff --git "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\CameraFreedom_20261103~\\Before\\ElevatorObservation.cs" "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorObservation.cs"
+index 48b8ddc..0fa620d 100644
+--- "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\CameraFreedom_20261103~\\Before\\ElevatorObservation.cs"
++++ "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorObservation.cs"
+@@ -8,7 +8,7 @@ namespace ProjectWait.M.Elevator
+     public enum ElevatorClue { Friend, Door, Display, Intercom, Notice, Identity, Ball, FloorButtons, Advertisement, LobbyCall, FrontIntercom, FacilityGuide, GroundExit, FrontFloorButtons, LobbyCallUp, Phone, Rescuer }
+ 
+     [RequireComponent(typeof(XRSimpleInteractable))]
+-    public sealed class ElevatorObservation : MonoBehaviour, IXRSelectFilter
++    public sealed class ElevatorObservation : MonoBehaviour, IXRSelectFilter, IXRHoverFilter
+     {
+         public ElevatorLesson lesson;
+         public ElevatorClue clue;
+@@ -45,6 +45,7 @@ namespace ProjectWait.M.Elevator
+         {
+             interaction = GetComponent<XRSimpleInteractable>();
+             interaction.selectFilters.Add(this);
++            interaction.hoverFilters.Add(this);
+             interaction.hoverEntered.AddListener(_ => Hover(true));
+             interaction.hoverExited.AddListener(_ => Hover(false));
+             interaction.selectEntered.AddListener(_ => Activate());
+@@ -63,11 +64,13 @@ namespace ProjectWait.M.Elevator
+         }
+         public void Hover(bool value)
+         {
++            if(value&&!CanActivate)return;
+             if (value && (!hovered || runVersion != lesson.RunVersion)) { lesson.Inspect(clue); runVersion = lesson.RunVersion; }
+             hovered = value;
+             if(!value)lesson.ClearThought(clue);
+         }
+         public bool Process(IXRSelectInteractor interactor, IXRSelectInteractable interactable) => CanActivate;
++        bool IXRHoverFilter.Process(IXRHoverInteractor interactor, IXRHoverInteractable interactable) => CanActivate;
+         public void Activate() { if(!CanActivate)return; if(feedback&&(clue!=ElevatorClue.Intercom||lesson.Flow.Step==ElevatorStep.Stopped))feedback.Press(); lesson.Activate(clue); }
+         public void ResetHover()
+         {
+@@ -103,6 +106,6 @@ namespace ProjectWait.M.Elevator
+             outlineTarget.SetPresentation(visible,hovered,false);
+         }
+         void OnDisable() { ResetHover(); }
+-        void OnDestroy() { if(interaction)interaction.selectFilters.Remove(this); }
++        void OnDestroy() { if(interaction){interaction.selectFilters.Remove(this);interaction.hoverFilters.Remove(this);} }
+     }
+ }
+=== Remaining viewpoint writes ===
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:66:                SetScriptedHeading(lesson.presentation&&lesson.presentation.space?lesson.presentation.space.DefaultHeading:0);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:91:                    SetLookAngles(yaw+delta.x*sensitivity,pitch-delta.y*sensitivity);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:130:        public void ResetView(){if(!IsDesktop)return;SetScriptedHeading(lesson.presentation.space.DefaultHeading);SetMouseLook(true);}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:131:        public void SetScriptedHeading(float value){SetLookAngles(value,0);skipDelta=true;}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:132:        public void SetLookAngles(float horizontal,float vertical){yaw=horizontal;pitch=Mathf.Clamp(vertical,-80,80);targetCamera.transform.rotation=Quaternion.Euler(pitch,yaw,0);}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpacePresentation.cs:26:                if(XRSettings.isDeviceActive)playerRig.rotation=Quaternion.Euler(0,heading,0);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpacePresentation.cs:27:                else{playerRig.rotation=Quaternion.identity;controls.SetScriptedHeading(heading);}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:54:            if(resetHeading){if(XRSettings.isDeviceActive)space.playerRig.rotation=Quaternion.Euler(0,heading,0);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:55:            else {space.playerRig.rotation=Quaternion.identity;if(controls)controls.SetScriptedHeading(heading);}}

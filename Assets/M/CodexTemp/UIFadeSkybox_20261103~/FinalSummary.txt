@@ -1,0 +1,11 @@
+﻿PrototypeEnvelope success=True passed=41/41
+PrototypeReadability success=True passed=220/220
+PrototypePolish success=True passed=54/54
+PrototypeCamera success=True passed=126/126
+PrototypeInteraction success=True passed=32/32
+TestEnvelope success=True passed=41/41
+TestReadability success=True passed=203/203
+TestPolish success=True passed=54/54
+TestCamera success=True passed=126/126
+TestInteraction success=True passed=32/32
+Total passed=929

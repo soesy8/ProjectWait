@@ -1,0 +1,99 @@
+﻿=== Git ===
+ M Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity
+ M Assets/M/Scene/Elevator_Safety_Prototype.unity
+ M Assets/M/Scripts/Editor/ElevatorInteractionSetup.cs
+ M Assets/M/Scripts/Elevator/ElevatorDesktopControls.cs
+ M Assets/M/Scripts/Elevator/ElevatorObservation.cs
+ M Assets/M/Scripts/Elevator/ElevatorStorybookUI.cs
+ M "Assets/Shared Assets/UI/Prefabs/ChoiceCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/CompletionCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/DialogueCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/IntercomDialogueCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/MissionCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/NextButton.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/ObservationCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/PausePanel.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/ThoughtCloud.prefab"
+ M Assets/XR/Settings/OpenXRPackageSettings.asset
+?? Assets/M/CodexTemp/CameraFreedom_20261103~/
+?? Assets/M/CodexTemp/InteractionFix_20261103~/
+?? "Assets/Shared Assets/Highlight/Rendering/Android_Preset_53a41332_OutlineRenderer.asset"
+?? "Assets/Shared Assets/Highlight/Rendering/Android_Preset_53a41332_OutlineRenderer.asset.meta"
+?? "Assets/Shared Assets/Highlight/Rendering/Performance_URP_Config_fd42a132_OutlinePipeline.asset"
+?? "Assets/Shared Assets/Highlight/Rendering/Performance_URP_Config_fd42a132_OutlinePipeline.asset.meta"
+=== Camera and input call sites ===
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorPresentationSetup.cs:32:            controls.targetCamera.transform.position=new Vector3(controls.xrOrigin.position.x,FriendEyeHeight,controls.xrOrigin.position.z);
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorSpaceSetup.cs:69:   l.playerCamera.fieldOfView=68;space.playerRig.position=space.lobbyPosition;space.playerRig.rotation=Quaternion.identity;
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorSportsCentreSetup.cs:167:            var controller=space.playerRig.GetComponent<CharacterController>();bool enabled=controller&&controller.enabled;if(enabled)controller.enabled=false;space.playerRig.position=map.lobby;space.playerRig.rotation=Quaternion.identity;if(enabled)controller.enabled=true;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorCameraEffects.cs:22:   if(lesson.IsReframing||lesson.scenario&&lesson.scenario.LockView||f.Step==ElevatorStep.Jump||f.Step==ElevatorStep.Connecting||f.Step==ElevatorStep.Stopped&&f.Phase==InteractionPhase.Dialogue||f.Step==ElevatorStep.Rescue&&!f.ReadyToExit)
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorCameraEffects.cs:36:     if(!XRSettings.isDeviceActive){float blend=1-Mathf.Exp(-Time.deltaTime*10);desktop.SetLookAngles(Mathf.LerpAngle(desktop.LookAngles.x,r.y,blend),Mathf.LerpAngle(desktop.LookAngles.y,Mathf.DeltaAngle(0,r.x),blend));}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorCameraEffects.cs:37:     else if(map&&map.IsFraming){if(!xrViewAligned&&map.ReframeFade>.98f&&map.ReframeProgress>=.5f){desktop.xrOrigin.RotateAround(lesson.playerCamera.transform.position,Vector3.up,Mathf.DeltaAngle(lesson.playerCamera.transform.eulerAngles.y,r.y));xrViewAligned=true;}}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorCameraEffects.cs:38:     else if(!map||!map.IsInteriorBeat){float angle=Mathf.DeltaAngle(lesson.playerCamera.transform.eulerAngles.y,r.y);desktop.xrOrigin.Rotate(Vector3.up,Mathf.Clamp(angle,-40*Time.deltaTime,40*Time.deltaTime),Space.World);}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorCinematicOverlay.cs:18:        public bool Blocking => lesson&&lesson.Flow!=null&&(lesson.Flow.IsCinematic||Amount>.015f);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorCinematicOverlay.cs:42:            Amount=Mathf.MoveTowards(Amount,lesson.Flow.IsCinematic?1:0,seconds/.38f);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorCinematicOverlay.cs:55:            var map=lesson.presentation.space.sportsCentre;if(map)alpha=Mathf.Max(alpha,map.ReframeFade);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:64:                targetCamera.transform.position=new Vector3(xrOrigin.position.x,xrOrigin.position.y+eyeHeight,xrOrigin.position.z);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:65:                if(movement)movement.CalibrateFeet(xrOrigin.position.y);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:87:            bool scripted=lesson.IsReframing||lesson.Flow.IsCinematic||lesson.scenario&&lesson.scenario.LockView||lesson.Flow.Step==ElevatorStep.Entering||lesson.Flow.Step==ElevatorStep.Exiting||lesson.Flow.Step==ElevatorStep.Returning||lesson.Flow.Step==ElevatorStep.GoingHome;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:92:                SetLookAngles(yaw+delta.x*sensitivity,pitch-delta.y*sensitivity);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:94:            if(lesson.CinematicBlocking){pendingChoice=-1;ClearTarget();RefreshLaserVisibility();return;}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:111:            xrOrigin.position+=Vector3.up*(floor+eyeHeight-targetCamera.transform.position.y);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:123:        public void ResetView(){if(!IsDesktop)return;SetScriptedHeading(lesson.presentation.space.DefaultHeading);SetMouseLook(true);}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:124:        public void SetScriptedHeading(float value){SetLookAngles(value,0);skipDelta=true;}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:125:        public void SetLookAngles(float horizontal,float vertical){yaw=horizontal;pitch=Mathf.Clamp(vertical,-80,80);targetCamera.transform.rotation=Quaternion.Euler(pitch,yaw,0);}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDesktopControls.cs:128:            bool visible=initialized&&IsDesktop&&isActiveAndEnabled&&lesson&&!lesson.IsPaused&&!lesson.CinematicBlocking;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorFlow.cs:31:        public bool IsCinematic => Step==ElevatorStep.Jump || Step==ElevatorStep.WaitingFade || Step==ElevatorStep.Entering || Step==ElevatorStep.Exiting || Step==ElevatorStep.Travel || Step==ElevatorStep.Returning || Step==ElevatorStep.GoingHome || Step==ElevatorStep.Connecting || (Step==ElevatorStep.Stopped&&Phase==InteractionPhase.Dialogue) || (Step==ElevatorStep.Rescue&&!ReadyToExit);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorLesson.cs:27:        public bool IsReframing => presentation&&presentation.space&&presentation.space.sportsCentre&&presentation.space.sportsCentre.IsFraming;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorLesson.cs:28:        public bool CinematicBlocking => IsPaused||IsReframing||presentation&&presentation.space&&presentation.space.overlay&&presentation.space.overlay.Blocking;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorLesson.cs:95:        public void Restart() { Flow.Reset(); FindFirstObjectByType<ElevatorDesktopControls>()?.ResetView(); ResetPresentation(); }
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorLesson.cs:160:            return clue!=ElevatorClue.LobbyCallUp&&Flow!=null&&!IsPaused&&!CinematicBlocking&&!Flow.IsCinematic&&Flow.Step!=ElevatorStep.Complete;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorObservation.cs:47:            interaction.selectFilters.Add(this);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorObservation.cs:106:        void OnDestroy() { if(interaction)interaction.selectFilters.Remove(this); }
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorPlayerMovement.cs:20:        public bool CanMove=>lesson&&lesson.Flow!=null&&!lesson.CinematicBlocking&&!lesson.Flow.IsCinematic;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorScenarioDirector.cs:18:        public bool LockView => objectGuidedScene && lesson && lesson.Flow!=null && lesson.Flow.IsCinematic && !lesson.IsPaused;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpacePresentation.cs:21:        void MoveRig(Vector3 position,float heading)
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpacePresentation.cs:24:            playerRig.position=new Vector3(position.x,playerRig.position.y,position.z);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpacePresentation.cs:25:            if(XRSettings.isDeviceActive)playerRig.rotation=Quaternion.Euler(0,heading,0);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpacePresentation.cs:26:            else{playerRig.rotation=Quaternion.identity;controls.SetScriptedHeading(heading);}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpacePresentation.cs:37:                MoveRig(outside?(f.Step==ElevatorStep.Lobby?lobbyPosition:exitPosition):insidePosition,outside?180:0);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpacePresentation.cs:48:                if(XRSettings.isDeviceActive)MoveRig(t<3.1f?lobbyPosition:insidePosition,t<3.1f?180:0);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpacePresentation.cs:49:                else MoveRig(Vector3.Lerp(lobbyPosition,insidePosition,S(t,1.2f,4.5f)),Mathf.Lerp(180,360,S(t,3.4f,4.7f)));
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpacePresentation.cs:57:                if(XRSettings.isDeviceActive)MoveRig(t<2.3f?insidePosition:exitPosition,t<2.3f?0:180);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpacePresentation.cs:58:                else MoveRig(Vector3.Lerp(insidePosition,exitPosition,S(t,.65f,3.95f)),Mathf.Lerp(0,180,S(t,3.15f,4.25f)));
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:284:            worldGroup.alpha=transition||paused?0:1;worldGroup.interactable=!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:285:            hudGroup.alpha=f.IsCinematic||paused?0:1;hudGroup.interactable=false;hudGroup.blocksRaycasts=false;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:31:        [Min(.2f)] public float interiorReframeSeconds=.6f;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:32:        bool reframing,vrReframed,identityPreviouslyFound;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:33:        float reframeBeganAt;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:34:        Vector3 reframeFrom;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:36:        public float ReframeProgress=>Mathf.Clamp01((Lesson.Flow.Elapsed-reframeBeganAt)/Mathf.Max(.2f,interiorReframeSeconds));
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:37:        public float ReframeFade=>XRSettings.isDeviceActive&&reframing?Mathf.Sin(Mathf.PI*ReframeProgress):0;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:49:        void MoveRig(Vector3 p,float heading,bool rotate=true)
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:53:            float offset=XRSettings.isDeviceActive ? (movement?-movement.FeetOffset:space.playerRig.position.y-lastFloor) : 0;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:57:            space.playerRig.position=p+Vector3.up*offset;lastFloor=p.y;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:60:            if(rotate){if(XRSettings.isDeviceActive)space.playerRig.rotation=Quaternion.Euler(0,heading,0);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:61:            else {space.playerRig.rotation=Quaternion.identity;if(controls&&!(Lesson.scenario&&Lesson.scenario.LockView))controls.SetScriptedHeading(heading);}}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:67:            if(!initialized){leftClosed=p.leftDoor.localPosition;rightClosed=p.rightDoor.localPosition;lastFloor=space.playerRig.position.y;initialized=true;}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:73:                teleported=false;reframing=false;vrReframed=false;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:75:                transitionStart=walking?walking.FeetPosition:space.playerRig.position;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:77:                if(f.Step==ElevatorStep.Lobby)MoveRig(lobby,0);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:80:                    if(reset||previous==ElevatorStep.Entering){MoveRig(inside,180);transitionStart=inside;}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:81:                    reframeFrom=transitionStart;reframeBeganAt=t;reframing=true;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:83:                else if(f.Step==ElevatorStep.ReturnLobby)MoveRig(lobby,0);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:84:                else if(f.Step==ElevatorStep.GroundFloor)MoveRig(groundLobby,180);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:85:                else if(f.Step==ElevatorStep.Complete)MoveRig(groundExit,180);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:98:                if(XRSettings.isDeviceActive){if(t>=3.1f&&!teleported){MoveRig(inside,180);teleported=true;}}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:103:                    MoveRig(position,Mathf.LerpAngle(transitionHeading,180,S(t,3.4f,4.7f)));
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:114:                if(XRSettings.isDeviceActive){if(t>=2.3f&&!teleported){MoveRig(lobby,0);teleported=true;}}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:119:                    MoveRig(position,Mathf.LerpAngle(transitionHeading,0,S(t,3.15f,4.25f)));
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:124:                if(t>=1.75f&&lastFloor>1)MoveRig(groundLobby,180);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:128:                if(XRSettings.isDeviceActive){if(t>=3&&!teleported){MoveRig(groundExit,180);teleported=true;}}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:129:                else MoveRig(Vector3.Lerp(transitionStart,groundExit,S(t,.7f,5.3f)),Mathf.LerpAngle(transitionHeading,180,S(t,.1f,1)));
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:141:            var feet=walk?walk.FeetPosition:space.playerRig.position;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:155:                float duration=Mathf.Max(.2f,interiorReframeSeconds),age=t-reframeBeganAt;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:156:                if(XRSettings.isDeviceActive){if(age>=duration*.5f&&!vrReframed){MoveRig(inside,180,false);vrReframed=true;}}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSportsCentreMap.cs:157:                else MoveRig(Vector3.Lerp(reframeFrom,inside,S(age,0,duration)),180,false);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorView.cs:148:            if(lesson&&lesson.CinematicBlocking)return;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorView.cs:212:            for(int i=0;i<actions.Count;i++){var action=actions[i];var b=MakeButton(f.Step==ElevatorStep.Call?"DialogueNext":"Choice"+i,actionPanel,new Vector2(790,56),Vector2.zero,labels[i],()=>{if(!lesson.CinematicBlocking&&lesson.Flow.Revision==revision&&lesson.RunVersion==run)action();});ChoiceButtons.Add(b);}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorView.cs:222:            bool visible=!lesson.CinematicBlocking;cinematicGroup.alpha=visible?1:0;cinematicGroup.interactable=visible;cinematicGroup.blocksRaycasts=visible;
+=== Instructions ===

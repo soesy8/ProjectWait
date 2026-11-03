@@ -15,6 +15,7 @@ namespace ProjectWait.M.Elevator
         [SerializeField] RectTransform top,bottom,fade;
         [SerializeField] TMP_Text caption;
         public float Amount {get;private set;}
+        public bool LetterboxVisible => isActiveAndEnabled && Amount > .001f;
         public bool Blocking => lesson&&lesson.Flow!=null&&(lesson.Flow.IsCinematic||Amount>.015f);
         int run=-1;
         public void Build()
@@ -52,7 +53,6 @@ namespace ProjectWait.M.Elevator
             if(XRSettings.isDeviceActive&&(f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting))
             {float middle=f.Step==ElevatorStep.Entering?3.1f:2.3f;alpha=1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.10f,.60f,Mathf.Abs(f.Elapsed-middle)));}
             if(XRSettings.isDeviceActive&&f.Step==ElevatorStep.GoingHome)alpha=1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.12f,.65f,Mathf.Abs(f.Elapsed-3)));
-            var map=lesson.presentation.space.sportsCentre;if(map)alpha=Mathf.Max(alpha,map.ReframeFade);
             fade.gameObject.SetActive(alpha>0);fade.GetComponent<Image>().color=new Color(0,0,0,alpha);
             lesson.view.SetCinematicVisibility();
         }

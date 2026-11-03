@@ -1,0 +1,814 @@
+{
+  "success": true,
+  "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+  "checks": [
+    {
+      "name": "Startup: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Startup: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Cabin boarding: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Cabin boarding: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Cabin floor selected: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Cabin floor selected: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Stopped investigation: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Stopped investigation: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Reproduced cabin identity-search state is reached",
+      "passed": true
+    },
+    {
+      "name": "Identity-search base hint: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Identity-search base hint: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Identity-search base hint: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Identity-search base hint: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Search to observation: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Search to observation: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Search to observation: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Search to observation: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Hover exit restores the actual mission hint, not a title",
+      "passed": true
+    },
+    {
+      "name": "Observation exit to base hint: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Observation exit to base hint: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Observation exit to base hint: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Observation exit to base hint: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Delayed search hint revision: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Delayed search hint revision: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Delayed search hint revision: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Delayed search hint revision: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Identical empty observation refresh: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Identical empty observation refresh: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Identical empty observation refresh: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Identical empty observation refresh: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Layout after a stale title was re-enabled: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Layout after a stale title was re-enabled: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Layout after a stale title was re-enabled: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Layout after a stale title was re-enabled: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Tick clears reactivated heading: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Tick clears reactivated heading: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Tick clears reactivated heading: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Tick clears reactivated heading: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Generic old title copy is hidden during a content fade: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Generic old title copy is hidden during a content fade: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Generic old title copy is hidden during a content fade: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Generic old title copy is hidden during a content fade: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Inspect Friend: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Inspect Friend: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Inspect Friend: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Inspect Friend: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Clear Friend: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Clear Friend: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Clear Friend: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Clear Friend: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Inspect Intercom: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Inspect Intercom: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Inspect Intercom: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Inspect Intercom: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Clear Intercom: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Clear Intercom: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Clear Intercom: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Clear Intercom: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Inspect FrontIntercom: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Inspect FrontIntercom: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Inspect FrontIntercom: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Inspect FrontIntercom: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Clear FrontIntercom: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Clear FrontIntercom: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Clear FrontIntercom: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Clear FrontIntercom: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Inspect Identity: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Inspect Identity: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Inspect Identity: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Inspect Identity: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Clear Identity: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Clear Identity: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Clear Identity: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Clear Identity: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Inspect Phone: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Inspect Phone: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Inspect Phone: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Inspect Phone: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Clear Phone: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Clear Phone: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Clear Phone: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Clear Phone: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Inspect Notice: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Inspect Notice: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Inspect Notice: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Inspect Notice: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Clear Notice: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Clear Notice: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Clear Notice: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Clear Notice: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Identity found: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Identity found: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Location reported: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Location reported: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Waiting: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Waiting: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Waiting fade: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Waiting fade: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Rescue arrival: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Rescue arrival: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Rescue ready: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Rescue ready: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Guided=False observation fade: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Guided=False observation fade: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Guided=False observation fade: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Guided=False observation fade: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Guided=False mission return: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Guided=False mission return: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Guided=False mission return: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Guided=False mission return: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Guided=True observation fade: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Guided=True observation fade: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Guided=True observation fade: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Guided=True observation fade: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Guided=True mission return: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Guided=True mission return: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Guided=True mission return: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Guided=True mission return: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Fallback mission layout does not enable legacy ThoughtHeading",
+      "passed": true
+    },
+    {
+      "name": "Fallback mission layout does not create/show a ribbon",
+      "passed": true
+    },
+    {
+      "name": "Fallback observation is also title-free",
+      "passed": true
+    },
+    {
+      "name": "No-storybook update cannot re-enable legacy title",
+      "passed": true
+    },
+    {
+      "name": "Restored prefab: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Restored prefab: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Restored prefab: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Restored prefab: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Transition tracker retires a previously tracked title instead of cloning it",
+      "passed": true
+    },
+    {
+      "name": "Tracked-title cleanup: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Tracked-title cleanup: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Tracked-title cleanup: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Tracked-title cleanup: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Known exact legacy title variants are recognized",
+      "passed": true
+    },
+    {
+      "name": "Ordinary body sentences mentioning thoughts are not mistaken for headings",
+      "passed": true
+    },
+    {
+      "name": "Pause heading remains present and untouched",
+      "passed": true
+    },
+    {
+      "name": "Manager speaker name is preserved",
+      "passed": true
+    },
+    {
+      "name": "Manager speaker ribbon is not treated as a thought ribbon",
+      "passed": true
+    },
+    {
+      "name": "Shared thoughtRibbon sprite still renders the manager speaker tab",
+      "passed": true
+    },
+    {
+      "name": "Speaker unaffected: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Speaker unaffected: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Final cabin search hint: no active original, legacy or ghost title",
+      "passed": true
+    },
+    {
+      "name": "Final cabin search hint: no active title decoration",
+      "passed": true
+    },
+    {
+      "name": "Final cabin search hint: actual instruction/description is preserved",
+      "passed": true
+    },
+    {
+      "name": "Final cabin search hint: body still fits",
+      "passed": true
+    },
+    {
+      "name": "Header removal does not add UI motion or zoom",
+      "passed": true
+    }
+  ],
+  "samples": [
+    {
+      "name": "Startup",
+      "step": "Lobby",
+      "body": "",
+      "panelActive": false
+    },
+    {
+      "name": "Cabin boarding",
+      "step": "Boarding",
+      "body": "",
+      "panelActive": false
+    },
+    {
+      "name": "Cabin floor selected",
+      "step": "Boarding",
+      "body": "",
+      "panelActive": false
+    },
+    {
+      "name": "Stopped investigation",
+      "step": "Stopped",
+      "body": "",
+      "panelActive": false
+    },
+    {
+      "name": "Identity-search base hint",
+      "step": "Call",
+      "body": "벽의 식별판을 찾아 선택해 보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Search to observation",
+      "step": "Call",
+      "body": "전면 식별판을 살펴봐요.",
+      "panelActive": true
+    },
+    {
+      "name": "Observation exit to base hint",
+      "step": "Call",
+      "body": "벽의 식별판을 찾아 선택해 보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Delayed search hint revision",
+      "step": "Call",
+      "body": "전면 비상벨 아래의 식별판에서 건물명과 관리번호를 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Identical empty observation refresh",
+      "step": "Call",
+      "body": "전면 비상벨 아래의 식별판에서 건물명과 관리번호를 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Layout after a stale title was re-enabled",
+      "step": "Call",
+      "body": "전면 비상벨 아래의 식별판에서 건물명과 관리번호를 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Tick clears reactivated heading",
+      "step": "Call",
+      "body": "전면 비상벨 아래의 식별판에서 건물명과 관리번호를 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Generic old title copy is hidden during a content fade",
+      "step": "Call",
+      "body": "같은 설명을 반복해 확인해요.",
+      "panelActive": true
+    },
+    {
+      "name": "Inspect Friend",
+      "step": "Call",
+      "body": "친구가 놀랐어. 함께 차분히 도움을 요청하자.",
+      "panelActive": true
+    },
+    {
+      "name": "Clear Friend",
+      "step": "Call",
+      "body": "전면 비상벨 아래의 식별판에서 건물명과 관리번호를 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Inspect Intercom",
+      "step": "Call",
+      "body": "도움을 요청했어. 안내에 따라 기다리자.",
+      "panelActive": true
+    },
+    {
+      "name": "Clear Intercom",
+      "step": "Call",
+      "body": "전면 비상벨 아래의 식별판에서 건물명과 관리번호를 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Inspect FrontIntercom",
+      "step": "Call",
+      "body": "전면 비상벨은 손이 닿기 어려워. 올라서지 말고 낮은 측면 패널의 벨을 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Clear FrontIntercom",
+      "step": "Call",
+      "body": "전면 비상벨 아래의 식별판에서 건물명과 관리번호를 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Inspect Identity",
+      "step": "Call",
+      "body": "한빛 생활체육센터 · 본관 1호기 · HB-EL-01\n선택해서 위치를 확인해요.",
+      "panelActive": true
+    },
+    {
+      "name": "Clear Identity",
+      "step": "Call",
+      "body": "전면 비상벨 아래의 식별판에서 건물명과 관리번호를 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Inspect Phone",
+      "step": "Call",
+      "body": "비상통화에 응답이 없으면 휴대폰으로 위치와 상황을 알려요. 이 체험은 모의 통화예요.",
+      "panelActive": true
+    },
+    {
+      "name": "Clear Phone",
+      "step": "Call",
+      "body": "전면 비상벨 아래의 식별판에서 건물명과 관리번호를 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Inspect Notice",
+      "step": "Call",
+      "body": "문에서 떨어져 비상통화로 도움을 요청해요.",
+      "panelActive": true
+    },
+    {
+      "name": "Clear Notice",
+      "step": "Call",
+      "body": "전면 비상벨 아래의 식별판에서 건물명과 관리번호를 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Identity found",
+      "step": "Call",
+      "body": "",
+      "panelActive": false
+    },
+    {
+      "name": "Location reported",
+      "step": "Call",
+      "body": "",
+      "panelActive": false
+    },
+    {
+      "name": "Waiting",
+      "step": "Waiting",
+      "body": "",
+      "panelActive": false
+    },
+    {
+      "name": "Waiting fade",
+      "step": "WaitingFade",
+      "body": "",
+      "panelActive": false
+    },
+    {
+      "name": "Rescue arrival",
+      "step": "Rescue",
+      "body": "",
+      "panelActive": false
+    },
+    {
+      "name": "Rescue ready",
+      "step": "Rescue",
+      "body": "",
+      "panelActive": false
+    },
+    {
+      "name": "Guided=False observation fade",
+      "step": "Call",
+      "body": "식별판을 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Guided=False mission return",
+      "step": "Call",
+      "body": "벽의 식별판을 찾아 선택해 보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Guided=True observation fade",
+      "step": "Call",
+      "body": "식별판을 찾아보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Guided=True mission return",
+      "step": "Call",
+      "body": "벽의 식별판을 찾아 선택해 보자.",
+      "panelActive": true
+    },
+    {
+      "name": "Restored prefab",
+      "step": "Call",
+      "body": "본문만 남는 기본 설명이에요.",
+      "panelActive": true
+    },
+    {
+      "name": "Tracked-title cleanup",
+      "step": "Call",
+      "body": "본문만 남는 기본 설명이에요.",
+      "panelActive": true
+    },
+    {
+      "name": "Speaker unaffected",
+      "step": "Call",
+      "body": "",
+      "panelActive": false
+    },
+    {
+      "name": "Final cabin search hint",
+      "step": "Call",
+      "body": "벽의 식별판을 찾아 선택해 보자.",
+      "panelActive": true
+    }
+  ],
+  "error": null,
+  "actualHMD": false
+}

@@ -1,0 +1,160 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\InteractionFix_20261103~\\Verify.cs"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 90,
+      "executeMs": 3630,
+      "assemblyName": "PipelineRunScript_Verify_8cbe1bc5443046e58da3a50d2d8ae6b8",
+      "success": true,
+      "result": {
+        "success": true,
+        "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+        "checks": [
+          {
+            "name": "Story transitions settle before interaction checks",
+            "passed": true
+          },
+          {
+            "name": "Friend and ball have separate outline targets",
+            "passed": true
+          },
+          {
+            "name": "Friend silhouette excludes every basketball renderer",
+            "passed": true
+          },
+          {
+            "name": "Ball retains its own silhouette geometry",
+            "passed": true
+          },
+          {
+            "name": "All described targets retain non-empty outline geometry",
+            "passed": true
+          },
+          {
+            "name": "XR colliders are not shared by friend and ball",
+            "passed": true
+          },
+          {
+            "name": "Aiming at the held ball selects only basketball, not its parent friend",
+            "passed": true
+          },
+          {
+            "name": "Moving aim to friend exits basketball hover independently",
+            "passed": true
+          },
+          {
+            "name": "Both objects keep independent idle highlights",
+            "passed": true
+          },
+          {
+            "name": "Nearby unhovered friend stays orange",
+            "passed": true
+          },
+          {
+            "name": "Hover enters through intermediate Lerp values",
+            "passed": true
+          },
+          {
+            "name": "Hovered friend smoothly reaches blue",
+            "passed": true
+          },
+          {
+            "name": "Hovering friend does not turn basketball blue",
+            "passed": true
+          },
+          {
+            "name": "Hover exit also interpolates instead of snapping",
+            "passed": true
+          },
+          {
+            "name": "Switching hover returns only friend to orange",
+            "passed": true
+          },
+          {
+            "name": "Thought HUD instantiates the current ThoughtCloud prefab",
+            "passed": true
+          },
+          {
+            "name": "Current bubble retains prefab artwork and title ribbon",
+            "passed": true
+          },
+          {
+            "name": "Legacy artwork is hidden instead of overlapping the new bubble",
+            "passed": true
+          },
+          {
+            "name": "Current Korean description is copied into non-blocking prefab text",
+            "passed": true
+          },
+          {
+            "name": "Korean description fits inside the current thought bubble",
+            "passed": true
+          },
+          {
+            "name": "Observation is activatable beyond both previous distance limits",
+            "passed": true
+          },
+          {
+            "name": "XR select filter permits distant activation",
+            "passed": true
+          },
+          {
+            "name": "Desktop centre ray selects an object more than 12 m away",
+            "passed": true
+          },
+          {
+            "name": "Centre click activates the distant object",
+            "passed": true
+          },
+          {
+            "name": "Removing range limits does not allow selection through walls",
+            "passed": true
+          },
+          {
+            "name": "Story transitions settle before interaction checks",
+            "passed": true
+          },
+          {
+            "name": "Story transitions settle before interaction checks",
+            "passed": true
+          },
+          {
+            "name": "Ball transfer starts unconsumed",
+            "passed": true
+          },
+          {
+            "name": "Real story basketball is activatable from over 12 m away",
+            "passed": true
+          },
+          {
+            "name": "Distant basketball activation performs the actual story handoff",
+            "passed": true
+          },
+          {
+            "name": "Story transitions settle before interaction checks",
+            "passed": true
+          },
+          {
+            "name": "Restart restores the original story state",
+            "passed": true
+          }
+        ],
+        "error": null,
+        "actualHMD": false
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

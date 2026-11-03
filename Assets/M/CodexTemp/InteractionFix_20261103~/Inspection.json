@@ -1,0 +1,107 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\InteractionFix_20261103~\\Inspect.cs"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 294,
+      "executeMs": 54,
+      "assemblyName": "PipelineRunScript_Inspect_fb4ff56dd34d49db97418de1b0c6a196",
+      "success": true,
+      "result": {
+        "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+        "dirty": false,
+        "cameraFar": 180,
+        "actors": [
+          {
+            "name": "Friend_Jump_Root",
+            "position": "(-3.200, 7.920, 1.400)",
+            "colliders": [
+              {
+                "name": "Friend_Jump_Root",
+                "bounds": "Center: (-3.20, 8.65, 1.40), Extents: (0.33, 0.74, 0.23)",
+                "owner": "Friend_Jump_Root"
+              },
+              {
+                "name": "FriendBasketball",
+                "bounds": "Center: (-3.20, 8.63, 1.16), Extents: (0.17, 0.17, 0.17)",
+                "owner": "FriendBasketball"
+              }
+            ],
+            "geometry": [
+              "Head ???κ렐 ?쇨뎬 / Friend_Jump_Root",
+              "FriendBasketball / FriendBasketball",
+              "ExcitedMark0 / Friend_Jump_Root",
+              "ExcitedMark1 / Friend_Jump_Root",
+              "ExcitedMark2 / Friend_Jump_Root"
+            ]
+          },
+          {
+            "name": "FriendBasketball",
+            "position": "(-3.200, 8.630, 1.160)",
+            "colliders": [
+              {
+                "name": "FriendBasketball",
+                "bounds": "Center: (-3.20, 8.63, 1.16), Extents: (0.17, 0.17, 0.17)",
+                "owner": "FriendBasketball"
+              }
+            ],
+            "geometry": [
+              "FriendBasketball / FriendBasketball"
+            ]
+          }
+        ],
+        "prefabChildren": [
+          {
+            "name": "ThoughtCloud",
+            "size": "(520.00, 368.00)",
+            "position": "(0.00, 0.00)"
+          },
+          {
+            "name": "ThoughtCloud",
+            "size": "(520.00, 368.00)",
+            "position": "(0.00, 0.00)"
+          },
+          {
+            "name": "Artwork",
+            "size": "(0.00, 0.00)",
+            "position": "(0.00, 0.00)"
+          },
+          {
+            "name": "ThoughtRibbon",
+            "size": "(178.00, 56.00)",
+            "position": "(0.00, 111.00)"
+          },
+          {
+            "name": "Heading",
+            "size": "(140.00, 40.00)",
+            "position": "(0.00, 112.00)"
+          },
+          {
+            "name": "Thought",
+            "size": "(364.00, 110.00)",
+            "position": "(0.00, 2.00)"
+          }
+        ],
+        "currentThought": [
+          "PlayerThought",
+          "StorybookArtwork",
+          "Thought",
+          "ThoughtRibbon",
+          "ThoughtHeading"
+        ]
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

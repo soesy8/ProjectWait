@@ -1,0 +1,49 @@
+﻿diff --git a/Assets/M/Scene/Elevator_Safety_Prototype.unity b/Assets/M/Scene/Elevator_Safety_Prototype.unity
+index 1cfd0af..d3a5985 100644
+--- a/Assets/M/Scene/Elevator_Safety_Prototype.unity
++++ b/Assets/M/Scene/Elevator_Safety_Prototype.unity
+@@ -9716,6 +9716,7 @@ MonoBehaviour:
+   observationNote: {fileID: 2087288547, guid: 8671361feca67d2458730c18c5810526, type: 3}
+   friendPortrait: {fileID: -1666863128, guid: fec9a01a404b88b45835fa6db4e35fad, type: 3}
+   speechTail: {fileID: -1252900068, guid: f4b4add7792f07648b8bf095986e7456, type: 3}
++  thoughtBubblePrefab: {fileID: 2033877499407356407, guid: ef65c5332f6297648812d460ccb34ae3, type: 3}
+   worldMaterial: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+ --- !u!1 &454675810
+ GameObject:
+@@ -14081,7 +14082,7 @@ MonoBehaviour:
+   m_AllowHoverHapticsWhileSelecting: 0
+   m_LineType: 0
+   m_BlendVisualLinePoints: 1
+-  m_MaxRaycastDistance: 30
++  m_MaxRaycastDistance: 180
+   m_RayOriginTransform: {fileID: 19731574}
+   m_ReferenceFrame: {fileID: 0}
+   m_Velocity: 16
+@@ -22763,9 +22764,6 @@ MonoBehaviour:
+   - sourceRenderer: {fileID: 1714301916}
+     mesh: {fileID: 0}
+     anchor: {fileID: 0}
+-  - sourceRenderer: {fileID: 1304008783}
+-    mesh: {fileID: 0}
+-    anchor: {fileID: 0}
+   - sourceRenderer: {fileID: 941100967}
+     mesh: {fileID: 0}
+     anchor: {fileID: 0}
+@@ -29501,7 +29499,7 @@ MonoBehaviour:
+   m_AllowHoverHapticsWhileSelecting: 0
+   m_LineType: 1
+   m_BlendVisualLinePoints: 1
+-  m_MaxRaycastDistance: 30
++  m_MaxRaycastDistance: 180
+   m_RayOriginTransform: {fileID: 1937101198}
+   m_ReferenceFrame: {fileID: 0}
+   m_Velocity: 10
+@@ -47955,7 +47953,7 @@ MonoBehaviour:
+   m_AllowHoverHapticsWhileSelecting: 0
+   m_LineType: 1
+   m_BlendVisualLinePoints: 1
+-  m_MaxRaycastDistance: 30
++  m_MaxRaycastDistance: 180
+   m_RayOriginTransform: {fileID: 1780957687}
+   m_ReferenceFrame: {fileID: 0}
+   m_Velocity: 10

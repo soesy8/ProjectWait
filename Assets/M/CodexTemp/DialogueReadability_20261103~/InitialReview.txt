@@ -1,0 +1,231 @@
+﻿=== TMP Unicode wrapping ===
+D:\project\ProjectWait\Library\PackageCache\com.unity.ugui@2e4da8434a5c\Editor\TMP\TMP_BaseEditorPanel.cs:151:        protected SerializedProperty m_WordWrappingRatiosProp;
+D:\project\ProjectWait\Library\PackageCache\com.unity.ugui@2e4da8434a5c\Editor\TMP\TMP_BaseEditorPanel.cs:235:            m_WordWrappingRatiosProp = serializedObject.FindProperty("m_wordWrappingRatios");
+D:\project\ProjectWait\Library\PackageCache\com.unity.ugui@2e4da8434a5c\Editor\TMP\TMP_BaseEditorPanel.cs:1031:                DrawPropertySlider(k_WrapMixLabel, m_WordWrappingRatiosProp);
+D:\project\ProjectWait\Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TextMeshPro.cs:4342:                                float ratio = spaces > 0 ? m_wordWrappingRatios : 1;
+D:\project\ProjectWait\Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TextMeshProUGUI.cs:4695:                                float ratio = spaces > 0 ? m_wordWrappingRatios : 1;
+D:\project\ProjectWait\Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:777:        public float wordWrappingRatios
+D:\project\ProjectWait\Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:779:            get { return m_wordWrappingRatios; }
+D:\project\ProjectWait\Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:780:            set { if (m_wordWrappingRatios == value) return; m_wordWrappingRatios = value; m_havePropertiesChanged = true; SetVerticesDirty(); SetLayoutDirty(); }
+D:\project\ProjectWait\Library\PackageCache\com.unity.ugui@2e4da8434a5c\Runtime\TMP\TMP_Text.cs:783:        protected float m_wordWrappingRatios = 0.4f; // Controls word wrapping ratios between word or characters.
+=== Incremental diff ===
+diff --git "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\DialogueReadability_20261103~\\Before\\ElevatorSpatialUI.cs" "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorSpatialUI.cs"
+index 7710c39..f1c0f37 100644
+--- "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\DialogueReadability_20261103~\\Before\\ElevatorSpatialUI.cs"
++++ "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorSpatialUI.cs"
+@@ -31,6 +31,7 @@ namespace ProjectWait.M.Elevator
+         public Vector3 notebookTilt = new Vector3(12, 0, 0);
+         [Min(.1f)] public float notebookScale = 1.12f;
+         public Vector3 rescuerOffset = new Vector3(1.40f, 1.67f, -2.05f);
++        [Min(.1f)] public float maximumReadabilityScale=1.45f;
+ 
+         static readonly Color Ink = new Color(.28f,.19f,.14f);
+         static readonly Color Paper = new Color(1,.965f,.86f);
+@@ -46,6 +47,18 @@ namespace ProjectWait.M.Elevator
+         float layoutAspect=-1;
+         int layoutWidth,layoutHeight;
+         Vector2 layoutHudSize;
++        string dialogueSource, dialogueSpeaker;
++        string[] dialoguePages = { "" };
++        int dialoguePage, dialogueRun = -1;
++        bool revealComplete;
++        TMP_Text readingStatus;
++        UnityEngine.UI.Button dialogueReader;
++        readonly Vector3[] projectionCorners = new Vector3[4];
++        readonly System.Collections.Generic.List<Rect> readingObstacles = new System.Collections.Generic.List<Rect>();
++        public int DialoguePage => dialoguePage;
++        public int DialoguePageCount => dialoguePages.Length;
++        public bool DialogueFullyRevealed => revealComplete;
++        public float DialogueStartedAt => revealStarted;
+ 
+         void OnEnable(){Application.onBeforeRender+=PositionHud;}
+         void OnDisable(){Application.onBeforeRender-=PositionHud;}
+@@ -60,7 +73,7 @@ namespace ProjectWait.M.Elevator
+             if(f.Step == ElevatorStep.Call && f.SituationReported && !f.IdentityFound)
+             {
+                 // The manager's speech remains in the world; search help belongs to the HUD.
+-                view.dialogueText.text = "嫄대Ъ紐낃낵 ?밴컯湲?踰덊샇瑜?n?뚮젮 二쇱꽭??";
++                view.dialogueText.text = "?앸퀎?먯뿉??嫄대Ъ紐낃낵\n?밴컯湲?踰덊샇瑜??뚮젮 二쇱꽭??";
+                 baseThought = f.HintLevel > 0 ? "?꾨㈃ 鍮꾩긽踰??꾨옒???앸퀎?먯뿉??嫄대Ъ紐낃낵 愿由щ쾲?몃? 李얠븘蹂댁옄." : "踰쎌쓽 ?앸퀎?먯쓣 李얠븘 ?좏깮??蹂댁옄.";
+             }
+             speaker.text = who;
+@@ -83,11 +96,64 @@ namespace ProjectWait.M.Elevator
+             notebook.gameObject.SetActive(complete);
+             mission.gameObject.SetActive(!complete);
+             progress.gameObject.SetActive(!complete);
+-            revealStarted = Time.time;
++            string source=view.dialogueText.text;
++            bool changed=dialogueRun!=view.lesson.RunVersion||dialogueSource!=source||dialogueSpeaker!=who;
++            if(changed)
++            {
++                dialogueRun=view.lesson.RunVersion;dialogueSource=source;dialogueSpeaker=who;
++                dialoguePages=ElevatorDialogueText.Pages(view.dialogueText,source);dialoguePage=0;
++                revealStarted=Time.time;revealComplete=!Application.isPlaying||f.IsCinematic||f.Step==ElevatorStep.Call||f.Step==ElevatorStep.Unanswered||f.Step==ElevatorStep.Retry;
++            }
++            view.dialogueText.text=dialoguePages[dialoguePage];
++            UpdateDialogueReveal();
+             UpdateThought();
+             Layout();
+         }
+ 
++        public bool TryReadDialogue()
++        {
++            if(!view.lesson||view.lesson.CinematicBlocking||screenOnly||complete||!view.dialoguePanel.gameObject.activeInHierarchy)return false;
++            if(!revealComplete){revealComplete=true;UpdateDialogueReveal();return true;}
++            if(dialoguePage+1>=dialoguePages.Length)return false;
++            dialoguePage++;view.dialogueText.text=dialoguePages[dialoguePage];
++            revealStarted=Time.time;revealComplete=false;UpdateDialogueReveal();Layout();return true;
++        }
++
++        void UpdateDialogueReveal()
++        {
++            if(!view.dialogueText)return;
++            int count=revealComplete?int.MaxValue:Mathf.Max(1,(int)((Time.time-revealStarted)*42));
++            if(count>=view.dialogueText.text.Length)revealComplete=true;
++            view.dialogueText.maxVisibleCharacters=revealComplete?int.MaxValue:count;
++            if(readingStatus)
++            {
++                string action=!revealComplete?"?좏깮?섎㈃ ?꾩껜 ?쒖떆":dialoguePage+1<dialoguePages.Length?"?좏깮?섎㈃ ?ㅼ쓬 臾몄옣":"";
++                readingStatus.text=(dialoguePages.Length>1?$"{dialoguePage+1} / {dialoguePages.Length}  ":"")+action;
++                readingStatus.gameObject.SetActive(!complete&&!screenOnly&&!view.lesson.Flow.IsCinematic&&!string.IsNullOrEmpty(readingStatus.text));
++            }
++        }
++
++        void PrepareDialogueReader()
++        {
++            if(!dialogueReader)
++            {
++                var r=(RectTransform)new GameObject("DialogueReader",typeof(RectTransform)).transform;r.SetParent(view.dialoguePanel,false);
++                r.anchorMin=Vector2.zero;r.anchorMax=Vector2.one;r.offsetMin=r.offsetMax=Vector2.zero;
++                var image=r.gameObject.AddComponent<UnityEngine.UI.Image>();image.color=Color.clear;image.raycastTarget=true;
++                dialogueReader=r.gameObject.AddComponent<UnityEngine.UI.Button>();dialogueReader.targetGraphic=image;dialogueReader.transition=UnityEngine.UI.Selectable.Transition.None;
++                dialogueReader.onClick.AddListener(()=>TryReadDialogue());
++            }
++            if(!readingStatus)
++            {
++                var r=(RectTransform)new GameObject("ReadingStatus",typeof(RectTransform)).transform;r.SetParent(view.dialoguePanel,false);
++                r.anchorMin=r.anchorMax=r.pivot=Vector2.one*.5f;
++                readingStatus=r.gameObject.AddComponent<TextMeshProUGUI>();readingStatus.font=view.font;readingStatus.fontSize=16;readingStatus.color=Ink;readingStatus.raycastTarget=false;readingStatus.alignment=TextAlignmentOptions.MidlineRight;
++            }
++            readingStatus.rectTransform.sizeDelta=new Vector2(view.dialoguePanel.rect.width-100,24);
++            readingStatus.rectTransform.anchoredPosition=new Vector2(0,-view.dialoguePanel.rect.height*.5f+25);
++            UpdateDialogueReveal();
++        }
++
+         public void StyleButton(UnityEngine.UI.Button button)
+         {
+             var g = button.GetComponent<CorridorBubbleGraphic>();
+@@ -122,7 +188,7 @@ namespace ProjectWait.M.Elevator
+ 
+         public void Restore()
+         {
+-            historyPage = 0; placedRun = -1; observed = baseThought = "";
++            historyPage = 0; placedRun = -1; observed = baseThought = "";dialogueRun=-1;dialogueSource=null;
+             if(storybook)storybook.HighlightHistory(-1);
+             if(notebook)notebook.gameObject.SetActive(false);
+             UpdateThought();
+@@ -147,11 +213,12 @@ namespace ProjectWait.M.Elevator
+         {
+             if(!view || !hud || !view.playerCamera)return;
+             var root = (RectTransform)view.transform;
+-            root.sizeDelta = new Vector2(580,460);
++            root.sizeDelta = new Vector2(660,620);
+             root.localScale = Vector3.one * worldPixelSize;
+-            const float width = 510;
+-            float body = Mathf.Max(64, view.dialogueText.GetPreferredValues(view.dialogueText.text,width-(storybook?92:56),0).y+8);
+-            float height = body + (storybook?88:68);
++            const float width = ElevatorDialogueText.PanelWidth;
++            view.dialogueText.fontSize=ElevatorDialogueText.BodySize;view.dialogueText.lineSpacing=9;view.dialogueText.alignment=TextAlignmentOptions.MidlineLeft;
++            float body = Mathf.Max(102, view.dialogueText.GetPreferredValues(view.dialogueText.text,ElevatorDialogueText.TextWidth,0).y+12);
++            float height = Mathf.Max(230,body+100);
+             view.dialoguePanel.sizeDelta = new Vector2(width,height);
+             view.dialoguePanel.anchoredPosition = Vector2.zero;
+             view.dialogueText.rectTransform.sizeDelta = new Vector2(width-56,body);
+@@ -181,6 +248,7 @@ namespace ProjectWait.M.Elevator
+             }
+             view.actionPanel.anchoredPosition=complete?new Vector2(0,-216):new Vector2(0,-height*.5f-40);
+             if(storybook)storybook.LayoutWorld();
++            PrepareDialogueReader();
+             LayoutHud();
+             PositionWorld();
+             layoutAspect=view.playerCamera.aspect;layoutWidth=Screen.width;layoutHeight=Screen.height;
+@@ -233,6 +301,7 @@ namespace ProjectWait.M.Elevator
+             thoughtHeading.rectTransform.sizeDelta=new Vector2(bodyWidth,24);thoughtHeading.rectTransform.anchoredPosition=new Vector2(0,bodyHeight*.5f+12);
+             view.thought.rectTransform.sizeDelta=new Vector2(bodyWidth,bodyHeight);view.thought.rectTransform.anchoredPosition=new Vector2(0,-16);
+             if(storybook)storybook.LayoutThought(!string.IsNullOrEmpty(observed));
++            PlaceThoughtOutsideDialogue();
+             layoutHudSize=hudRect.rect.size;
+         }
+ 
+@@ -254,6 +323,10 @@ namespace ProjectWait.M.Elevator
+             var facing=anchor-view.playerCamera.transform.position;
+             if(facing.sqrMagnitude>.001f)rotation=Quaternion.LookRotation(facing,Vector3.up);
+             transform.SetPositionAndRotation(anchor,rotation);
++            float distance=Vector3.Distance(anchor,view.playerCamera.transform.position);
++            // A modest bounded scale keeps distant speech readable without moving its world anchor.
++            float scale=Mathf.Clamp(distance/2f,1,maximumReadabilityScale);
++            transform.localScale=Vector3.one*(worldPixelSize*scale);
+             if(placedStep!=step||placedRun!=lesson.RunVersion)
+             {
+                 // Place the book once when the stage changes; subsequent gaze changes do not move it.
+@@ -292,8 +365,58 @@ namespace ProjectWait.M.Elevator
+             // Reflow against the actual canvas once its new size has been applied.
+             if(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height||layoutHudSize!=((RectTransform)hud.transform).rect.size)Layout();
+             else PositionWorld();
+-            PositionHud();SetCinematicVisibility();
+-            if(view.lesson.Flow!=null)view.dialogueText.maxVisibleCharacters=Mathf.Max(1,(int)((Time.time-revealStarted)*42));
++            PositionHud();SetCinematicVisibility();PlaceThoughtOutsideDialogue();
++            if(view.lesson.Flow!=null&&!view.lesson.IsPaused)UpdateDialogueReveal();
++        }
++
++        bool ScreenRect(RectTransform rect,out Rect bounds)
++        {
++            rect.GetWorldCorners(projectionCorners);Vector2 min=Vector2.one*float.MaxValue,max=Vector2.one*float.MinValue;
++            foreach(var corner in projectionCorners)
++            {
++                var p=view.playerCamera.WorldToScreenPoint(corner);
++                if(p.z<=view.playerCamera.nearClipPlane){bounds=default;return false;}
++                min=Vector2.Min(min,p);max=Vector2.Max(max,p);
++            }
++            bounds=Rect.MinMaxRect(min.x,min.y,max.x,max.y);return true;
++        }
++        static float Overlap(Rect a,Rect b)=>Mathf.Max(0,Mathf.Min(a.xMax,b.xMax)-Mathf.Max(a.xMin,b.xMin))*Mathf.Max(0,Mathf.Min(a.yMax,b.yMax)-Mathf.Max(a.yMin,b.yMin));
++        void PlaceThoughtOutsideDialogue()
++        {
++            if(!hud||!view.thoughtPanel.gameObject.activeInHierarchy)return;
++            readingObstacles.Clear();
++            if(view.dialoguePanel.gameObject.activeInHierarchy&&ScreenRect(view.dialoguePanel,out var dialogue))readingObstacles.Add(dialogue);
++            if(view.actionPanel.gameObject.activeInHierarchy)foreach(var button in view.ChoiceButtons)
++                if(button&&button.IsActive()&&ScreenRect((RectTransform)button.transform,out var action))readingObstacles.Add(action);
++            var actor=view.lesson.friend;
++            if(actor&&actor.gameObject.activeInHierarchy)
++            {
++                var face=view.playerCamera.WorldToScreenPoint(actor.position+Vector3.up*1.04f);
++                var edge=view.playerCamera.WorldToScreenPoint(actor.position+Vector3.up*1.04f+view.playerCamera.transform.right*.34f);
++                if(face.z>0){float radius=Mathf.Abs(edge.x-face.x);readingObstacles.Add(new Rect(face.x-radius,face.y-radius,2*radius,2*radius));}
++            }
++            var map=view.lesson.presentation&&view.lesson.presentation.space?view.lesson.presentation.space.sportsCentre:null;
++            if(map&&map.sideIntercom)
++            {
++                var p=view.playerCamera.WorldToScreenPoint(map.sideIntercom.position);
++                if(p.z>0)readingObstacles.Add(new Rect(p.x-28,p.y-28,56,56));
++            }
++            var root=(RectTransform)hud.transform;var panel=view.thoughtPanel;
++            var candidates=new[]{new Vector2(1,.55f),new Vector2(0,.55f),new Vector2(1,.24f),new Vector2(0,.24f),new Vector2(1,.78f),new Vector2(0,.78f)};
++            float best=float.MaxValue;Vector2 selected=candidates[0];
++            var hudCamera=hud.renderMode==RenderMode.ScreenSpaceOverlay?null:view.playerCamera;
++            foreach(var candidate in candidates)
++            {
++                panel.anchorMin=panel.anchorMax=candidate;panel.pivot=new Vector2(candidate.x,.5f);panel.anchoredPosition=new Vector2(candidate.x>0?-24:24,0);
++                panel.GetWorldCorners(projectionCorners);Vector2 min=Vector2.one*float.MaxValue,max=Vector2.one*float.MinValue;
++                foreach(var corner in projectionCorners){var p=RectTransformUtility.WorldToScreenPoint(hudCamera,corner);min=Vector2.Min(min,p);max=Vector2.Max(max,p);}
++                var rect=Rect.MinMaxRect(min.x,min.y,max.x,max.y);float area=rect.width*rect.height;
++                float score=(area-Overlap(rect,new Rect(12,12,Screen.width-24,Screen.height-24)))*4;
++                foreach(var avoid in readingObstacles)score+=Overlap(rect,Rect.MinMaxRect(avoid.xMin-16,avoid.yMin-16,avoid.xMax+16,avoid.yMax+16));
++                score+=Vector2.Distance(candidate,new Vector2(1,.55f))*40;
++                if(score<best){best=score;selected=candidate;}
++            }
++            panel.anchorMin=panel.anchorMax=selected;panel.pivot=new Vector2(selected.x,.5f);panel.anchoredPosition=new Vector2(selected.x>0?-24:24,0);
+         }
+         void PositionHud()
+         {

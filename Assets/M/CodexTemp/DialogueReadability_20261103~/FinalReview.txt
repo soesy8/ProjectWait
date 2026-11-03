@@ -1,0 +1,123 @@
+﻿=== QA summary ===
+PrototypeEnvelope success=True passed=220/220
+TestEnvelope success=True passed=220/220
+PrototypePolishRegression success=True passed=54/54
+TestPolishRegression success=True passed=54/54
+PrototypeCameraRegression success=True passed=126/126
+TestCameraRegression success=True passed=126/126
+PrototypeInteractionRegression success=True passed=32/32
+TestInteractionRegression success=True passed=32/32
+=== Runtime code review ===
+diff --git "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\DialogueReadability_20261103~\\Before\\ElevatorView.cs" "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorView.cs"
+index 57388b5..3829dc6 100644
+--- "a/D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\DialogueReadability_20261103~\\Before\\ElevatorView.cs"
++++ "b/D:\\project\\ProjectWait\\Assets\\M\\Scripts\\Elevator\\ElevatorView.cs"
+@@ -161,7 +161,7 @@ namespace ProjectWait.M.Elevator
+                 case ElevatorStep.Lobby:
+                     objective="3痢??대룞??留덉튂怨? 1痢듭쑝濡?;line=lesson.settings.lobbyDialogue;Add("1   移쒓뎄? 1?멸린 ?湲?,lesson.Continue);break;
+                 case ElevatorStep.Boarding:
+-                    if(!f.DestinationSelected){objective="??? 痢〓㈃ ?⑤꼸?먯꽌 1痢??좏깮";who="?섏쓽 誘몄뀡";line="紐⑹쟻吏??1痢?二쇱텧?낃뎄?덉슂.\n?먯옟????痢〓㈃ ?⑤꼸??1痢?踰꾪듉???좏깮?댁슂.";Add("1   痢〓㈃ ?⑤꼸?먯꽌 1痢??꾨Ⅴ湲?,lesson.SelectFloor);}
++                    if(!f.DestinationSelected){objective="??? 痢〓㈃ ?⑤꼸?먯꽌 1痢??좏깮";who="?섏쓽 誘몄뀡";line="紐⑹쟻吏??1痢?二쇱텧?낃뎄?덉슂.\n??? 痢〓㈃ ?⑤꼸?먯꽌\n1痢?踰꾪듉???좏깮?댁슂.";Add("1   痢〓㈃ ?⑤꼸?먯꽌 1痢??꾨Ⅴ湲?,lesson.SelectFloor);}
+                     else{objective="怨듭쓣 ?湲곗? ?딄퀬 ?덇퀬 ?덇린";line=lesson.settings.handoffDialogue;Add("1   怨?諛쏆븘 ?덇퀬 ?덇린",lesson.Continue);}break;
+                 case ElevatorStep.Proposal:
+                     objective="???댁빞湲곗뿉 ?대뼸寃??듯븷源뚯슂?";line="?꾧퉴 洹??? 硫뗭엳?덉??\n?닿? ?대뼸寃??ｌ뿀?붿? 蹂댁뿬 以꾧퉴?";
+@@ -174,32 +174,33 @@ namespace ProjectWait.M.Elevator
+                 case ElevatorStep.Stopped:
+                     objective="?꾩????붿껌???μ튂 李얘린";
+                     if(f.Phase==InteractionPhase.Dialogue)line="?? ??硫덉톬吏?";
+-                    else{who="?섏쓽 誘몄뀡";line=f.HintLevel==0?"二쇰????섎윭蹂닿퀬, ?꾩????붿껌??n?μ튂瑜??좏깮??蹂댁꽭??":"?ㅼそ 痢〓㈃ ?⑤꼸???먯씠 ?용뒗 鍮꾩긽踰⑥씠 ?덉뼱??\n?쒓컙?대굹 臾쇨굔 ?꾨줈 ?щ씪媛吏 ?딆븘??";}
++                    else{who="?섏쓽 誘몄뀡";line=f.HintLevel==0?"?꾩????붿껌???μ튂瑜?n李얠븘 ?좏깮??蹂댁꽭??":"??? 痢〓㈃ 鍮꾩긽踰⑥쓣 李얠븘??\n?쒓컙 ?꾨줈 ?щ씪媛吏 ?딆븘??";}
+                     break;
+                 case ElevatorStep.Connecting:
+-                    objective="鍮꾩긽?듯솕 ?곌껐 以?;who="鍮꾩긽?듯솕";line="?좊쭅??愿由ъ떎???곌껐?섍퀬 ?덉뼱??\n?ㅽ뵾而ㅼ쓽 ?묐떟??湲곕떎??二쇱꽭??";break;
++                    objective="鍮꾩긽?듯솕 ?곌껐 以?;who="鍮꾩긽?듯솕";line="愿由ъ떎???곌껐?섍퀬 ?덉뼱??\n?묐떟??湲곕떎??二쇱꽭??";break;
+                 case ElevatorStep.Unanswered:
+-                    objective="?ㅻⅨ 諛⑸쾿?쇰줈 ?꾩? ?붿껌";who="?섏쓽 誘몄뀡";line="?묐떟???놁뼱?? ?대??곗쑝濡?119???꾩튂? ?곹솴???뚮젮??\n??泥댄뿕???듯솕??紐⑥쓽 ?곹솴?댁뿉??";Add("1   ?대??곗쑝濡?119 紐⑥쓽 ?좉퀬",lesson.Phone);break;
++                    objective="?ㅻⅨ 諛⑸쾿?쇰줈 ?꾩? ?붿껌";who="?섏쓽 誘몄뀡";line="?묐떟???놁뼱??\n?대??곗쑝濡?119???좉퀬?댁슂.\n??泥댄뿕? 紐⑥쓽 ?듯솕?덉슂.";Add("1   ?대??곗쑝濡?119 紐⑥쓽 ?좉퀬",lesson.Phone);break;
+                 case ElevatorStep.Call:
+                     who=f.UsedPhone?"119 쨌 紐⑥쓽 ?듯솕":"愿由ъ떎 쨌 ?듯솕 以?;
+                     if(!f.SituationReported){objective="臾댁뒯 ?쇱씠 ?앷꼈?붿? 留먰븯湲?;line="?곌껐?먯뼱?? ?대뼡 ?곹솴?멸???";Add("?ㅼ쓬",lesson.ReportSituation);}
+-                    else if(!f.IdentityFound){objective="?꾨㈃ 鍮꾩긽踰??꾨옒 ?앸퀎???뺤씤";line="硫덉톬怨?移쒓뎄? ?섏씠 ?덈떎怨??뚮젮 以ш뎔??\n?앸퀎?먯뿉??嫄대Ъ怨??밴컯湲?踰덊샇瑜?李얠븘 二쇱꽭??";if(f.HintLevel>0)line="?믪? ?꾨㈃ 鍮꾩긽踰??꾨옒 ?앸퀎?먯쓣 ?좏깮??二쇱꽭??\n?쒕튆 ?앺솢泥댁쑁?쇳꽣 쨌 蹂멸? 1?멸린 쨌 HB-EL-01";}
+-                    else if(!f.LocationReported){objective="李얠? ?꾩튂瑜??뚮젮 二쇱꽭??;line="李얠븯??  "+lesson.settings.building+" 쨌 "+lesson.settings.liftId;who="?섏쓽 諛쒓껄";Add("?ㅼ쓬",lesson.Report);}
+-                    else{objective="?곹솴??蹂댁셿?섍퀬 ?덈궡 ?ｊ린";line="?꾩튂瑜??뺤씤?덉뼱?? 臾몄뿉???⑥뼱??湲곕떎??二쇱꽭??\n吏곸썝???덉쟾?섍쾶 ?섏삱 ???덈룄濡??덈궡?좉쾶??";Add("?ㅼ쓬",lesson.Advice);}break;
++                    else if(!f.IdentityFound){objective="?꾨㈃ 鍮꾩긽踰??꾨옒 ?앸퀎???뺤씤";line="?앸퀎?먯뿉??嫄대Ъ紐낃낵\n?밴컯湲?踰덊샇瑜?李얠븘 二쇱꽭??";}
++                    else if(!f.LocationReported){objective="李얠? ?꾩튂瑜??뚮젮 二쇱꽭??;line="李얠븯??\n"+lesson.settings.building+"\n"+lesson.settings.liftId;who="?섏쓽 諛쒓껄";Add("?ㅼ쓬",lesson.Report);}
++                    else{objective="?곹솴??蹂댁셿?섍퀬 ?덈궡 ?ｊ린";line="?꾩튂瑜??뺤씤?덉뼱??\n臾몄뿉???⑥뼱??湲곕떎??二쇱꽭??\n吏곸썝???덉쟾?섍쾶 ?덈궡?좉쾶??";Add("?ㅼ쓬",lesson.Advice);}break;
+                 case ElevatorStep.Waiting:
+                     objective="移쒓뎄? ?④퍡 湲곕떎由ш린";
+-                    if(!f.Reassured){line="?꾩쭅 媛?댁씠 ?먭렐嫄곕━怨?議곌툑 臾댁꽌?뚢?n???놁뿉??媛숈씠 湲곕떎??以꾨옒?";Add("1   "+lesson.settings.waitDialogue,lesson.Reassure);}
++                    if(!f.Reassured){line="?꾩쭅 議곌툑 臾댁꽌?뚢?n?놁뿉??媛숈씠 湲곕떎??以꾨옒?";Add("1   "+lesson.settings.waitDialogue,lesson.Reassure);}
+                     else{string[] replies={"怨좊쭏?? ?ㅺ? ?놁뿉 ?덉쑝?덇퉴 留덉쓬???볦뿬.","留욎븘, ?꾧퉴 洹??? ?섎룄 源쒖쭩 ??먮떎?덇퉴.","?ㅼ쓬?먮뒗 媛숈씠 ?⑥뒪 ?곗뒿?섏옄. 諛뽰뿉??","?곕━ ?섏씠 ???대깉?? 媛숈씠 湲곕떎??以섏꽌 怨좊쭏??"};line=replies[Mathf.Clamp(f.Encouragements,0,3)];if(f.Encouragements<3)Add(f.Encouragements==0?"1   ?꾧퉴 洹??? ?뺣쭚 硫뗭죱??":f.Encouragements==1?"1   ?ㅼ쓬??諛뽰뿉??媛숈씠 ?곗뒿?섏옄.":"1   ?? ?곕━ 媛숈씠 湲곕떎由ъ옄.",lesson.Encourage);}break;
+-                case ElevatorStep.WaitingFade:objective="臾몄뿉???⑥뼱???④퍡 湲곕떎由ш린";who="移쒓뎄";line="?꾩????붿껌?덉쑝??臾몄쓣 嫄대뱶由ъ? 留먭퀬\n吏곸썝???덈궡瑜?湲곕떎由ъ옄.";break;
++                case ElevatorStep.WaitingFade:
++                    objective="臾몄뿉???⑥뼱???④퍡 湲곕떎由ш린";who="移쒓뎄";line="?꾩????붿껌?덉쑝??n臾몄쓣 嫄대뱶由ъ? 留먭퀬 湲곕떎由ъ옄.";break;
+                 case ElevatorStep.Retry:
+-                    objective=f.ProposalRetry?"Wait! ?쏆? 諛뽰뿉???댁슂":"臾몄뿉????嫄몄쓬 ?⑥뼱?몄슂";who="?좉퉸, ?덉쟾?섍쾶";line=f.ProposalRetry?"醫곸? ?섎━踰좎씠???덉뿉?쒕뒗 ?곌굅??怨듭쓣 ?섏?吏 ?딆븘??\n移쒓뎄媛 ?吏곸씠湲??꾩뿉 ?좉퉸 硫덉텛怨??ㅼ떆 ?앷컖?댁슂.":"臾몄? 吏곸젒 ?댁? ?딆븘??\n鍮꾩긽?듯솕濡??꾩????붿껌?섍퀬 ?덈궡瑜?湲곕떎?ㅼ슂.";Add("1   ?뚭쿋?? ?ㅼ떆 ?앷컖?섍린",lesson.Retry);break;
++                    objective=f.ProposalRetry?"Wait! ?쏆? 諛뽰뿉???댁슂":"臾몄뿉????嫄몄쓬 ?⑥뼱?몄슂";who="?좉퉸, ?덉쟾?섍쾶";line=f.ProposalRetry?"?덉뿉?쒕뒗 ?곌굅??怨듭쓣 ?섏?吏 ?딆븘??\n?좉퉸 硫덉텛怨??ㅼ떆 ?앷컖?댁슂.":"臾몄? 吏곸젒 ?댁? ?딆븘??\n鍮꾩긽?듯솕濡??꾩????붿껌?섍퀬\n?덈궡瑜?湲곕떎?ㅼ슂.";Add("1   ?뚭쿋?? ?ㅼ떆 ?앷컖?섍린",lesson.Retry);break;
+                 case ElevatorStep.Rescue:
+-                    objective="援ъ“?먯쓽 ?덈궡瑜??ㅼ뼱??;who="援ъ“??;line=f.ReadyToExit?"3痢??밴컯?κ낵 諛붾떏 ?믪씠, ?섍컝 寃쎈줈瑜??뺤씤?덉뼱??\n?댁젣 ?덈궡???곕씪 泥쒖쿇???섏? 二쇱꽭??":"??湲곕떎??以ъ뼱?? 臾?諛?諛붾떏怨?寃쎈줈瑜??뺤씤?좉쾶??\n?덈궡???뚭퉴吏 ?덉뿉??湲곕떎??二쇱꽭??";if(f.ReadyToExit)Add("1   ?덈궡???곕씪 泥쒖쿇???섍?湲?,lesson.Continue);break;
++                    objective="援ъ“?먯쓽 ?덈궡瑜??ㅼ뼱??;who="援ъ“??;line=f.ReadyToExit?"諛붾떏 ?믪씠? ?섍컝 湲몄쓣 ?뺤씤?덉뼱??\n?덈궡???곕씪 泥쒖쿇???섏? 二쇱꽭??":"臾?諛뽰씠 ?덉쟾?쒖? ?뺤씤?좉쾶??\n?덈궡???뚭퉴吏 ?덉뿉??湲곕떎??二쇱꽭??";if(f.ReadyToExit)Add("1   ?덈궡???곕씪 泥쒖쿇???섍?湲?,lesson.Continue);break;
+                 case ElevatorStep.ReturnLobby:
+-                    objective="吏곸썝怨?怨꾨떒?쇰줈 1痢??대룞";who="吏곸썝";line="???밴컯湲곕뒗 ?먭????꾩슂?댁슂.\n怨꾨떒?쇰줈 1痢듦퉴吏 ?④퍡 ?대젮媛 ?쒕┫寃뚯슂.";Add("1   吏곸썝???덈궡瑜?諛쏆븘 ?대젮媛湲?,lesson.Continue);break;
++                    objective="吏곸썝怨?怨꾨떒?쇰줈 1痢??대룞";who="吏곸썝";line="?밴컯湲곕뒗 ?먭????꾩슂?댁슂.\n怨꾨떒?쇰줈 1痢듦퉴吏\n?④퍡 ?대젮媛 ?쒕┫寃뚯슂.";Add("1   吏곸썝???덈궡瑜?諛쏆븘 ?대젮媛湲?,lesson.Continue);break;
+                 case ElevatorStep.Returning:objective="吏곸썝怨??④퍡 1痢듭쑝濡?;who="?대룞";line="?덈궡瑜?諛쏆븘 怨꾨떒?쇰줈 ?대젮媛??";break;
+                 case ElevatorStep.GroundFloor:
+-                    objective="1痢?二쇱텧?낃뎄濡?洹媛";line="1痢듭뿉 ?꾩갑?덉뼱! ?ㅻ뒛 媛숈씠 湲곕떎??以섏꽌 怨좊쭏??\n?댁젣 吏묒뿉 媛??";Add("1   移쒓뎄? 二쇱텧?낃뎄濡??섍?湲?,lesson.Continue);break;
++                    objective="1痢?二쇱텧?낃뎄濡?洹媛";line="1痢듭뿉 ?꾩갑?덉뼱!\n媛숈씠 湲곕떎??以섏꽌 怨좊쭏??\n?댁젣 吏묒뿉 媛??";Add("1   移쒓뎄? 二쇱텧?낃뎄濡??섍?湲?,lesson.Continue);break;
+                 case ElevatorStep.GoingHome:objective="移쒓뎄? 吏묒쑝濡?;line="怨듭? ?덇퀬, 泥쒖쿇???섍???";break;
+                 case ElevatorStep.Complete:
+                     objective="怨좎옣???섎━踰좎씠?곗뿉???덉쟾?섍쾶 ?泥섑뻽?댁슂";who="移쒓뎄";line="?꾩????붿껌?섍퀬, ?꾩튂瑜??뚮━怨?\n臾몄쓣 嫄대뱶由ъ? ?딄퀬 ?④퍡 湲곕떎?몄뼱??";Add("1   ?곕━媛 ?대궦 ??,ShowHistory);Add("2   ??踰????대낫湲?,lesson.Restart);break;
+@@ -207,9 +208,9 @@ namespace ProjectWait.M.Elevator
+             if(lesson.scenario){lesson.scenario.Describe(ref who,ref line);if(lesson.scenario.objectGuidedScene&&f.Step!=ElevatorStep.Call){actions.Clear();labels.Clear();}}
+             subtitle.text=objective;normalLine=line;normalSpeaker=who;speaker.text=who;dialogueText.text=line;
+             progress.text=(f.HelpRequested?"<color=#297A70>???꾩? ?붿껌</color>":"???꾩? ?붿껌")+"   "+(f.LocationReported?"<color=#297A70>???꾩튂 ?꾨떖</color>":"???꾩튂 ?꾨떖")+"   "+(f.Reassured?"<color=#297A70>???④퍡 ?湲?/color>":"???④퍡 ?湲?);
+-            revealStarted=Time.unscaledTime;dialogueText.maxVisibleCharacters=Application.isPlaying?0:int.MaxValue;
++            if(!spatial){revealStarted=Time.unscaledTime;dialogueText.maxVisibleCharacters=Application.isPlaying?0:int.MaxValue;}
+             int revision=f.Revision,run=lesson.RunVersion;
+-            for(int i=0;i<actions.Count;i++){var action=actions[i];var b=MakeButton(f.Step==ElevatorStep.Call?"DialogueNext":"Choice"+i,actionPanel,new Vector2(790,56),Vector2.zero,labels[i],()=>{if(!lesson.CinematicBlocking&&lesson.Flow.Revision==revision&&lesson.RunVersion==run)action();});ChoiceButtons.Add(b);}
++            for(int i=0;i<actions.Count;i++){var action=actions[i];var b=MakeButton(f.Step==ElevatorStep.Call?"DialogueNext":"Choice"+i,actionPanel,new Vector2(790,56),Vector2.zero,labels[i],()=>{if(!lesson.CinematicBlocking&&lesson.Flow.Revision==revision&&lesson.RunVersion==run){if(spatial&&spatial.TryReadDialogue())return;action();}});ChoiceButtons.Add(b);}
+             actionPanel.gameObject.SetActive(actions.Count>0);
+             if(spatial)spatial.Present(who,line,objective);
+             ApplyCompactLayout();SetCinematicVisibility();InteractionRevision++;
+=== Whitespace ===
+=== Git ===
+ M Assets/M/Scene/ElevatorSettings.asset
+ M Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity
+ M Assets/M/Scene/Elevator_Safety_Prototype.unity
+ M Assets/M/Scripts/Editor/ElevatorInteractionSetup.cs
+ M Assets/M/Scripts/Elevator/ElevatorCameraEffects.cs
+ M Assets/M/Scripts/Elevator/ElevatorCinematicOverlay.cs
+ M Assets/M/Scripts/Elevator/ElevatorDesktopControls.cs
+ M Assets/M/Scripts/Elevator/ElevatorLesson.cs
+ M Assets/M/Scripts/Elevator/ElevatorObservation.cs
+ M Assets/M/Scripts/Elevator/ElevatorScenarioDirector.cs
+ M Assets/M/Scripts/Elevator/ElevatorSpacePresentation.cs
+ M Assets/M/Scripts/Elevator/ElevatorSpatialUI.cs
+ M Assets/M/Scripts/Elevator/ElevatorSportsCentreMap.cs
+ M Assets/M/Scripts/Elevator/ElevatorStoryPresentation.cs
+ M Assets/M/Scripts/Elevator/ElevatorStorybookUI.cs
+ M Assets/M/Scripts/Elevator/ElevatorView.cs
+ M "Assets/Shared Assets/UI/Prefabs/ChoiceCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/CompletionCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/DialogueCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/IntercomDialogueCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/MissionCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/NextButton.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/ObservationCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/PausePanel.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/ThoughtCloud.prefab"
+ M Assets/XR/Settings/OpenXRPackageSettings.asset
+?? Assets/M/Arts/Materials/Elevator/BallHandoffFade.mat
+?? Assets/M/Arts/Materials/Elevator/BallHandoffFade.mat.meta
+?? Assets/M/Arts/Shaders/ElevatorBallFade.shader
+?? Assets/M/Arts/Shaders/ElevatorBallFade.shader.meta
+?? Assets/M/CodexTemp/CameraFreedom_20261103~/
+?? Assets/M/CodexTemp/DialogueReadability_20261103~/
+?? Assets/M/CodexTemp/InteractionFix_20261103~/
+?? Assets/M/CodexTemp/InteractionPolish_20261103~/
+?? Assets/M/Scripts/Elevator/ElevatorDialogueText.cs
+?? Assets/M/Scripts/Elevator/ElevatorDialogueText.cs.meta
+?? "Assets/Shared Assets/Highlight/Rendering/Android_Preset_53a41332_OutlineRenderer.asset"
+?? "Assets/Shared Assets/Highlight/Rendering/Android_Preset_53a41332_OutlineRenderer.asset.meta"
+?? "Assets/Shared Assets/Highlight/Rendering/Performance_URP_Config_fd42a132_OutlinePipeline.asset"
+?? "Assets/Shared Assets/Highlight/Rendering/Performance_URP_Config_fd42a132_OutlinePipeline.asset.meta"

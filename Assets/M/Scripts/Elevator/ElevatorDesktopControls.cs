@@ -22,6 +22,7 @@ namespace ProjectWait.M.Elevator
         public bool MouseLookActive {get;private set;}
         public string HoverTargetName=>hovered?hovered.name:"";
         public Vector2 LookAngles=>new Vector2(yaw,pitch);
+        public float LookSensitivityMultiplier => lesson&&lesson.presentation&&lesson.presentation.space&&lesson.presentation.space.overlay&&lesson.presentation.space.overlay.LetterboxVisible ? .1f : 1;
         public int ClickCount {get;private set;}
         readonly List<UnityEngine.UI.Button> buttons=new List<UnityEngine.UI.Button>();
         readonly List<RaycastResult> uiHits=new List<RaycastResult>();
@@ -45,12 +46,12 @@ namespace ProjectWait.M.Elevator
             for(int i=0;i<4;i++)
             {
                 int n=i;choices[i]=new InputAction("ElevatorChoice"+(i+1),InputActionType.Button,"<Keyboard>/"+(i+1));
-                choices[i].performed+=_=>{if(pendingChoice<0&&lesson&&lesson.Flow!=null){pendingChoice=n;pendingRevision=lesson.Flow.Revision;pendingRun=lesson.RunVersion;}};choices[i].Enable();
+                choices[i].performed+=_=>{if(pendingChoice<0&&lesson&&lesson.Flow!=null&&!lesson.CinematicBlocking){pendingChoice=n;pendingRevision=lesson.Flow.Revision;pendingRun=lesson.RunVersion;}};choices[i].Enable();
             }
-            restartAction=new InputAction("RestartElevator",InputActionType.Button,"<Keyboard>/r");restartAction.performed+=_=>pendingRestart=true;restartAction.Enable();
-            developerAction=new InputAction("ElevatorDeveloper",InputActionType.Button,"<Keyboard>/f8");developerAction.performed+=_=>pendingDeveloper=true;developerAction.Enable();
+            restartAction=new InputAction("RestartElevator",InputActionType.Button,"<Keyboard>/r");restartAction.performed+=_=>{if(lesson&&!lesson.CinematicBlocking)pendingRestart=true;};restartAction.Enable();
+            developerAction=new InputAction("ElevatorDeveloper",InputActionType.Button,"<Keyboard>/f8");developerAction.performed+=_=>{if(lesson&&!lesson.CinematicBlocking)pendingDeveloper=true;};developerAction.Enable();
             clickAction=new InputAction("ElevatorCenterClick",InputActionType.Button,"<Mouse>/leftButton");
-            clickAction.performed+=_=>{if(lesson&&lesson.Flow!=null){pendingClick=true;clickRevision=lesson.Flow.Revision;clickRun=lesson.RunVersion;}};clickAction.Enable();
+            clickAction.performed+=_=>{if(lesson&&lesson.Flow!=null&&(lesson.IsPaused||!lesson.CinematicBlocking)){pendingClick=true;clickRevision=lesson.Flow.Revision;clickRun=lesson.RunVersion;}};clickAction.Enable();
         }
         void Start(){wasFocused=Application.isFocused;RefreshMode();}
         void RefreshMode()
@@ -78,20 +79,28 @@ namespace ProjectWait.M.Elevator
                 pendingChoice=-1;pendingRestart=pendingDeveloper=false;SetMouseLook(false);RefreshLaserVisibility();
                 if(IsDesktop){UpdateMenuPointer();if(click)SelectCenterTarget();}return;
             }
+            if(IsDesktop)
+            {
+                if(!MouseLookActive)SetMouseLook(true);
+                bool focused=Application.isFocused;
+                if(focused!=wasFocused){wasFocused=focused;SetMouseLook(true);skipDelta=true;}
+                // Looking remains available during every cinematic; only actions are blocked.
+                var mouse=Mouse.current;
+                if(mouse!=null)
+                {
+                    Vector2 delta=skipDelta?Vector2.zero:mouse.delta.ReadValue();skipDelta=false;
+                    float speed=sensitivity*LookSensitivityMultiplier;
+                    SetLookAngles(yaw+delta.x*speed,pitch-delta.y*speed);
+                }
+            }
+            if(lesson.CinematicBlocking)
+            {
+                pendingChoice=-1;pendingRestart=pendingDeveloper=false;
+                ClearTarget();RefreshLaserVisibility();return;
+            }
             if(pendingDeveloper){pendingDeveloper=false;lesson.view.ToggleDeveloper();}
             if(pendingRestart){pendingRestart=false;pendingChoice=-1;click=false;lesson.Restart();}
             if(!IsDesktop)return;
-            if(!MouseLookActive)SetMouseLook(true);
-            bool focused=Application.isFocused;
-            if(focused!=wasFocused){wasFocused=focused;SetMouseLook(true);skipDelta=true;}
-            bool scripted=lesson.IsReframing||lesson.Flow.IsCinematic||lesson.scenario&&lesson.scenario.LockView||lesson.Flow.Step==ElevatorStep.Entering||lesson.Flow.Step==ElevatorStep.Exiting||lesson.Flow.Step==ElevatorStep.Returning||lesson.Flow.Step==ElevatorStep.GoingHome;
-            var mouse=Mouse.current;
-            if(!scripted&&mouse!=null)
-            {
-                Vector2 delta=skipDelta?Vector2.zero:mouse.delta.ReadValue();skipDelta=false;
-                SetLookAngles(yaw+delta.x*sensitivity,pitch-delta.y*sensitivity);
-            }
-            if(lesson.CinematicBlocking){pendingChoice=-1;ClearTarget();RefreshLaserVisibility();return;}
             if(pendingChoice>=0)
             {
                 int n=pendingChoice;pendingChoice=-1;
@@ -122,6 +131,11 @@ namespace ProjectWait.M.Elevator
         }
         public void ResetView(){if(!IsDesktop)return;SetScriptedHeading(lesson.presentation.space.DefaultHeading);SetMouseLook(true);}
         public void SetScriptedHeading(float value){SetLookAngles(value,0);skipDelta=true;}
+        public void FaceHeading(float heading)
+        {
+            if(IsDesktop)SetScriptedHeading(heading);
+            else xrOrigin.RotateAround(targetCamera.transform.position,Vector3.up,Mathf.DeltaAngle(targetCamera.transform.eulerAngles.y,heading));
+        }
         public void SetLookAngles(float horizontal,float vertical){yaw=horizontal;pitch=Mathf.Clamp(vertical,-80,80);targetCamera.transform.rotation=Quaternion.Euler(pitch,yaw,0);}
         void RefreshLaserVisibility()
         {
@@ -155,14 +169,16 @@ namespace ProjectWait.M.Elevator
         }
         void UpdateCenterRay()
         {
+            if(!lesson||lesson.CinematicBlocking){ClearTarget();return;}
             var screen=new Vector2(Screen.width*.5f,Screen.height*.5f);var ray=targetCamera.ViewportPointToRay(new Vector3(.5f,.5f));
             float distance=laserRange;GameObject target=null;
-            if(Physics.Raycast(ray,out var hit,laserRange,~0,QueryTriggerInteraction.Ignore))
+            // laserRange controls the visual beam only, never interaction reach.
+            if(Physics.Raycast(ray,out var hit,Mathf.Infinity,~0,QueryTriggerInteraction.Ignore))
             {
                 distance=hit.distance;var o=hit.collider.GetComponentInParent<ElevatorObservation>();if(o&&lesson.CanInteract(o.clue))target=o.gameObject;
             }
             if(viewRevision!=lesson.view.InteractionRevision){viewRevision=lesson.view.InteractionRevision;lesson.view.CollectInteractiveButtons(buttons);}
-            PreparePointer(screen);float uiDistance=laserRange;
+            PreparePointer(screen);float uiDistance=Mathf.Infinity;
             foreach(var button in buttons)
             {
                 if(!button||!button.IsActive()||!button.IsInteractable())continue;
@@ -181,7 +197,7 @@ namespace ProjectWait.M.Elevator
         }
         public void SelectCenterTarget()
         {
-            if(!IsDesktop||!hovered)return;ClickCount++;
+            if(!IsDesktop||!hovered||!lesson||!lesson.IsPaused&&lesson.CinematicBlocking)return;ClickCount++;
             var observation=hovered.GetComponent<ElevatorObservation>();if(observation&&!lesson.IsPaused){observation.Activate();return;}
             if(pointer==null)return;
             ExecuteEvents.Execute(hovered,pointer,ExecuteEvents.pointerDownHandler);ExecuteEvents.Execute(hovered,pointer,ExecuteEvents.pointerUpHandler);ExecuteEvents.Execute(hovered,pointer,ExecuteEvents.pointerClickHandler);

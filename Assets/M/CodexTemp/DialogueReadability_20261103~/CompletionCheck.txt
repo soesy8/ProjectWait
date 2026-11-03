@@ -1,0 +1,36 @@
+﻿=== Final runtime files ===
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorDialogueText.cs exists=True bytes=2650
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs exists=True bytes=28569
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs exists=True bytes=15374
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorView.cs exists=True bytes=22140
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorScenarioDirector.cs exists=True bytes=10615
+D:\project\ProjectWait\Assets\M\Scene\ElevatorSettings.asset exists=True bytes=2175
+=== Flow and earlier input files preserved ===
+ElevatorFlow unchanged=True
+ElevatorDesktopControls unchanged=True
+ElevatorCinematicOverlay unchanged=True
+=== Saved scene hashes ===
+
+
+Algorithm : SHA256
+Hash      : FD03C722FA7FCBC8B1601CBFAA9E9BA7D57042DDE42E0B005314DFCC14AE25A9
+Path      : D:\project\ProjectWait\Assets\M\Scene\Elevator_Safety_Prototype.unity
+
+Algorithm : SHA256
+Hash      : B413F293C524DA0E0694D3E23A046ADBA2DB65926BEC1A12662A9B395B38D781
+Path      : D:\project\ProjectWait\Assets\M\Scene\Elevator_Safety_ObjectInteraction_Test.unity
+
+
+
+=== QA totals ===
+PrototypeEnvelope passed=220 failed=0
+TestEnvelope passed=203 failed=0
+PrototypePolishRegression passed=54 failed=0
+TestPolishRegression passed=54 failed=0
+PrototypeCameraRegression passed=126 failed=0
+TestCameraRegression passed=126 failed=0
+PrototypeInteractionRegression passed=32 failed=0
+TestInteractionRegression passed=32 failed=0
+Total passed=847
+=== Whitespace and ignore ===
+.git/info/exclude:9:/AGENTS.md	AGENTS.md

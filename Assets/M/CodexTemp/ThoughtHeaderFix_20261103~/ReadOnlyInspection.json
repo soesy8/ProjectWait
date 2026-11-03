@@ -1,0 +1,67 @@
+{
+  "readOnly": true,
+  "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+  "isDirty": true,
+  "playing": false,
+  "lessons": [
+    {
+      "path": "Elevator_Safety_Lesson",
+      "step": null,
+      "thought": "",
+      "panel": "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/PlayerThought",
+      "title": {
+        "path": "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/PlayerThought/ThoughtHeading",
+        "text": "",
+        "active": false
+      },
+      "prefab": "Assets/Shared Assets/UI/Prefabs/ThoughtCloud.prefab",
+      "prefabTitles": [
+        {
+          "path": "ThoughtCloud/ThoughtCloud/Heading",
+          "text": "나의 생각",
+          "active": true
+        }
+      ]
+    }
+  ],
+  "headers": [
+    {
+      "path": "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/PlayerThought/ThoughtHeading",
+      "text": "",
+      "active": false,
+      "inHierarchy": false,
+      "groups": [
+        {
+          "path": "Elevator_Safety_Lesson/Elevator_Screen_Thoughts",
+          "alpha": 1.0,
+          "interactable": true,
+          "blocksRaycasts": true
+        }
+      ]
+    },
+    {
+      "path": "Elevator_Safety_Lesson/ElevatorPauseCanvas/PauseCard/Heading",
+      "text": "일시 정지",
+      "active": true,
+      "inHierarchy": false,
+      "groups": []
+    }
+  ],
+  "ribbons": [
+    {
+      "path": "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/PlayerThought/ThoughtRibbon",
+      "active": false,
+      "inHierarchy": false
+    },
+    {
+      "path": "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/PlayerThought/ThoughtHeading",
+      "active": false,
+      "inHierarchy": false
+    },
+    {
+      "path": "Elevator_Safety_Lesson/ElevatorPauseCanvas/PauseCard/Heading",
+      "active": true,
+      "inHierarchy": false
+    }
+  ]
+}

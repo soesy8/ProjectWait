@@ -11,7 +11,10 @@ namespace ProjectWait.M.Elevator
         public ElevatorView view;
         public Sprite dialogueFrame, thoughtCloud, primaryButton, secondaryButton;
         public Sprite speakerRibbon, thoughtRibbon, observationNote, friendPortrait, speechTail;
+        public GameObject thoughtBubblePrefab;
         public Material worldMaterial;
+        RectTransform thoughtBubble;
+        TMP_Text bubbleThought, bubbleHeading;
         static readonly Color Ink = new Color32(58, 36, 24, 255);
         static readonly Color Paper = new Color32(255, 249, 231, 255);
 
@@ -81,7 +84,9 @@ namespace ProjectWait.M.Elevator
             Artwork(view.dialoguePanel, dialogueFrame);
             Artwork(spatial.speakerTab, speakerRibbon, false);
             Artwork(spatial.mission, dialogueFrame);
-            Readable(view.dialogueText, Ink, 29);
+            Readable(view.dialogueText, Ink, ElevatorDialogueText.BodySize);
+            view.dialogueText.lineSpacing = 9;
+            view.dialogueText.alignment = TextAlignmentOptions.MidlineLeft;
             Readable(spatial.speaker, Ink, 24, true);
             Readable(view.thought, Ink, 23);
             Readable(spatial.thoughtHeading, Ink, 18, true);
@@ -111,8 +116,10 @@ namespace ProjectWait.M.Elevator
             Readable(label, primary ? Paper : Ink, 26, true);
             var oldDepth = button.GetComponent<CorridorButtonDepth>();
             if (oldDepth) oldDepth.enabled = false;
-            var feedback = button.GetComponent<StorybookButtonFeedback>();
-            if (!feedback) feedback = button.gameObject.AddComponent<StorybookButtonFeedback>();
+            var legacyFeedback=button.GetComponent<StorybookButtonFeedback>();
+            if(legacyFeedback)legacyFeedback.enabled=false;
+            var feedback = button.GetComponent<ElevatorSmoothButtonFeedback>();
+            if (!feedback) feedback = button.gameObject.AddComponent<ElevatorSmoothButtonFeedback>();
             feedback.Configure(button, image.rectTransform, label ? label.rectTransform : null);
         }
 
@@ -133,8 +140,22 @@ namespace ProjectWait.M.Elevator
             if (portrait) portrait.gameObject.SetActive(friend);
             var tail = Decoration(panel, "SpeechTail", speechTail, new Vector2(72, 42), new Vector2(-panel.rect.width * .21f, -panel.rect.height * .5f - 12));
             if (tail) tail.transform.SetSiblingIndex(0);
-            view.dialogueText.rectTransform.sizeDelta = new Vector2(panel.rect.width - 92, panel.rect.height - 78);
-            view.dialogueText.rectTransform.anchoredPosition = new Vector2(0, -7);
+            view.dialogueText.rectTransform.sizeDelta = new Vector2(panel.rect.width - 104, panel.rect.height - 100);
+            view.dialogueText.rectTransform.anchoredPosition = new Vector2(0, 0);
+            var paper = panel.Find("ReadingPaper") as RectTransform;
+            if (!paper)
+            {
+                paper = (RectTransform)new GameObject("ReadingPaper", typeof(RectTransform)).transform;
+                paper.SetParent(panel, false);
+                var fill = paper.gameObject.AddComponent<UnityEngine.UI.Image>();
+                fill.color = new Color(1,.975f,.89f,1);fill.raycastTarget=false;
+            }
+            paper.anchorMin=paper.anchorMax=paper.pivot=Vector2.one*.5f;
+            paper.sizeDelta=view.dialogueText.rectTransform.sizeDelta+new Vector2(24,14);
+            paper.anchoredPosition=Vector2.zero;
+            int bodyIndex=view.dialogueText.transform.GetSiblingIndex();
+            paper.SetSiblingIndex(Mathf.Max(0,bodyIndex-(paper.GetSiblingIndex()<bodyIndex?1:0)));
+            paper.localPosition=new Vector3(paper.localPosition.x,paper.localPosition.y,.1f);
             foreach (var button in view.ChoiceButtons)
             {
                 if (!button) continue;
@@ -142,7 +163,7 @@ namespace ProjectWait.M.Elevator
                 var r = (RectTransform)button.transform;
                 label.rectTransform.sizeDelta = r.sizeDelta - (r.rect.width < 300 ? new Vector2(38, 18) : new Vector2(80, 26));
                 label.rectTransform.anchoredPosition = Vector2.zero;
-                var feedback = button.GetComponent<StorybookButtonFeedback>();
+                var feedback = button.GetComponent<ElevatorSmoothButtonFeedback>();
                 if (feedback) feedback.CaptureRest();
             }
             spatial.speakerTab.SetAsLastSibling();
@@ -151,6 +172,8 @@ namespace ProjectWait.M.Elevator
 
         public void LayoutThought(bool observation)
         {
+            if(view)ElevatorThoughtHeaderPolicy.Hide(view.thoughtPanel);
+            if (thoughtBubblePrefab && LayoutThoughtPrefab(observation)) return;
             if (!view || !view.spatial || !thoughtCloud) return;
             var panel = view.thoughtPanel;
             var spatial = view.spatial;
@@ -164,14 +187,49 @@ namespace ProjectWait.M.Elevator
             view.thought.rectTransform.sizeDelta = new Vector2(textWidth, body);
             view.thought.rectTransform.anchoredPosition = new Vector2(0, observation ? -22 : 0);
             view.thought.alignment = observation ? TextAlignmentOptions.MidlineLeft : TextAlignmentOptions.Center;
-            var ribbon = Decoration(panel, "ThoughtRibbon", thoughtRibbon, new Vector2(160, 43), new Vector2(0, height * .5f - 55));
-            if (ribbon) ribbon.gameObject.SetActive(!observation);
-            Readable(spatial.thoughtHeading, Ink, 18, true);
-            spatial.thoughtHeading.text = observation ? "살펴보니" : "나의 생각";
-            spatial.thoughtHeading.rectTransform.sizeDelta = new Vector2(observation ? 90 : 140, 32);
-            spatial.thoughtHeading.rectTransform.anchoredPosition = observation ? new Vector2(147 - width * .5f, height * .5f - 40) : new Vector2(0, height * .5f - 55);
-            spatial.thoughtHeading.alignment = TextAlignmentOptions.Center;
-            spatial.thoughtHeading.transform.SetAsLastSibling();
+            ElevatorThoughtHeaderPolicy.Hide(panel);
+        }
+
+        bool LayoutThoughtPrefab(bool observation)
+        {
+            if (!view || !view.spatial || !view.thoughtPanel) return false;
+            var panel = view.thoughtPanel;
+            if (!thoughtBubble)
+            {
+                // Reuse the current prefab's artwork and body typography, never its header.
+                // Its outer world-space canvas is deliberately not nested in the HUD.
+                var template = thoughtBubblePrefab.transform.Find("ThoughtCloud") as RectTransform;
+                if (!template) return false;
+                thoughtBubble = Instantiate(template, panel, false);
+                thoughtBubble.name = "CurrentThoughtBubble";
+                bubbleThought = thoughtBubble.Find("Thought")?.GetComponent<TMP_Text>();
+                bubbleHeading = thoughtBubble.Find("Heading")?.GetComponent<TMP_Text>();
+                if (!bubbleThought || !bubbleHeading)
+                {
+                    Destroy(thoughtBubble.gameObject);thoughtBubble=null;return false;
+                }
+            }
+            // Enforce this on every content change, not just first instantiation.
+            // Legacy Heading/ThoughtRibbon and any outgoing heading copy must stay gone.
+            foreach (Transform child in panel)
+                if(child!=thoughtBubble)child.gameObject.SetActive(false);
+            var legacy=panel.GetComponent<CorridorBubbleGraphic>();if(legacy)legacy.enabled=false;
+            ElevatorThoughtHeaderPolicy.Hide(panel);
+            bubbleThought.text = view.thought.text;
+            bubbleThought.maxVisibleCharacters = int.MaxValue;
+            float width = panel.rect.width;
+            float scale = width / 520f;
+            float body = Mathf.Max(110, bubbleThought.GetPreferredValues(bubbleThought.text, 364, 0).y + 12);
+            float height = Mathf.Max(300, body + 180);
+            thoughtBubble.anchorMin = thoughtBubble.anchorMax = thoughtBubble.pivot = Vector2.one * .5f;
+            thoughtBubble.anchoredPosition = Vector2.zero;
+            thoughtBubble.sizeDelta = new Vector2(520, height);
+            thoughtBubble.localScale = Vector3.one * scale;
+            panel.sizeDelta = new Vector2(width, height * scale);
+            bubbleThought.rectTransform.sizeDelta = new Vector2(364, body);
+            bubbleThought.rectTransform.anchoredPosition = new Vector2(0, 2);
+            ElevatorThoughtHeaderPolicy.Hide(panel);
+            return true;
         }
 
         public void SkinPause(ElevatorPauseMenu pause)

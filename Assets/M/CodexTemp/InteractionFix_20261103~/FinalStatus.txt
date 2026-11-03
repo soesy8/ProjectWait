@@ -1,0 +1,26 @@
+﻿ M Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity
+ M Assets/M/Scene/Elevator_Safety_Prototype.unity
+ M Assets/M/Scripts/Editor/ElevatorInteractionSetup.cs
+ M Assets/M/Scripts/Elevator/ElevatorDesktopControls.cs
+ M Assets/M/Scripts/Elevator/ElevatorObservation.cs
+ M Assets/M/Scripts/Elevator/ElevatorStorybookUI.cs
+ M "Assets/Shared Assets/UI/Fonts/ElevatorKoreanFallback.asset"
+ M "Assets/Shared Assets/UI/Prefabs/ChoiceCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/CompletionCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/DialogueCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/IntercomDialogueCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/MissionCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/NextButton.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/ObservationCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/PausePanel.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/ThoughtCloud.prefab"
+ M Assets/XR/Settings/OpenXRPackageSettings.asset
+?? Assets/M/CodexTemp/InteractionFix_20261103~/
+?? "Assets/Shared Assets/Highlight/Rendering/Android_Preset_53a41332_OutlineRenderer.asset"
+?? "Assets/Shared Assets/Highlight/Rendering/Android_Preset_53a41332_OutlineRenderer.asset.meta"
+?? "Assets/Shared Assets/Highlight/Rendering/Performance_URP_Config_fd42a132_OutlinePipeline.asset"
+?? "Assets/Shared Assets/Highlight/Rendering/Performance_URP_Config_fd42a132_OutlinePipeline.asset.meta"
+.git/info/exclude:9:/AGENTS.md	AGENTS.md
+=== QA summary ===
+Elevator_Safety_Prototype : success=True, checks=32, passed=32
+Elevator_Safety_ObjectInteraction_Test : success=True, checks=32, passed=32

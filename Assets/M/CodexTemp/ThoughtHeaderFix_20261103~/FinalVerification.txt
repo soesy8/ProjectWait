@@ -1,0 +1,32 @@
+﻿=== Runtime files ===
+
+FullName                                                                        Length
+--------                                                                        ------
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorThoughtHeaderPolicy.cs   1349
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStorybookUI.cs          14572
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs            31814
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorUITransitions.cs        10715
+=== Unedited runtime files ===
+ElevatorScenarioDirector unchanged=True
+ElevatorView unchanged=True
+=== Protected assets ===
+D:\project\ProjectWait\Assets\M\Arts\Fonts\ElevatorKoreanFallback.asset unchanged=True
+D:\project\ProjectWait\Assets\Shared Assets\UI\Fonts\ElevatorKoreanFallback.asset unchanged=True
+D:\project\ProjectWait\Assets\Shared Assets\UI\Prefabs\ThoughtCloud.prefab unchanged=True
+D:\project\ProjectWait\Assets\Shared Assets\UI\Prefabs\ObservationCard.prefab unchanged=True
+D:\project\ProjectWait\Assets\M\Scene\Elevator_Safety_Prototype.unity unchanged=True
+D:\project\ProjectWait\Assets\M\Scene\Elevator_Safety_ObjectInteraction_Test.unity unchanged=True
+=== Tests ===
+Header success=True passed=144/144
+Fade success=True passed=41/41
+Readability success=True passed=220/220
+Polish success=True passed=54/54
+Camera success=True passed=126/126
+Interaction success=True passed=32/32
+Total passed=617
+
+=== Whitespace ===
+=== Local instruction ===
+.git/info/exclude:9:/AGENTS.md	AGENTS.md
+
+

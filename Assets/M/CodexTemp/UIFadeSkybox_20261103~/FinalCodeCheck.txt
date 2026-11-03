@@ -1,0 +1,43 @@
+﻿=== Final behavior paths ===
+
+Assets\M\Scripts\Elevator\ElevatorUITransitions.cs:76:            if(!text||!text.gameObject.act
+iveInHierarchy||text.name=="TransitionText"||text.name=="RetiredText"||text.name=="Heading"||tex
+t.name=="ThoughtHeading")return;
+Assets\M\Scripts\Elevator\ElevatorUITransitions.cs:101:                if(!item.text.gameObject.
+activeInHierarchy)
+Assets\M\Scripts\Elevator\ElevatorUITransitions.cs:106:                    if(Application.isPlay
+ing&&item.text.gameObject.activeInHierarchy&&item.group.alpha>.01f&&!string.IsNullOrEmpty(item.c
+ontent))
+Assets\M\Scripts\Elevator\ElevatorUITransitions.cs:179:                panel.opacity=Mathf.Lerp(
+panel.opacity,panel.visible?1:0,fade);
+Assets\M\Scripts\Elevator\ElevatorUITransitions.cs:187:                if(!item.text.gameObject.
+activeInHierarchy){RemoveGhost(item);item.elapsed=textSeconds;item.group.alpha=1;continue;}
+=== Remaining placement calls ===
+Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:58:        bool thoughtPlacementReady,friendPlace
+mentReady;
+Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:61:        bool worldPlacementReady;
+Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:122:                worldPlacementReady=friendPla
+cementReady=false;
+Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:232:            thoughtPlacementReady=friendPlace
+mentReady=worldPlacementReady=false;
+Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:339:            if(layoutWidth!=Screen.width||lay
+outHeight!=Screen.height||Mathf.Abs(layoutAspect-camera.aspect)>.001f)thoughtPlacementReady=fals
+e;
+Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:340:            var placement=thoughtPlacementRea
+dy?thoughtAnchor:new Vector2(1,.55f);
+Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:351:            PlaceThoughtOutsideDialogue();
+Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:370:            if(!worldPlacementReady||dialogue
+PlacedStep!=step||dialoguePlacedRun!=lesson.RunVersion)
+Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:377:                worldPlacementReady=true;dial
+oguePlacedStep=step;dialoguePlacedRun=lesson.RunVersion;
+Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:456:        void PlaceThoughtOutsideDialogue()
+Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:458:            if(!hud||!view.thoughtPanel.gameO
+bject.activeInHierarchy||thoughtPlacementReady)return;
+Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:495:            thoughtAnchor=selected;thoughtPla
+cementReady=true;
+=== Whitespace ===
+=== Cache status ===
+=== Instruction exclusion ===
+.git/info/exclude:9:/AGENTS.md	AGENTS.md
+
+

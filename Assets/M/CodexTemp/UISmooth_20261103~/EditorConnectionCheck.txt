@@ -1,0 +1,139 @@
+﻿
+
+Id         : 18448
+Responding : True
+StartTime  : 2026-11-03 오전 11:16:49
+Path       : C:\Program Files\Unity\Hub\Editor\6000.3.18f1\Editor\Unity.exe
+
+Id         : 23308
+Responding : True
+StartTime  : 2026-11-03 오전 11:16:49
+Path       : C:\Program Files\Unity\Hub\Editor\6000.3.18f1\Editor\Unity.exe
+
+Id         : 41304
+Responding : True
+StartTime  : 2026-11-03 오전 10:38:03
+Path       : C:\Program Files\Unity Hub\resources\unity.exe
+
+Id         : 41612
+Responding : True
+StartTime  : 2026-11-03 오전 11:11:24
+Path       : C:\Program Files\Unity\Hub\Editor\6000.3.18f1\Editor\Unity.exe
+
+
+
+
+   State OwningProcess
+   ----- -------------
+TimeWait             0
+TimeWait             0
+TimeWait             0
+TimeWait             0
+TimeWait             0
+TimeWait             0
+TimeWait             0
+TimeWait             0
+TimeWait             0
+  Listen         41612
+
+
+[XR] [7664] [13:38:25.867][Info   ]   XR_KHR_composition_layer_cube: Version=8
+[XR] [7664] [13:38:25.867][Info   ]   XR_KHR_composition_layer_cylinder: Version=4
+[XR] [7664] [13:38:25.867][Info   ]   XR_KHR_composition_layer_equirect: Version=3
+[XR] [7664] [13:38:25.867][Info   ]   XR_KHR_visibility_mask: Version=2
+[XR] [7664] [13:38:25.867][Info   ]   XR_KHR_composition_layer_color_scale_bias: Version=5
+[XR] [7664] [13:38:25.867][Info   ]   XR_KHR_maintenance1: Version=1
+[XR] [7664] [13:38:25.867][Info   ]   XR_EXT_win32_appcontainer_compatible: Version=1
+[XR] [7664] [13:38:25.867][Info   ]   XR_EXT_debug_utils: Version=5
+[XR] [7664] [13:38:25.867][Info   ]   XR_OCULUS_recenter_event: Version=1
+[XR] [7664] [13:38:25.867][Info   ]   XR_OCULUS_audio_device_guid: Version=1
+[XR] [7664] [13:38:25.867][Info   ]   XR_FB_color_space: Version=3
+[XR] [7664] [13:38:25.867][Info   ]   XR_FB_display_refresh_rate: Version=1
+[XR] [7664] [13:38:25.867][Info   ]   XR_META_performance_metrics: Version=2
+[XR] [7664] [13:38:25.867][Info   ]   XR_META_headset_id: Version=2
+[XR] [7664] [13:38:25.867][Info   ]   XR_OCULUS_ovrsession_handle: Version=1
+[XR] [7664] [13:38:25.867][Info   ]   XR_EXT_hand_interaction: Version=2
+[XR] [7664] [13:38:25.868][Info   ]   XR_EXT_hand_tracking: Version=4
+[XR] [7664] [13:38:25.868][Info   ]   XR_FB_hand_tracking_mesh: Version=3
+[XR] [7664] [13:38:25.868][Info   ]   XR_META_simultaneous_hands_and_controllers: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_FB_hand_tracking_aim: Version=2
+[XR] [7664] [13:38:25.868][Info   ]   XR_FB_hand_tracking_capsules: Version=3
+[XR] [7664] [13:38:25.868][Info   ]   XR_EXT_hand_tracking_data_source: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_META_hand_tracking_microgestures: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_EXT_local_floor: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_EXT_active_action_set_priority: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_EXT_future: Version=2
+[XR] [7664] [13:38:25.868][Info   ]   XR_EXT_palm_pose: Version=3
+[XR] [7664] [13:38:25.868][Info   ]   XR_EXT_haptic_parametric: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_FB_haptic_amplitude_envelope: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_FB_haptic_pcm: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_FB_touch_controller_pro: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_META_touch_controller_plus: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_FB_touch_controller_proximity: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_OCULUS_external_camera: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_META_detached_controllers: Version=1
+[XR] [7664] [13:38:25.868][Info   ]   XR_LOGITECH_mx_ink_stylus_interaction: Version=1
+[XR] [7664] [13:38:25.868][Info   ] 
+[XR] [7664] [13:38:25.868][Info   ] Available Layers: (0)
+[XR] [7664] [13:38:25.868][Info   ] 
+[XR] [7664] [13:38:25.868][Info   ] Runtime Name: Oculus
+[XR] [7664] [13:38:25.868][Info   ] Runtime Version: 1.208.0
+[XR] [7664] [13:38:25.868][Info   ] 
+[XR] [7664] [13:38:25.868][Info   ] ==== OpenXR API Spec Version ====
+[XR] [7664] [13:38:25.868][Info   ] 
+[XR] [7664] [13:38:25.868][Info   ] XrInstance Created with OpenXR API Version: 1.1.54
+[XR] [7664] [13:38:25.868][Info   ] 
+[XR] [7664] [13:38:25.868][Info   ] ==== OpenXR Exception Thrown ====
+[XR] [7664] [13:38:25.868][Info   ] 
+[XR] [7664] [13:38:25.868][Info   ] Error: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [7664] [13:38:25.869][Info   ]     Origin: result
+[XR] [7664] [13:38:25.869][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [7664] [13:38:25.869][Info   ] 
+[XR] [7664] [13:38:25.869][Info   ] 
+[XR] [7664] [13:38:25.869][Info   ] ==== Std Exception Thrown ====
+[XR] [7664] [13:38:25.869][Info   ] 
+[XR] [7664] [13:38:25.869][Info   ] Function: Display_Initialize
+[XR] [7664] [13:38:25.869][Info   ] Message: XrResult failure [XR_ERROR_FORM_FACTOR_UNAVAILABLE]
+[XR] [7664] [13:38:25.869][Info   ]     Origin: result
+[XR] [7664] [13:38:25.869][Info   ]     Source: C:\build\output\unity\xr.sdk.openxr\com.unity.xr.openxr\NativePlugin~\Source\unity_session.cpp:328
+[XR] [7664] [13:38:25.869][Info   ] 
+[XR] [7664] [13:38:25.869][Info   ] ==== Last 20 non-XR_SUCCESS returns ====
+[XR] [7664] [13:38:25.869][Info   ] [FAILURE] xrGetSystem: XR_ERROR_FORM_FACTOR_UNAVAILABLE (1x)
+[XR] [7664] [13:38:25.869][Info   ] 
+[XR] [7664] [13:38:25.869][Info   ] ==== Last 20 Events ====
+[XR] [7664] [13:38:25.869][Info   ] 
+
+==== End Unity OpenXR Diagnostic Report ====
+
+
+[XR] XR_META_performance_metrics: Attempted to stop before session ready
+Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
+UnityEngine.Debug:LogWarning (object,UnityEngine.Object)
+UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)
+
+(Filename: D:/project/ProjectDwtD2/Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs Line: 55)
+
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            54.651 ms
+	Integration:            1389.302 ms
+	Integration of assets:  0.059 ms
+	Thread Wait Time:       -0.049 ms
+	Total Operation Time:   1443.963 ms
+[Licensing::Client] Successfully resolved entitlement details
+Start importing Assets/XR/Settings/OpenXRPackageSettings.asset using Guid(3dd11dcd12272e54f8a19d8224e35f53) (NativeFormatImporter) -> (artifact id: '73d8e3f197954161277d22b4206b3d82') in 0.0031265 seconds
+Refreshing native plugins compatible for Editor in 5.40 ms, found 10 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=bb593c9e0abe1984ba2b5e20dc4f4490): Total: 0.111 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/XR/Settings/OpenXRPackageSettings.asset using Guid(3dd11dcd12272e54f8a19d8224e35f53) (NativeFormatImporter) -> (artifact id: '73d8e3f197954161277d22b4206b3d82') in 0.0026277 seconds
+Refreshing native plugins compatible for Editor in 7.32 ms, found 10 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=a7fe56fb1458c0e4bb342029f412ef0e): Total: 0.038 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/XR/Settings/OpenXRPackageSettings.asset using Guid(3dd11dcd12272e54f8a19d8224e35f53) (NativeFormatImporter) -> (artifact id: '73d8e3f197954161277d22b4206b3d82') in 0.0035102 seconds
+Refreshing native plugins compatible for Editor in 7.14 ms, found 10 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=88944161762bdd94ba02d57a59570ff0): Total: 0.033 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)

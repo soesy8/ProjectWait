@@ -1,0 +1,21 @@
+﻿success=False passed=50/51
+System.Exception: Visible letterbox reduces real look response by exactly ninety percent
+  at VerifyInteractionPolish.Check (System.Boolean pass, System.String name) [0x00022] in D:\project\ProjectWait\Assets\M\CodexTemp\InteractionPolish_20261103~\Verify.cs:21 
+  at VerifyInteractionPolish.Main () [0x02031] in D:\project\ProjectWait\Assets\M\CodexTemp\InteractionPolish_20261103~\Verify.cs:122 
+
+name                                                                   passed
+----                                                                   ------
+Observed bubble and readable description remain                          True
+Non-observation mission thoughts retain their original title             True
+Basketball receiving starts at full visibility                           True
+Receiving ball keeps the original world size instead of shrinking        True
+Ball moves toward hands while opacity fades smoothly                     True
+Ball fade drives actual shader visibility                                True
+Received ball naturally disappears without a tiny held model             True
+Dialogue refresh does not make the hidden ball reappear                  True
+URP ball-fade shader compiles                                            True
+Restart restores friend ball and clears transfer fade                    True
+No-letterbox gameplay retains normal mouse sensitivity                   True
+Visible letterbox reduces real look response by exactly ninety percent  False
+
+

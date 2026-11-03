@@ -13,6 +13,14 @@ namespace ProjectWait.M.Elevator
         public Transform reactionMarks;
         public Renderer intercomLamp;
         public ElevatorSpacePresentation space;
+        public Material ballFadeMaterial;
+        [Min(.1f)] public float ballHandoffSeconds=1.1f;
+        public float BallVisibility {get;private set;}
+        MaterialPropertyBlock ballProperties;
+        Renderer[] heldBallRenderers;
+        Vector3 ballTransferStart;
+        float ballTransferStarted;
+        bool hadBall,transferringBall;
         Transform leftArm,leftForearm,leftHand,rightArm,rightForearm,rightHand,head,pelvis,leftThigh,rightThigh,leftShin,rightShin;
         Quaternion[] rest; Transform[] joints;
         Vector3 home,ballHome;
@@ -30,6 +38,10 @@ namespace ProjectWait.M.Elevator
         {
             if(sound)return;
             home=space?space.friendInside:lesson.friend.localPosition;ballHome=friendBall.localPosition;
+            heldBallRenderers=playerBall.GetComponentsInChildren<Renderer>(true);
+            ballProperties=new MaterialPropertyBlock();
+            if(ballFadeMaterial)foreach(var renderer in heldBallRenderers)
+            {renderer.sharedMaterial=ballFadeMaterial;renderer.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;}
             var bones=lesson.friend.GetComponentsInChildren<Transform>(true);
             leftArm=Bone(bones,"upper_arm.L");leftForearm=Bone(bones,"forearm.L");leftHand=Bone(bones,"hand.L");
             rightArm=Bone(bones,"upper_arm.R");rightForearm=Bone(bones,"forearm.R");rightHand=Bone(bones,"hand.R");
@@ -59,7 +71,13 @@ namespace ProjectWait.M.Elevator
                 if(f.Step==ElevatorStep.Complete)rescuer.transform.position=new Vector3(.65f,0,1.10f);
                 else rescuer.transform.position=new Vector3(.20f,0,Mathf.Lerp(3.7f,2.65f,Mathf.SmoothStep(0,1,(f.Elapsed-.8f)/1.4f)));
             }
-            friendBall.gameObject.SetActive(!f.PlayerHasBall);playerBall.gameObject.SetActive(f.PlayerHasBall);
+            bool newRun=lastRun!=value.RunVersion;
+            if(newRun){hadBall=f.PlayerHasBall;transferringBall=false;}
+            if(f.PlayerHasBall&&!hadBall)
+            {ballTransferStart=friendBall.position;ballTransferStarted=Time.time;transferringBall=true;}
+            hadBall=f.PlayerHasBall;
+            if(!f.PlayerHasBall)transferringBall=false;
+            friendBall.gameObject.SetActive(!f.PlayerHasBall);
             friendBall.localPosition=ballHome+Vector3.up*(Mathf.Sin(f.Elapsed*2.2f)*.007f);
             float open=f.Step==ElevatorStep.Rescue?Mathf.SmoothStep(0,1,(f.Elapsed-.35f)/1.8f):0;
             if(!space){leftDoor.localPosition=new Vector3(-.41f-open*.80f,1.10f,1.74f);rightDoor.localPosition=new Vector3(.41f+open*.80f,1.10f,1.74f);closedDoorCollider.enabled=f.Step!=ElevatorStep.Rescue;}
@@ -67,9 +85,21 @@ namespace ProjectWait.M.Elevator
             if(f.Step==ElevatorStep.Proposal&&!(space&&space.sportsCentre))value.friend.localPosition=home+Vector3.down*(Mathf.Sin(f.Elapsed/.9f*Mathf.PI)*.06f);
             if(f.Step!=ElevatorStep.Jump&&f.Step!=ElevatorStep.Proposal)value.friend.localPosition+=Vector3.up*(Mathf.Sin(f.Elapsed*2.5f)*.006f);
             if(space)space.Apply();
-            var held=value.playerCamera.transform.TransformPoint(value.playerCamera.aspect>=1.6f?new Vector3(-.62f,-.47f,.95f):new Vector3(-.68f,-.60f,.95f));
-            float handoff=f.Step==ElevatorStep.Proposal?Mathf.SmoothStep(0,1,f.Elapsed/.7f):1;
-            playerBall.SetPositionAndRotation(Vector3.Lerp(friendBall.position,held,handoff),value.playerCamera.transform.rotation*Quaternion.Euler(0,0,25*handoff));
+            float handoff=Mathf.Clamp01((Time.time-ballTransferStarted)/ballHandoffSeconds);
+            if(handoff>=1)transferringBall=false;
+            BallVisibility=transferringBall?1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.28f,1,handoff)):0;
+            playerBall.gameObject.SetActive(transferringBall);
+            if(transferringBall)
+            {
+                var held=value.playerCamera.transform.TransformPoint(new Vector3(-.22f,-.31f,.48f));
+                float travel=Mathf.SmoothStep(0,1,handoff);
+                playerBall.SetPositionAndRotation(Vector3.Lerp(ballTransferStart,held,travel)+Vector3.up*(Mathf.Sin(travel*Mathf.PI)*.08f),value.playerCamera.transform.rotation*Quaternion.Euler(0,0,25*travel));
+                var parentScale=playerBall.parent?playerBall.parent.lossyScale:Vector3.one;
+                var size=friendBall.lossyScale;
+                playerBall.localScale=new Vector3(size.x/parentScale.x,size.y/parentScale.y,size.z/parentScale.z);
+            }
+            ballProperties.SetFloat("_Visibility",BallVisibility);
+            foreach(var renderer in heldBallRenderers)renderer.SetPropertyBlock(ballProperties);
             if(friendShadow&&!(space&&space.sportsCentre)){friendShadow.position=new Vector3(value.friend.position.x,.012f,value.friend.position.z);friendShadow.localScale=new Vector3(.58f,.008f,.34f)*(1-Mathf.Max(0,value.friend.position.y)*.6f);}
             if(intercomButton)intercomButton.localScale=lampScale*(f.Step==ElevatorStep.Connecting?1+Mathf.Sin(f.Elapsed*7)*.04f:1);
             if(reactionMarks)

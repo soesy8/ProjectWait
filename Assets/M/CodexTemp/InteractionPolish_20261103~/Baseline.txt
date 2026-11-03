@@ -1,0 +1,99 @@
+﻿=== Status ===
+ M Assets/M/Arts/Fonts/ElevatorKoreanFallback.asset
+ M Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity
+ M Assets/M/Scene/Elevator_Safety_Prototype.unity
+ M Assets/M/Scripts/Editor/ElevatorInteractionSetup.cs
+ M Assets/M/Scripts/Elevator/ElevatorCameraEffects.cs
+ M Assets/M/Scripts/Elevator/ElevatorCinematicOverlay.cs
+ M Assets/M/Scripts/Elevator/ElevatorDesktopControls.cs
+ M Assets/M/Scripts/Elevator/ElevatorLesson.cs
+ M Assets/M/Scripts/Elevator/ElevatorObservation.cs
+ M Assets/M/Scripts/Elevator/ElevatorScenarioDirector.cs
+ M Assets/M/Scripts/Elevator/ElevatorSpacePresentation.cs
+ M Assets/M/Scripts/Elevator/ElevatorSportsCentreMap.cs
+ M Assets/M/Scripts/Elevator/ElevatorStorybookUI.cs
+ M "Assets/Shared Assets/UI/Fonts/ElevatorKoreanFallback.asset"
+ M "Assets/Shared Assets/UI/Prefabs/ChoiceCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/CompletionCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/DialogueCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/IntercomDialogueCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/MissionCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/NextButton.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/ObservationCard.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/PausePanel.prefab"
+ M "Assets/Shared Assets/UI/Prefabs/ThoughtCloud.prefab"
+ M Assets/XR/Settings/OpenXRPackageSettings.asset
+?? Assets/M/CodexTemp/CameraFreedom_20261103~/
+?? Assets/M/CodexTemp/InteractionFix_20261103~/
+?? Assets/M/CodexTemp/InteractionPolish_20261103~/
+?? "Assets/Shared Assets/Highlight/Rendering/Android_Preset_53a41332_OutlineRenderer.asset"
+?? "Assets/Shared Assets/Highlight/Rendering/Android_Preset_53a41332_OutlineRenderer.asset.meta"
+?? "Assets/Shared Assets/Highlight/Rendering/Performance_URP_Config_fd42a132_OutlinePipeline.asset"
+?? "Assets/Shared Assets/Highlight/Rendering/Performance_URP_Config_fd42a132_OutlinePipeline.asset.meta"
+.git/info/exclude:9:/AGENTS.md	AGENTS.md
+=== Instructions ===
+=== Phone and material paths ===
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorBasketballSetup.cs:64:            p.playerBall=Ball("HeldBasketball",l.transform,Vector3.zero);p.playerBall.gameObject.SetActive(false);
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorBasketballSetup.cs:101:            p.friendBall.localPosition=new Vector3(0,.71f,-.24f);p.playerBall.localScale=Vector3.one*.85f;
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorCopingSetup.cs:133:   ink=ColorMaterial("ExpressionInk",Color.black);teal=ColorMaterial("PhoneTeal",new Color(.16f,.48f,.44f));dark=ColorMaterial("PhoneDark",new Color(.08f,.12f,.13f));
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorCopingSetup.cs:141:   var phone=Observation(down.parent,l,"Cabin_Optional119Phone",ElevatorClue.Phone,new Vector3(-.48f,8.98f,5.60f),new Vector3(.08f,.26f,.16f));
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorCopingSetup.cs:142:   if(!phone.transform.Find("PhoneBody")){Shape("PhoneBody",phone.transform,PrimitiveType.Cube,Vector3.zero,new Vector3(.03f,.24f,.135f),dark);Shape("PhoneScreen",phone.transform,PrimitiveType.Cube,new Vector3(-.018f,0,0),new Vector3(.007f,.19f,.108f),teal);}
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorCopingSetup.cs:143:   ElevatorInteractionSetup.AddActorOutline(phone,91);
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorHoverRefinementSetup.cs:50:     case ElevatorClue.Phone:h.worldOffset=new Vector3(-.45f,.42f,.38f);break;
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorInteractionSetup.cs:66:            else if(observation.clue==ElevatorClue.Friend||observation.clue==ElevatorClue.Ball||observation.clue==ElevatorClue.Rescuer||observation.clue==ElevatorClue.Phone)
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorPolishSetup.cs:113:            p.playerBall.localScale=Vector3.one*.65f;
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorSpaceSetup.cs:27:   var spatial=l.view.spatial;if(!spatial.intercomAnchor)spatial.intercomAnchor=l.GetComponentsInChildren<ElevatorObservation>(true).First(o=>o.clue==ElevatorClue.Intercom).transform;if(!spatial.rescuerAnchor)spatial.rescuerAnchor=p.rescuer.transform;
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorSpaceSetup.cs:63:   UpgradeBall(p.friendBall,"FriendBasketballPalette");UpgradeBall(p.playerBall,"HeldBasketballPalette");
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorSpaceSetup.cs:73:   p.rescuer.SetActive(false);p.friendBall.gameObject.SetActive(true);p.playerBall.gameObject.SetActive(false);cabin.gameObject.SetActive(true);p.lobby.SetActive(true);
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorSpatialUISetup.cs:44:            spatial.intercomAnchor=view.lesson.presentation.intercomButton;
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorSportsCentreSetup.cs:170:            l.view.spatial.intercomAnchor=map.sideIntercom;l.view.spatial.rescuerAnchor=p.rescuer.transform;
+D:\project\ProjectWait\Assets\M\Scripts\Editor\ElevatorSportsCentreSetup.cs:180:            var settings=l.settings;settings.building="한빛 생활체육센터";settings.liftId="본관 1호기 · HB-EL-01";settings.lobbyDialogue="오늘 패스 좋았어! 가방 챙겼지?\n3층에서 농구도 마쳤으니, 1층으로 내려가서 집에 가자.";settings.handoffDialogue="1층 눌렀지? 공 좀 잠깐 맡아 줘.\n튀기지 말고 안고 있어 줘!";settings.waitDialogue="도움을 요청했어. 문에서 떨어져 같이 기다리자.";settings.rescueWaitSeconds=12;settings.firstHintSeconds=20;settings.secondHintSeconds=40;settings.safetyNotice="안에서 뛰지 않아요. 문에 기대지 않아요.\n멈추면 비상통화로 도움 요청.\n문에서 떨어져 직원의 안내를 기다려요.";EditorUtility.SetDirty(settings);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorFlow.cs:21:        public bool UsedPhone { get; private set; }
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorFlow.cs:44:            History.Clear(); HelpRequested = LocationReported = SituationReported = IdentityFound = Reassured = UsedPhone = ReadyToExit = false;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorFlow.cs:101:        public void RequestPhone()
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorFlow.cs:104:            UsedPhone = true; History.Add("대처: 휴대폰 119 모의 신고"); Enter(ElevatorStep.Call, InteractionPhase.Choice);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorLesson.cs:83:        public void Phone() { Flow.RequestPhone(); Sync(); }
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorLesson.cs:129:                case ElevatorClue.Phone: Thought="비상통화에 응답이 없으면 휴대폰으로 위치와 상황을 알려요. 이 체험은 모의 통화예요.";break;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorLesson.cs:150:            else if (clue == ElevatorClue.Phone && Flow.Step == ElevatorStep.Unanswered) Phone();
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorLesson.cs:167:        public object Snapshot() => new { step = Flow.Step.ToString(), phase = Flow.Phase.ToString(), Flow.PlayerHasBall, Flow.DestinationSelected, Flow.FirstJudgment, Flow.HelpRequested, Flow.LocationReported, Flow.UsedPhone, Flow.Reassured, Flow.ReadyToExit, Flow.HintLevel, Flow.JumpCount, Floor, motorPlaying = motor.isPlaying, friendHeight = friend.localPosition.y - friendHome.y, history = Flow.History.ToArray() };
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorMemoryGraphic.cs:10:        public enum Illustration { Teamwork, Phone, Location, Together }
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorMemoryGraphic.cs:19:                if(illustration==Illustration.Phone)
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorMemoryGraphic.cs:74:            // Ear clipping handles the concave hand and phone silhouettes without fan artefacts.
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorObservation.cs:8:    public enum ElevatorClue { Friend, Door, Display, Intercom, Notice, Identity, Ball, FloorButtons, Advertisement, LobbyCall, FrontIntercom, FacilityGuide, GroundExit, FrontFloorButtons, LobbyCallUp, Phone, Rescuer }
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorScenarioDirector.cs:21:        public ElevatorObservation PrimaryTarget {get;private set;}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorScenarioDirector.cs:29:            if(f.Step==ElevatorStep.Unanswered&&clue==ElevatorClue.Phone){lesson.Phone();return true;}
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorScenarioDirector.cs:52:                case ElevatorClue.Phone:return "휴대폰이에요. 비상통화에 응답이 없을 때 119 모의 신고에 사용할 수 있어요.";
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorScenarioDirector.cs:77:            PrimaryTarget=observations.FirstOrDefault(o=>o&&o.gameObject.activeInHierarchy&&o.IsHovered&&lesson.CanInteract(o.clue));
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorScenarioDirector.cs:78:            lesson.view.ShowThought(PrimaryTarget?Hint(PrimaryTarget.clue):"");
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSettings.cs:22:        [TextArea] public string handoffDialogue = "공 좀 잠깐 맡아 줘.\n내가 어떻게 넣었냐면…";
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:19:        public Transform intercomAnchor, rescuerAnchor;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorSpatialUI.cs:248:                anchor=(intercomAnchor?intercomAnchor.position:lesson.presentation.intercomButton.position)+intercomOffset;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStoryPresentation.cs:9:        public Transform leftDoor, rightDoor, friendBall, playerBall;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStoryPresentation.cs:62:            friendBall.gameObject.SetActive(!f.PlayerHasBall);playerBall.gameObject.SetActive(f.PlayerHasBall);
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStoryPresentation.cs:71:            float handoff=f.Step==ElevatorStep.Proposal?Mathf.SmoothStep(0,1,f.Elapsed/.7f):1;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorStoryPresentation.cs:72:            playerBall.SetPositionAndRotation(Vector3.Lerp(friendBall.position,held,handoff),value.playerCamera.transform.rotation*Quaternion.Euler(0,0,25*handoff));
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorView.cs:165:                    else{objective="공을 튀기지 않고 안고 있기";line=lesson.settings.handoffDialogue;Add("1   공 받아 안고 있기",lesson.Continue);}break;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorView.cs:182:                    objective="다른 방법으로 도움 요청";who="나의 미션";line="응답이 없어요. 휴대폰으로 119에 위치와 상황을 알려요.\n이 체험의 통화는 모의 상황이에요.";Add("1   휴대폰으로 119 모의 신고",lesson.Phone);break;
+D:\project\ProjectWait\Assets\M\Scripts\Elevator\ElevatorView.cs:184:                    who=f.UsedPhone?"119 · 모의 통화":"관리실 · 통화 중";
+=== Shader files ===
+D:\project\ProjectWait\Assets\M\Arts\Shaders\ElevatorCinematicOverlay.shader
+D:\project\ProjectWait\Assets\M\Arts\Shaders\ElevatorCinematicOverlay.shader.meta
+D:\project\ProjectWait\Assets\M\Arts\Shaders\ElevatorPaletteToon.shader
+D:\project\ProjectWait\Assets\M\Arts\Shaders\ElevatorPaletteToon.shader.meta
+D:\project\ProjectWait\Assets\M\Arts\Shaders\ElevatorStorybookToon.shader
+D:\project\ProjectWait\Assets\M\Arts\Shaders\ElevatorStorybookToon.shader.meta
+D:\project\ProjectWait\Assets\M\Arts\Shaders\ElevatorUIOverlay.shader
+D:\project\ProjectWait\Assets\M\Arts\Shaders\ElevatorUIOverlay.shader.meta
+=== Scene hashes ===
+
+
+Algorithm : SHA256
+Hash      : 61348E8A1F68C95C34D0AB742E38F794ED2B35954AFD2E2CA4DEE72700551E39
+Path      : D:\project\ProjectWait\Assets\M\Scene\Elevator_Safety_Prototype.unity
+
+Algorithm : SHA256
+Hash      : 0F6FF860C348E42367370D5A725E0885FB6851B094CFC16D7AFADD3EC9C43BC2
+Path      : D:\project\ProjectWait\Assets\M\Scene\Elevator_Safety_ObjectInteraction_Test.unity
+
+
+

@@ -1,0 +1,26 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\InteractionFix_20261103~\\OpenScene.cs",
+      "entry": "OpenInteractionScene.Restore"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 85,
+      "executeMs": 437,
+      "assemblyName": "PipelineRunScript_OpenScene_f4b8c9817bef49cfb848c5b26ded54e1",
+      "success": true,
+      "result": "Assets/M/Scene/Elevator_Safety_Prototype.unity"
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

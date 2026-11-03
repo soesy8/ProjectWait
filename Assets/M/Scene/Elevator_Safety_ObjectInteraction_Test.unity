@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 0f136d380c24dfa47a138d7ffedb1947, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1677,8 +1677,8 @@ Transform:
   m_GameObject: {fileID: 122613065}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.018, y: 0, z: 0}
-  m_LocalScale: {x: 0.007, y: 0.19, z: 0.108}
+  m_LocalPosition: {x: -0.016, y: 0.05, z: 0}
+  m_LocalScale: {x: 0.006, y: 0.045, z: 0.065}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1123425624}
@@ -6907,6 +6907,8 @@ MonoBehaviour:
   reactionMarks: {fileID: 1138435835}
   intercomLamp: {fileID: 0}
   space: {fileID: 326520098}
+  ballFadeMaterial: {fileID: 2100000, guid: 20e06410ddaca184bb8566543fb49271, type: 2}
+  ballHandoffSeconds: 1.1
 --- !u!114 &326520098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6966,7 +6968,6 @@ MonoBehaviour:
   friendLobby: {x: -3.2, y: 7.92, z: 1.4}
   groundLobby: {x: -1.4, y: 0, z: -0.4}
   groundExit: {x: -0.8, y: 0, z: -7.2}
-  interiorReframeSeconds: 0.6
 --- !u!114 &326520100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7030,6 +7031,8 @@ MonoBehaviour:
   - {fileID: 1308380600}
   - {fileID: 1882968785}
   - {fileID: 1126273126}
+  guidanceDelay: 8
+  guidanceCycleSeconds: 1
 --- !u!114 &326520103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7084,7 +7087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &326594962
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7172,7 +7175,7 @@ CanvasGroup:
   m_GameObject: {fileID: 326594961}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &326594967
@@ -8415,7 +8418,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 326520096}
@@ -8445,7 +8448,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 79630df03bb1937459af3f423b1a33e3, type: 2}
+  - {fileID: 2100000, guid: 20e06410ddaca184bb8566543fb49271, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9353,7 +9356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &445964308
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9441,7 +9444,7 @@ CanvasGroup:
   m_GameObject: {fileID: 445964307}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &445964313
@@ -9757,6 +9760,7 @@ MonoBehaviour:
   notebookTilt: {x: 12, y: 0, z: 0}
   notebookScale: 1.12
   rescuerOffset: {x: 1.4, y: 1.67, z: -2.05}
+  maximumReadabilityScale: 1.45
 --- !u!225 &451732880
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -9791,6 +9795,7 @@ MonoBehaviour:
   observationNote: {fileID: 2087288547, guid: 8671361feca67d2458730c18c5810526, type: 3}
   friendPortrait: {fileID: -1666863128, guid: fec9a01a404b88b45835fa6db4e35fad, type: 3}
   speechTail: {fileID: -1252900068, guid: f4b4add7792f07648b8bf095986e7456, type: 3}
+  thoughtBubblePrefab: {fileID: 2033877499407356407, guid: ef65c5332f6297648812d460ccb34ae3, type: 3}
   worldMaterial: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
 --- !u!1 &454675810
 GameObject:
@@ -10059,7 +10064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &475693115
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10147,7 +10152,7 @@ CanvasGroup:
   m_GameObject: {fileID: 475693114}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &475693120
@@ -10520,7 +10525,7 @@ Camera:
   m_GameObject: {fileID: 484334163}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.9411765, g: 0.8745098, b: 0.7529412, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -10719,7 +10724,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &489516639
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10807,7 +10812,7 @@ CanvasGroup:
   m_GameObject: {fileID: 489516638}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &489516644
@@ -13390,7 +13395,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &635823538
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13478,7 +13483,7 @@ CanvasGroup:
   m_GameObject: {fileID: 635823537}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &635823543
@@ -13831,7 +13836,7 @@ MonoBehaviour:
   m_AllowHoverHapticsWhileSelecting: 0
   m_LineType: 0
   m_BlendVisualLinePoints: 1
-  m_MaxRaycastDistance: 30
+  m_MaxRaycastDistance: 180
   m_RayOriginTransform: {fileID: 19731574}
   m_ReferenceFrame: {fileID: 0}
   m_Velocity: 16
@@ -15399,7 +15404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &682983054
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15487,7 +15492,7 @@ CanvasGroup:
   m_GameObject: {fileID: 682983053}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &682983059
@@ -17182,6 +17187,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7234564686518999048, guid: 6be11a9d44963364ea42a3812d87e166, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1123425624}
     - targetCorrespondingSourceObject: {fileID: 490985005272188325, guid: 6be11a9d44963364ea42a3812d87e166, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1653360947}
@@ -17190,6 +17198,11 @@ PrefabInstance:
 --- !u!4 &797866908 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6995416712411228484, guid: 6be11a9d44963364ea42a3812d87e166, type: 3}
+  m_PrefabInstance: {fileID: 797866907}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &797866909 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7234564686518999048, guid: 6be11a9d44963364ea42a3812d87e166, type: 3}
   m_PrefabInstance: {fileID: 797866907}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &799326349
@@ -20051,7 +20064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &881428648
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20139,7 +20152,7 @@ CanvasGroup:
   m_GameObject: {fileID: 881428647}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &881428653
@@ -20185,7 +20198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &888966791
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20273,7 +20286,7 @@ CanvasGroup:
   m_GameObject: {fileID: 888966790}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &888966796
@@ -21346,7 +21359,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &951270947
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21386,7 +21399,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB098\uC758 \uC0DD\uAC01"
+  m_text: ""
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9ab7d3ed2f29755499ee532ca0d58e37, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: fd61bfbdf8e745f4bbec270c716c54c7, type: 2}
@@ -22614,9 +22627,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectWait.M.Elevator.ElevatorOutlineTarget
   geometry:
   - sourceRenderer: {fileID: 1714301916}
-    mesh: {fileID: 0}
-    anchor: {fileID: 0}
-  - sourceRenderer: {fileID: 1304008783}
     mesh: {fileID: 0}
     anchor: {fileID: 0}
   - sourceRenderer: {fileID: 941100967}
@@ -24970,14 +24980,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1123425621}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.48, y: 8.98, z: 5.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.030843556, y: -0.7064337, z: -0.030843556, w: -0.70643383}
+  m_LocalPosition: {x: -0.19038539, y: 0.17690113, z: 0.14028382}
+  m_LocalScale: {x: 0.8517238, y: 0.8517238, z: 0.8517238}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1647471776}
   - {fileID: 122613066}
-  m_Father: {fileID: 1909913694}
+  m_Father: {fileID: 797866909}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1123425625
 MonoBehaviour:
@@ -25072,8 +25082,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.08, y: 0.26, z: 0.16}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.1, y: 0.09, z: 0.1}
+  m_Center: {x: -0.1, y: 0.045, z: -0.03}
 --- !u!114 &1123425627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25196,7 +25206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1126273125
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25284,7 +25294,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1126273124}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &1126273130
@@ -26126,7 +26136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1151769302
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26214,7 +26224,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1151769301}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &1151769307
@@ -29057,7 +29067,7 @@ MonoBehaviour:
   m_AllowHoverHapticsWhileSelecting: 0
   m_LineType: 1
   m_BlendVisualLinePoints: 1
-  m_MaxRaycastDistance: 30
+  m_MaxRaycastDistance: 180
   m_RayOriginTransform: {fileID: 1937101198}
   m_ReferenceFrame: {fileID: 0}
   m_Velocity: 10
@@ -30342,7 +30352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1308380599
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30430,7 +30440,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1308380598}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &1308380604
@@ -31133,7 +31143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1369209299
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31221,7 +31231,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1369209298}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &1369209304
@@ -36541,8 +36551,8 @@ Transform:
   m_GameObject: {fileID: 1647471775}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.03, y: 0.24, z: 0.135}
+  m_LocalPosition: {x: 0, y: 0.04, z: 0}
+  m_LocalScale: {x: 0.025, y: 0.09, z: 0.085}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1123425624}
@@ -37280,7 +37290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1678365152
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37368,7 +37378,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1678365151}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &1678365157
@@ -37411,7 +37421,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1687304263
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40257,7 +40267,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1840368100
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40345,7 +40355,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1840368099}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &1840368105
@@ -41634,7 +41644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1882968784
 RectTransform:
   m_ObjectHideFlags: 0
@@ -41722,7 +41732,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1882968783}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!223 &1882968789
@@ -42416,7 +42426,6 @@ Transform:
   - {fileID: 1408867934}
   - {fileID: 1296603372}
   - {fileID: 729979719}
-  - {fileID: 1123425624}
   m_Father: {fileID: 326520096}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1910284304
@@ -48172,7 +48181,7 @@ MonoBehaviour:
   m_AllowHoverHapticsWhileSelecting: 0
   m_LineType: 1
   m_BlendVisualLinePoints: 1
-  m_MaxRaycastDistance: 30
+  m_MaxRaycastDistance: 180
   m_RayOriginTransform: {fileID: 1780957687}
   m_ReferenceFrame: {fileID: 0}
   m_Velocity: 10
