@@ -1,0 +1,244 @@
+﻿diff --git a/Assets/M/Scripts/Elevator/ElevatorSpatialUI.cs b/Assets/M/Scripts/Elevator/ElevatorSpatialUI.cs
+index 5c13029..9ea9a18 100644
+--- a/Assets/M/Scripts/Elevator/ElevatorSpatialUI.cs
++++ b/Assets/M/Scripts/Elevator/ElevatorSpatialUI.cs
+@@ -176,9 +176,10 @@ namespace ProjectWait.M.Elevator
+             {
+                 var r=(RectTransform)new GameObject("ReadingStatus",typeof(RectTransform)).transform;r.SetParent(view.dialoguePanel,false);
+                 r.anchorMin=r.anchorMax=r.pivot=Vector2.one*.5f;
+-                readingStatus=r.gameObject.AddComponent<TextMeshProUGUI>();readingStatus.font=view.font;readingStatus.fontSize=16;readingStatus.color=Ink;readingStatus.raycastTarget=false;readingStatus.alignment=TextAlignmentOptions.MidlineRight;
++                readingStatus=r.gameObject.AddComponent<TextMeshProUGUI>();readingStatus.font=view.font;readingStatus.color=Ink;readingStatus.alignment=TextAlignmentOptions.MidlineRight;
+             }
+-            readingStatus.rectTransform.sizeDelta=new Vector2(view.dialoguePanel.rect.width-100,24);
++            ElevatorTypography.Apply(readingStatus,ElevatorTypography.HintSize);
++            readingStatus.rectTransform.sizeDelta=new Vector2(view.dialoguePanel.rect.width-100,34);
+             readingStatus.rectTransform.anchoredPosition=new Vector2(0,-view.dialoguePanel.rect.height*.5f+25);
+             UpdateDialogueReveal();
+         }
+@@ -192,8 +193,7 @@ namespace ProjectWait.M.Elevator
+             var label = button.GetComponentInChildren<TMP_Text>();
+             label.text = label.text.TrimStart('1','2','3','4',' ');
+             label.text = label.text.Replace("?? ","??\n");
+-            label.color = Paper; label.fontSize = 28;
+-            label.fontStyle = FontStyles.Normal;
++            label.color = Paper; ElevatorTypography.Apply(label,ElevatorTypography.ChoiceSize);
+             if(storybook)storybook.SkinButton(button);
+         }
+ 
+@@ -268,7 +268,8 @@ namespace ProjectWait.M.Elevator
+             view.dialoguePanel.anchoredPosition = Vector2.zero;
+             view.dialogueText.rectTransform.sizeDelta = new Vector2(width-56,body);
+             view.dialogueText.rectTransform.anchoredPosition = new Vector2(0,-12);
+-            speakerTab.sizeDelta = new Vector2(Mathf.Clamp(speaker.GetPreferredValues().x+44,116,300),46);
++            ElevatorTypography.Apply(speaker,ElevatorTypography.SpeakerSize);
++            speakerTab.sizeDelta = new Vector2(Mathf.Clamp(speaker.GetPreferredValues().x+56,132,360),54);
+             speakerTab.anchoredPosition = new Vector2(-width*.5f+speakerTab.rect.width*.5f+24,height*.5f+5);
+             speaker.rectTransform.sizeDelta = speakerTab.sizeDelta-new Vector2(22,4);
+             speaker.rectTransform.anchoredPosition = Vector2.zero;
+@@ -281,16 +282,18 @@ namespace ProjectWait.M.Elevator
+                 float buttonWidth = complete ? 211 : button.name=="DialogueNext"?190:width;
+                 var r = (RectTransform)button.transform;
+                 var label = button.GetComponentInChildren<TMP_Text>();
+-                label.fontSize = complete ? 21 : storybook ? 26 : 28;
+-                label.textWrappingMode=TextWrappingModes.Normal;
++                ElevatorTypography.Apply(label,complete?ElevatorTypography.NotebookButtonSize:button.name=="DialogueNext"?ElevatorTypography.NextSize:ElevatorTypography.ChoiceSize);
+                 if(complete)label.text = i==0 ? "?곕━媛 ?대궦 ?? : "?ㅼ떆 ?대낫湲?;
+-                float buttonHeight=complete?70:button.name=="DialogueNext"?72:Mathf.Max(88,label.GetPreferredValues(label.text,buttonWidth-(storybook?80:44),0).y+30);
++                float padding=buttonWidth<300?38:storybook?64:44;
++                float minimumHeight=complete?82:button.name=="DialogueNext"?84:104;
++                float buttonHeight=Mathf.Max(minimumHeight,label.GetPreferredValues(label.text,buttonWidth-padding,0).y+34);
+                 r.sizeDelta=new Vector2(buttonWidth,buttonHeight);
+                 r.anchoredPosition=complete?new Vector2((i-.5f)*227,0):new Vector2(0,-buttonY-buttonHeight*.5f);
+                 r.localPosition=new Vector3(r.localPosition.x,r.localPosition.y,-1);
+                 label.rectTransform.sizeDelta=r.sizeDelta-new Vector2(44,20);
+                 buttonY+=buttonHeight+18;
+             }
++            if(!complete)view.actionPanel.sizeDelta=new Vector2(width,Mathf.Max(0,buttonY-18));
+             view.actionPanel.anchoredPosition=complete?new Vector2(0,-216):new Vector2(0,-height*.5f-40);
+             if(storybook)storybook.LayoutWorld();
+             PrepareDialogueReader();
+@@ -321,18 +324,27 @@ namespace ProjectWait.M.Elevator
+             }
+             mission.anchorMin=mission.anchorMax=mission.pivot=new Vector2(0,1);
+             mission.gameObject.SetActive(!complete&&!descriptionsOnly);
+-            mission.sizeDelta=new Vector2(Mathf.Min(370,width-48),72);mission.anchoredPosition=new Vector2(24,-22);
+-            view.title.rectTransform.sizeDelta=new Vector2(mission.rect.width-32,20);view.title.rectTransform.anchoredPosition=new Vector2(0,20);
+-            view.subtitle.rectTransform.sizeDelta=new Vector2(mission.rect.width-32,36);view.subtitle.rectTransform.anchoredPosition=new Vector2(0,-10);
++            ElevatorTypography.Apply(view.title,ElevatorTypography.HeadingSize);
++            ElevatorTypography.Apply(view.subtitle,ElevatorTypography.ObjectiveSize);
++            float missionWidth=Mathf.Min(430,width-48);
++            float objectiveHeight=Mathf.Max(38,view.subtitle.GetPreferredValues(view.subtitle.text,missionWidth-40,0).y+8);
++            mission.sizeDelta=new Vector2(missionWidth,objectiveHeight+58);mission.anchoredPosition=new Vector2(24,-22);
++            view.title.rectTransform.sizeDelta=new Vector2(mission.rect.width-40,30);view.title.rectTransform.anchoredPosition=new Vector2(0,mission.rect.height*.5f-24);
++            view.subtitle.rectTransform.sizeDelta=new Vector2(mission.rect.width-40,objectiveHeight);view.subtitle.rectTransform.anchoredPosition=new Vector2(0,-19);
+             progress.rectTransform.anchorMin=progress.rectTransform.anchorMax=progress.rectTransform.pivot=new Vector2(1,1);
+-            progress.rectTransform.anchoredPosition=new Vector2(-24,-24);progress.rectTransform.sizeDelta=new Vector2(530,32);
+-            progress.fontSize=16;progress.gameObject.SetActive(!complete&&!descriptionsOnly&&camera.aspect>1.5f);
+-            if(progressBackdrop){progressBackdrop.anchorMin=progressBackdrop.anchorMax=progressBackdrop.pivot=Vector2.one;progressBackdrop.anchoredPosition=new Vector2(-14,-16);progressBackdrop.sizeDelta=new Vector2(550,48);progressBackdrop.gameObject.SetActive(progress.gameObject.activeSelf);}
++            ElevatorTypography.Apply(progress,ElevatorTypography.HintSize);
++            float progressWidth=progress.GetPreferredValues(progress.text,float.PositiveInfinity,float.PositiveInfinity).x+20;
++            progress.rectTransform.anchoredPosition=new Vector2(-24,-24);progress.rectTransform.sizeDelta=new Vector2(progressWidth,38);
++            progress.gameObject.SetActive(!complete&&!descriptionsOnly&&width>missionWidth+progressWidth+80);
++            if(progressBackdrop){progressBackdrop.anchorMin=progressBackdrop.anchorMax=progressBackdrop.pivot=Vector2.one;progressBackdrop.anchoredPosition=new Vector2(-14,-16);progressBackdrop.sizeDelta=new Vector2(progressWidth+20,54);progressBackdrop.gameObject.SetActive(progress.gameObject.activeSelf);}
+             controls.rectTransform.anchorMin=controls.rectTransform.anchorMax=new Vector2(.5f,0);
+-            controls.rectTransform.anchoredPosition=new Vector2(0,12);controls.rectTransform.sizeDelta=new Vector2(width-40,22);
++            ElevatorTypography.Apply(controls,ElevatorTypography.ControlsSize);
++            controls.text=width<850?"WASD ?대룞 쨌 留덉슦???섎윭蹂닿린\n以묒븰 議곗? ???대┃ 쨌 Esc ?쇱떆?뺤?":"WASD ?대룞  쨌  留덉슦?ㅻ줈 ?섎윭蹂닿린  쨌  以묒븰 議곗? ???대┃  쨌  Esc ?쇱떆?뺤?";
++            float controlsWidth=Mathf.Max(120,width-64);
++            float controlsHeight=Mathf.Max(32,controls.GetPreferredValues(controls.text,controlsWidth,0).y+6);
++            controls.rectTransform.anchoredPosition=new Vector2(0,12+controlsHeight*.5f);controls.rectTransform.sizeDelta=new Vector2(controlsWidth,controlsHeight);
+             controls.gameObject.SetActive(!xr&&!complete&&!descriptionsOnly);
+-            if(controlsBackdrop){controlsBackdrop.anchorMin=controlsBackdrop.anchorMax=new Vector2(.5f,0);controlsBackdrop.pivot=new Vector2(.5f,0);controlsBackdrop.anchoredPosition=new Vector2(0,6);controlsBackdrop.sizeDelta=new Vector2(Mathf.Min(800,width-40),32);controlsBackdrop.gameObject.SetActive(controls.gameObject.activeSelf);}
+-            controls.text="WASD ?대룞  쨌  留덉슦?ㅻ줈 ?섎윭蹂닿린  쨌  以묒븰 議곗? ???대┃  쨌  Esc ?쇱떆?뺤?";
++            if(controlsBackdrop){controlsBackdrop.anchorMin=controlsBackdrop.anchorMax=new Vector2(.5f,0);controlsBackdrop.pivot=new Vector2(.5f,0);controlsBackdrop.anchoredPosition=new Vector2(0,6);controlsBackdrop.sizeDelta=new Vector2(Mathf.Min(controlsWidth+20,controls.GetPreferredValues().x+32),controlsHeight+12);controlsBackdrop.gameObject.SetActive(controls.gameObject.activeSelf);}
+             float thoughtWidth=Mathf.Min(380,width-48);
+             float bodyWidth=thoughtWidth*.72f;
+             float bodyHeight=Mathf.Max(56,view.thought.GetPreferredValues(view.thought.text,bodyWidth,0).y);
+diff --git a/Assets/M/Scripts/Elevator/ElevatorStorybookUI.cs b/Assets/M/Scripts/Elevator/ElevatorStorybookUI.cs
+index 9fa7930..a213935 100644
+--- a/Assets/M/Scripts/Elevator/ElevatorStorybookUI.cs
++++ b/Assets/M/Scripts/Elevator/ElevatorStorybookUI.cs
+@@ -69,11 +69,8 @@ namespace ProjectWait.M.Elevator
+         static void Readable(TMP_Text text, Color color, float size, bool bold = false)
+         {
+             if (!text) return;
+-            text.color = color; text.fontSize = size;
+-            text.fontStyle = bold ? FontStyles.Bold : FontStyles.Normal;
+-            text.enableAutoSizing = false;
+-            text.textWrappingMode = TextWrappingModes.Normal;
+-            text.overflowMode = TextOverflowModes.Overflow;
++            text.color = color;
++            ElevatorTypography.Apply(text, size, bold);
+             text.lineSpacing = 5; text.extraPadding = true; text.raycastTarget = false;
+         }
+ 
+@@ -87,9 +84,10 @@ namespace ProjectWait.M.Elevator
+             Readable(view.dialogueText, Ink, ElevatorDialogueText.BodySize);
+             view.dialogueText.lineSpacing = 9;
+             view.dialogueText.alignment = TextAlignmentOptions.MidlineLeft;
+-            Readable(spatial.speaker, Ink, 24, true);
+-            Readable(view.thought, Ink, 23);
++            Readable(spatial.speaker, Ink, ElevatorTypography.SpeakerSize, true);
++            Readable(view.thought, Ink, ElevatorTypography.ThoughtSize, true);
+             Readable(spatial.thoughtHeading, Ink, 18, true);
++            ApplyGuidanceTypography();
+             foreach (var button in view.developerPanel.GetComponentsInChildren<UnityEngine.UI.Button>(true)) SkinButton(button);
+             foreach (var row in spatial.completionRows)
+             {
+@@ -98,6 +96,42 @@ namespace ProjectWait.M.Elevator
+             }
+         }
+ 
++        void ApplyGuidanceTypography()
++        {
++            var spatial = view.spatial;
++            Readable(view.title, Ink, ElevatorTypography.HeadingSize, true);
++            Readable(view.subtitle, Ink, ElevatorTypography.ObjectiveSize, true);
++            Readable(spatial.progress, Ink, ElevatorTypography.HintSize, true);
++            Readable(spatial.controls, Ink, ElevatorTypography.ControlsSize, true);
++            if (view.lesson && view.lesson.pauseMenu) SkinPause(view.lesson.pauseMenu);
++            if (!spatial.notebook) return;
++            foreach (var text in spatial.notebook.GetComponentsInChildren<TMP_Text>(true))
++            {
++                switch (text.name)
++                {
++                    case "NotebookTitle": Readable(text, Ink, 36, true); break;
++                    case "NotebookEyebrow":
++                        Readable(text, Ink, 20, true);
++                        text.rectTransform.sizeDelta = new Vector2(420, 34);
++                        break;
++                    case "StepLabel": Readable(text, Ink, 31, true); break;
++                    case "Done":
++                        Readable(text, Ink, 22, true);
++                        text.rectTransform.sizeDelta = new Vector2(120, 42);
++                        ((RectTransform)text.transform.parent).sizeDelta = new Vector2(128, 50);
++                        ((RectTransform)text.transform.parent).anchoredPosition = new Vector2(139, 0);
++                        break;
++                    case "NotebookFooter": Readable(text, Ink, 26, true); break;
++                    case "MemoryTitle": Readable(text, Ink, 28, true); break;
++                    case "MemoryDetail":
++                        Readable(text, Ink, 26, true);
++                        text.rectTransform.sizeDelta = new Vector2(426, 112);
++                        text.rectTransform.anchoredPosition = new Vector2(0, -116);
++                        break;
++                }
++            }
++        }
++
+         public void SkinButton(UnityEngine.UI.Button button)
+         {
+             if (!button) return;
+@@ -113,7 +147,9 @@ namespace ProjectWait.M.Elevator
+             colors.disabledColor = new Color(.58f, .60f, .56f, .8f); colors.fadeDuration = .10f;
+             button.colors = colors;
+             var label = button.GetComponentInChildren<TMP_Text>(true);
+-            Readable(label, primary ? Paper : Ink, 26, true);
++            bool developer = view && view.developerPanel && button.transform.IsChildOf(view.developerPanel);
++            float size = developer ? 26 : button.name == "DialogueNext" ? ElevatorTypography.NextSize : ElevatorTypography.ChoiceSize;
++            Readable(label, primary ? Paper : Ink, size, true);
+             var oldDepth = button.GetComponent<CorridorButtonDepth>();
+             if (oldDepth) oldDepth.enabled = false;
+             var legacyFeedback=button.GetComponent<StorybookButtonFeedback>();
+@@ -132,9 +168,9 @@ namespace ProjectWait.M.Elevator
+             bool call = spatial.speaker.text.Contains("愿由ъ떎") || spatial.speaker.text.Contains("119");
+             var tag = Artwork(spatial.speakerTab, call ? thoughtRibbon : speakerRibbon, false);
+             float tagWidth = Mathf.Clamp(spatial.speaker.GetPreferredValues().x + 54, 132, 292);
+-            spatial.speakerTab.sizeDelta = new Vector2(tagWidth, 49);
++            spatial.speakerTab.sizeDelta = new Vector2(tagWidth, 58);
+             spatial.speakerTab.anchoredPosition = new Vector2(-panel.rect.width * .5f + (friend ? 88 : 30) + tagWidth * .5f, panel.rect.height * .5f - 1);
+-            spatial.speaker.rectTransform.sizeDelta = new Vector2(tagWidth - 42, 36);
++            spatial.speaker.rectTransform.sizeDelta = new Vector2(tagWidth - 42, 46);
+             spatial.speaker.rectTransform.anchoredPosition = new Vector2(-3, 1);
+             var portrait = Decoration(panel, "FriendPortrait", friendPortrait, new Vector2(83, 83), new Vector2(-panel.rect.width * .5f + 47, panel.rect.height * .5f - 9));
+             if (portrait) portrait.gameObject.SetActive(friend);
+@@ -161,7 +197,7 @@ namespace ProjectWait.M.Elevator
+                 if (!button) continue;
+                 var label = button.GetComponentInChildren<TMP_Text>();
+                 var r = (RectTransform)button.transform;
+-                label.rectTransform.sizeDelta = r.sizeDelta - (r.rect.width < 300 ? new Vector2(38, 18) : new Vector2(80, 26));
++                label.rectTransform.sizeDelta = r.sizeDelta - (r.rect.width < 300 ? new Vector2(38, 18) : new Vector2(64, 26));
+                 label.rectTransform.anchoredPosition = Vector2.zero;
+                 var feedback = button.GetComponent<ElevatorSmoothButtonFeedback>();
+                 if (feedback) feedback.CaptureRest();
+@@ -179,7 +215,7 @@ namespace ProjectWait.M.Elevator
+             var spatial = view.spatial;
+             float width = observation ? 320 : 360;
+             float textWidth = width * (observation ? .76f : .68f);
+-            Readable(view.thought, Ink, 23);
++            Readable(view.thought, Ink, ElevatorTypography.ThoughtSize, true);
+             float body = Mathf.Max(56, view.thought.GetPreferredValues(view.thought.text, textWidth, 0).y + 10);
+             float height = observation ? Mathf.Max(178, body + 100) : Mathf.Max(254, (body + 82) / .69f);
+             panel.sizeDelta = new Vector2(width, height);
+@@ -215,10 +251,14 @@ namespace ProjectWait.M.Elevator
+                 if(child!=thoughtBubble)child.gameObject.SetActive(false);
+             var legacy=panel.GetComponent<CorridorBubbleGraphic>();if(legacy)legacy.enabled=false;
+             ElevatorThoughtHeaderPolicy.Hide(panel);
+-            bubbleThought.text = view.thought.text;
+-            bubbleThought.maxVisibleCharacters = int.MaxValue;
+             float width = panel.rect.width;
+             float scale = width / 520f;
++            // The shared prefab is scaled down in the HUD. Compensate locally so
++            // its visible type is 27pt, without editing the shared font or prefab.
++            bubbleThought.font = view.font;
++            Readable(bubbleThought, Ink, ElevatorTypography.ThoughtSize / scale, true);
++            bubbleThought.text = string.Join("\n", ElevatorDialogueText.Pages(bubbleThought, view.thought.text, 364));
++            bubbleThought.maxVisibleCharacters = int.MaxValue;
+             float body = Mathf.Max(110, bubbleThought.GetPreferredValues(bubbleThought.text, 364, 0).y + 12);
+             float height = Mathf.Max(300, body + 180);
+             thoughtBubble.anchorMin = thoughtBubble.anchorMax = thoughtBubble.pivot = Vector2.one * .5f;
+@@ -241,8 +281,14 @@ namespace ProjectWait.M.Elevator
+                 Artwork(graphic.rectTransform, dialogueFrame);
+             }
+             foreach (var button in pause.Buttons) SkinButton(button);
++            foreach (var button in pause.Buttons)
++                if (button) Readable(button.GetComponentInChildren<TMP_Text>(true), button == pause.resumeButton ? Paper : Ink, ElevatorTypography.PauseButtonSize, true);
+             foreach (var text in pause.canvas.GetComponentsInChildren<TMP_Text>(true))
+-                if (!text.GetComponentInParent<UnityEngine.UI.Button>(true)) text.color = Ink;
++                if (!text.GetComponentInParent<UnityEngine.UI.Button>(true))
++                {
++                    Readable(text, Ink, 40, true);
++                    text.rectTransform.sizeDelta = new Vector2(470, 66);
++                }
+         }
+ 
+         public void HighlightHistory(int selected)

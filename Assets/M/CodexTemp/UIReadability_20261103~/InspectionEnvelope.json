@@ -1,0 +1,30 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "d:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UIReadability_20261103~\\Inspect.cs"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 508,
+      "executeMs": 12,
+      "assemblyName": "PipelineRunScript_Inspect_b569561c3eea49d6b7109c1afe095541",
+      "success": true,
+      "result": {
+        "playing": false,
+        "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+        "dirty": false,
+        "count": 78
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

@@ -1,0 +1,37 @@
+﻿Elevator_Safety_Lesson/CinematicLetterbox/BottomLetterbox/CinematicSubtitle | 22.0 Normal | (1000.00, 64.00) | 
+Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep0/DoneBadge/Done | 19.0 Normal | (62.00, 36.00) | 완료
+Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep0/StepLabel | 29.0 Normal | (185.00, 50.00) | 도움 요청
+Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep1/DoneBadge/Done | 19.0 Normal | (62.00, 36.00) | 완료
+Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep1/StepLabel | 29.0 Normal | (185.00, 50.00) | 위치 전달
+Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep2/DoneBadge/Done | 19.0 Normal | (62.00, 36.00) | 완료
+Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep2/StepLabel | 29.0 Normal | (185.00, 50.00) | 함께 대기
+Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/NotebookEyebrow | 15.0 Normal | (420.00, 24.00) | 함께 쓴 안전 기록
+Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/NotebookFooter | 24.0 Normal | (416.00, 88.00) | 도움을 청하는 용기,
+함께 기다리는 마음을 기억해요.
+Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/NotebookTitle | 32.0 Normal | (426.00, 64.00) | 우리 둘이 해냈어!
+Elevator_Safety_Lesson/Completion_3D_Notebook/RightLeaf/PageSurface/MemoryDetail | 22.0 Normal | (426.00, 84.00) | 도움을 요청하고, 위치를 알리고,
+친구와 함께 안내를 기다렸어요.
+Elevator_Safety_Lesson/Completion_3D_Notebook/RightLeaf/PageSurface/PictureCaption/MemoryTitle | 24.0 Normal | (402.00, 44.00) | 함께 안전하게 기다렸어요.
+Elevator_Safety_Lesson/Elevator_Screen_Thoughts/Chapter/Objective | 21.0 Normal | (338.00, 36.00) | 농구를 마치고, 친구 집으로
+Elevator_Safety_Lesson/Elevator_Screen_Thoughts/Chapter/StoryTitle | 13.0 Normal | (338.00, 20.00) | 멈춰도 함께, 안전하게
+Elevator_Safety_Lesson/Elevator_Screen_Thoughts/Controls | 13.0 Normal | (1240.00, 22.00) | 클릭 / 숫자로 선택    ·    우클릭으로 둘러보기    ·    R 다시 시작
+Elevator_Safety_Lesson/Elevator_Screen_Thoughts/PlayerThought/Thought | 23.0 Normal | (244.80, 56.00) | 
+Elevator_Safety_Lesson/Elevator_Screen_Thoughts/PlayerThought/ThoughtHeading | 18.0 Bold | (140.00, 32.00) | 
+Elevator_Safety_Lesson/Elevator_Screen_Thoughts/TeamProgress | 16.0 Normal | (530.00, 32.00) | 
+Elevator_Safety_Lesson/ElevatorPauseCanvas/PauseCard/Heading | 36.0 Normal | (470.00, 55.00) | 일시 정지
+Elevator_Safety_Lesson/ElevatorPauseCanvas/PauseCard/Quit/Label | 26.0 Bold | (420.00, 62.00) | 게임 종료하기
+Elevator_Safety_Lesson/ElevatorPauseCanvas/PauseCard/Restart/Label | 26.0 Bold | (420.00, 62.00) | 처음부터 다시하기
+Elevator_Safety_Lesson/ElevatorPauseCanvas/PauseCard/Resume/Label | 26.0 Bold | (420.00, 62.00) | 게임 재개
+Elevator_Safety_Lesson/ElevatorPauseCanvas/PauseCard/Title/Label | 26.0 Bold | (420.00, 62.00) | 타이틀로 돌아가기
+Elevator_World_Dialogue/DeveloperPanel/DevTitle | 20.0 Normal | (740.00, 36.00) | 개발 도구 · F8 닫기
+Elevator_World_Dialogue/DeveloperPanel/NoResponse/Label | 26.0 Bold | (428.00, 40.00) | 비상통화 응답 / 무응답
+Elevator_World_Dialogue/DeveloperPanel/Stage0/Label | 26.0 Bold | (138.00, 40.00) | 로비
+Elevator_World_Dialogue/DeveloperPanel/Stage1/Label | 26.0 Bold | (138.00, 40.00) | 공 받기
+Elevator_World_Dialogue/DeveloperPanel/Stage2/Label | 26.0 Bold | (138.00, 40.00) | 슛 재현
+Elevator_World_Dialogue/DeveloperPanel/Stage3/Label | 26.0 Bold | (138.00, 40.00) | 정지
+Elevator_World_Dialogue/DeveloperPanel/Stage4/Label | 26.0 Bold | (138.00, 40.00) | 통화
+Elevator_World_Dialogue/DeveloperPanel/Stage5/Label | 26.0 Bold | (138.00, 40.00) | 함께 대기
+Elevator_World_Dialogue/DeveloperPanel/Stage6/Label | 26.0 Bold | (138.00, 40.00) | 구조 안내
+Elevator_World_Dialogue/StoryCard/Dialogue | 29.0 Normal | (418.00, 103.44) | 아까 내 슛 봤어?
+처음으로 그렇게 멀리서 넣었어!
+Elevator_World_Dialogue/StoryCard/SpeakerTab/Speaker | 24.0 Bold | (90.00, 36.00) | 친구

@@ -1,0 +1,27 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "d:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UIReadability_20261103~\\InspectSigns.cs"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 133,
+      "executeMs": 270,
+      "assemblyName": "PipelineRunScript_InspectSigns_b49ee96ad1a24c4fa2b7ddaf44a103f3",
+      "success": true,
+      "result": {
+        "count": 137
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

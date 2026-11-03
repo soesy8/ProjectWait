@@ -1,0 +1,49 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "d:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UIReadability_20261103~\\ValidateSaved.cs"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 159,
+      "executeMs": 1144,
+      "assemblyName": "PipelineRunScript_ValidateSaved_8cc8e930bce746078803f98a024c6b15",
+      "success": true,
+      "result": {
+        "success": true,
+        "scenes": [
+          {
+            "success": true,
+            "path": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+            "labels": 88,
+            "fonts": true,
+            "missingScripts": 0,
+            "prefab": "Assets/M/Prefabs/ElevatorUI/ReadableSignage.prefab",
+            "dirty": false,
+            "shaderErrors": 0
+          },
+          {
+            "success": true,
+            "path": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+            "labels": 88,
+            "fonts": true,
+            "missingScripts": 0,
+            "prefab": "Assets/M/Prefabs/ElevatorUI/ReadableSignage.prefab",
+            "dirty": false,
+            "shaderErrors": 0
+          }
+        ]
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

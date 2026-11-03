@@ -69,11 +69,8 @@ namespace ProjectWait.M.Elevator
         static void Readable(TMP_Text text, Color color, float size, bool bold = false)
         {
             if (!text) return;
-            text.color = color; text.fontSize = size;
-            text.fontStyle = bold ? FontStyles.Bold : FontStyles.Normal;
-            text.enableAutoSizing = false;
-            text.textWrappingMode = TextWrappingModes.Normal;
-            text.overflowMode = TextOverflowModes.Overflow;
+            text.color = color;
+            ElevatorTypography.Apply(text, size, bold);
             text.lineSpacing = 5; text.extraPadding = true; text.raycastTarget = false;
         }
 
@@ -87,14 +84,51 @@ namespace ProjectWait.M.Elevator
             Readable(view.dialogueText, Ink, ElevatorDialogueText.BodySize);
             view.dialogueText.lineSpacing = 9;
             view.dialogueText.alignment = TextAlignmentOptions.MidlineLeft;
-            Readable(spatial.speaker, Ink, 24, true);
-            Readable(view.thought, Ink, 23);
+            Readable(spatial.speaker, Ink, ElevatorTypography.SpeakerSize, true);
+            Readable(view.thought, Ink, ElevatorTypography.ThoughtSize, true);
             Readable(spatial.thoughtHeading, Ink, 18, true);
+            ApplyGuidanceTypography();
             foreach (var button in view.developerPanel.GetComponentsInChildren<UnityEngine.UI.Button>(true)) SkinButton(button);
             foreach (var row in spatial.completionRows)
             {
                 Artwork(row, secondaryButton);
                 foreach (var text in row.GetComponentsInChildren<TMP_Text>(true)) text.color = Ink;
+            }
+        }
+
+        void ApplyGuidanceTypography()
+        {
+            var spatial = view.spatial;
+            Readable(view.title, Ink, ElevatorTypography.HeadingSize, true);
+            Readable(view.subtitle, Ink, ElevatorTypography.ObjectiveSize, true);
+            Readable(spatial.progress, Ink, ElevatorTypography.HintSize, true);
+            Readable(spatial.controls, Ink, ElevatorTypography.ControlsSize, true);
+            if (view.lesson && view.lesson.pauseMenu) SkinPause(view.lesson.pauseMenu);
+            if (!spatial.notebook) return;
+            foreach (var text in spatial.notebook.GetComponentsInChildren<TMP_Text>(true))
+            {
+                switch (text.name)
+                {
+                    case "NotebookTitle": Readable(text, Ink, 36, true); break;
+                    case "NotebookEyebrow":
+                        Readable(text, Ink, 20, true);
+                        text.rectTransform.sizeDelta = new Vector2(420, 34);
+                        break;
+                    case "StepLabel": Readable(text, Ink, 31, true); break;
+                    case "Done":
+                        Readable(text, Ink, 22, true);
+                        text.rectTransform.sizeDelta = new Vector2(120, 42);
+                        ((RectTransform)text.transform.parent).sizeDelta = new Vector2(128, 50);
+                        ((RectTransform)text.transform.parent).anchoredPosition = new Vector2(139, 0);
+                        break;
+                    case "NotebookFooter": Readable(text, Ink, 26, true); break;
+                    case "MemoryTitle": Readable(text, Ink, 28, true); break;
+                    case "MemoryDetail":
+                        Readable(text, Ink, 26, true);
+                        text.rectTransform.sizeDelta = new Vector2(426, 112);
+                        text.rectTransform.anchoredPosition = new Vector2(0, -116);
+                        break;
+                }
             }
         }
 
@@ -113,7 +147,9 @@ namespace ProjectWait.M.Elevator
             colors.disabledColor = new Color(.58f, .60f, .56f, .8f); colors.fadeDuration = .10f;
             button.colors = colors;
             var label = button.GetComponentInChildren<TMP_Text>(true);
-            Readable(label, primary ? Paper : Ink, 26, true);
+            bool developer = view && view.developerPanel && button.transform.IsChildOf(view.developerPanel);
+            float size = developer ? 26 : button.name == "DialogueNext" ? ElevatorTypography.NextSize : ElevatorTypography.ChoiceSize;
+            Readable(label, primary ? Paper : Ink, size, true);
             var oldDepth = button.GetComponent<CorridorButtonDepth>();
             if (oldDepth) oldDepth.enabled = false;
             var legacyFeedback=button.GetComponent<StorybookButtonFeedback>();
@@ -132,9 +168,9 @@ namespace ProjectWait.M.Elevator
             bool call = spatial.speaker.text.Contains("관리실") || spatial.speaker.text.Contains("119");
             var tag = Artwork(spatial.speakerTab, call ? thoughtRibbon : speakerRibbon, false);
             float tagWidth = Mathf.Clamp(spatial.speaker.GetPreferredValues().x + 54, 132, 292);
-            spatial.speakerTab.sizeDelta = new Vector2(tagWidth, 49);
+            spatial.speakerTab.sizeDelta = new Vector2(tagWidth, 58);
             spatial.speakerTab.anchoredPosition = new Vector2(-panel.rect.width * .5f + (friend ? 88 : 30) + tagWidth * .5f, panel.rect.height * .5f - 1);
-            spatial.speaker.rectTransform.sizeDelta = new Vector2(tagWidth - 42, 36);
+            spatial.speaker.rectTransform.sizeDelta = new Vector2(tagWidth - 42, 46);
             spatial.speaker.rectTransform.anchoredPosition = new Vector2(-3, 1);
             var portrait = Decoration(panel, "FriendPortrait", friendPortrait, new Vector2(83, 83), new Vector2(-panel.rect.width * .5f + 47, panel.rect.height * .5f - 9));
             if (portrait) portrait.gameObject.SetActive(friend);
@@ -161,7 +197,7 @@ namespace ProjectWait.M.Elevator
                 if (!button) continue;
                 var label = button.GetComponentInChildren<TMP_Text>();
                 var r = (RectTransform)button.transform;
-                label.rectTransform.sizeDelta = r.sizeDelta - (r.rect.width < 300 ? new Vector2(38, 18) : new Vector2(80, 26));
+                label.rectTransform.sizeDelta = r.sizeDelta - (r.rect.width < 300 ? new Vector2(38, 18) : new Vector2(64, 26));
                 label.rectTransform.anchoredPosition = Vector2.zero;
                 var feedback = button.GetComponent<ElevatorSmoothButtonFeedback>();
                 if (feedback) feedback.CaptureRest();
@@ -179,7 +215,7 @@ namespace ProjectWait.M.Elevator
             var spatial = view.spatial;
             float width = observation ? 320 : 360;
             float textWidth = width * (observation ? .76f : .68f);
-            Readable(view.thought, Ink, 23);
+            Readable(view.thought, Ink, ElevatorTypography.ThoughtSize, true);
             float body = Mathf.Max(56, view.thought.GetPreferredValues(view.thought.text, textWidth, 0).y + 10);
             float height = observation ? Mathf.Max(178, body + 100) : Mathf.Max(254, (body + 82) / .69f);
             panel.sizeDelta = new Vector2(width, height);
@@ -215,10 +251,14 @@ namespace ProjectWait.M.Elevator
                 if(child!=thoughtBubble)child.gameObject.SetActive(false);
             var legacy=panel.GetComponent<CorridorBubbleGraphic>();if(legacy)legacy.enabled=false;
             ElevatorThoughtHeaderPolicy.Hide(panel);
-            bubbleThought.text = view.thought.text;
-            bubbleThought.maxVisibleCharacters = int.MaxValue;
             float width = panel.rect.width;
             float scale = width / 520f;
+            // The shared prefab is scaled down in the HUD. Compensate locally so
+            // its visible type is 27pt, without editing the shared font or prefab.
+            bubbleThought.font = view.font;
+            Readable(bubbleThought, Ink, ElevatorTypography.ThoughtSize / scale, true);
+            bubbleThought.text = string.Join("\n", ElevatorDialogueText.Pages(bubbleThought, view.thought.text, 364));
+            bubbleThought.maxVisibleCharacters = int.MaxValue;
             float body = Mathf.Max(110, bubbleThought.GetPreferredValues(bubbleThought.text, 364, 0).y + 12);
             float height = Mathf.Max(300, body + 180);
             thoughtBubble.anchorMin = thoughtBubble.anchorMax = thoughtBubble.pivot = Vector2.one * .5f;
@@ -241,8 +281,14 @@ namespace ProjectWait.M.Elevator
                 Artwork(graphic.rectTransform, dialogueFrame);
             }
             foreach (var button in pause.Buttons) SkinButton(button);
+            foreach (var button in pause.Buttons)
+                if (button) Readable(button.GetComponentInChildren<TMP_Text>(true), button == pause.resumeButton ? Paper : Ink, ElevatorTypography.PauseButtonSize, true);
             foreach (var text in pause.canvas.GetComponentsInChildren<TMP_Text>(true))
-                if (!text.GetComponentInParent<UnityEngine.UI.Button>(true)) text.color = Ink;
+                if (!text.GetComponentInParent<UnityEngine.UI.Button>(true))
+                {
+                    Readable(text, Ink, 40, true);
+                    text.rectTransform.sizeDelta = new Vector2(470, 66);
+                }
         }
 
         public void HighlightHistory(int selected)

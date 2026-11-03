@@ -23,7 +23,7 @@ namespace ProjectWait.M.Elevator
             var canvas=GetComponent<Canvas>();if(!canvas)canvas=gameObject.AddComponent<Canvas>();canvas.renderMode=RenderMode.WorldSpace;canvas.worldCamera=playerCamera;canvas.sortingOrder=100;
             top=Panel("TopLetterbox");bottom=Panel("BottomLetterbox");fade=Panel("XRComfortFade");
             var rect=(RectTransform)new GameObject("CinematicSubtitle",typeof(RectTransform)).transform;rect.SetParent(bottom,false);rect.sizeDelta=new Vector2(1000,64);rect.localPosition=Vector3.back;
-            caption=rect.gameObject.AddComponent<TextMeshProUGUI>();caption.font=font;caption.fontSize=22;caption.color=Color.white;caption.alignment=TextAlignmentOptions.Center;caption.raycastTarget=false;caption.textWrappingMode=TextWrappingModes.Normal;caption.overflowMode=TextOverflowModes.Truncate;
+            caption=rect.gameObject.AddComponent<TextMeshProUGUI>();caption.font=font;ElevatorTypography.Apply(caption,ElevatorTypography.CaptionSize);caption.color=Color.white;caption.alignment=TextAlignmentOptions.Center;
             if(captionMaterial)caption.fontSharedMaterial=captionMaterial;
             top.gameObject.SetActive(false);bottom.gameObject.SetActive(false);fade.gameObject.SetActive(false);
         }
@@ -65,7 +65,8 @@ namespace ProjectWait.M.Elevator
             var root=(RectTransform)transform;float width=720*playerCamera.aspect;root.sizeDelta=new Vector2(width,720);
             top.sizeDelta=bottom.sizeDelta=new Vector2(width+20,82);float slide=Mathf.SmoothStep(0,1,Amount)*82;
             top.anchoredPosition=new Vector2(0,401-slide);bottom.anchoredPosition=new Vector2(0,-401+slide);
-            fade.sizeDelta=new Vector2(width+20,740);caption.rectTransform.sizeDelta=new Vector2(Mathf.Min(1000,width-48),66);
+            ElevatorTypography.Apply(caption,ElevatorTypography.CaptionSize);
+            fade.sizeDelta=new Vector2(width+20,740);caption.rectTransform.sizeDelta=new Vector2(Mathf.Min(1100,width-48),74);
         }
     }
 }

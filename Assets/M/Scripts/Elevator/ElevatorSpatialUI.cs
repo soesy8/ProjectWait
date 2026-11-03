@@ -176,9 +176,10 @@ namespace ProjectWait.M.Elevator
             {
                 var r=(RectTransform)new GameObject("ReadingStatus",typeof(RectTransform)).transform;r.SetParent(view.dialoguePanel,false);
                 r.anchorMin=r.anchorMax=r.pivot=Vector2.one*.5f;
-                readingStatus=r.gameObject.AddComponent<TextMeshProUGUI>();readingStatus.font=view.font;readingStatus.fontSize=16;readingStatus.color=Ink;readingStatus.raycastTarget=false;readingStatus.alignment=TextAlignmentOptions.MidlineRight;
+                readingStatus=r.gameObject.AddComponent<TextMeshProUGUI>();readingStatus.font=view.font;readingStatus.color=Ink;readingStatus.alignment=TextAlignmentOptions.MidlineRight;
             }
-            readingStatus.rectTransform.sizeDelta=new Vector2(view.dialoguePanel.rect.width-100,24);
+            ElevatorTypography.Apply(readingStatus,ElevatorTypography.HintSize);
+            readingStatus.rectTransform.sizeDelta=new Vector2(view.dialoguePanel.rect.width-100,34);
             readingStatus.rectTransform.anchoredPosition=new Vector2(0,-view.dialoguePanel.rect.height*.5f+25);
             UpdateDialogueReveal();
         }
@@ -192,8 +193,7 @@ namespace ProjectWait.M.Elevator
             var label = button.GetComponentInChildren<TMP_Text>();
             label.text = label.text.TrimStart('1','2','3','4',' ');
             label.text = label.text.Replace("요. ","요.\n");
-            label.color = Paper; label.fontSize = 28;
-            label.fontStyle = FontStyles.Normal;
+            label.color = Paper; ElevatorTypography.Apply(label,ElevatorTypography.ChoiceSize);
             if(storybook)storybook.SkinButton(button);
         }
 
@@ -268,7 +268,8 @@ namespace ProjectWait.M.Elevator
             view.dialoguePanel.anchoredPosition = Vector2.zero;
             view.dialogueText.rectTransform.sizeDelta = new Vector2(width-56,body);
             view.dialogueText.rectTransform.anchoredPosition = new Vector2(0,-12);
-            speakerTab.sizeDelta = new Vector2(Mathf.Clamp(speaker.GetPreferredValues().x+44,116,300),46);
+            ElevatorTypography.Apply(speaker,ElevatorTypography.SpeakerSize);
+            speakerTab.sizeDelta = new Vector2(Mathf.Clamp(speaker.GetPreferredValues().x+56,132,360),54);
             speakerTab.anchoredPosition = new Vector2(-width*.5f+speakerTab.rect.width*.5f+24,height*.5f+5);
             speaker.rectTransform.sizeDelta = speakerTab.sizeDelta-new Vector2(22,4);
             speaker.rectTransform.anchoredPosition = Vector2.zero;
@@ -281,16 +282,18 @@ namespace ProjectWait.M.Elevator
                 float buttonWidth = complete ? 211 : button.name=="DialogueNext"?190:width;
                 var r = (RectTransform)button.transform;
                 var label = button.GetComponentInChildren<TMP_Text>();
-                label.fontSize = complete ? 21 : storybook ? 26 : 28;
-                label.textWrappingMode=TextWrappingModes.Normal;
+                ElevatorTypography.Apply(label,complete?ElevatorTypography.NotebookButtonSize:button.name=="DialogueNext"?ElevatorTypography.NextSize:ElevatorTypography.ChoiceSize);
                 if(complete)label.text = i==0 ? "우리가 해낸 일" : "다시 해보기";
-                float buttonHeight=complete?70:button.name=="DialogueNext"?72:Mathf.Max(88,label.GetPreferredValues(label.text,buttonWidth-(storybook?80:44),0).y+30);
+                float padding=buttonWidth<300?38:storybook?64:44;
+                float minimumHeight=complete?82:button.name=="DialogueNext"?84:104;
+                float buttonHeight=Mathf.Max(minimumHeight,label.GetPreferredValues(label.text,buttonWidth-padding,0).y+34);
                 r.sizeDelta=new Vector2(buttonWidth,buttonHeight);
                 r.anchoredPosition=complete?new Vector2((i-.5f)*227,0):new Vector2(0,-buttonY-buttonHeight*.5f);
                 r.localPosition=new Vector3(r.localPosition.x,r.localPosition.y,-1);
                 label.rectTransform.sizeDelta=r.sizeDelta-new Vector2(44,20);
                 buttonY+=buttonHeight+18;
             }
+            if(!complete)view.actionPanel.sizeDelta=new Vector2(width,Mathf.Max(0,buttonY-18));
             view.actionPanel.anchoredPosition=complete?new Vector2(0,-216):new Vector2(0,-height*.5f-40);
             if(storybook)storybook.LayoutWorld();
             PrepareDialogueReader();
@@ -321,18 +324,27 @@ namespace ProjectWait.M.Elevator
             }
             mission.anchorMin=mission.anchorMax=mission.pivot=new Vector2(0,1);
             mission.gameObject.SetActive(!complete&&!descriptionsOnly);
-            mission.sizeDelta=new Vector2(Mathf.Min(370,width-48),72);mission.anchoredPosition=new Vector2(24,-22);
-            view.title.rectTransform.sizeDelta=new Vector2(mission.rect.width-32,20);view.title.rectTransform.anchoredPosition=new Vector2(0,20);
-            view.subtitle.rectTransform.sizeDelta=new Vector2(mission.rect.width-32,36);view.subtitle.rectTransform.anchoredPosition=new Vector2(0,-10);
+            ElevatorTypography.Apply(view.title,ElevatorTypography.HeadingSize);
+            ElevatorTypography.Apply(view.subtitle,ElevatorTypography.ObjectiveSize);
+            float missionWidth=Mathf.Min(430,width-48);
+            float objectiveHeight=Mathf.Max(38,view.subtitle.GetPreferredValues(view.subtitle.text,missionWidth-40,0).y+8);
+            mission.sizeDelta=new Vector2(missionWidth,objectiveHeight+58);mission.anchoredPosition=new Vector2(24,-22);
+            view.title.rectTransform.sizeDelta=new Vector2(mission.rect.width-40,30);view.title.rectTransform.anchoredPosition=new Vector2(0,mission.rect.height*.5f-24);
+            view.subtitle.rectTransform.sizeDelta=new Vector2(mission.rect.width-40,objectiveHeight);view.subtitle.rectTransform.anchoredPosition=new Vector2(0,-19);
             progress.rectTransform.anchorMin=progress.rectTransform.anchorMax=progress.rectTransform.pivot=new Vector2(1,1);
-            progress.rectTransform.anchoredPosition=new Vector2(-24,-24);progress.rectTransform.sizeDelta=new Vector2(530,32);
-            progress.fontSize=16;progress.gameObject.SetActive(!complete&&!descriptionsOnly&&camera.aspect>1.5f);
-            if(progressBackdrop){progressBackdrop.anchorMin=progressBackdrop.anchorMax=progressBackdrop.pivot=Vector2.one;progressBackdrop.anchoredPosition=new Vector2(-14,-16);progressBackdrop.sizeDelta=new Vector2(550,48);progressBackdrop.gameObject.SetActive(progress.gameObject.activeSelf);}
+            ElevatorTypography.Apply(progress,ElevatorTypography.HintSize);
+            float progressWidth=progress.GetPreferredValues(progress.text,float.PositiveInfinity,float.PositiveInfinity).x+20;
+            progress.rectTransform.anchoredPosition=new Vector2(-24,-24);progress.rectTransform.sizeDelta=new Vector2(progressWidth,38);
+            progress.gameObject.SetActive(!complete&&!descriptionsOnly&&width>missionWidth+progressWidth+80);
+            if(progressBackdrop){progressBackdrop.anchorMin=progressBackdrop.anchorMax=progressBackdrop.pivot=Vector2.one;progressBackdrop.anchoredPosition=new Vector2(-14,-16);progressBackdrop.sizeDelta=new Vector2(progressWidth+20,54);progressBackdrop.gameObject.SetActive(progress.gameObject.activeSelf);}
             controls.rectTransform.anchorMin=controls.rectTransform.anchorMax=new Vector2(.5f,0);
-            controls.rectTransform.anchoredPosition=new Vector2(0,12);controls.rectTransform.sizeDelta=new Vector2(width-40,22);
+            ElevatorTypography.Apply(controls,ElevatorTypography.ControlsSize);
+            controls.text=width<850?"WASD 이동 · 마우스 둘러보기\n중앙 조준 후 클릭 · Esc 일시정지":"WASD 이동  ·  마우스로 둘러보기  ·  중앙 조준 후 클릭  ·  Esc 일시정지";
+            float controlsWidth=Mathf.Max(120,width-64);
+            float controlsHeight=Mathf.Max(32,controls.GetPreferredValues(controls.text,controlsWidth,0).y+6);
+            controls.rectTransform.anchoredPosition=new Vector2(0,12+controlsHeight*.5f);controls.rectTransform.sizeDelta=new Vector2(controlsWidth,controlsHeight);
             controls.gameObject.SetActive(!xr&&!complete&&!descriptionsOnly);
-            if(controlsBackdrop){controlsBackdrop.anchorMin=controlsBackdrop.anchorMax=new Vector2(.5f,0);controlsBackdrop.pivot=new Vector2(.5f,0);controlsBackdrop.anchoredPosition=new Vector2(0,6);controlsBackdrop.sizeDelta=new Vector2(Mathf.Min(800,width-40),32);controlsBackdrop.gameObject.SetActive(controls.gameObject.activeSelf);}
-            controls.text="WASD 이동  ·  마우스로 둘러보기  ·  중앙 조준 후 클릭  ·  Esc 일시정지";
+            if(controlsBackdrop){controlsBackdrop.anchorMin=controlsBackdrop.anchorMax=new Vector2(.5f,0);controlsBackdrop.pivot=new Vector2(.5f,0);controlsBackdrop.anchoredPosition=new Vector2(0,6);controlsBackdrop.sizeDelta=new Vector2(Mathf.Min(controlsWidth+20,controls.GetPreferredValues().x+32),controlsHeight+12);controlsBackdrop.gameObject.SetActive(controls.gameObject.activeSelf);}
             float thoughtWidth=Mathf.Min(380,width-48);
             float bodyWidth=thoughtWidth*.72f;
             float bodyHeight=Mathf.Max(56,view.thought.GetPreferredValues(view.thought.text,bodyWidth,0).y);

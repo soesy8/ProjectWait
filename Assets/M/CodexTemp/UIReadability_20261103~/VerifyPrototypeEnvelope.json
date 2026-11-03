@@ -1,0 +1,30 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "d:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UIReadability_20261103~\\Verify.cs"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 1798,
+      "executeMs": 2852,
+      "assemblyName": "PipelineRunScript_Verify_b2e6847be9b544718f3ea3592e750da7",
+      "success": true,
+      "result": {
+        "success": true,
+        "count": 575,
+        "failed": 0,
+        "error": null
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

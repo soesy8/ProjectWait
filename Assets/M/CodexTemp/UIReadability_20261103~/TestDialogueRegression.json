@@ -1,0 +1,1078 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "d:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\UIReadability_20261103~\\DialogueRegression.cs"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 169,
+      "executeMs": 863,
+      "assemblyName": "PipelineRunScript_DialogueRegression_4e13256b1072432a92db489945699c6d",
+      "success": true,
+      "result": {
+        "success": true,
+        "scene": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity",
+        "checks": [
+          {
+            "name": "Lobby: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Lobby: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Lobby: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Lobby: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Lobby: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Ordinary speech begins with a typewriter reveal",
+            "passed": true
+          },
+          {
+            "name": "Refreshing the same sentence never restarts typing",
+            "passed": true
+          },
+          {
+            "name": "First dialogue click reveals all text without progressing story",
+            "passed": true
+          },
+          {
+            "name": "Finished dialogue no longer intercepts object selection",
+            "passed": true
+          },
+          {
+            "name": "Completed reveal survives identical refresh",
+            "passed": true
+          },
+          {
+            "name": "Entering: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Entering: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Entering: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Entering: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Entering: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Entering: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Entering: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Cinematic gameplay lock still prevents reading-click progression",
+            "passed": true
+          },
+          {
+            "name": "Boarding destination: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Boarding destination: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Boarding destination: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Boarding destination: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Boarding destination: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Ball handoff: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Ball handoff: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Ball handoff: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Ball handoff: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Ball handoff: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Proposal: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Proposal: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Proposal: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Proposal: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Proposal: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Proposal inspection: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Proposal inspection: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Proposal inspection: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Proposal inspection: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Proposal inspection: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Jump: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Jump: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Jump: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Jump: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Jump: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Jump: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Jump: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Stopped reaction: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Stopped reaction: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Stopped reaction: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Stopped reaction: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Stopped reaction: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Stopped reaction: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Stopped reaction: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Stopped investigation: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Stopped investigation: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Stopped investigation: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Stopped investigation: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Stopped investigation: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Stopped hint: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Stopped hint: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Stopped hint: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Stopped hint: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Stopped hint: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Hint-only flow revision preserves already-read friend speech",
+            "passed": true
+          },
+          {
+            "name": "Connecting: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Connecting: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Connecting: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Connecting: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Connecting: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Connecting: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Connecting: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Manager connected: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Manager connected: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Manager connected: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Manager connected: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Manager connected: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Manager connected: choice DialogueNext fits",
+            "passed": true
+          },
+          {
+            "name": "Manager connected: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Manager connected: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Manager requests identity: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Manager requests identity: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Manager requests identity: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Manager requests identity: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Manager requests identity: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Manager requests identity: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Manager requests identity: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Search hint changes do not restart management speech",
+            "passed": true
+          },
+          {
+            "name": "Identity found: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Identity found: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Identity found: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Identity found: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Identity found: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Identity found: choice DialogueNext fits",
+            "passed": true
+          },
+          {
+            "name": "Identity found: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Identity found: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Waiting instructions: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Waiting instructions: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Waiting instructions: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Waiting instructions: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Waiting instructions: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Waiting instructions: choice DialogueNext fits",
+            "passed": true
+          },
+          {
+            "name": "Waiting instructions: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Waiting instructions: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Friend reassurance: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Friend reassurance: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Friend reassurance: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Friend reassurance: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Friend reassurance: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Waiting fade: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Waiting fade: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Waiting fade: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Waiting fade: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Waiting fade: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Waiting fade: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Waiting fade: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Rescuer checking: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Rescuer checking: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Rescuer checking: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Rescuer checking: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Rescuer checking: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Rescuer checking: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Rescuer checking: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Rescuer ready: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Rescuer ready: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Rescuer ready: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Rescuer ready: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Rescuer ready: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Exit: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Exit: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Exit: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Exit: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Exit: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Exit: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Exit: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Stair advice: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Stair advice: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Stair advice: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Stair advice: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Stair advice: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Stairs: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Stairs: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Stairs: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Stairs: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Stairs: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Stairs: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Stairs: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Ground floor: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Ground floor: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Ground floor: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Ground floor: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Ground floor: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Going home: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Going home: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Going home: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Going home: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Going home: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Going home: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Going home: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Completion: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Completion: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Completion: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Completion: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Completion: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "No answer: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "No answer: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "No answer: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "No answer: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "No answer: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "119 simulation: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "119 simulation: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "119 simulation: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "119 simulation: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "119 simulation: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "119 simulation: choice DialogueNext fits",
+            "passed": true
+          },
+          {
+            "name": "119 simulation: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "119 simulation: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Safety retry: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Safety retry: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Safety retry: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Safety retry: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Safety retry: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Long speech first page: stable 35pt body without auto-shrink",
+            "passed": true
+          },
+          {
+            "name": "Long speech first page: left alignment and readable leading",
+            "passed": true
+          },
+          {
+            "name": "Long speech first page: expanded panel and stable minimum height",
+            "passed": true
+          },
+          {
+            "name": "Long speech first page: current page stays within three readable lines",
+            "passed": true
+          },
+          {
+            "name": "Long speech first page: explicit Korean word wrapping fits body width",
+            "passed": true
+          },
+          {
+            "name": "Long speech first page: choice DialogueNext fits",
+            "passed": true
+          },
+          {
+            "name": "Long speech first page: critical speech is immediately readable",
+            "passed": true
+          },
+          {
+            "name": "Long speech first page: automatic/critical speech fits on a single page",
+            "passed": true
+          },
+          {
+            "name": "Long dialogue becomes multiple pages at full font size",
+            "passed": true
+          },
+          {
+            "name": "Dialogue choice reads next page before executing its action",
+            "passed": true
+          },
+          {
+            "name": "Refreshing long content preserves current page",
+            "passed": true
+          },
+          {
+            "name": "Action executes after final dialogue page is read",
+            "passed": true
+          },
+          {
+            "name": "Korean wrapping avoids orphaned word endings",
+            "passed": true
+          },
+          {
+            "name": "Observation bubble avoids projected dialogue panel",
+            "passed": true
+          },
+          {
+            "name": "Observation heading/ribbon remain removed",
+            "passed": true
+          },
+          {
+            "name": "Readability layout never repositions player or speech anchor",
+            "passed": true
+          },
+          {
+            "name": "Expanded dialogue remains clear of friend's face selection ray",
+            "passed": true
+          },
+          {
+            "name": "Distant dialogue scale is bounded and never shrinks text",
+            "passed": true
+          },
+          {
+            "name": "Aspect 1.78 preserves body font and fit",
+            "passed": true
+          },
+          {
+            "name": "Aspect 1.33 preserves body font and fit",
+            "passed": true
+          },
+          {
+            "name": "Aspect 0.56 preserves body font and fit",
+            "passed": true
+          },
+          {
+            "name": "Flat opaque cream reading area retains frame but removes text-background shading",
+            "passed": true
+          },
+          {
+            "name": "Repeated reflow always keeps reading paper behind text",
+            "passed": true
+          }
+        ],
+        "samples": [
+          {
+            "name": "Lobby",
+            "text": "1痢듭쑝濡??대젮媛??\n?꾨옒履??몄텧 踰꾪듉???뚮윭 以꾨옒?",
+            "page": 0,
+            "pages": 1,
+            "lines": 2,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Entering",
+            "text": "移쒓뎄? ?④퍡 ?섎━踰좎씠?곗뿉\n?ㅼ뼱媛??",
+            "page": 0,
+            "pages": 1,
+            "lines": 2,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Boarding destination",
+            "text": "1痢듭쑝濡?媛??\n??? 痢〓㈃ ?⑤꼸?먯꽌\n1痢?踰꾪듉??李얠븘遊?",
+            "page": 0,
+            "pages": 1,
+            "lines": 3,
+            "panel": "(580.00, 270.34)"
+          },
+          {
+            "name": "Ball handoff",
+            "text": "1痢??뚮?援щ굹!\n怨듭쓣 ?좏깮?댁꽌 諛쏆븘 以꾨옒?",
+            "page": 0,
+            "pages": 1,
+            "lines": 2,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Proposal",
+            "text": "???숈옉??蹂댁뿬 以꾧퉴?\n?섎? ?좏깮?섍굅??n?덉쟾 ?ъ뒪?곕? ?댄렣遊?以?",
+            "page": 0,
+            "pages": 1,
+            "lines": 3,
+            "panel": "(580.00, 270.34)"
+          },
+          {
+            "name": "Proposal inspection",
+            "text": "???숈옉??蹂댁뿬 以꾧퉴?\n?섎? ?좏깮?섍굅??n?덉쟾 ?ъ뒪?곕? ?댄렣遊?以?",
+            "page": 0,
+            "pages": 1,
+            "lines": 3,
+            "panel": "(580.00, 270.34)"
+          },
+          {
+            "name": "Jump",
+            "text": "?대젃寃??곗뼱?? 硫뗭죱吏?",
+            "page": 0,
+            "pages": 1,
+            "lines": 1,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Stopped reaction",
+            "text": "?쒖뻘! ?? 硫덉톬?닳?,
+            "page": 0,
+            "pages": 1,
+            "lines": 1,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Stopped investigation",
+            "text": "?댁??ъ썙???대뼸寃??섏??\n??? 鍮꾩긽踰⑤줈 ?꾩????붿껌?섏옄.",
+            "page": 0,
+            "pages": 1,
+            "lines": 2,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Stopped hint",
+            "text": "?댁??ъ썙???대뼸寃??섏??\n??? 鍮꾩긽踰⑤줈 ?꾩????붿껌?섏옄.",
+            "page": 0,
+            "pages": 1,
+            "lines": 2,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Connecting",
+            "text": "愿由ъ떎???곌껐?섍퀬 ?덉뼱??\n?묐떟??湲곕떎??二쇱꽭??",
+            "page": 0,
+            "pages": 1,
+            "lines": 2,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Manager connected",
+            "text": "?곌껐?먯뼱?? ?대뼡 ?곹솴?멸???",
+            "page": 0,
+            "pages": 1,
+            "lines": 1,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Manager requests identity",
+            "text": "?앸퀎?먯뿉??嫄대Ъ紐낃낵\n?밴컯湲?踰덊샇瑜??뚮젮 二쇱꽭??",
+            "page": 0,
+            "pages": 1,
+            "lines": 2,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Identity found",
+            "text": "李얠븯??\n?쒕튆 ?앺솢泥댁쑁?쇳꽣\n蹂멸? 1?멸린 쨌 HB-EL-01",
+            "page": 0,
+            "pages": 1,
+            "lines": 3,
+            "panel": "(580.00, 270.34)"
+          },
+          {
+            "name": "Waiting instructions",
+            "text": "?꾩튂瑜??뺤씤?덉뼱??\n臾몄뿉???⑥뼱??湲곕떎??二쇱꽭??\n吏곸썝???덉쟾?섍쾶 ?덈궡?좉쾶??",
+            "page": 0,
+            "pages": 1,
+            "lines": 3,
+            "panel": "(580.00, 270.34)"
+          },
+          {
+            "name": "Friend reassurance",
+            "text": "?꾩쭅 議곌툑 臾댁꽌?뚢?n?놁뿉??媛숈씠 湲곕떎??以꾨옒?",
+            "page": 0,
+            "pages": 1,
+            "lines": 2,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Waiting fade",
+            "text": "?꾩????붿껌?덉쑝??n臾몄쓣 嫄대뱶由ъ? 留먭퀬 湲곕떎由ъ옄.",
+            "page": 0,
+            "pages": 1,
+            "lines": 2,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Rescuer checking",
+            "text": "臾?諛뽰씠 ?덉쟾?쒖? ?뺤씤?좉쾶??\n?덈궡???뚭퉴吏 ?덉뿉??湲곕떎??n二쇱꽭??",
+            "page": 0,
+            "pages": 1,
+            "lines": 3,
+            "panel": "(580.00, 270.34)"
+          },
+          {
+            "name": "Rescuer ready",
+            "text": "諛붾떏 ?믪씠? ?섍컝 湲몄쓣\n?뺤씤?덉뼱??\n?瑜??좏깮??泥쒖쿇???곕씪?ㅼ꽭??",
+            "page": 0,
+            "pages": 1,
+            "lines": 3,
+            "panel": "(580.00, 270.34)"
+          },
+          {
+            "name": "Exit",
+            "text": "?덈궡瑜??곕씪 泥쒖쿇??諛뽰쑝濡?n?섍???",
+            "page": 0,
+            "pages": 1,
+            "lines": 2,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Stair advice",
+            "text": "?밴컯湲곕뒗 ?먭????꾩슂?댁슂.\n?瑜??좏깮?섎㈃ 怨꾨떒?쇰줈\n1痢듦퉴吏 ?④퍡 ?대젮媛덇쾶??",
+            "page": 0,
+            "pages": 1,
+            "lines": 3,
+            "panel": "(580.00, 270.34)"
+          },
+          {
+            "name": "Stairs",
+            "text": "?덈궡瑜?諛쏆븘 怨꾨떒?쇰줈 ?대젮媛??",
+            "page": 0,
+            "pages": 1,
+            "lines": 1,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Ground floor",
+            "text": "?댁젣 ?덉쟾??1痢듭씠??\n二쇱텧?낃뎄瑜??좏깮?댁꽌 ?④퍡\n?섍???",
+            "page": 0,
+            "pages": 1,
+            "lines": 3,
+            "panel": "(580.00, 270.34)"
+          },
+          {
+            "name": "Going home",
+            "text": "怨듭? ?덇퀬, 泥쒖쿇???섍???",
+            "page": 0,
+            "pages": 1,
+            "lines": 1,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Completion",
+            "text": "怨좎옣 ?ъ쓣 ?뚮룄 ?④퍡 ?덉쟾?섍쾶\n?泥섑뻽??",
+            "page": 0,
+            "pages": 1,
+            "lines": 2,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "No answer",
+            "text": "?묐떟???놁뼱??\n?대??곗쑝濡?119???좉퀬?댁슂.\n??泥댄뿕? 紐⑥쓽 ?듯솕?덉슂.",
+            "page": 0,
+            "pages": 1,
+            "lines": 3,
+            "panel": "(580.00, 270.34)"
+          },
+          {
+            "name": "119 simulation",
+            "text": "?곌껐?먯뼱?? ?대뼡 ?곹솴?멸???",
+            "page": 0,
+            "pages": 1,
+            "lines": 1,
+            "panel": "(580.00, 230.00)"
+          },
+          {
+            "name": "Safety retry",
+            "text": "?덉뿉?쒕뒗 ?곌굅??怨듭쓣 ?섏?吏\n?딆븘??\n?좉퉸 硫덉텛怨??ㅼ떆 ?앷컖?댁슂.",
+            "page": 0,
+            "pages": 1,
+            "lines": 3,
+            "panel": "(580.00, 270.34)"
+          },
+          {
+            "name": "Long speech first page",
+            "text": "臾?諛뽰쑝濡??쇱옄 ?섏삤吏 留덉꽭??\n?덉쟾???뺤씤???뚭퉴吏 ?덉뿉??n湲곕떎??二쇱꽭??",
+            "page": 0,
+            "pages": 3,
+            "lines": 3,
+            "panel": "(580.00, 270.34)"
+          }
+        ],
+        "error": null,
+        "actualHMD": false
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

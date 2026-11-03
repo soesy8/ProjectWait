@@ -1,0 +1,71 @@
+﻿{
+    "success":  true,
+    "totalChecks":  1667,
+    "results":  [
+                    {
+                        "suite":  "Readability",
+                        "scene":  "Elevator_Safety_Prototype",
+                        "success":  true,
+                        "count":  575,
+                        "failed":  0,
+                        "error":  null
+                    },
+                    {
+                        "suite":  "DialogueRegression",
+                        "scene":  "Elevator_Safety_Prototype",
+                        "success":  true,
+                        "count":  220,
+                        "failed":  0,
+                        "error":  null
+                    },
+                    {
+                        "suite":  "InteractionRegression",
+                        "scene":  "Elevator_Safety_Prototype",
+                        "success":  true,
+                        "count":  32,
+                        "failed":  0,
+                        "error":  null
+                    },
+                    {
+                        "suite":  "PolishRegression",
+                        "scene":  "Elevator_Safety_Prototype",
+                        "success":  true,
+                        "count":  54,
+                        "failed":  0,
+                        "error":  null
+                    },
+                    {
+                        "suite":  "Readability",
+                        "scene":  "Elevator_Safety_ObjectInteraction_Test",
+                        "success":  true,
+                        "count":  497,
+                        "failed":  0,
+                        "error":  null
+                    },
+                    {
+                        "suite":  "DialogueRegression",
+                        "scene":  "Elevator_Safety_ObjectInteraction_Test",
+                        "success":  true,
+                        "count":  203,
+                        "failed":  0,
+                        "error":  null
+                    },
+                    {
+                        "suite":  "InteractionRegression",
+                        "scene":  "Elevator_Safety_ObjectInteraction_Test",
+                        "success":  true,
+                        "count":  32,
+                        "failed":  0,
+                        "error":  null
+                    },
+                    {
+                        "suite":  "PolishRegression",
+                        "scene":  "Elevator_Safety_ObjectInteraction_Test",
+                        "success":  true,
+                        "count":  54,
+                        "failed":  0,
+                        "error":  null
+                    }
+                ],
+    "physicalHMDTested":  false
+}
