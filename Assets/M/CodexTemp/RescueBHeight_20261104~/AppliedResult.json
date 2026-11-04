@@ -1,0 +1,31 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "Assets/M/CodexTemp/RescueBHeight_20261104~/ValidateApplied.cs",
+      "entry": "ValidateSmallerB.Run",
+      "timeout_ms": "55000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 149,
+      "executeMs": 1258,
+      "assemblyName": "PipelineRunScript_ValidateApplied_d1c2ebd9b6a043198a8cbab33f320370",
+      "success": true,
+      "result": {
+        "status": "PASS",
+        "height_m": 1.4784758681198582,
+        "checks": 14
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

@@ -1,0 +1,46 @@
+{
+  "source": "E:\\ProjectWait\\Blender\\직접모델링\\친구.blend",
+  "height_m": 1.48,
+  "vertices": 44952,
+  "triangles": 88992,
+  "bones": [
+    "root",
+    "pelvis",
+    "spine",
+    "chest",
+    "neck",
+    "head",
+    "shoulder.L",
+    "upper_arm.L",
+    "forearm.L",
+    "hand.L",
+    "shoulder.R",
+    "upper_arm.R",
+    "forearm.R",
+    "hand.R",
+    "thigh.L",
+    "shin.L",
+    "foot.L",
+    "toe.L",
+    "thigh.R",
+    "shin.R",
+    "foot.R",
+    "toe.R"
+  ],
+  "blendshapes": [
+    "Basis",
+    "Blink",
+    "Smile",
+    "Surprised",
+    "Worried",
+    "Sad"
+  ],
+  "unweighted_vertices": 0,
+  "materials": [
+    {
+      "name": "Friend_Atlas_Toon",
+      "hex": ""
+    }
+  ],
+  "fbx": "D:\\project\\ProjectWait\\Assets\\M\\Arts\\Models\\FriendImproved\\Wait_Friend_Improved.fbx"
+}

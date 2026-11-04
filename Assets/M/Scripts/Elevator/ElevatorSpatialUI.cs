@@ -89,10 +89,10 @@ namespace ProjectWait.M.Elevator
             screenOnly = !view.lesson.scenario && (who == "나의 미션" || who == "나의 발견");
             observed = "";
             baseThought = screenOnly ? line : "";
-            if(f.Step == ElevatorStep.Call && f.SituationReported && !f.IdentityFound)
+            if(f.SearchingIdentity)
             {
-                // The manager's speech remains in the world; search help belongs to the HUD.
-                view.dialogueText.text = "식별판에서 건물명과\n승강기 번호를 알려 주세요.";
+                // The call cinematic has finished; the player now finds the clue.
+                view.dialogueText.text = "전면 비상벨 아래 식별판을 찾아\n건물명과 승강기 번호를 확인해요.";
                 baseThought = f.HintLevel > 0 ? "전면 비상벨 아래의 식별판에서 건물명과 관리번호를 찾아보자." : "벽의 식별판을 찾아 선택해 보자.";
             }
             speaker.text = who;
@@ -269,7 +269,8 @@ namespace ProjectWait.M.Elevator
             view.dialogueText.rectTransform.sizeDelta = new Vector2(width-56,body);
             view.dialogueText.rectTransform.anchoredPosition = new Vector2(0,-12);
             ElevatorTypography.Apply(speaker,ElevatorTypography.SpeakerSize);
-            speakerTab.sizeDelta = new Vector2(Mathf.Clamp(speaker.GetPreferredValues().x+56,132,360),54);
+            speaker.textWrappingMode=TextWrappingModes.NoWrap;
+            speakerTab.sizeDelta = new Vector2(Mathf.Clamp(speaker.GetPreferredValues(speaker.text,float.PositiveInfinity,float.PositiveInfinity).x+56,132,Mathf.Max(360,width-48)),54);
             speakerTab.anchoredPosition = new Vector2(-width*.5f+speakerTab.rect.width*.5f+24,height*.5f+5);
             speaker.rectTransform.sizeDelta = speakerTab.sizeDelta-new Vector2(22,4);
             speaker.rectTransform.anchoredPosition = Vector2.zero;
@@ -437,7 +438,7 @@ namespace ProjectWait.M.Elevator
             var f=view.lesson.Flow;
             bool transition=f.Step==ElevatorStep.WaitingFade||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome;
             bool paused=view.lesson.IsPaused;
-            worldGroup.alpha=transition||paused?0:1;worldGroup.interactable=!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
+            worldGroup.alpha=transition||paused||f.IsShotCutscene||f.IsCallCutscene?0:1;worldGroup.interactable=!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
             hudGroup.alpha=f.IsCinematic||paused?0:1;hudGroup.interactable=false;hudGroup.blocksRaycasts=false;
             if(notebook)notebook.gameObject.SetActive(complete&&!paused);
         }

@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58badd61685d79d449573d56665dda43, type: 3}
   m_Name: ElevatorSettings
   m_EditorClassIdentifier: Assembly-CSharp::ProjectWait.M.Elevator.ElevatorSettings
-  friendReplySeconds: 0.5
+  shotStorySeconds: 1.5
+  posterWarningSeconds: 1.5
+  friendReplySeconds: 1.5
   jumpSeconds: 0.75
   afterJumpSeconds: 1.2
   connectionSeconds: 2.1
+  callQuestionSeconds: 1.5
+  callReplySeconds: 2
+  callLocationGuideSeconds: 2.5
   firstHintSeconds: 20
   secondHintSeconds: 40
   rescueWaitSeconds: 12
@@ -30,8 +35,9 @@ MonoBehaviour:
     \uB9D0\uACE0 \uC548\uACE0 \uC788\uC5B4 \uC918."
   proposal: "\uC774\uB807\uAC8C \uB6F0\uC5B4\uC11C!"
   stoppedDialogue: "\uB35C\uCEF9! \uC5B4? \uC5D8\uB9AC\uBCA0\uC774\uD130\uAC00 \uBA48\uCDC4\uC5B4\u2026"
-  reportDialogue: "\uC5D8\uB9AC\uBCA0\uC774\uD130\uAC00 \uBA48\uCDC4\uC5B4\uC694.
-    \uCE5C\uAD6C\uB791 \uB458\uC774 \uC788\uC5B4\uC694."
+  reportDialogue: "\uC5D8\uB9AC\uBCA0\uC774\uD130\uAC00 \uACE0\uC7A5 \uB098\uC11C
+    \uC6C0\uC9C1\uC774\uC9C0 \uC54A\uC544\uC694.\n\uCE5C\uAD6C\uB791 \uB458\uC774
+    \uC788\uC5B4\uC694."
   waitDialogue: "\uB3C4\uC6C0\uC744 \uC694\uCCAD\uD588\uC73C\uB2C8\uAE4C, \uC606\uC5D0\uC11C
     \uAC19\uC774 \uAE30\uB2E4\uB9AC\uC790."
   doorWarning: "\uBB38\uC744 \uC5B5\uC9C0\uB85C \uC5F4\uAC70\uB098 \uC2A4\uC2A4\uB85C

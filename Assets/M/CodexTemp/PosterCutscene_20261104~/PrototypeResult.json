@@ -1,0 +1,213 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "Assets/M/CodexTemp/PosterCutscene_20261104~/VerifyPlay.cs",
+      "entry": "VerifyPosterPlay.Run",
+      "timeout_ms": "100000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 2001,
+      "executeMs": 21903,
+      "assemblyName": "PipelineRunScript_VerifyPlay_9b83059bc5aa4e2d8c437a636ffdb256",
+      "success": true,
+      "result": {
+        "scene": "Elevator_Safety_Prototype",
+        "status": "PASS",
+        "checks": [
+          {
+            "pass": true,
+            "name": "Real desktop Play session initialized"
+          },
+          {
+            "pass": true,
+            "name": "Player loop advances between observations"
+          },
+          {
+            "pass": true,
+            "name": "Receiving the basketball immediately starts the cutscene"
+          },
+          {
+            "pass": true,
+            "name": "The ball is received and the old shot choices are removed"
+          },
+          {
+            "pass": true,
+            "name": "Story starts with full letterbox and no gameplay laser"
+          },
+          {
+            "pass": true,
+            "name": "Friend story reaches the poster pointing gate"
+          },
+          {
+            "pass": true,
+            "name": "Pointing gate keeps letterbox and movement lock"
+          },
+          {
+            "pass": true,
+            "name": "Directional arrow uses a visible screen space canvas"
+          },
+          {
+            "pass": true,
+            "name": "Poster circle uses a visible world space canvas"
+          },
+          {
+            "pass": true,
+            "name": "Circle and arrow contain actual rendered UI mesh geometry"
+          },
+          {
+            "pass": true,
+            "name": "Central PC laser remains available during the pointing gate"
+          },
+          {
+            "pass": true,
+            "name": "Hold duration and breathing cycle use the requested values"
+          },
+          {
+            "pass": true,
+            "name": "World circle faces the player"
+          },
+          {
+            "pass": true,
+            "name": "Offscreen poster still has a direction arrow"
+          },
+          {
+            "pass": true,
+            "name": "Actual mouse input freely adjusts the cinematic viewpoint"
+          },
+          {
+            "pass": true,
+            "name": "Gameplay clicks and shortcuts cannot bypass the pointing gate"
+          },
+          {
+            "pass": true,
+            "name": "Attempted WASD input cannot walk out of the cinematic"
+          },
+          {
+            "pass": true,
+            "name": "The circle grows by 20 percent and shrinks over a full cycle"
+          },
+          {
+            "pass": true,
+            "name": "Waiting without pointing never auto-resumes the cutscene"
+          },
+          {
+            "pass": true,
+            "name": "Center ray on the circle begins hold progress"
+          },
+          {
+            "pass": true,
+            "name": "The actual PC ray reaches the poster target without occlusion"
+          },
+          {
+            "pass": true,
+            "name": "Looking away resets continuous hold progress"
+          },
+          {
+            "pass": true,
+            "name": "A fresh hold starts after looking back"
+          },
+          {
+            "pass": true,
+            "name": "Pause freezes both hold progress and story time"
+          },
+          {
+            "pass": true,
+            "name": "Poster cues hide behind the pause menu"
+          },
+          {
+            "pass": true,
+            "name": "A new aim after pause starts from zero"
+          },
+          {
+            "pass": true,
+            "name": "Holding the central ray resumes the cinematic automatically"
+          },
+          {
+            "pass": true,
+            "name": "Resume occurs after approximately 1.5 seconds of continuous aim"
+          },
+          {
+            "pass": true,
+            "name": "Player warns against jumping before the friend acts"
+          },
+          {
+            "pass": true,
+            "name": "Pointing cues retire when the warning begins"
+          },
+          {
+            "pass": true,
+            "name": "Letterbox and player gaze remain unchanged when the cutscene resumes"
+          },
+          {
+            "pass": true,
+            "name": "The friend ignores the warning and begins the shot sequence"
+          },
+          {
+            "pass": true,
+            "name": "Only the friend performs one jump"
+          },
+          {
+            "pass": true,
+            "name": "Brief friend direction cue preserves free camera control"
+          },
+          {
+            "pass": true,
+            "name": "Shot reaches its airborne moment"
+          },
+          {
+            "pass": true,
+            "name": "Friend visibly leaves the floor while miming the shot"
+          },
+          {
+            "pass": true,
+            "name": "The player's body remains on the floor throughout the shot"
+          },
+          {
+            "pass": true,
+            "name": "The shot is followed by the elevator fault"
+          },
+          {
+            "pass": true,
+            "name": "The fault plays the existing mechanical shake feedback"
+          },
+          {
+            "pass": true,
+            "name": "Fault reaction stays readable in the letterbox caption"
+          },
+          {
+            "pass": true,
+            "name": "Fault reaction releases into the emergency investigation"
+          },
+          {
+            "pass": true,
+            "name": "Normal emergency interaction resumes with no leftover poster UI"
+          },
+          {
+            "pass": true,
+            "name": "Restart clears the new cinematic gate and cues"
+          },
+          {
+            "pass": true,
+            "name": "No new runtime exceptions or rendering errors"
+          }
+        ],
+        "measuredHold": 1.5328064,
+        "pulseMin": 1.00023437,
+        "pulseMax": 1.2,
+        "errors": [],
+        "failure": null
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

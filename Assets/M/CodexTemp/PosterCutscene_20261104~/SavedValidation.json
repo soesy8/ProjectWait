@@ -1,0 +1,181 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: saved pointing controller and poster references"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: distinct screen and world canvas modes"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: cues are initially hidden"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: exact requested hold and pulse settings"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: guidance graphics do not block selection rays"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: Korean guidance uses the existing readable font"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: existing cinematic overlay and rescue team retained"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: latest B source proportions retained"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: no missing scripts"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: scene has no temporary runtime dependency"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: receiving ball starts story (unanswered=False)"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: poster gate has no timeout or Continue bypass"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: warning precedes the friend's one jump"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: emergency call routing still works"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: safe response still reaches the rescue team"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: full scenario still completes after the new opening"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: receiving ball starts story (unanswered=True)"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: poster gate has no timeout or Continue bypass"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: warning precedes the friend's one jump"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: emergency call routing still works"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: safe response still reaches the rescue team"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_Prototype.unity: full scenario still completes after the new opening"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: saved pointing controller and poster references"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: distinct screen and world canvas modes"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: cues are initially hidden"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: exact requested hold and pulse settings"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: guidance graphics do not block selection rays"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: Korean guidance uses the existing readable font"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: existing cinematic overlay and rescue team retained"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: latest B source proportions retained"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: no missing scripts"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: scene has no temporary runtime dependency"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: receiving ball starts story (unanswered=False)"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: poster gate has no timeout or Continue bypass"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: warning precedes the friend's one jump"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: emergency call routing still works"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: safe response still reaches the rescue team"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: full scenario still completes after the new opening"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: receiving ball starts story (unanswered=True)"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: poster gate has no timeout or Continue bypass"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: warning precedes the friend's one jump"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: emergency call routing still works"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: safe response still reaches the rescue team"
+    },
+    {
+      "pass": true,
+      "name": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: full scenario still completes after the new opening"
+    }
+  ]
+}

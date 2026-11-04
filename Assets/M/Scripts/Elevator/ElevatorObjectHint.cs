@@ -34,7 +34,9 @@ namespace ProjectWait.M.Elevator
    if(view)
    {
     Reserve(view.dialoguePanel,camera,.045f);foreach(var b in view.ChoiceButtons)if(b&&b.IsActive())Reserve((RectTransform)b.transform,camera);
-    ReserveFace(view.lesson.friend,camera);if(view.lesson.presentation&&view.lesson.presentation.rescuer)ReserveFace(view.lesson.presentation.rescuer.transform,camera);
+    ReserveFace(view.lesson.friend,camera);
+    if(view.lesson.presentation&&view.lesson.presentation.rescueTeam){ReserveFace(view.lesson.presentation.rescueTeam.firefighter,camera);ReserveFace(view.lesson.presentation.rescueTeam.specialist,camera);}
+    else if(view.lesson.presentation&&view.lesson.presentation.rescuer)ReserveFace(view.lesson.presentation.rescuer.transform,camera);
    }
    var right=camera.transform.right;var up=Vector3.up;var forward=camera.transform.forward;
    var offsets=new[]{Vector3.zero,right*.8f,-right*.8f,up*.55f,-up*.55f,right*.8f+up*.55f,-right*.8f+up*.55f,right*.8f-up*.55f,-right*.8f-up*.55f,forward*.7f,-forward*.5f,right*1.35f,-right*1.35f,up,-up,forward*1.2f};

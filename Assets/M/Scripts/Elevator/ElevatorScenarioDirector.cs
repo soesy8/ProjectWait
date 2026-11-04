@@ -39,7 +39,7 @@ namespace ProjectWait.M.Elevator
                 case ElevatorStep.Proposal:return objectGuidedScene?(ElevatorClue?)ElevatorClue.Notice:null;
                 case ElevatorStep.Stopped:return ElevatorClue.Intercom;
                 case ElevatorStep.Unanswered:return ElevatorClue.Phone;
-                case ElevatorStep.Call:return f.SituationReported&&!f.IdentityFound?(ElevatorClue?)ElevatorClue.Identity:null;
+                case ElevatorStep.Call:return f.SearchingIdentity?(ElevatorClue?)ElevatorClue.Identity:null;
                 case ElevatorStep.Waiting:return ElevatorClue.Friend;
                 case ElevatorStep.Retry:return !f.ProposalRetry&&objectGuidedScene?(ElevatorClue?)ElevatorClue.Intercom:null;
                 case ElevatorStep.Rescue:case ElevatorStep.ReturnLobby:return objectGuidedScene?(ElevatorClue?)ElevatorClue.Rescuer:null;
@@ -65,7 +65,6 @@ namespace ProjectWait.M.Elevator
         public bool HandleObjectAction(ElevatorClue clue)
         {
             var f=lesson.Flow;
-            if(f.Step==ElevatorStep.Proposal){if(clue==ElevatorClue.Friend)lesson.UnsafeProposal();else if(clue==ElevatorClue.Notice)lesson.SafeProposal();return true;}
             // The emergency button requests a connection. Dialogue uses the Next UI.
             if(f.Step==ElevatorStep.Unanswered&&clue==ElevatorClue.Phone){lesson.Phone();return true;}
             if(f.Step==ElevatorStep.Retry&&clue==ElevatorClue.Intercom){lesson.Retry();return true;}
@@ -102,7 +101,6 @@ namespace ProjectWait.M.Elevator
             {
                 case ElevatorStep.Lobby:who="친구";line="1층으로 내려가자.\n아래쪽 호출 버튼을 눌러 줄래?";break;
                 case ElevatorStep.Boarding:who="친구";line=f.DestinationSelected?"1층 눌렀구나!\n공을 선택해서 받아 줄래?":"1층으로 가자.\n낮은 측면 패널에서\n1층 버튼을 찾아봐.";break;
-                case ElevatorStep.Proposal:who="친구";line="슛 동작을 보여 줄까?\n나를 선택하거나\n안전 포스터를 살펴봐 줘.";break;
                 case ElevatorStep.Stopped:who="친구";line=f.CanObserve?"어지러워… 어떻게 하지?\n낮은 비상벨로 도움을 요청하자.":"덜컹! 어? 멈췄어…";break;
                 case ElevatorStep.Waiting:who="친구";line="아직 조금 무서워…\n옆에서 같이 기다려 줄래?";break;
                 case ElevatorStep.Rescue:who="직원";line=f.ReadyToExit?"바닥 높이와 나갈 길을 확인했어요.\n저를 선택해 천천히 따라오세요.":"문 밖이 안전한지 확인할게요.\n안내할 때까지 안에서 기다려 주세요.";break;

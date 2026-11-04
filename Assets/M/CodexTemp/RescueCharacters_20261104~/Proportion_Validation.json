@@ -1,0 +1,22 @@
+[
+  {
+    "id": "A",
+    "head_scale": 0.92,
+    "upper_torso_width_scale": 0.87,
+    "arm_vertical_length_scale": 1.175,
+    "shoulder_joint_x": 0.56,
+    "elbow_joint_x": 0.83,
+    "wrist_joint_x": 0.88,
+    "height_m": 1.687
+  },
+  {
+    "id": "B",
+    "head_scale": 0.88,
+    "upper_torso_width_scale": 0.87,
+    "arm_vertical_length_scale": 1.175,
+    "shoulder_joint_x": 0.56,
+    "elbow_joint_x": 0.83,
+    "wrist_joint_x": 0.88,
+    "height_m": 1.663
+  }
+]

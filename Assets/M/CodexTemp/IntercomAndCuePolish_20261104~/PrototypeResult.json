@@ -1,0 +1,233 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "Assets/M/CodexTemp/IntercomAndCuePolish_20261104~/VerifyPlay.cs",
+      "entry": "VerifyIntercomPolish.Run",
+      "timeout_ms": "100000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 2043,
+      "executeMs": 25179,
+      "assemblyName": "PipelineRunScript_VerifyPlay_9a085845345845689acd170ba80200a9",
+      "success": true,
+      "result": {
+        "scene": "Elevator_Safety_Prototype",
+        "status": "PASS",
+        "checks": [
+          {
+            "pass": true,
+            "name": "Real desktop Play session"
+          },
+          {
+            "pass": true,
+            "name": "Player loop is advancing"
+          },
+          {
+            "pass": true,
+            "name": "All three pre-fault dialogue beats use 1.5 seconds"
+          },
+          {
+            "pass": true,
+            "name": "Short friend dialogue reaches the pointing gate"
+          },
+          {
+            "pass": true,
+            "name": "Friend story lasts approximately 1.5 seconds"
+          },
+          {
+            "pass": true,
+            "name": "Poster: full arrow beyond 60 percent center distance"
+          },
+          {
+            "pass": true,
+            "name": "Poster: half opacity at 45 percent center distance"
+          },
+          {
+            "pass": true,
+            "name": "Poster: actual renderer inherits interpolated opacity"
+          },
+          {
+            "pass": true,
+            "name": "Poster: alpha transitions gradually instead of toggling off"
+          },
+          {
+            "pass": true,
+            "name": "Poster: arrow disappears within 30 percent center distance"
+          },
+          {
+            "pass": true,
+            "name": "Distance-based cue opacity does not advance the story"
+          },
+          {
+            "pass": true,
+            "name": "The completed 1.5 second hold resumes the cutscene"
+          },
+          {
+            "pass": true,
+            "name": "Completed circle remains visible and full at the start of its fade (alpha=1, progress=1, fading=True)"
+          },
+          {
+            "pass": true,
+            "name": "Circle reaches partial opacity during its fade"
+          },
+          {
+            "pass": true,
+            "name": "Circle fades while the player's next dialogue is already playing"
+          },
+          {
+            "pass": true,
+            "name": "Circle disappears smoothly after one second"
+          },
+          {
+            "pass": true,
+            "name": "Circle fade duration is approximately one second"
+          },
+          {
+            "pass": true,
+            "name": "The shortened player warning reaches the friend reply"
+          },
+          {
+            "pass": true,
+            "name": "Player warning lasts approximately 1.5 seconds"
+          },
+          {
+            "pass": true,
+            "name": "Friend: full arrow beyond 60 percent center distance"
+          },
+          {
+            "pass": true,
+            "name": "Friend: half opacity at 45 percent center distance"
+          },
+          {
+            "pass": true,
+            "name": "Friend: actual renderer inherits interpolated opacity"
+          },
+          {
+            "pass": true,
+            "name": "Friend: alpha transitions gradually instead of toggling off"
+          },
+          {
+            "pass": true,
+            "name": "Friend: arrow disappears within 30 percent center distance"
+          },
+          {
+            "pass": true,
+            "name": "Short friend reply still leads into the airborne shot"
+          },
+          {
+            "pass": true,
+            "name": "Friend still visibly jumps"
+          },
+          {
+            "pass": true,
+            "name": "The shot leads to the fault"
+          },
+          {
+            "pass": true,
+            "name": "Emergency investigation unlocks after the fault reaction"
+          },
+          {
+            "pass": true,
+            "name": "Activating the emergency intercom starts connection"
+          },
+          {
+            "pass": true,
+            "name": "Manager connects and asks what happened"
+          },
+          {
+            "pass": true,
+            "name": "Manager's first question is a letterboxed cinematic caption"
+          },
+          {
+            "pass": true,
+            "name": "The clue cannot be found or skipped during the call cinematic"
+          },
+          {
+            "pass": true,
+            "name": "Player answers the manager automatically"
+          },
+          {
+            "pass": true,
+            "name": "Player explicitly reports the fault and inability to move"
+          },
+          {
+            "pass": true,
+            "name": "Manager asks which elevator"
+          },
+          {
+            "pass": true,
+            "name": "The specific-elevator question is presented before clue guidance"
+          },
+          {
+            "pass": true,
+            "name": "Manager explains where the location is written"
+          },
+          {
+            "pass": true,
+            "name": "Manager names the exact panel and the information on it"
+          },
+          {
+            "pass": true,
+            "name": "Location instructions still block premature clue completion"
+          },
+          {
+            "pass": true,
+            "name": "Call cinematic ends and direct clue investigation unlocks"
+          },
+          {
+            "pass": true,
+            "name": "The player must find the clue after regaining control"
+          },
+          {
+            "pass": true,
+            "name": "The entire call preserves the player's gaze"
+          },
+          {
+            "pass": true,
+            "name": "Letterbox leaves and no Next button can substitute for finding the clue"
+          },
+          {
+            "pass": true,
+            "name": "Inspecting an unrelated object does not solve the clue"
+          },
+          {
+            "pass": true,
+            "name": "The actual central PC ray can target the identity plate"
+          },
+          {
+            "pass": true,
+            "name": "Selecting the identity plate reveals its location before reporting it"
+          },
+          {
+            "pass": true,
+            "name": "Location reporting remains available after the clue is found"
+          },
+          {
+            "pass": true,
+            "name": "The revised call still leads into reassuring and waiting with the friend"
+          },
+          {
+            "pass": true,
+            "name": "No new runtime exceptions or rendering errors"
+          }
+        ],
+        "storyDuration": 1.49320221,
+        "warningDuration": 1.494648,
+        "ringDuration": 1.00260353,
+        "errors": [],
+        "failure": null
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

@@ -6,10 +6,15 @@ namespace ProjectWait.M.Elevator
     public sealed class ElevatorSettings : ScriptableObject
     {
         [Header("No player time limit; only the friend performs the jump")]
-        [Min(.1f)] public float friendReplySeconds = 1.2f;
+        [Min(1)] public float shotStorySeconds = 1.5f;
+        [Min(1)] public float posterWarningSeconds = 1.5f;
+        [Min(.1f)] public float friendReplySeconds = 1.5f;
         [Min(.1f)] public float jumpSeconds = .85f;
         [Min(.1f)] public float afterJumpSeconds = 1.1f;
         [Min(.1f)] public float connectionSeconds = 3;
+        [Min(.1f)] public float callQuestionSeconds = 1.5f;
+        [Min(.1f)] public float callReplySeconds = 2;
+        [Min(.1f)] public float callLocationGuideSeconds = 2.5f;
         [Min(1)] public float firstHintSeconds = 20;
         [Min(1)] public float secondHintSeconds = 40;
         [Min(1)] public float rescueWaitSeconds = 12;
@@ -22,7 +27,7 @@ namespace ProjectWait.M.Elevator
         [TextArea] public string handoffDialogue = "공 좀 잠깐 맡아 줘.\n내가 어떻게 넣었냐면…";
         [TextArea] public string proposal = "이렇게 뛰어서!";
         [TextArea] public string stoppedDialogue = "어? 왜 멈췄지?";
-        [TextArea] public string reportDialogue = "엘리베이터가 멈췄어요. 친구랑 둘이 있어요.";
+        [TextArea] public string reportDialogue = "엘리베이터가 고장 나서 움직이지 않아요.\n친구랑 둘이 있어요.";
         [TextArea] public string waitDialogue = "도움을 요청했으니까, 옆에서 같이 기다리자.";
         [TextArea] public string doorWarning = "문을 억지로 열거나 혼자 나오려고 하지 않아요. 문에서 떨어져 도움을 요청하고 안내를 기다려요.";
         [TextArea] public string safetyNotice = "안전하게 함께 타요\n\n안에서 뛰지 않아요.\n문에 기대지 않아요.\n\n멈추면 비상통화로 도움 요청.\n연결이 안 되면 휴대폰으로 119.\n문을 건드리지 않고 안내를 기다려요.";

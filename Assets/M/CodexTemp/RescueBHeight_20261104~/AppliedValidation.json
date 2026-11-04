@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "passed": true,
+      "check": "Imported FBX was generated from the edited original Blender file"
+    },
+    {
+      "passed": true,
+      "check": "Source total height is exactly 89 percent"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_Prototype.unity: actor transform stays at unit scale"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_Prototype.unity: saved mesh height matches edited original"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_Prototype.unity: gesture targets match the new skeleton"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_Prototype.unity: head vertices remain bound to head bone"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_Prototype.unity: head is uniformly 96 percent on all axes"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_Prototype.unity: selection collider fits the new height"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: actor transform stays at unit scale"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: saved mesh height matches edited original"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: gesture targets match the new skeleton"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: head vertices remain bound to head bone"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: head is uniformly 96 percent on all axes"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: selection collider fits the new height"
+    }
+  ]
+}

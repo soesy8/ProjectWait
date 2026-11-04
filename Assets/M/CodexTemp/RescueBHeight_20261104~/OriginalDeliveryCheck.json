@@ -1,0 +1,34 @@
+﻿[
+    {
+        "Name":  "Wait_Rescuer_B_LiftSpecialist.blend",
+        "Matches":  true
+    },
+    {
+        "Name":  "Wait_Rescue_AB.blend",
+        "Matches":  true
+    },
+    {
+        "Name":  "Wait_Rescuer_B_LiftSpecialist.fbx",
+        "Matches":  true
+    },
+    {
+        "Name":  "Preview_00_AB.png",
+        "Matches":  true
+    },
+    {
+        "Name":  "README_구조요원.txt",
+        "Matches":  true
+    },
+    {
+        "Name":  "Dimensions_구조요원.json",
+        "Matches":  true
+    },
+    {
+        "Name":  "Validation_구조요원.json",
+        "Matches":  true
+    },
+    {
+        "Name":  "BHeightHead_Validation.json",
+        "Matches":  true
+    }
+]

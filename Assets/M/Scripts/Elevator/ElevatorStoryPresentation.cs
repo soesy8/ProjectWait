@@ -6,6 +6,7 @@ namespace ProjectWait.M.Elevator
     public sealed class ElevatorStoryPresentation : MonoBehaviour
     {
         public GameObject lobby, exitHall, rescuer;
+        public ElevatorRescueTeam rescueTeam;
         public Transform leftDoor, rightDoor, friendBall, playerBall;
         public Collider closedDoorCollider;
         public ElevatorLesson lesson;
@@ -56,7 +57,7 @@ namespace ProjectWait.M.Elevator
             success=Tone("Team response",new[]{659.25f,783.99f,1046.5f},.12f);
             arrival=Tone("Safe arrival",new[]{523.25f,659.25f,783.99f,1046.5f},.20f);
             if(intercomButton)lampScale=intercomButton.localScale;
-            var rescueBones=rescuer.GetComponentsInChildren<Transform>(true);
+            var rescueBones=rescueTeam?System.Array.Empty<Transform>():rescuer.GetComponentsInChildren<Transform>(true);
             rescueArm=Bone(rescueBones,"upper_arm.L");rescueForearm=Bone(rescueBones,"forearm.L");rescueHand=Bone(rescueBones,"hand.L");
             if(rescueArm){rescueUpperRest=rescueArm.localRotation;rescueLowerRest=rescueForearm.localRotation;}
         }
@@ -85,6 +86,7 @@ namespace ProjectWait.M.Elevator
             if(f.Step==ElevatorStep.Proposal&&!(space&&space.sportsCentre))value.friend.localPosition=home+Vector3.down*(Mathf.Sin(f.Elapsed/.9f*Mathf.PI)*.06f);
             if(f.Step!=ElevatorStep.Jump&&f.Step!=ElevatorStep.Proposal)value.friend.localPosition+=Vector3.up*(Mathf.Sin(f.Elapsed*2.5f)*.006f);
             if(space)space.Apply();
+            if(rescueTeam)rescueTeam.Apply(value);
             float handoff=Mathf.Clamp01((Time.time-ballTransferStarted)/ballHandoffSeconds);
             if(handoff>=1)transferringBall=false;
             BallVisibility=transferringBall?1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.28f,1,handoff)):0;

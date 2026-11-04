@@ -40,7 +40,7 @@ namespace ProjectWait.M.Elevator
     float lift=t>0&&t<1?Mathf.Sin(t*Mathf.PI)*.23f:0;
     root.position+=Vector3.up*lift;
    }
-   bool panic=!f.Reassured&&(f.Step==ElevatorStep.Stopped||f.Step==ElevatorStep.Connecting||f.Step==ElevatorStep.Unanswered||f.Step==ElevatorStep.Call||f.Step==ElevatorStep.Waiting);
+   bool panic=!f.Reassured&&(f.Step==ElevatorStep.Stopped||f.IsCallCutscene||f.Step==ElevatorStep.Unanswered||f.Step==ElevatorStep.Call||f.Step==ElevatorStep.Waiting);
    if(face&&normalFaceMesh&&panicFaceMesh)face.sharedMesh=panic?panicFaceMesh:normalFaceMesh;
    if(panicFace)panicFace.gameObject.SetActive(panic);
    if(panic)

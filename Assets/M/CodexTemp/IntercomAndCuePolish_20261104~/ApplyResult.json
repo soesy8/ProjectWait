@@ -1,0 +1,35 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "Assets/M/CodexTemp/PosterCutscene_20261104~/Apply.cs",
+      "entry": "ApplyPosterCutscene.Run",
+      "timeout_ms": "55000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 2227,
+      "executeMs": 2796,
+      "assemblyName": "PipelineRunScript_Apply_e4c513b7051244b8886096654dea0035",
+      "success": true,
+      "result": {
+        "scenes": [
+          "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+          "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity"
+        ],
+        "holdSeconds": 1.5,
+        "pulseSeconds": 1.5,
+        "pulseGrowth": 0.2
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

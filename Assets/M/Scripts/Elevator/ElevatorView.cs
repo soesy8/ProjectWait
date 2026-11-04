@@ -70,7 +70,7 @@ namespace ProjectWait.M.Elevator
         {
             if(!speaker||!mission) return; // The migration rebuilds the obsolete UI exactly once in Edit Mode.
             title.text="멈춰도 함께, 안전하게";
-            developerPanel.Find("Stage2").GetComponentInChildren<TMP_Text>().text="안전 판단";
+            developerPanel.Find("Stage2").GetComponentInChildren<TMP_Text>().text="슛 이야기·포스터";
             for(int i=0;i<7;i++){int n=i;Bind(developerPanel.Find("Stage"+i).GetComponent<Button>(),()=>lesson.DeveloperJump(n));}
             Bind(developerPanel.Find("NoResponse").GetComponent<Button>(),()=>{lesson.simulateNoResponse=!lesson.simulateNoResponse;Refresh();});
             ApplyCompactLayout();
@@ -166,13 +166,15 @@ namespace ProjectWait.M.Elevator
                     if(!f.DestinationSelected){objective="낮은 측면 패널에서 1층 선택";who="나의 미션";line="목적지는 1층 주출입구예요.\n낮은 측면 패널에서\n1층 버튼을 선택해요.";Add("1   측면 패널에서 1층 누르기",lesson.SelectFloor);}
                     else{objective="공을 튀기지 않고 안고 있기";line=lesson.settings.handoffDialogue;Add("1   공 받아 안고 있기",lesson.Continue);}break;
                 case ElevatorStep.Proposal:
-                    objective="슛 이야기에 어떻게 답할까요?";line="아까 그 슛, 멋있었지?\n내가 어떻게 넣었는지 보여 줄까?";
-                    Add("1   밖에서 다시 해 보자",lesson.SafeProposal);Add("2   여기서 보여 줘",lesson.UnsafeProposal);
-                    if(f.Phase!=InteractionPhase.Investigation)Add("3   주변을 더 살펴본다",lesson.ObserveProposal);break;
+                    objective="친구의 슛 이야기";line="아까 슛 멋있었지? 보여 줄게!";break;
+                case ElevatorStep.PosterPointing:
+                    objective="안전 포스터를 가리켜요";who="나";line="안에서는 뛰면 안 되는데…\n벽의 안전 포스터를 가리켜 알려 주자.";break;
+                case ElevatorStep.PosterWarning:
+                    objective="친구에게 뛰지 말라고 말해요";who="나";line="안에서 뛰면 안 돼. 하지 마!";break;
                 case ElevatorStep.Travel:
                     objective="1층으로 내려가는 중";line="좋아, 슛은 밖에서 하자.\n공을 안고 천천히 내려가자.";break;
                 case ElevatorStep.Jump:
-                    objective="친구가 슛을 보여 줘요";line="이렇게 뛰어서!  멋졌지?";break;
+                    objective="친구가 만류를 듣지 않고 슛을 흉내 내요";line="에이, 한 번만! 잘 봐.\n이렇게 뛰어서!";break;
                 case ElevatorStep.Stopped:
                     objective="도움을 요청할 장치 찾기";
                     if(f.Phase==InteractionPhase.Dialogue)line="어? 왜 멈췄지?";
@@ -182,10 +184,17 @@ namespace ProjectWait.M.Elevator
                     objective="비상통화 연결 중";who="비상통화";line="관리실에 연결하고 있어요.\n응답을 기다려 주세요.";break;
                 case ElevatorStep.Unanswered:
                     objective="다른 방법으로 도움 요청";who="나의 미션";line="응답이 없어요.\n휴대폰으로 119에 신고해요.\n이 체험은 모의 통화예요.";Add("1   휴대폰으로 119 모의 신고",lesson.Phone);break;
+                case ElevatorStep.CallQuestion:
+                    objective="무슨 일이 생겼는지 말하기";who=f.UsedPhone?"119 · 모의 통화":"관리실";line="연결됐습니다. 무슨 상황인가요?";break;
+                case ElevatorStep.CallResponse:
+                    objective="멈춘 상황과 인원 전달";who="나";line=lesson.settings.reportDialogue;break;
+                case ElevatorStep.CallLiftQuestion:
+                    objective="어느 승강기인지 확인하기";who=f.UsedPhone?"119 · 모의 통화":"관리실";line="어느 엘리베이터에 있나요?";break;
+                case ElevatorStep.CallIdentityGuide:
+                    objective="위치 표시가 있는 곳 듣기";who=f.UsedPhone?"119 · 모의 통화":"관리실";line="전면 비상벨 아래 식별판에\n건물명과 승강기 번호가 적혀 있어요.";break;
                 case ElevatorStep.Call:
                     who=f.UsedPhone?"119 · 모의 통화":"관리실 · 통화 중";
-                    if(!f.SituationReported){objective="무슨 일이 생겼는지 말하기";line="연결됐어요. 어떤 상황인가요?";Add("다음",lesson.ReportSituation);}
-                    else if(!f.IdentityFound){objective="전면 비상벨 아래 식별판 확인";line="식별판에서 건물명과\n승강기 번호를 찾아 주세요.";}
+                    if(!f.IdentityFound){objective="전면 비상벨 아래 식별판 확인";who="나의 미션";line="안내받은 식별판을 직접 찾아\n건물명과 승강기 번호를 확인해요.";}
                     else if(!f.LocationReported){objective="찾은 위치를 알려 주세요";line="찾았다!\n"+lesson.settings.building+"\n"+lesson.settings.liftId;who="나의 발견";Add("다음",lesson.Report);}
                     else{objective="상황을 보완하고 안내 듣기";line="위치를 확인했어요.\n문에서 떨어져 기다려 주세요.\n직원이 안전하게 안내할게요.";Add("다음",lesson.Advice);}break;
                 case ElevatorStep.Waiting:
@@ -208,6 +217,7 @@ namespace ProjectWait.M.Elevator
                     objective="고장난 엘리베이터에서 안전하게 대처했어요";who="친구";line="도움을 요청하고, 위치를 알리고,\n문을 건드리지 않고 함께 기다렸어요.";Add("1   우리가 해낸 일",ShowHistory);Add("2   한 번 더 해보기",lesson.Restart);break;
             }
             if(lesson.scenario){lesson.scenario.Describe(ref who,ref line);if(lesson.scenario.objectGuidedScene&&f.Step!=ElevatorStep.Call){actions.Clear();labels.Clear();}}
+            if(lesson.presentation&&lesson.presentation.rescueTeam)lesson.presentation.rescueTeam.Describe(lesson,ref who,ref line);
             subtitle.text=objective;normalLine=line;normalSpeaker=who;speaker.text=who;dialogueText.text=line;
             progress.text=(f.HelpRequested?"<color=#297A70>● 도움 요청</color>":"○ 도움 요청")+"   "+(f.LocationReported?"<color=#297A70>● 위치 전달</color>":"○ 위치 전달")+"   "+(f.Reassured?"<color=#297A70>● 함께 대기</color>":"○ 함께 대기");
             if(!spatial){revealStarted=Time.unscaledTime;dialogueText.maxVisibleCharacters=Application.isPlaying?0:int.MaxValue;}

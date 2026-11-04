@@ -19,6 +19,7 @@ namespace ProjectWait.M.Elevator
         public ElevatorStoryPresentation presentation;
         public ElevatorPauseMenu pauseMenu;
         public ElevatorScenarioDirector scenario;
+        public ElevatorPosterCutscene posterCutscene;
         public bool IsPaused => pauseMenu&&pauseMenu.IsPaused;
         public ElevatorFlow Flow { get; private set; }
         public string Thought { get; private set; } = "";
@@ -76,9 +77,6 @@ namespace ProjectWait.M.Elevator
         public void Refresh() { view.Refresh(); }
         public void Continue() { Flow.Continue(); Sync(); }
         public void SelectFloor() { Flow.SelectDestination(); Sync(); }
-        public void SafeProposal() { Flow.ChooseSafe(); Sync(); }
-        public void UnsafeProposal() { Flow.UnsafeProposal(); Sync(); }
-        public void ObserveProposal() { Flow.ObserveProposal(); Sync(); }
         public void Intercom() { Flow.RequestIntercom(); Sync(); }
         public void Phone() { Flow.RequestPhone(); Sync(); }
         public void Report() { Flow.ReportLocation(); Sync(); }
@@ -149,6 +147,7 @@ namespace ProjectWait.M.Elevator
             else if (clue == ElevatorClue.Intercom && Flow.Step == ElevatorStep.Stopped) Intercom();
             else if (clue == ElevatorClue.Identity && Flow.Step == ElevatorStep.Call) FindIdentity();
             else if (clue == ElevatorClue.Phone && Flow.Step == ElevatorStep.Unanswered) Phone();
+            else if (clue == ElevatorClue.Rescuer && ((Flow.Step == ElevatorStep.Rescue && Flow.ReadyToExit) || Flow.Step == ElevatorStep.ReturnLobby)) Continue();
             else if ((clue == ElevatorClue.Ball || clue == ElevatorClue.Friend) && Flow.Step == ElevatorStep.Boarding && Flow.DestinationSelected) Continue();
             else if (clue == ElevatorClue.Friend && Flow.Step == ElevatorStep.Waiting) { if(Flow.Reassured)Encourage();else Reassure(); }
             // Selecting a door inspects it; it does not mean trying to force it open.

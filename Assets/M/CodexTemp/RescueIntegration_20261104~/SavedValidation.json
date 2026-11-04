@@ -1,0 +1,174 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_Prototype.unity: saved team reference"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_Prototype.unity: crew hidden until arrival"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_Prototype.unity: two distinct actors"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_Prototype.unity: both observations saved"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_Prototype.unity: no missing scripts"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: one skin renderer"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: all 18 bones saved"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: palette material available"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: shader compiles"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: M-owned mesh asset"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: vertex palette saved"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: selection and outline references saved"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: no runtime dependency on temporary tools"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: one skin renderer"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: all 18 bones saved"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: palette material available"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: shader compiles"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: M-owned mesh asset"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: vertex palette saved"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: selection and outline references saved"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: no runtime dependency on temporary tools"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: saved team reference"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: crew hidden until arrival"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: two distinct actors"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: both observations saved"
+    },
+    {
+      "passed": true,
+      "check": "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity: no missing scripts"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: one skin renderer"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: all 18 bones saved"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: palette material available"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: shader compiles"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: M-owned mesh asset"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: vertex palette saved"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: selection and outline references saved"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_A_Firefighter: no runtime dependency on temporary tools"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: one skin renderer"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: all 18 bones saved"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: palette material available"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: shader compiles"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: M-owned mesh asset"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: vertex palette saved"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: selection and outline references saved"
+    },
+    {
+      "passed": true,
+      "check": "Rescuer_B_LiftSpecialist: no runtime dependency on temporary tools"
+    }
+  ],
+  "physical_headset_tested": false
+}

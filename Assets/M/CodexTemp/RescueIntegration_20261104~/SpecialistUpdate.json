@@ -1,0 +1,20 @@
+{
+  "scenes": [
+    "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+    "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity"
+  ],
+  "actors": [
+    {
+      "id": "B",
+      "height": 1.47847581,
+      "sourceRenderers": 141,
+      "runtimeRenderers": 1,
+      "materials": 1,
+      "vertices": 101207,
+      "triangles": 188656,
+      "bones": 18,
+      "facing": "+Z"
+    }
+  ],
+  "poseScaleY": 0.861107767
+}

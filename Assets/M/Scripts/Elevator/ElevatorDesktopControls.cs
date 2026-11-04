@@ -22,7 +22,6 @@ namespace ProjectWait.M.Elevator
         public bool MouseLookActive {get;private set;}
         public string HoverTargetName=>hovered?hovered.name:"";
         public Vector2 LookAngles=>new Vector2(yaw,pitch);
-        public float LookSensitivityMultiplier => lesson&&lesson.presentation&&lesson.presentation.space&&lesson.presentation.space.overlay&&lesson.presentation.space.overlay.LetterboxVisible ? .1f : 1;
         public int ClickCount {get;private set;}
         readonly List<UnityEngine.UI.Button> buttons=new List<UnityEngine.UI.Button>();
         readonly List<RaycastResult> uiHits=new List<RaycastResult>();
@@ -89,14 +88,21 @@ namespace ProjectWait.M.Elevator
                 if(mouse!=null)
                 {
                     Vector2 delta=skipDelta?Vector2.zero:mouse.delta.ReadValue();skipDelta=false;
-                    float speed=sensitivity*LookSensitivityMultiplier;
-                    SetLookAngles(yaw+delta.x*speed,pitch-delta.y*speed);
+                    SetLookAngles(yaw+delta.x*sensitivity,pitch-delta.y*sensitivity);
                 }
             }
             if(lesson.CinematicBlocking)
             {
                 pendingChoice=-1;pendingRestart=pendingDeveloper=false;
-                ClearTarget();RefreshLaserVisibility();return;
+                ClearTarget();
+                if(IsDesktop&&lesson.posterCutscene&&lesson.posterCutscene.Awaiting)
+                {
+                    var ray=targetCamera.ViewportPointToRay(new Vector3(.5f,.5f));
+                    bool focused=lesson.posterCutscene.HitsTarget(ray,out float distance);
+                    if(!focused)distance=Physics.Raycast(ray,out var hit,laserRange,~0,QueryTriggerInteraction.Ignore)?hit.distance:laserRange;
+                    RenderRay(ray,distance,focused?Target:Idle,focused);
+                }
+                RefreshLaserVisibility();return;
             }
             if(pendingDeveloper){pendingDeveloper=false;lesson.view.ToggleDeveloper();}
             if(pendingRestart){pendingRestart=false;pendingChoice=-1;click=false;lesson.Restart();}
@@ -131,15 +137,15 @@ namespace ProjectWait.M.Elevator
         }
         public void ResetView(){if(!IsDesktop)return;SetScriptedHeading(lesson.presentation.space.DefaultHeading);SetMouseLook(true);}
         public void SetScriptedHeading(float value){SetLookAngles(value,0);skipDelta=true;}
-        public void FaceHeading(float heading)
+        public void AddCinematicYaw(float degrees)
         {
-            if(IsDesktop)SetScriptedHeading(heading);
-            else xrOrigin.RotateAround(targetCamera.transform.position,Vector3.up,Mathf.DeltaAngle(targetCamera.transform.eulerAngles.y,heading));
+            if(IsDesktop)SetLookAngles(yaw+degrees,pitch);
+            else xrOrigin.RotateAround(targetCamera.transform.position,Vector3.up,degrees);
         }
         public void SetLookAngles(float horizontal,float vertical){yaw=horizontal;pitch=Mathf.Clamp(vertical,-80,80);targetCamera.transform.rotation=Quaternion.Euler(pitch,yaw,0);}
         void RefreshLaserVisibility()
         {
-            bool visible=initialized&&IsDesktop&&isActiveAndEnabled&&lesson&&!lesson.IsPaused&&!lesson.CinematicBlocking;
+            bool visible=initialized&&IsDesktop&&isActiveAndEnabled&&lesson&&!lesson.IsPaused&&(!lesson.CinematicBlocking||lesson.posterCutscene&&lesson.posterCutscene.Awaiting);
             if(centerLaser)centerLaser.enabled=visible;if(laserDot)laserDot.gameObject.SetActive(visible);if(reticle)reticle.gameObject.SetActive(visible);
         }
         void SetTarget(GameObject target)
@@ -191,6 +197,10 @@ namespace ProjectWait.M.Elevator
             SetTarget(target);var observation=hovered?hovered.GetComponent<ElevatorObservation>():null;
             bool reachable=hovered&&(!observation||observation.CanActivate);
             var color=hovered?(reachable?Target:OutOfRange):Idle;
+            RenderRay(ray,distance,color,reachable);
+        }
+        void RenderRay(Ray ray,float distance,Color color,bool reachable)
+        {
             if(centerLaser){centerLaser.SetPosition(0,targetCamera.transform.TransformPoint(new Vector3(0,-.022f,.13f)));centerLaser.SetPosition(1,ray.GetPoint(Mathf.Clamp(distance,.15f,laserRange)));tint.SetColor("_BaseColor",color);tint.SetColor("_Color",color);centerLaser.SetPropertyBlock(tint);}
             if(laserDot){laserDot.position=ray.GetPoint(Mathf.Clamp(distance-.008f,.12f,laserRange));laserDot.localScale=Vector3.one*Mathf.Clamp(distance*.003f,.007f,.02f);if(dotRenderer)dotRenderer.SetPropertyBlock(tint);}
             if(reticle)reticle.SetFocused(reachable);

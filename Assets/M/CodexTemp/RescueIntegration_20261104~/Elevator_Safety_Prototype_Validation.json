@@ -1,0 +1,136 @@
+{
+  "scene": "Elevator_Safety_Prototype",
+  "status": "PASS",
+  "checks": [
+    {
+      "passed": true,
+      "check": "Play session initialized"
+    },
+    {
+      "passed": true,
+      "check": "Player loop advances before capture"
+    },
+    {
+      "passed": true,
+      "check": "Both new characters are connected"
+    },
+    {
+      "passed": true,
+      "check": "Both crew visible during safety inspection"
+    },
+    {
+      "passed": true,
+      "check": "Only two palette skin renderers are used"
+    },
+    {
+      "passed": true,
+      "check": "Both faces fit existing cabin camera view"
+    },
+    {
+      "passed": true,
+      "check": "Inspection dialogue switches to lift specialist"
+    },
+    {
+      "passed": true,
+      "check": "Exit remains locked during safety inspection"
+    },
+    {
+      "passed": true,
+      "check": "Inspection: Rescuer_A_Firefighter feet remain on landing (0.000m)"
+    },
+    {
+      "passed": true,
+      "check": "Inspection: Rescuer_B_LiftSpecialist feet remain on landing (0.000m)"
+    },
+    {
+      "passed": true,
+      "check": "Exit unlocks after safety check"
+    },
+    {
+      "passed": true,
+      "check": "Firefighter delivers exit instruction"
+    },
+    {
+      "passed": true,
+      "check": "Both actors support same selection and silhouette highlight"
+    },
+    {
+      "passed": true,
+      "check": "Neither crew member reveals a special answer colour"
+    },
+    {
+      "passed": true,
+      "check": "Rescue updates preserve player gaze"
+    },
+    {
+      "passed": true,
+      "check": "Specialist can be reached by actual PC selection ray"
+    },
+    {
+      "passed": true,
+      "check": "Selecting the specialist starts escorted exit"
+    },
+    {
+      "passed": true,
+      "check": "Escorted route reaches third-floor lobby"
+    },
+    {
+      "passed": true,
+      "check": "Both crew remain with the child in lobby"
+    },
+    {
+      "passed": true,
+      "check": "Lobby: Rescuer_A_Firefighter feet remain on landing (0.000m)"
+    },
+    {
+      "passed": true,
+      "check": "Lobby: Rescuer_B_LiftSpecialist feet remain on landing (0.000m)"
+    },
+    {
+      "passed": true,
+      "check": "Firefighter can continue the stair escort"
+    },
+    {
+      "passed": true,
+      "check": "Escort reaches ground floor"
+    },
+    {
+      "passed": true,
+      "check": "Both crew faces fit ground-floor composition"
+    },
+    {
+      "passed": true,
+      "check": "Specialist is unobstructed in ground-floor group"
+    },
+    {
+      "passed": true,
+      "check": "Ground floor: Rescuer_A_Firefighter feet remain on landing (0.000m)"
+    },
+    {
+      "passed": true,
+      "check": "Ground floor: Rescuer_B_LiftSpecialist feet remain on landing (0.000m)"
+    },
+    {
+      "passed": true,
+      "check": "Going-home transition preserves friend position"
+    },
+    {
+      "passed": true,
+      "check": "Story completes after the escorted rescue"
+    },
+    {
+      "passed": true,
+      "check": "Restart hides rescue crew before arrival"
+    },
+    {
+      "passed": true,
+      "check": "Legacy placeholder is removed"
+    },
+    {
+      "passed": true,
+      "check": "No new rendering errors or runtime exceptions"
+    }
+  ],
+  "error": null,
+  "renderErrors": []
+}

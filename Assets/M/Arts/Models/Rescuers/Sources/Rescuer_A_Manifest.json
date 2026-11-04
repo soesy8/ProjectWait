@@ -1,0 +1,832 @@
+{
+  "id": "A",
+  "file": "Assets/M/Arts/Models/Rescuers/Sources/Rescuer_A.fbx",
+  "objects": [
+    {
+      "name": "A_000_Back_label",
+      "part": "Back label • 구조",
+      "outlined": false
+    },
+    {
+      "name": "A_001_Belt_buckle_inset",
+      "part": "Belt buckle inset",
+      "outlined": true
+    },
+    {
+      "name": "A_002_Belt_buckle_outer",
+      "part": "Belt buckle outer",
+      "outlined": true
+    },
+    {
+      "name": "A_003_Belt_keeper_0_5",
+      "part": "Belt keeper -0.5",
+      "outlined": true
+    },
+    {
+      "name": "A_004_Belt_keeper_0_5",
+      "part": "Belt keeper 0.5",
+      "outlined": true
+    },
+    {
+      "name": "A_005_Boot_ankle_shaft_L",
+      "part": "Boot ankle shaft.L",
+      "outlined": false
+    },
+    {
+      "name": "A_006_Boot_ankle_shaft_R",
+      "part": "Boot ankle shaft.R",
+      "outlined": false
+    },
+    {
+      "name": "A_007_Boot_instep_seam_L0_43",
+      "part": "Boot instep seam.L0.43",
+      "outlined": false
+    },
+    {
+      "name": "A_008_Boot_instep_seam_L0_5",
+      "part": "Boot instep seam.L0.5",
+      "outlined": false
+    },
+    {
+      "name": "A_009_Boot_instep_seam_R0_43",
+      "part": "Boot instep seam.R0.43",
+      "outlined": false
+    },
+    {
+      "name": "A_010_Boot_instep_seam_R0_5",
+      "part": "Boot instep seam.R0.5",
+      "outlined": false
+    },
+    {
+      "name": "A_011_Boot_outsole_L",
+      "part": "Boot outsole.L",
+      "outlined": true
+    },
+    {
+      "name": "A_012_Boot_outsole_R",
+      "part": "Boot outsole.R",
+      "outlined": true
+    },
+    {
+      "name": "A_013_Boot_pull_tab_L",
+      "part": "Boot pull tab.L",
+      "outlined": true
+    },
+    {
+      "name": "A_014_Boot_pull_tab_R",
+      "part": "Boot pull tab.R",
+      "outlined": true
+    },
+    {
+      "name": "A_015_Boot_toe_cap_L",
+      "part": "Boot toe cap.L",
+      "outlined": true
+    },
+    {
+      "name": "A_016_Boot_toe_cap_R",
+      "part": "Boot toe cap.R",
+      "outlined": true
+    },
+    {
+      "name": "A_017_Boot_toe_stitch_L",
+      "part": "Boot toe stitch.L",
+      "outlined": false
+    },
+    {
+      "name": "A_018_Boot_toe_stitch_R",
+      "part": "Boot toe stitch.R",
+      "outlined": false
+    },
+    {
+      "name": "A_019_Boot_upper_L",
+      "part": "Boot upper.L",
+      "outlined": true
+    },
+    {
+      "name": "A_020_Boot_upper_R",
+      "part": "Boot upper.R",
+      "outlined": true
+    },
+    {
+      "name": "A_021_Cargo_flap_L",
+      "part": "Cargo flap.L",
+      "outlined": true
+    },
+    {
+      "name": "A_022_Cargo_flap_R",
+      "part": "Cargo flap.R",
+      "outlined": true
+    },
+    {
+      "name": "A_023_Cargo_side_pocket_L",
+      "part": "Cargo side pocket.L",
+      "outlined": true
+    },
+    {
+      "name": "A_024_Cargo_side_pocket_R",
+      "part": "Cargo side pocket.R",
+      "outlined": true
+    },
+    {
+      "name": "A_025_Cheek_L",
+      "part": "Cheek.L",
+      "outlined": false
+    },
+    {
+      "name": "A_026_Cheek_R",
+      "part": "Cheek.R",
+      "outlined": false
+    },
+    {
+      "name": "A_027_Chest_name_patch",
+      "part": "Chest name patch",
+      "outlined": true
+    },
+    {
+      "name": "A_028_Chest_reflective_ivory_0",
+      "part": "Chest reflective ivory 0",
+      "outlined": false
+    },
+    {
+      "name": "A_029_Chest_reflective_ivory_1",
+      "part": "Chest reflective ivory 1",
+      "outlined": false
+    },
+    {
+      "name": "A_030_Chest_reflective_yellow_0",
+      "part": "Chest reflective yellow 0",
+      "outlined": false
+    },
+    {
+      "name": "A_031_Chest_reflective_yellow_1",
+      "part": "Chest reflective yellow 1",
+      "outlined": false
+    },
+    {
+      "name": "A_032_Chin_strap_fastener_L",
+      "part": "Chin strap fastener.L",
+      "outlined": true
+    },
+    {
+      "name": "A_033_Chin_strap_fastener_R",
+      "part": "Chin strap fastener.R",
+      "outlined": true
+    },
+    {
+      "name": "A_034_Collar_split",
+      "part": "Collar split",
+      "outlined": false
+    },
+    {
+      "name": "A_035_Cuff_stitch_L",
+      "part": "Cuff stitch.L",
+      "outlined": false
+    },
+    {
+      "name": "A_036_Cuff_stitch_R",
+      "part": "Cuff stitch.R",
+      "outlined": false
+    },
+    {
+      "name": "A_037_Ear_inner_L",
+      "part": "Ear inner.L",
+      "outlined": false
+    },
+    {
+      "name": "A_038_Ear_inner_R",
+      "part": "Ear inner.R",
+      "outlined": false
+    },
+    {
+      "name": "A_039_Ear_L",
+      "part": "Ear.L",
+      "outlined": true
+    },
+    {
+      "name": "A_040_Ear_R",
+      "part": "Ear.R",
+      "outlined": true
+    },
+    {
+      "name": "A_041_Eye_glint_L",
+      "part": "Eye glint.L",
+      "outlined": false
+    },
+    {
+      "name": "A_042_Eye_glint_R",
+      "part": "Eye glint.R",
+      "outlined": false
+    },
+    {
+      "name": "A_043_Eye_small_glint_L",
+      "part": "Eye small glint.L",
+      "outlined": false
+    },
+    {
+      "name": "A_044_Eye_small_glint_R",
+      "part": "Eye small glint.R",
+      "outlined": false
+    },
+    {
+      "name": "A_045_Eye_L",
+      "part": "Eye.L",
+      "outlined": false
+    },
+    {
+      "name": "A_046_Eye_R",
+      "part": "Eye.R",
+      "outlined": false
+    },
+    {
+      "name": "A_047_Eyebrow_L",
+      "part": "Eyebrow.L",
+      "outlined": false
+    },
+    {
+      "name": "A_048_Eyebrow_R",
+      "part": "Eyebrow.R",
+      "outlined": false
+    },
+    {
+      "name": "A_049_Finger_crease_L_0",
+      "part": "Finger crease.L.0",
+      "outlined": false
+    },
+    {
+      "name": "A_050_Finger_crease_L_1",
+      "part": "Finger crease.L.1",
+      "outlined": false
+    },
+    {
+      "name": "A_051_Finger_crease_L_2",
+      "part": "Finger crease.L.2",
+      "outlined": false
+    },
+    {
+      "name": "A_052_Finger_crease_R_0",
+      "part": "Finger crease.R.0",
+      "outlined": false
+    },
+    {
+      "name": "A_053_Finger_crease_R_1",
+      "part": "Finger crease.R.1",
+      "outlined": false
+    },
+    {
+      "name": "A_054_Finger_crease_R_2",
+      "part": "Finger crease.R.2",
+      "outlined": false
+    },
+    {
+      "name": "A_055_Flashlight_barrel",
+      "part": "Flashlight barrel",
+      "outlined": true
+    },
+    {
+      "name": "A_056_Flashlight_belt_loop",
+      "part": "Flashlight belt loop",
+      "outlined": true
+    },
+    {
+      "name": "A_057_Flashlight_front_bezel",
+      "part": "Flashlight front bezel",
+      "outlined": true
+    },
+    {
+      "name": "A_058_Flashlight_lens",
+      "part": "Flashlight lens",
+      "outlined": true
+    },
+    {
+      "name": "A_059_Flashlight_lens_glint",
+      "part": "Flashlight lens glint",
+      "outlined": false
+    },
+    {
+      "name": "A_060_Flashlight_yellow_rim",
+      "part": "Flashlight yellow rim",
+      "outlined": true
+    },
+    {
+      "name": "A_061_Glove_cuff_0",
+      "part": "Glove cuff 0",
+      "outlined": true
+    },
+    {
+      "name": "A_062_Glove_cuff_0_11",
+      "part": "Glove cuff 0.11",
+      "outlined": true
+    },
+    {
+      "name": "A_063_Glove_finger_0_0",
+      "part": "Glove finger 0 0",
+      "outlined": true
+    },
+    {
+      "name": "A_064_Glove_finger_0_1",
+      "part": "Glove finger 0 1",
+      "outlined": true
+    },
+    {
+      "name": "A_065_Glove_finger_0_2",
+      "part": "Glove finger 0 2",
+      "outlined": true
+    },
+    {
+      "name": "A_066_Glove_finger_0_11_0",
+      "part": "Glove finger 0.11 0",
+      "outlined": true
+    },
+    {
+      "name": "A_067_Glove_finger_0_11_1",
+      "part": "Glove finger 0.11 1",
+      "outlined": true
+    },
+    {
+      "name": "A_068_Glove_finger_0_11_2",
+      "part": "Glove finger 0.11 2",
+      "outlined": true
+    },
+    {
+      "name": "A_069_Glove_palm_0",
+      "part": "Glove palm 0",
+      "outlined": true
+    },
+    {
+      "name": "A_070_Glove_palm_0_11",
+      "part": "Glove palm 0.11",
+      "outlined": true
+    },
+    {
+      "name": "A_071_Glove_thumb_0",
+      "part": "Glove thumb 0",
+      "outlined": true
+    },
+    {
+      "name": "A_072_Glove_thumb_0_11",
+      "part": "Glove thumb 0.11",
+      "outlined": true
+    },
+    {
+      "name": "A_073_Hair_cap_fitted_hairline",
+      "part": "Hair cap • fitted hairline",
+      "outlined": true
+    },
+    {
+      "name": "A_074_Hair_fringe_0",
+      "part": "Hair fringe 0",
+      "outlined": true
+    },
+    {
+      "name": "A_075_Hair_fringe_1",
+      "part": "Hair fringe 1",
+      "outlined": true
+    },
+    {
+      "name": "A_076_Hair_fringe_2",
+      "part": "Hair fringe 2",
+      "outlined": true
+    },
+    {
+      "name": "A_077_Hand_rounded_fingers_L",
+      "part": "Hand • rounded fingers.L",
+      "outlined": true
+    },
+    {
+      "name": "A_078_Hand_rounded_fingers_R",
+      "part": "Hand • rounded fingers.R",
+      "outlined": true
+    },
+    {
+      "name": "A_079_Head",
+      "part": "Head • 둥근 얼굴",
+      "outlined": true
+    },
+    {
+      "name": "A_080_Helmet_badge_backing",
+      "part": "Helmet badge backing",
+      "outlined": true
+    },
+    {
+      "name": "A_081_Helmet_brim_moulding",
+      "part": "Helmet brim moulding",
+      "outlined": false
+    },
+    {
+      "name": "A_082_Helmet_chin_strap_L",
+      "part": "Helmet chin strap.L",
+      "outlined": true
+    },
+    {
+      "name": "A_083_Helmet_chin_strap_R",
+      "part": "Helmet chin strap.R",
+      "outlined": true
+    },
+    {
+      "name": "A_084_Helmet_flame",
+      "part": "Helmet flame",
+      "outlined": false
+    },
+    {
+      "name": "A_085_Helmet_gold_wing_1",
+      "part": "Helmet gold wing -1",
+      "outlined": false
+    },
+    {
+      "name": "A_086_Helmet_gold_wing_1",
+      "part": "Helmet gold wing 1",
+      "outlined": false
+    },
+    {
+      "name": "A_087_Helmet_raised_rib_1",
+      "part": "Helmet raised rib -1",
+      "outlined": false
+    },
+    {
+      "name": "A_088_Helmet_raised_rib_1",
+      "part": "Helmet raised rib 1",
+      "outlined": false
+    },
+    {
+      "name": "A_089_Helmet_reflective_side_1",
+      "part": "Helmet reflective side -1",
+      "outlined": false
+    },
+    {
+      "name": "A_090_Helmet_reflective_side_1",
+      "part": "Helmet reflective side 1",
+      "outlined": false
+    },
+    {
+      "name": "A_091_Helmet_shield",
+      "part": "Helmet shield",
+      "outlined": true
+    },
+    {
+      "name": "A_092_Helmet_dome_shell",
+      "part": "Helmet • dome shell",
+      "outlined": true
+    },
+    {
+      "name": "A_093_Helmet_rolled_brim",
+      "part": "Helmet • rolled brim",
+      "outlined": true
+    },
+    {
+      "name": "A_094_Jacket_center_seam",
+      "part": "Jacket center seam",
+      "outlined": false
+    },
+    {
+      "name": "A_095_Jacket_continuous_shoulders_and_arms",
+      "part": "Jacket • continuous shoulders and arms",
+      "outlined": true
+    },
+    {
+      "name": "A_096_Knee_padded_panel_L",
+      "part": "Knee padded panel.L",
+      "outlined": true
+    },
+    {
+      "name": "A_097_Knee_padded_panel_R",
+      "part": "Knee padded panel.R",
+      "outlined": true
+    },
+    {
+      "name": "A_098_Neck",
+      "part": "Neck",
+      "outlined": true
+    },
+    {
+      "name": "A_099_Nose",
+      "part": "Nose",
+      "outlined": false
+    },
+    {
+      "name": "A_100_Radio_aerial",
+      "part": "Radio aerial",
+      "outlined": true
+    },
+    {
+      "name": "A_101_Radio_casing",
+      "part": "Radio casing",
+      "outlined": true
+    },
+    {
+      "name": "A_102_Radio_front",
+      "part": "Radio front",
+      "outlined": true
+    },
+    {
+      "name": "A_103_Radio_grille_3_11",
+      "part": "Radio grille 3.11",
+      "outlined": false
+    },
+    {
+      "name": "A_104_Radio_grille_3_155",
+      "part": "Radio grille 3.155",
+      "outlined": false
+    },
+    {
+      "name": "A_105_Radio_grille_3_2",
+      "part": "Radio grille 3.2",
+      "outlined": false
+    },
+    {
+      "name": "A_106_Radio_LCD",
+      "part": "Radio LCD",
+      "outlined": false
+    },
+    {
+      "name": "A_107_Radio_PTT",
+      "part": "Radio PTT",
+      "outlined": true
+    },
+    {
+      "name": "A_108_Radio_shoulder_clip",
+      "part": "Radio shoulder clip",
+      "outlined": false
+    },
+    {
+      "name": "A_109_Sleeve_cuff_L",
+      "part": "Sleeve cuff.L",
+      "outlined": true
+    },
+    {
+      "name": "A_110_Sleeve_cuff_R",
+      "part": "Sleeve cuff.R",
+      "outlined": true
+    },
+    {
+      "name": "A_111_Sleeve_ivory_band_L",
+      "part": "Sleeve ivory band.L",
+      "outlined": false
+    },
+    {
+      "name": "A_112_Sleeve_ivory_band_R",
+      "part": "Sleeve ivory band.R",
+      "outlined": false
+    },
+    {
+      "name": "A_113_Sleeve_yellow_band_L",
+      "part": "Sleeve yellow band.L",
+      "outlined": false
+    },
+    {
+      "name": "A_114_Sleeve_yellow_band_R",
+      "part": "Sleeve yellow band.R",
+      "outlined": false
+    },
+    {
+      "name": "A_115_Smile_interior",
+      "part": "Smile interior",
+      "outlined": false
+    },
+    {
+      "name": "A_116_Smile_teeth",
+      "part": "Smile teeth",
+      "outlined": false
+    },
+    {
+      "name": "A_117_Smile_tongue",
+      "part": "Smile tongue",
+      "outlined": false
+    },
+    {
+      "name": "A_118_Smile_warm_rim",
+      "part": "Smile warm rim",
+      "outlined": false
+    },
+    {
+      "name": "A_119_Standing_rescue_collar",
+      "part": "Standing rescue collar",
+      "outlined": true
+    },
+    {
+      "name": "A_120_Trouser_fold_L",
+      "part": "Trouser fold.L",
+      "outlined": false
+    },
+    {
+      "name": "A_121_Trouser_fold_R",
+      "part": "Trouser fold.R",
+      "outlined": false
+    },
+    {
+      "name": "A_122_Trousers_continuous_tailored_hips",
+      "part": "Trousers • continuous tailored hips",
+      "outlined": true
+    },
+    {
+      "name": "A_123_Utility_belt",
+      "part": "Utility belt",
+      "outlined": true
+    },
+    {
+      "name": "A_124_Wing_engraved_1_0",
+      "part": "Wing engraved -1 0",
+      "outlined": false
+    },
+    {
+      "name": "A_125_Wing_engraved_1_0_045",
+      "part": "Wing engraved -1 0.045",
+      "outlined": false
+    },
+    {
+      "name": "A_126_Wing_engraved_1_0",
+      "part": "Wing engraved 1 0",
+      "outlined": false
+    },
+    {
+      "name": "A_127_Wing_engraved_1_0_045",
+      "part": "Wing engraved 1 0.045",
+      "outlined": false
+    },
+    {
+      "name": "A_128_Yoke_fitted_continuous_shoulder_panel",
+      "part": "Yoke • fitted continuous shoulder panel",
+      "outlined": false
+    },
+    {
+      "name": "A_129_Zipper_pull",
+      "part": "Zipper pull",
+      "outlined": true
+    }
+  ],
+  "materials": [
+    {
+      "name": "Rescue_A_Mat_00",
+      "hex": "#FFF0C5",
+      "flat": false,
+      "source": "Reflective ivory | #FFF0C5"
+    },
+    {
+      "name": "Rescue_A_Mat_01",
+      "hex": "#343233",
+      "flat": false,
+      "source": "Straps and belt"
+    },
+    {
+      "name": "Rescue_A_Mat_02",
+      "hex": "#9A9183",
+      "flat": false,
+      "source": "Buckle warm steel"
+    },
+    {
+      "name": "Rescue_A_Mat_03",
+      "hex": "#E87927",
+      "flat": false,
+      "source": "A · cuff orange | #E87927"
+    },
+    {
+      "name": "Rescue_A_Mat_04",
+      "hex": "#373434",
+      "flat": false,
+      "source": "Boots warm charcoal"
+    },
+    {
+      "name": "Rescue_A_Mat_05",
+      "hex": "#454142",
+      "flat": false,
+      "source": "Boot toe panels"
+    },
+    {
+      "name": "Rescue_A_Mat_06",
+      "hex": "#292727",
+      "flat": false,
+      "source": "Boot soles"
+    },
+    {
+      "name": "Rescue_A_Mat_07",
+      "hex": "#3B3E48",
+      "flat": false,
+      "source": "Cargo navy | #3B3E48"
+    },
+    {
+      "name": "Rescue_A_Mat_08",
+      "hex": "#424751",
+      "flat": false,
+      "source": "Shoulder panels"
+    },
+    {
+      "name": "Rescue_A_Mat_09",
+      "hex": "#F99A76",
+      "flat": true,
+      "source": "Cheek coral"
+    },
+    {
+      "name": "Rescue_A_Mat_10",
+      "hex": "#FFE56F",
+      "flat": false,
+      "source": "Reflective lemon"
+    },
+    {
+      "name": "Rescue_A_Mat_11",
+      "hex": "#45494B",
+      "flat": false,
+      "source": "Radio casing"
+    },
+    {
+      "name": "Rescue_A_Mat_12",
+      "hex": "#B85C25",
+      "flat": false,
+      "source": "A · tailored seam"
+    },
+    {
+      "name": "Rescue_A_Mat_13",
+      "hex": "#EF9B6D",
+      "flat": false,
+      "source": "Ear warmth"
+    },
+    {
+      "name": "Rescue_A_Mat_14",
+      "hex": "#FFC08A",
+      "flat": false,
+      "source": "Skin | #FFC08A"
+    },
+    {
+      "name": "Rescue_A_Mat_15",
+      "hex": "#FFF8E8",
+      "flat": true,
+      "source": "Eye glints and teeth"
+    },
+    {
+      "name": "Rescue_A_Mat_16",
+      "hex": "#2B211B",
+      "flat": true,
+      "source": "Eyes espresso"
+    },
+    {
+      "name": "Rescue_A_Mat_17",
+      "hex": "#573727",
+      "flat": false,
+      "source": "A · chestnut hair"
+    },
+    {
+      "name": "Rescue_A_Mat_18",
+      "hex": "#272D30",
+      "flat": false,
+      "source": "Radio trim"
+    },
+    {
+      "name": "Rescue_A_Mat_19",
+      "hex": "#F9BE36",
+      "flat": false,
+      "source": "Badge gold"
+    },
+    {
+      "name": "Rescue_A_Mat_20",
+      "hex": "#7C7265",
+      "flat": false,
+      "source": "Work glove seams"
+    },
+    {
+      "name": "Rescue_A_Mat_21",
+      "hex": "#BAAA8F",
+      "flat": false,
+      "source": "Work gloves"
+    },
+    {
+      "name": "Rescue_A_Mat_22",
+      "hex": "#FF8C2D",
+      "flat": false,
+      "source": "A · rescue orange | #FF8C2D"
+    },
+    {
+      "name": "Rescue_A_Mat_23",
+      "hex": "#759C8C",
+      "flat": false,
+      "source": "Radio screen"
+    },
+    {
+      "name": "Rescue_A_Mat_24",
+      "hex": "#76372C",
+      "flat": true,
+      "source": "Smile inside"
+    },
+    {
+      "name": "Rescue_A_Mat_25",
+      "hex": "#E77D70",
+      "flat": true,
+      "source": "Smile tongue"
+    },
+    {
+      "name": "Rescue_A_Mat_26",
+      "hex": "#493327",
+      "flat": true,
+      "source": "Ink | #493327"
+    },
+    {
+      "name": "Rescue_A_Mat_27",
+      "hex": "#292D36",
+      "flat": false,
+      "source": "Cargo seams"
+    },
+    {
+      "name": "Rescue_A_Mat_28",
+      "hex": "#D6A448",
+      "flat": false,
+      "source": "B · helmet moulding"
+    }
+  ]
+}

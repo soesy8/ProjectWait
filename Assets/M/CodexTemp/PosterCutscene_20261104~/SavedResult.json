@@ -1,0 +1,30 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "Assets/M/CodexTemp/PosterCutscene_20261104~/VerifySaved.cs",
+      "entry": "VerifySavedPoster.Run",
+      "timeout_ms": "55000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 1981,
+      "executeMs": 3870,
+      "assemblyName": "PipelineRunScript_VerifySaved_e18c0d3520dc4def8c54081dc7642503",
+      "success": true,
+      "result": {
+        "status": "PASS",
+        "checks": 44
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

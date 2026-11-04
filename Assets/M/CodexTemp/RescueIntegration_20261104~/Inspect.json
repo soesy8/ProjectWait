@@ -1,0 +1,163 @@
+{
+  "playing": false,
+  "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+  "dirty": false,
+  "roots": [
+    "Stationary_XR_Origin",
+    "Elevator_Safety_Lesson",
+    "XR Interaction Manager",
+    "EventSystem",
+    "Warm cabin light",
+    "Elevator_World_Dialogue",
+    "PC_Test_Controls",
+    "Frame Rate Limit (60 FPS)"
+  ],
+  "lesson": "Elevator_Safety_Lesson",
+  "rescuer": {
+    "name": "FriendlyRescuer",
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.1,
+      1.28,
+      1.1
+    ],
+    "renderers": [
+      {
+        "name": "FriendlyRescuer",
+        "center": [
+          0.0,
+          0.979199946,
+          -0.0577500276
+        ],
+        "size": [
+          0.6930001,
+          1.75359976,
+          0.7315001
+        ],
+        "materials": [
+          {
+            "name": "UnifiedPalette",
+            "shader": "ProjectWait/M/Vertex Palette Toon"
+          }
+        ]
+      },
+      {
+        "name": "Head • 둥근 얼굴",
+        "center": [
+          1.79951043E-09,
+          0.8657656,
+          0.020584
+        ],
+        "size": [
+          0.8011307,
+          1.746315,
+          0.5641491
+        ],
+        "materials": [
+          {
+            "name": "UnifiedPalette",
+            "shader": "ProjectWait/M/Vertex Palette Toon"
+          }
+        ]
+      }
+    ],
+    "bones": [
+      {
+        "name": "root",
+        "position": [
+          0.0,
+          0.114559978,
+          0.0
+        ]
+      },
+      {
+        "name": "pelvis",
+        "position": [
+          0.0,
+          0.5100799,
+          0.0
+        ]
+      },
+      {
+        "name": "head",
+        "position": [
+          0.0,
+          1.15136,
+          0.0
+        ]
+      },
+      {
+        "name": "upper_arm.L",
+        "position": [
+          0.184800014,
+          0.9977598,
+          -1.6155731E-08
+        ]
+      },
+      {
+        "name": "forearm.L",
+        "position": [
+          0.2920501,
+          0.8595198,
+          -0.013200053
+        ]
+      },
+      {
+        "name": "hand.L",
+        "position": [
+          0.310860127,
+          0.7212799,
+          -0.0330000632
+        ]
+      }
+    ]
+  },
+  "camera": {
+    "position": [
+      -1.8,
+      9.026476,
+      -1.8
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "fov": 68.0
+  },
+  "leftDoor": [
+    -2.25,
+    9.325,
+    3.23
+  ],
+  "rightDoor": [
+    -1.35,
+    9.325,
+    3.23
+  ],
+  "observations": [
+    {
+      "name": "FriendlyRescuer",
+      "hasDescription": true,
+      "outline": "ProjectWait.M.Elevator.ElevatorOutlineTarget",
+      "components": [
+        "UnityEngine.Transform",
+        "UnityEngine.MeshFilter",
+        "UnityEngine.MeshRenderer",
+        "UnityEngine.XR.Interaction.Toolkit.Interactables.XRSimpleInteractable",
+        "ProjectWait.M.Elevator.ElevatorObservation",
+        "UnityEngine.BoxCollider",
+        "ProjectWait.M.Elevator.ElevatorOutlineTarget"
+      ]
+    }
+  ]
+}

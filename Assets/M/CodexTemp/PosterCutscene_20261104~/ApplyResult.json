@@ -1,0 +1,35 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "Assets/M/CodexTemp/PosterCutscene_20261104~/RetryApply.cs",
+      "entry": "RetryPosterApply.Run",
+      "timeout_ms": "55000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 1261,
+      "executeMs": 2858,
+      "assemblyName": "PipelineRunScript_RetryApply_2b2dd675048f45fda7bd909664d309c0",
+      "success": true,
+      "result": {
+        "scenes": [
+          "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+          "Assets/M/Scene/Elevator_Safety_ObjectInteraction_Test.unity"
+        ],
+        "holdSeconds": 1.5,
+        "pulseSeconds": 1.5,
+        "pulseGrowth": 0.2
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

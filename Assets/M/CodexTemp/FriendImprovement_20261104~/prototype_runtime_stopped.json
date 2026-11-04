@@ -1,0 +1,98 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "eval",
+    "parameters": {
+      "code": "var lesson = UnityEngine.Object.FindFirstObjectByType<ProjectWait.M.Elevator.ElevatorLesson>();\nvar mesh = lesson.friend.GetComponentInChildren<SkinnedMeshRenderer>();\nvar animator = lesson.friend.GetComponentInChildren<Animator>();\nvar expressions = lesson.friend.GetComponentInChildren<ProjectWait.M.FriendImprovedExpressions>();\nreturn new {\n    frame = Time.frameCount,\n    state = lesson.Snapshot(),\n    model = expressions.name,\n    animatorInitialized = animator.isInitialized,\n    boneCount = mesh.bones.Length,\n    badBones = mesh.bones.Count(b => !b),\n    materialCount = mesh.sharedMaterials.Length,\n    submeshCount = mesh.sharedMesh.subMeshCount,\n    shapes = Enumerable.Range(0, mesh.sharedMesh.blendShapeCount).Select(i => new { name=mesh.sharedMesh.GetBlendShapeName(i), weight=mesh.GetBlendShapeWeight(i) }).ToArray(),\n    feet = mesh.bones.Where(b => b.name.StartsWith(\"foot.\")).Select(b => new { b.name, position=new[]{b.position.x,b.position.y,b.position.z} }).ToArray(),\n    phone = lesson.friend.GetComponentsInChildren<Transform>(true).Count(t => t.name == \"Cabin_Optional119Phone\"),\n    highlight = lesson.friend.GetComponent<ProjectWait.M.Elevator.ElevatorOutlineTarget>().geometry.All(g=>g.IsValid)\n};\n"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": {
+        "frame": 4696,
+        "state": {
+          "step": "Stopped",
+          "phase": "Investigation",
+          "PlayerHasBall": true,
+          "DestinationSelected": true,
+          "FirstJudgment": "안전 포스터를 가리키며 뛰지 말라고 말함",
+          "HelpRequested": false,
+          "LocationReported": false,
+          "UsedPhone": false,
+          "Reassured": false,
+          "ReadyToExit": false,
+          "HintLevel": 0,
+          "JumpCount": 1,
+          "Floor": 3,
+          "motorPlaying": false,
+          "friendHeight": 0,
+          "history": [
+            "한빛 생활체육센터 3층에서 농구를 마치고 1층으로 귀가 준비",
+            "낮은 측면 패널에서 목적지 1층을 선택함",
+            "친구의 농구공을 받아 안고 슛 이야기를 들음",
+            "안전 포스터를 직접 가리켜 친구에게 안에서는 뛰지 말자고 말함",
+            "친구가 만류를 듣지 않고 슛을 흉내 내며 점프함 · 체험자는 뛰지 않음",
+            "엘리베이터가 덜컹하며 운행 정지 · 고장 대처 체험으로 진행"
+          ]
+        },
+        "model": "Wait_Friend_Improved",
+        "animatorInitialized": true,
+        "boneCount": 22,
+        "badBones": 0,
+        "materialCount": 1,
+        "submeshCount": 1,
+        "shapes": [
+          {
+            "name": "Blink",
+            "weight": 0
+          },
+          {
+            "name": "Smile",
+            "weight": 0
+          },
+          {
+            "name": "Surprised",
+            "weight": 100
+          },
+          {
+            "name": "Worried",
+            "weight": 0
+          },
+          {
+            "name": "Sad",
+            "weight": 0
+          }
+        ],
+        "feet": [
+          {
+            "name": "foot.L",
+            "position": [
+              -1.1996,
+              8.128761,
+              4.1056
+            ]
+          },
+          {
+            "name": "foot.R",
+            "position": [
+              -1.00040007,
+              8.128761,
+              4.1056
+            ]
+          }
+        ],
+        "phone": 1,
+        "highlight": true
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

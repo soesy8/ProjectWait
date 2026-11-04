@@ -28,10 +28,10 @@ namespace ProjectWait.M.Elevator
         float lastFloor;
         bool initialized;
         bool teleported;
-        bool entryTurnStarted,entryTurnComplete;
-        Vector2 entryTurnFrom;
+        bool entryTurnComplete;
+        float entryTurnApplied;
         public bool IsInteriorBeat=>InteriorBeat(Lesson.Flow.Step);
-        static bool InteriorBeat(ElevatorStep step)=>step==ElevatorStep.Boarding||step==ElevatorStep.Proposal||step==ElevatorStep.Jump||step==ElevatorStep.Travel||step==ElevatorStep.Stopped||step==ElevatorStep.Connecting||step==ElevatorStep.Call||step==ElevatorStep.Unanswered||step==ElevatorStep.Retry||step==ElevatorStep.Waiting||step==ElevatorStep.WaitingFade||step==ElevatorStep.Rescue;
+        static bool InteriorBeat(ElevatorStep step)=>step==ElevatorStep.Boarding||step==ElevatorStep.Proposal||step==ElevatorStep.PosterPointing||step==ElevatorStep.PosterWarning||step==ElevatorStep.Jump||step==ElevatorStep.Travel||step==ElevatorStep.Stopped||step==ElevatorStep.Connecting||step==ElevatorStep.Call||step==ElevatorStep.CallQuestion||step==ElevatorStep.CallResponse||step==ElevatorStep.CallLiftQuestion||step==ElevatorStep.CallIdentityGuide||step==ElevatorStep.Unanswered||step==ElevatorStep.Retry||step==ElevatorStep.Waiting||step==ElevatorStep.WaitingFade||step==ElevatorStep.Rescue;
         Vector3 transitionStart;
         float thirdFloorDoorOpen;
         public float DoorOpen { get; private set; }
@@ -41,6 +41,14 @@ namespace ProjectWait.M.Elevator
         public float DefaultHeading => Lesson.Flow!=null&&(Lesson.Flow.Step==ElevatorStep.Lobby || Lesson.Flow.Step==ElevatorStep.Entering || Lesson.Flow.Step==ElevatorStep.ReturnLobby)?0:180;
         public Quaternion DialogueRotation => Quaternion.Euler(0, DefaultHeading, 0);
         static float S(float t,float a,float b)=>Mathf.SmoothStep(0,1,Mathf.InverseLerp(a,b,t));
+        void ApplyEntryTurn(float progress)
+        {
+            // Add each authored rotation increment to the live gaze. Mouse/head
+            // movement never changes the remaining 180-degree cinematic turn.
+            float total=180*Mathf.Clamp01(progress);
+            controls.AddCinematicYaw(total-entryTurnApplied);
+            entryTurnApplied=total;entryTurnComplete=progress>=1;
+        }
         void MoveRig(Vector3 p,bool resetHeading=false,float heading=0)
         {
             if (!controls) controls=FindFirstObjectByType<ElevatorDesktopControls>();
@@ -62,7 +70,7 @@ namespace ProjectWait.M.Elevator
             var f=Lesson.Flow;var p=Lesson.presentation;float t=f.Elapsed;
             if(!initialized){leftClosed=p.leftDoor.localPosition;rightClosed=p.rightDoor.localPosition;lastFloor=space.playerRig.position.y;initialized=true;}
             bool reset=run!=Lesson.RunVersion,changed=previous!=f.Step;
-            if(reset){entryTurnStarted=entryTurnComplete=false;}
+            if(reset||changed&&f.Step==ElevatorStep.Entering){entryTurnComplete=false;entryTurnApplied=0;}
             bool outside=f.Step==ElevatorStep.Lobby || f.Step==ElevatorStep.ReturnLobby || OnGround;
             if(reset||changed)
             {
@@ -89,19 +97,16 @@ namespace ProjectWait.M.Elevator
                 Vector3 direction=t<2.4f?mid-friendLobby:friendInside-mid;
                 var walkingRotation=Quaternion.LookRotation(-direction.normalized,Vector3.up);
                 Lesson.friend.rotation=t<3.65f?Quaternion.Slerp(Quaternion.identity,walkingRotation,S(t,.65f,1.0f)):Quaternion.Slerp(walkingRotation,Quaternion.Euler(0,180,0),S(t,3.65f,4.15f));
-                if(XRSettings.isDeviceActive){if(t>=3.1f&&!teleported){MoveRig(inside);controls.FaceHeading(180);entryTurnComplete=true;teleported=true;}}
+                if(XRSettings.isDeviceActive){if(t>=3.1f&&!teleported){MoveRig(inside);ApplyEntryTurn(1);teleported=true;}}
                 else
                 {
                     var approach=new Vector3(-1.8f,ThirdFloorHeight,2.2f);
                     var position=t<2.5f?Vector3.Lerp(transitionStart,approach,S(t,1.2f,2.5f)):Vector3.Lerp(approach,inside,S(t,2.5f,4.5f));
                     MoveRig(position);
-                    // The initial boarding turn is the only story beat allowed to own gaze.
+                    // Boarding contributes a fixed turn while the player's look stays additive.
                     if(t>=3.4f&&!entryTurnComplete)
                     {
-                        if(!entryTurnStarted){entryTurnFrom=controls.LookAngles;entryTurnStarted=true;}
-                        float turn=S(t,3.4f,4.7f);
-                        controls.SetLookAngles(Mathf.LerpAngle(entryTurnFrom.x,180,turn),Mathf.Lerp(entryTurnFrom.y,0,turn));
-                        entryTurnComplete=t>=4.7f;
+                        ApplyEntryTurn(S(t,3.4f,4.7f));
                     }
                 }
             }
@@ -152,14 +157,15 @@ namespace ProjectWait.M.Elevator
             p.rescuer.transform.rotation=Quaternion.Euler(0,f.Step==ElevatorStep.ReturnLobby?0:180,0);
             if(p.friendShadow){p.friendShadow.position=new Vector3(Lesson.friend.position.x,CurrentFloorHeight+.012f,Lesson.friend.position.z);p.friendShadow.localScale=new Vector3(.58f,.008f,.34f);}
             if(previous==ElevatorStep.Entering&&f.Step==ElevatorStep.Boarding&&!entryTurnComplete)
-            {controls.FaceHeading(180);entryTurnComplete=true;}
+            {ApplyEntryTurn(1);}
             // All subsequent interior interaction/phase changes preserve position and gaze.
             previous=f.Step;run=Lesson.RunVersion;
         }
         public Vector3 DialogueAnchor()
         {
             var f=Lesson.Flow;
-            if(f.Step==ElevatorStep.Call || f.Step==ElevatorStep.Connecting || f.Step==ElevatorStep.Unanswered || f.Step==ElevatorStep.Retry)
+            if(Lesson.presentation.rescueTeam&&(f.Step==ElevatorStep.Rescue||f.Step==ElevatorStep.ReturnLobby||f.Step==ElevatorStep.GroundFloor))return Lesson.presentation.rescueTeam.DialogueAnchor;
+            if(f.Step==ElevatorStep.Call || f.IsCallCutscene || f.Step==ElevatorStep.Unanswered || f.Step==ElevatorStep.Retry)
             {
                 if(!f.UsedPhone&&sideIntercom)return sideIntercom.position+new Vector3(-.38f,.46f,.08f);
                 return Lesson.friend.position+DialogueRotation*new Vector3(.58f,1.12f,-.20f);

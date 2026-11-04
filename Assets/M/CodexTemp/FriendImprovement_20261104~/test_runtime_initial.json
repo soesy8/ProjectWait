@@ -1,0 +1,91 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "eval",
+    "parameters": {
+      "code": "var lesson = UnityEngine.Object.FindFirstObjectByType<ProjectWait.M.Elevator.ElevatorLesson>();\nvar mesh = lesson.friend.GetComponentInChildren<SkinnedMeshRenderer>();\nvar animator = lesson.friend.GetComponentInChildren<Animator>();\nvar expressions = lesson.friend.GetComponentInChildren<ProjectWait.M.FriendImprovedExpressions>();\nreturn new {\n    frame = Time.frameCount,\n    state = lesson.Snapshot(),\n    model = expressions.name,\n    animatorInitialized = animator.isInitialized,\n    boneCount = mesh.bones.Length,\n    badBones = mesh.bones.Count(b => !b),\n    materialCount = mesh.sharedMaterials.Length,\n    submeshCount = mesh.sharedMesh.subMeshCount,\n    shapes = Enumerable.Range(0, mesh.sharedMesh.blendShapeCount).Select(i => new { name=mesh.sharedMesh.GetBlendShapeName(i), weight=mesh.GetBlendShapeWeight(i) }).ToArray(),\n    feet = mesh.bones.Where(b => b.name.StartsWith(\"foot.\")).Select(b => new { b.name, position=new[]{b.position.x,b.position.y,b.position.z} }).ToArray(),\n    phone = lesson.friend.GetComponentsInChildren<Transform>(true).Count(t => t.name == \"Cabin_Optional119Phone\"),\n    highlight = lesson.friend.GetComponent<ProjectWait.M.Elevator.ElevatorOutlineTarget>().geometry.All(g=>g.IsValid)\n};\n"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": {
+        "frame": 2025,
+        "state": {
+          "step": "Lobby",
+          "phase": "Dialogue",
+          "PlayerHasBall": false,
+          "DestinationSelected": false,
+          "FirstJudgment": "",
+          "HelpRequested": false,
+          "LocationReported": false,
+          "UsedPhone": false,
+          "Reassured": false,
+          "ReadyToExit": false,
+          "HintLevel": 0,
+          "JumpCount": 0,
+          "Floor": 3,
+          "motorPlaying": false,
+          "friendHeight": 0,
+          "history": []
+        },
+        "model": "Wait_Friend_Improved",
+        "animatorInitialized": true,
+        "boneCount": 22,
+        "badBones": 0,
+        "materialCount": 1,
+        "submeshCount": 1,
+        "shapes": [
+          {
+            "name": "Blink",
+            "weight": 0
+          },
+          {
+            "name": "Smile",
+            "weight": 25
+          },
+          {
+            "name": "Surprised",
+            "weight": 0
+          },
+          {
+            "name": "Worried",
+            "weight": 0
+          },
+          {
+            "name": "Sad",
+            "weight": 0
+          }
+        ],
+        "feet": [
+          {
+            "name": "foot.L",
+            "position": [
+              -3.10040021,
+              8.128761,
+              1.4144001
+            ]
+          },
+          {
+            "name": "foot.R",
+            "position": [
+              -3.2996,
+              8.128761,
+              1.4144001
+            ]
+          }
+        ],
+        "phone": 1,
+        "highlight": true
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}
