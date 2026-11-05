@@ -15,6 +15,13 @@ namespace ProjectWait.M.Elevator
         [Min(.1f)] public float callQuestionSeconds = 1.5f;
         [Min(.1f)] public float callReplySeconds = 2;
         [Min(.1f)] public float callLocationGuideSeconds = 2.5f;
+        [Header("Location report and safe waiting cutscene")]
+        [Min(1)] public float locationReportSeconds = 3.5f;
+        [Min(1)] public float safetyAdviceSeconds = 3.5f;
+        [Min(1)] public float doorLeanSeconds = 3;
+        [Min(1)] public float doorWarningSeconds = 3;
+        [Min(1)] public float safeWallMoveSeconds = 4;
+        [Min(1)] public float safeWallSettleSeconds = 3;
         [Min(1)] public float firstHintSeconds = 20;
         [Min(1)] public float secondHintSeconds = 40;
         [Min(1)] public float rescueWaitSeconds = 12;

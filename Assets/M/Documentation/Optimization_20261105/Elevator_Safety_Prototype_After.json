@@ -1,0 +1,273 @@
+{
+  "scene": "Assets/M/Scene/Elevator_Safety_Prototype.unity",
+  "playing": false,
+  "frame": 0,
+  "objects": 1045,
+  "renderers": 432,
+  "activeRenderers": 379,
+  "canvases": 32,
+  "meshColliders": 152,
+  "collisionTriangles": 157830,
+  "meshTriangles": 652230,
+  "meshMemory": 89140112,
+  "textureMemory": 67256557,
+  "rgbaPixels": 14462976,
+  "sourceBytes": 122347604,
+  "fonts": [
+    "Assets/M/Arts/Fonts/NotoSansCJKkr-Medium.otf"
+  ],
+  "textures": [
+    {
+      "path": "Assets/M/Arts/Textures/Skybox_Storybook_City_1024.png",
+      "width": 1024,
+      "height": 512,
+      "format": "RGB24",
+      "memory": 4894253
+    },
+    {
+      "path": "Assets/VRTemplateAssets/Sprites/Icons/Rotate Left.png",
+      "width": 128,
+      "height": 128,
+      "format": "DXT5",
+      "memory": 33664
+    },
+    {
+      "path": "Assets/VRTemplateAssets/Sprites/Icons/Teleport.png",
+      "width": 128,
+      "height": 128,
+      "format": "DXT5",
+      "memory": 33664
+    },
+    {
+      "path": "Assets/M/UI/Storybook/Art/Cartoon/SpeakerRibbon.png",
+      "width": 1024,
+      "height": 341,
+      "format": "RGBA32",
+      "memory": 2794368
+    },
+    {
+      "path": "Assets/M/Arts/Textures/FriendImprovedPalette.png",
+      "width": 128,
+      "height": 64,
+      "format": "RGBA32",
+      "memory": 66432
+    },
+    {
+      "path": "Assets/VRTemplateAssets/Sprites/Icons/Scroll Down.png",
+      "width": 128,
+      "height": 128,
+      "format": "DXT5",
+      "memory": 33664
+    },
+    {
+      "path": "Assets/VRTemplateAssets/Sprites/Icons/Scroll Left.png",
+      "width": 128,
+      "height": 128,
+      "format": "DXT5",
+      "memory": 33664
+    },
+    {
+      "path": "Assets/M/UI/Storybook/Art/Cartoon/ButtonTeal.png",
+      "width": 1024,
+      "height": 341,
+      "format": "RGBA32",
+      "memory": 2794368
+    },
+    {
+      "path": "Assets/VRTemplateAssets/Sprites/UI/Round Radius 10.png",
+      "width": 400,
+      "height": 400,
+      "format": "DXT5",
+      "memory": 320896
+    },
+    {
+      "path": "Packages/com.unity.render-pipelines.universal/Textures/BayerMatrix.png",
+      "width": 4,
+      "height": 4,
+      "format": "Alpha8",
+      "memory": 928
+    },
+    {
+      "path": "Packages/com.unity.render-pipelines.universal/Textures/BlueNoise64/L/LDR_LLL1_0.png",
+      "width": 64,
+      "height": 64,
+      "format": "Alpha8",
+      "memory": 9088
+    },
+    {
+      "path": "Assets/VRTemplateAssets/Sprites/UI/Joystick Segment.png",
+      "width": 576,
+      "height": 576,
+      "format": "DXT5",
+      "memory": 664448
+    },
+    {
+      "path": "Assets/VRTemplateAssets/Sprites/Icons/Scroll Right.png",
+      "width": 128,
+      "height": 128,
+      "format": "DXT5",
+      "memory": 33664
+    },
+    {
+      "path": "Assets/M/UI/Storybook/Art/Cartoon/ObservationNote.png",
+      "width": 1024,
+      "height": 445,
+      "format": "RGBA32",
+      "memory": 3646336
+    },
+    {
+      "path": "Assets/VRTemplateAssets/Sprites/Icons/Scroll Up.png",
+      "width": 128,
+      "height": 128,
+      "format": "DXT5",
+      "memory": 33664
+    },
+    {
+      "path": "Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Textures/DefaultMaterial_AO.png",
+      "width": 2048,
+      "height": 2048,
+      "format": "DXT1",
+      "memory": 5593328
+    },
+    {
+      "path": "Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/DemoAssets/Sprites/LegibilityMask.png",
+      "width": 2048,
+      "height": 2048,
+      "format": "DXT5",
+      "memory": 8389504
+    },
+    {
+      "path": "Assets/M/Arts/Textures/SportsCentre3F/ElevatorSafetyPoster.png",
+      "width": 1024,
+      "height": 2048,
+      "format": "DXT1",
+      "memory": 2797136
+    },
+    {
+      "path": "Assets/VRTemplateAssets/Sprites/Icons/Rotate Right.png",
+      "width": 128,
+      "height": 128,
+      "format": "DXT5",
+      "memory": 33664
+    },
+    {
+      "path": "Assets/M/Arts/Fonts/ElevatorKoreanFallback.asset",
+      "width": 1024,
+      "height": 1024,
+      "format": "Alpha8",
+      "memory": 2098048
+    },
+    {
+      "path": "Assets/M/UI/Storybook/Art/Cartoon/ButtonCream.png",
+      "width": 1024,
+      "height": 341,
+      "format": "RGBA32",
+      "memory": 2794368
+    },
+    {
+      "path": "Assets/M/UI/Storybook/Art/Cartoon/SpeechTail.png",
+      "width": 1024,
+      "height": 683,
+      "format": "RGBA32",
+      "memory": 5596032
+    },
+    {
+      "path": "Assets/M/UI/Storybook/Art/Cartoon/DialogueFrame.png",
+      "width": 1024,
+      "height": 366,
+      "format": "RGBA32",
+      "memory": 2999168
+    },
+    {
+      "path": "Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/DemoAssets/Sprites/Forward.png",
+      "width": 128,
+      "height": 128,
+      "format": "DXT5",
+      "memory": 33664
+    },
+    {
+      "path": "Assets/M/UI/Storybook/Art/Cartoon/ThoughtRibbon.png",
+      "width": 1024,
+      "height": 341,
+      "format": "RGBA32",
+      "memory": 2794368
+    },
+    {
+      "path": "Assets/M/UI/Storybook/Art/Cartoon/ThoughtCloud.png",
+      "width": 1024,
+      "height": 661,
+      "format": "RGBA32",
+      "memory": 5415808
+    },
+    {
+      "path": "Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/DemoAssets/Textures/Concrete_Normal.tif",
+      "width": 1024,
+      "height": 1024,
+      "format": "DXT5",
+      "memory": 2797152
+    },
+    {
+      "path": "Packages/com.unity.inputsystem/InputSystem/Editor/Icons/TrackedPoseDriver@4x.png",
+      "width": 64,
+      "height": 64,
+      "format": "RGBA32",
+      "memory": 33664
+    },
+    {
+      "path": "Assets/M/UI/Storybook/Art/Cartoon/FriendPortrait.png",
+      "width": 1024,
+      "height": 1024,
+      "format": "BC7",
+      "memory": 2098048
+    },
+    {
+      "path": "Assets/M/Arts/Fonts/ElevatorReadable.asset",
+      "width": 2048,
+      "height": 2048,
+      "format": "Alpha8",
+      "memory": 8389504
+    }
+  ],
+  "skins": [
+    {
+      "name": "Pinch_Pointer_LOD0",
+      "path": "Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Models/Pinch_Pointer_LOD0.fbx",
+      "vertexCount": 546,
+      "triangles": 1088,
+      "blendShapeCount": 1,
+      "updateWhenOffscreen": true
+    },
+    {
+      "name": "Pinch_Pointer_LOD0",
+      "path": "Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Models/Pinch_Pointer_LOD0.fbx",
+      "vertexCount": 546,
+      "triangles": 1088,
+      "blendShapeCount": 1,
+      "updateWhenOffscreen": true
+    },
+    {
+      "name": "Friend_Mesh",
+      "path": "Assets/M/Arts/Models/FriendImproved/Wait_Friend_Improved.fbx",
+      "vertexCount": 45581,
+      "triangles": 88550,
+      "blendShapeCount": 5,
+      "updateWhenOffscreen": true
+    },
+    {
+      "name": "CharacterMesh",
+      "path": "Assets/M/Arts/Models/Rescuers/Generated/Optimized/Rescuer_A_RuntimeSkin.asset",
+      "vertexCount": 39046,
+      "triangles": 52180,
+      "blendShapeCount": 0,
+      "updateWhenOffscreen": true
+    },
+    {
+      "name": "CharacterMesh",
+      "path": "Assets/M/Arts/Models/Rescuers/Generated/Optimized/Rescuer_B_RuntimeSkin.asset",
+      "vertexCount": 37737,
+      "triangles": 50490,
+      "blendShapeCount": 0,
+      "updateWhenOffscreen": true
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "date": "2026-11-05 Asia/Seoul",
+  "root": "Assets/M/CodexTemp",
+  "initialFiles": 1844,
+  "initialBytes": 822706776,
+  "deletedFiles": 2057,
+  "deletedBytes": 1071757942,
+  "groups": {
+    "AdultRescueSafetyBeat_20261105~": {
+      "files": 104,
+      "bytes": 15056185
+    },
+    "AssetMigration~": {
+      "files": 4,
+      "bytes": 43877
+    },
+    "BlenderExport~": {
+      "files": 11,
+      "bytes": 5336943
+    },
+    "CameraFreedom_20261103~": {
+      "files": 37,
+      "bytes": 279167
+    },
+    "DialogueReadability_20261103~": {
+      "files": 58,
+      "bytes": 3424733
+    },
+    "ElevatorAmbientHints_20261030~": {
+      "files": 46,
+      "bytes": 15041722
+    },
+    "ElevatorCinematicFraming_20261030~": {
+      "files": 44,
+      "bytes": 7794597
+    },
+    "ElevatorCommunitySports_20261029~": {
+      "files": 29,
+      "bytes": 39211135
+    },
+    "ElevatorCoping_20261030~": {
+      "files": 64,
+      "bytes": 9587810
+    },
+    "ElevatorHoverReview_20261030~": {
+      "files": 60,
+      "bytes": 10413476
+    },
+    "ElevatorInteraction_20261030~": {
+      "files": 48,
+      "bytes": 6762515
+    },
+    "ElevatorMapBlender~": {
+      "files": 14,
+      "bytes": 64420663
+    },
+    "ElevatorMaskOutline_20261030~": {
+      "files": 76,
+      "bytes": 14102670
+    },
+    "ElevatorSilverMap_20261029~": {
+      "files": 49,
+      "bytes": 32360807
+    },
+    "ElevatorSports3F_20261030~": {
+      "files": 34,
+      "bytes": 48128589
+    },
+    "ElevatorTools~": {
+      "files": 5,
+      "bytes": 26950
+    },
+    "FriendImprovement_20261104~": {
+      "files": 58,
+      "bytes": 17184356
+    },
+    "FriendIntegration~": {
+      "files": 12,
+      "bytes": 61652
+    },
+    "FriendReferenceV2~": {
+      "files": 21,
+      "bytes": 13230979
+    },
+    "InteractionFix_20261103~": {
+      "files": 42,
+      "bytes": 4751902
+    },
+    "InteractionPolish_20261103~": {
+      "files": 84,
+      "bytes": 12460049
+    },
+    "IntercomAndCuePolish_20261104~": {
+      "files": 44,
+      "bytes": 10802305
+    },
+    "Optimization_20261105~": {
+      "files": 213,
+      "bytes": 249051166
+    },
+    "OutlineRendererTool_20261030~": {
+      "files": 7,
+      "bytes": 23490
+    },
+    "PosterCutscene_20261104~": {
+      "files": 42,
+      "bytes": 7556555
+    },
+    "ProjectWait_CodexTemp_작업정리_20261103.md": {
+      "files": 1,
+      "bytes": 290940
+    },
+    "ProjectWait_CodexTemp_작업정리_20261103.md.meta": {
+      "files": 1,
+      "bytes": 158
+    },
+    "RescueBHeight_20261104~": {
+      "files": 53,
+      "bytes": 85482687
+    },
+    "RescueCharacters_20261104~": {
+      "files": 64,
+      "bytes": 102679448
+    },
+    "RescueIntegration_20261104~": {
+      "files": 42,
+      "bytes": 9838817
+    },
+    "RescuerArmRigFix_20261105~": {
+      "files": 28,
+      "bytes": 30668636
+    },
+    "RescuerRefresh_20261105~": {
+      "files": 53,
+      "bytes": 32883270
+    },
+    "RescuerSourceImprovement_20261104~": {
+      "files": 33,
+      "bytes": 34989153
+    },
+    "RescuerUnityRefresh_20261105~": {
+      "files": 64,
+      "bytes": 98177536
+    },
+    "SkyboxReview~": {
+      "files": 2,
+      "bytes": 13544
+    },
+    "TextureAuditTools~": {
+      "files": 1,
+      "bytes": 2068
+    },
+    "ThoughtHeaderFix_20261103~": {
+      "files": 84,
+      "bytes": 9204994
+    },
+    "UIFadeSkybox_20261103~": {
+      "files": 114,
+      "bytes": 26496173
+    },
+    "UIReadability_20261103~": {
+      "files": 137,
+      "bytes": 27550217
+    },
+    "UISmooth_20261103~": {
+      "files": 112,
+      "bytes": 16623528
+    },
+    "UnitySportsCentreRebuild~": {
+      "files": 43,
+      "bytes": 6757113
+    },
+    "ViewInputRefine_20261104~": {
+      "files": 19,
+      "bytes": 2985367
+    }
+  },
+  "preservedXR": true,
+  "xrHash": "285bcf8c5a2c75ab417e8ed9ab055f3660baf431d6f6893ede3c5e4edc3513eb",
+  "status": "deleted_and_verified",
+  "remainingItems": 0
+}

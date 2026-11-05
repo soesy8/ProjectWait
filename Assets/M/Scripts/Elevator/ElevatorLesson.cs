@@ -20,6 +20,7 @@ namespace ProjectWait.M.Elevator
         public ElevatorPauseMenu pauseMenu;
         public ElevatorScenarioDirector scenario;
         public ElevatorPosterCutscene posterCutscene;
+        public ElevatorDoorSafetyCutscene doorSafetyCutscene;
         public bool IsPaused => pauseMenu&&pauseMenu.IsPaused;
         public ElevatorFlow Flow { get; private set; }
         public string Thought { get; private set; } = "";
@@ -67,7 +68,8 @@ namespace ProjectWait.M.Elevator
             if (Flow.IsMoving && !motor.isPlaying) motor.Play();
             if (!Flow.IsMoving && motor.isPlaying) motor.Stop();
             cabinLight.intensity = 1.6f;
-            floorLabel.text = Floor.ToString();
+            string floorText=Floor==1?"1":"3";
+            if(floorLabel.text!=floorText)floorLabel.text=floorText;
             if (presentation) presentation.Apply(this);
             if (renderedRevision != Flow.Revision)
             {

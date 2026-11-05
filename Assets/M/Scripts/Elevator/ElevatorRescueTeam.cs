@@ -14,8 +14,12 @@ namespace ProjectWait.M.Elevator
         public Vector3 firefighterInLobby=new Vector3(-2.85f,0,-4.60f);
         public Vector3 specialistInLobby=new Vector3(-.75f,0,-4.40f);
         public Vector3 friendInLobby=new Vector3(-1.80f,0,-3.40f);
+        [Min(1)] public float dialogueHeight=2.95f;
         public Vector3 DialogueAnchor {get;private set;}
         Actor firePose, specialistPose;
+        CharacterController collisionPlayer;
+        Collider fireCollider,specialistCollider;
+        void OnEnable(){collisionPlayer=null;}
         int dialogueRun=-1,dialogueBeat=-1;
         static float S(float t,float a,float b)=>Mathf.SmoothStep(0,1,Mathf.InverseLerp(a,b,t));
         public void Apply(ElevatorLesson lesson)
@@ -28,8 +32,14 @@ namespace ProjectWait.M.Elevator
             if(firePose==null){firePose=new Actor(firefighter,firefighterPoseScale);specialistPose=new Actor(specialist,specialistPoseScale);}
             // Keep the ray-selectable actor colliders from blocking the escorted player.
             var player=lesson.presentation.space?lesson.presentation.space.playerRig.GetComponent<CharacterController>():null;
-            if(player)foreach(var actor in new[]{firefighter,specialist})
-            {var collider=actor.GetComponent<Collider>();if(collider)Physics.IgnoreCollision(collider,player,true);}
+            if(player&&collisionPlayer!=player)
+            {
+                if(!fireCollider)fireCollider=firefighter.GetComponent<Collider>();
+                if(!specialistCollider)specialistCollider=specialist.GetComponent<Collider>();
+                if(fireCollider)Physics.IgnoreCollision(fireCollider,player,true);
+                if(specialistCollider)Physics.IgnoreCollision(specialistCollider,player,true);
+                collisionPlayer=player;
+            }
             float floor=map?map.CurrentFloorHeight:0,t=f.Elapsed;
             Vector3 a=firefighterAtDoor,b=specialistAtDoor;float faceA=8,faceB=-8,guide=f.ReadyToExit?1:0,checking=f.ReadyToExit?0:1;
             if(f.Step==ElevatorStep.Rescue)
@@ -38,32 +48,34 @@ namespace ProjectWait.M.Elevator
                 b=Vector3.Lerp(specialistAtDoor+new Vector3(.10f,0,-.9f),specialistAtDoor,S(t,.45f,2.0f));
                 guide=f.ReadyToExit?1:S(t,.6f,1.4f)*.40f;
                 checking=(1-S(t,lesson.settings.rescueSubtitleSeconds-.7f,lesson.settings.rescueSubtitleSeconds))*S(t,.8f,1.7f);
-                DialogueAnchor=new Vector3(-1.8f,floor+2.45f,2.30f);
+                DialogueAnchor=new Vector3(-1.8f,floor+dialogueHeight,2.30f);
             }
             else if(f.Step==ElevatorStep.Exiting)
             {
                 float walk=S(t,.25f,3.9f);
                 a=Vector3.Lerp(firefighterAtDoor,firefighterInLobby,walk);
                 b=Vector3.Lerp(specialistAtDoor,specialistInLobby,S(t,1.4f,4.05f));
-                var start=map?map.friendInside:new Vector3(-1.1f,0,4.12f);
-                start.y=floor;var threshold=new Vector3(-1.25f,floor,3.55f);
+                var start=f.SafeWallReached&&lesson.doorSafetyCutscene?lesson.doorSafetyCutscene.SafeWallPosition:
+                    map?map.friendInside:new Vector3(-1.1f,0,4.12f);
+                if(!f.SafeWallReached)start.y=floor;
+                var threshold=new Vector3(-1.25f,floor,3.55f);
                 lesson.friend.position=t<1.3f?Vector3.Lerp(start,threshold,S(t,.15f,1.3f)):Vector3.Lerp(threshold,friendInLobby+Vector3.up*floor,S(t,1.3f,3.85f));
-                lesson.friend.rotation=Quaternion.Euler(0,t<3.5f?0:Mathf.Lerp(0,180,S(t,3.5f,4.2f)),0);
+                lesson.friend.rotation=Quaternion.Euler(0,t<3.5f?(f.SafeWallReached?90*(1-S(t,0,.4f)):0):Mathf.Lerp(0,180,S(t,3.5f,4.2f)),0);
                 faceA=Mathf.Lerp(160,0,S(t,3.25f,4.05f));faceB=Mathf.Lerp(175,0,S(t,3.4f,4.2f));
                 guide=.6f;checking=0;
-                DialogueAnchor=new Vector3(-1.8f,floor+2.45f,-4.3f);
+                DialogueAnchor=new Vector3(-1.8f,floor+dialogueHeight,-4.3f);
             }
             else if(f.Step==ElevatorStep.ReturnLobby||f.Step==ElevatorStep.Returning&&floor>1)
             {
                 a=firefighterInLobby;b=specialistInLobby;faceA=8;faceB=-8;guide=1;checking=0;
                 lesson.friend.position=friendInLobby+Vector3.up*floor;lesson.friend.rotation=Quaternion.Euler(0,180,0);
-                DialogueAnchor=new Vector3(-1.8f,floor+2.45f,-4.30f);
+                DialogueAnchor=new Vector3(-1.8f,floor+dialogueHeight,-4.30f);
             }
             else
             {
                 a=new Vector3(-2.55f,0,-3.8f);b=new Vector3(1.45f,0,-3.6f);faceA=12;faceB=-18;guide=.55f;checking=0;
                 if(f.Step==ElevatorStep.GroundFloor){lesson.friend.position=new Vector3(-.2f,floor,-2.4f);lesson.friend.rotation=Quaternion.Euler(0,180,0);}
-                DialogueAnchor=new Vector3(-1.4f,floor+2.45f,-3.6f);
+                DialogueAnchor=new Vector3(-1.4f,floor+dialogueHeight,-3.6f);
             }
             a.y=b.y=floor;
             float walking=f.Step==ElevatorStep.Exiting?S(t,.15f,.45f)*(1-S(t,3.5f,4.1f)):f.Step==ElevatorStep.Rescue?S(t,.15f,.35f)*(1-S(t,1.45f,1.95f)):0;
@@ -108,7 +120,7 @@ namespace ProjectWait.M.Elevator
             {
                 root.SetPositionAndRotation(position,Quaternion.Euler(0,heading,0));
                 for(int i=0;i<bones.Length;i++){bones[i].localPosition=positions[i];bones[i].localRotation=rotations[i];}
-                pelvis.position-=Vector3.up*(crouch*poseScale.y);
+                pelvis.position-=Vector3.up*(crouch*poseScale.y*root.lossyScale.y);
                 spine.rotation=Quaternion.AngleAxis(checking*12+(technical?2:4),root.right)*spine.rotation;
                 head.rotation=Quaternion.AngleAxis(checking*10+Mathf.Sin(time*1.7f)*1.2f,root.right)*head.rotation;
                 for(int i=0;i<2;i++)
@@ -125,7 +137,9 @@ namespace ProjectWait.M.Elevator
                         var target=checking>.01f?new Vector3(side*.29f,.61f,.32f):new Vector3(side*.29f,1.01f+Mathf.Sin(time*2.2f)*.015f,.31f);
                         target=Vector3.Lerp(relaxed,target,Mathf.Max(guide,checking));
                         target=Vector3.Scale(target,poseScale);
-                        IK(upper[i],lower[i],hand[i],root.TransformPoint(target),root.right*side+root.forward*.25f);
+                        // Keep the elbow behind the shoulder-to-hand line, matching
+                        // the corrected rear poles in the Blender source rigs.
+                        IK(upper[i],lower[i],hand[i],root.TransformPoint(target),root.right*(side*.25f)-root.forward);
                     }
                 }
             }

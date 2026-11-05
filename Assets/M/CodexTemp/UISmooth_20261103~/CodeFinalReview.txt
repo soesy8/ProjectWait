@@ -1,3 +1,0 @@
-﻿ElevatorScenarioDirector unchanged=True
-ElevatorDesktopControls unchanged=True
-ElevatorFlow unchanged=True

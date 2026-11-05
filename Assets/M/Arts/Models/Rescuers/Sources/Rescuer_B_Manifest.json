@@ -3,922 +3,758 @@
   "file": "Assets/M/Arts/Models/Rescuers/Sources/Rescuer_B.fbx",
   "objects": [
     {
-      "name": "B_000_Belt_buckle_inset",
-      "part": "Belt buckle inset",
-      "outlined": true
+      "name": "B_000_Body",
+      "part": "Body · 사용자 원본 몸통과 팔다리",
+      "outlined": true,
+      "source_object": "B · Body · 사용자 원본 몸통과 팔다리",
+      "vertices": 47570
     },
     {
-      "name": "B_001_Belt_buckle_outer",
-      "part": "Belt buckle outer",
-      "outlined": true
+      "name": "B_001_Helmet_dome",
+      "part": "Helmet dome",
+      "outlined": true,
+      "source_object": "B · Helmet dome",
+      "vertices": 2944
     },
     {
-      "name": "B_002_Belt_keeper_0_5",
-      "part": "Belt keeper -0.5",
-      "outlined": true
+      "name": "B_002_Helmet_brim",
+      "part": "Helmet brim",
+      "outlined": true,
+      "source_object": "B · Helmet brim",
+      "vertices": 320
     },
     {
-      "name": "B_003_Belt_keeper_0_5",
-      "part": "Belt keeper 0.5",
-      "outlined": true
+      "name": "B_003_Helmet_lower_rim",
+      "part": "Helmet lower rim",
+      "outlined": false,
+      "source_object": "B · Helmet lower rim",
+      "vertices": 7680
     },
     {
-      "name": "B_004_Boot_ankle_shaft_L",
-      "part": "Boot ankle shaft.L",
-      "outlined": false
+      "name": "B_004_Helmet_mould_rib_0_43",
+      "part": "Helmet mould rib -0.43",
+      "outlined": false,
+      "source_object": "B · Helmet mould rib -0.43",
+      "vertices": 3870
     },
     {
-      "name": "B_005_Boot_ankle_shaft_R",
-      "part": "Boot ankle shaft.R",
-      "outlined": false
+      "name": "B_005_Helmet_mould_rib_0_43",
+      "part": "Helmet mould rib 0.43",
+      "outlined": false,
+      "source_object": "B · Helmet mould rib 0.43",
+      "vertices": 3870
     },
     {
-      "name": "B_006_Boot_instep_seam_L0_43",
-      "part": "Boot instep seam.L0.43",
-      "outlined": false
+      "name": "B_006_Lift_helmet_badge_rim",
+      "part": "Lift helmet badge rim",
+      "outlined": true,
+      "source_object": "B · Lift helmet badge rim",
+      "vertices": 96
     },
     {
-      "name": "B_007_Boot_instep_seam_L0_5",
-      "part": "Boot instep seam.L0.5",
-      "outlined": false
+      "name": "B_007_Lift_helmet_badge",
+      "part": "Lift helmet badge",
+      "outlined": false,
+      "source_object": "B · Lift helmet badge",
+      "vertices": 96
     },
     {
-      "name": "B_008_Boot_instep_seam_R0_43",
-      "part": "Boot instep seam.R0.43",
-      "outlined": false
+      "name": "B_008_Lift_helmet_arrows_1",
+      "part": "Lift helmet arrows 1",
+      "outlined": false,
+      "source_object": "B · Lift helmet arrows 1",
+      "vertices": 8
     },
     {
-      "name": "B_009_Boot_instep_seam_R0_5",
-      "part": "Boot instep seam.R0.5",
-      "outlined": false
+      "name": "B_009_Lift_helmet_arrows_1",
+      "part": "Lift helmet arrows -1",
+      "outlined": false,
+      "source_object": "B · Lift helmet arrows -1",
+      "vertices": 8
     },
     {
-      "name": "B_010_Boot_outsole_L",
-      "part": "Boot outsole.L",
-      "outlined": true
+      "name": "B_010_Front_zipper",
+      "part": "Front zipper",
+      "outlined": false,
+      "source_object": "B · Front zipper",
+      "vertices": 620
     },
     {
-      "name": "B_011_Boot_outsole_R",
-      "part": "Boot outsole.R",
-      "outlined": true
-    },
-    {
-      "name": "B_012_Boot_pull_tab_L",
-      "part": "Boot pull tab.L",
-      "outlined": true
-    },
-    {
-      "name": "B_013_Boot_pull_tab_R",
-      "part": "Boot pull tab.R",
-      "outlined": true
-    },
-    {
-      "name": "B_014_Boot_toe_cap_L",
-      "part": "Boot toe cap.L",
-      "outlined": true
-    },
-    {
-      "name": "B_015_Boot_toe_cap_R",
-      "part": "Boot toe cap.R",
-      "outlined": true
-    },
-    {
-      "name": "B_016_Boot_toe_stitch_L",
-      "part": "Boot toe stitch.L",
-      "outlined": false
-    },
-    {
-      "name": "B_017_Boot_toe_stitch_R",
-      "part": "Boot toe stitch.R",
-      "outlined": false
-    },
-    {
-      "name": "B_018_Boot_upper_L",
-      "part": "Boot upper.L",
-      "outlined": true
-    },
-    {
-      "name": "B_019_Boot_upper_R",
-      "part": "Boot upper.R",
-      "outlined": true
-    },
-    {
-      "name": "B_020_Cargo_flap_L",
-      "part": "Cargo flap.L",
-      "outlined": true
-    },
-    {
-      "name": "B_021_Cargo_flap_R",
-      "part": "Cargo flap.R",
-      "outlined": true
-    },
-    {
-      "name": "B_022_Cargo_side_pocket_L",
-      "part": "Cargo side pocket.L",
-      "outlined": true
-    },
-    {
-      "name": "B_023_Cargo_side_pocket_R",
-      "part": "Cargo side pocket.R",
-      "outlined": true
-    },
-    {
-      "name": "B_024_Cheek_L",
-      "part": "Cheek.L",
-      "outlined": false
-    },
-    {
-      "name": "B_025_Cheek_R",
-      "part": "Cheek.R",
-      "outlined": false
-    },
-    {
-      "name": "B_026_Chest_lift_arrow_1",
-      "part": "Chest lift arrow -1",
-      "outlined": false
-    },
-    {
-      "name": "B_027_Chest_lift_arrow_1",
-      "part": "Chest lift arrow 1",
-      "outlined": false
-    },
-    {
-      "name": "B_028_Chest_lift_arrow_head_1",
-      "part": "Chest lift arrow head -1",
-      "outlined": false
-    },
-    {
-      "name": "B_029_Chest_lift_arrow_head_1",
-      "part": "Chest lift arrow head 1",
-      "outlined": false
-    },
-    {
-      "name": "B_030_Chest_lift_ID",
-      "part": "Chest lift ID",
-      "outlined": true
-    },
-    {
-      "name": "B_031_Chest_lift_ID_rim",
-      "part": "Chest lift ID rim",
-      "outlined": true
-    },
-    {
-      "name": "B_032_Chest_reflective_ivory_0",
-      "part": "Chest reflective ivory 0",
-      "outlined": false
-    },
-    {
-      "name": "B_033_Chest_reflective_yellow_0",
-      "part": "Chest reflective yellow 0",
-      "outlined": false
-    },
-    {
-      "name": "B_034_Chin_strap_fastener_L",
-      "part": "Chin strap fastener.L",
-      "outlined": true
-    },
-    {
-      "name": "B_035_Chin_strap_fastener_R",
-      "part": "Chin strap fastener.R",
-      "outlined": true
-    },
-    {
-      "name": "B_036_Cuff_stitch_L",
-      "part": "Cuff stitch.L",
-      "outlined": false
-    },
-    {
-      "name": "B_037_Cuff_stitch_R",
-      "part": "Cuff stitch.R",
-      "outlined": false
-    },
-    {
-      "name": "B_038_Ear_inner_L",
-      "part": "Ear inner.L",
-      "outlined": false
-    },
-    {
-      "name": "B_039_Ear_inner_R",
-      "part": "Ear inner.R",
-      "outlined": false
-    },
-    {
-      "name": "B_040_Ear_L",
-      "part": "Ear.L",
-      "outlined": true
-    },
-    {
-      "name": "B_041_Ear_R",
-      "part": "Ear.R",
-      "outlined": true
-    },
-    {
-      "name": "B_042_Eye_glint_L",
-      "part": "Eye glint.L",
-      "outlined": false
-    },
-    {
-      "name": "B_043_Eye_glint_R",
-      "part": "Eye glint.R",
-      "outlined": false
-    },
-    {
-      "name": "B_044_Eye_small_glint_L",
-      "part": "Eye small glint.L",
-      "outlined": false
-    },
-    {
-      "name": "B_045_Eye_small_glint_R",
-      "part": "Eye small glint.R",
-      "outlined": false
-    },
-    {
-      "name": "B_046_Eye_L",
-      "part": "Eye.L",
-      "outlined": false
-    },
-    {
-      "name": "B_047_Eye_R",
-      "part": "Eye.R",
-      "outlined": false
-    },
-    {
-      "name": "B_048_Eyebrow_L",
-      "part": "Eyebrow.L",
-      "outlined": false
-    },
-    {
-      "name": "B_049_Eyebrow_R",
-      "part": "Eyebrow.R",
-      "outlined": false
-    },
-    {
-      "name": "B_050_Finger_crease_L_0",
-      "part": "Finger crease.L.0",
-      "outlined": false
-    },
-    {
-      "name": "B_051_Finger_crease_L_1",
-      "part": "Finger crease.L.1",
-      "outlined": false
-    },
-    {
-      "name": "B_052_Finger_crease_L_2",
-      "part": "Finger crease.L.2",
-      "outlined": false
-    },
-    {
-      "name": "B_053_Finger_crease_R_0",
-      "part": "Finger crease.R.0",
-      "outlined": false
-    },
-    {
-      "name": "B_054_Finger_crease_R_1",
-      "part": "Finger crease.R.1",
-      "outlined": false
-    },
-    {
-      "name": "B_055_Finger_crease_R_2",
-      "part": "Finger crease.R.2",
-      "outlined": false
-    },
-    {
-      "name": "B_056_Flashlight_barrel",
-      "part": "Flashlight barrel",
-      "outlined": true
-    },
-    {
-      "name": "B_057_Flashlight_belt_loop",
-      "part": "Flashlight belt loop",
-      "outlined": true
-    },
-    {
-      "name": "B_058_Flashlight_front_bezel",
-      "part": "Flashlight front bezel",
-      "outlined": true
-    },
-    {
-      "name": "B_059_Flashlight_lens",
-      "part": "Flashlight lens",
-      "outlined": true
-    },
-    {
-      "name": "B_060_Flashlight_lens_glint",
-      "part": "Flashlight lens glint",
-      "outlined": false
-    },
-    {
-      "name": "B_061_Flashlight_yellow_rim",
-      "part": "Flashlight yellow rim",
-      "outlined": true
-    },
-    {
-      "name": "B_062_Folded_collar_1",
-      "part": "Folded collar -1",
-      "outlined": true
-    },
-    {
-      "name": "B_063_Folded_collar_1",
-      "part": "Folded collar 1",
-      "outlined": true
-    },
-    {
-      "name": "B_064_Glove_cuff_0",
-      "part": "Glove cuff 0",
-      "outlined": true
-    },
-    {
-      "name": "B_065_Glove_cuff_0_11",
-      "part": "Glove cuff 0.11",
-      "outlined": true
-    },
-    {
-      "name": "B_066_Glove_finger_0_0",
-      "part": "Glove finger 0 0",
-      "outlined": true
-    },
-    {
-      "name": "B_067_Glove_finger_0_1",
-      "part": "Glove finger 0 1",
-      "outlined": true
-    },
-    {
-      "name": "B_068_Glove_finger_0_2",
-      "part": "Glove finger 0 2",
-      "outlined": true
-    },
-    {
-      "name": "B_069_Glove_finger_0_11_0",
-      "part": "Glove finger 0.11 0",
-      "outlined": true
-    },
-    {
-      "name": "B_070_Glove_finger_0_11_1",
-      "part": "Glove finger 0.11 1",
-      "outlined": true
-    },
-    {
-      "name": "B_071_Glove_finger_0_11_2",
-      "part": "Glove finger 0.11 2",
-      "outlined": true
-    },
-    {
-      "name": "B_072_Glove_palm_0",
-      "part": "Glove palm 0",
-      "outlined": true
-    },
-    {
-      "name": "B_073_Glove_palm_0_11",
-      "part": "Glove palm 0.11",
-      "outlined": true
-    },
-    {
-      "name": "B_074_Glove_thumb_0",
-      "part": "Glove thumb 0",
-      "outlined": true
-    },
-    {
-      "name": "B_075_Glove_thumb_0_11",
-      "part": "Glove thumb 0.11",
-      "outlined": true
-    },
-    {
-      "name": "B_076_Hair_cap_fitted_hairline",
-      "part": "Hair cap • fitted hairline",
-      "outlined": true
-    },
-    {
-      "name": "B_077_Hair_tie",
-      "part": "Hair tie",
-      "outlined": false
-    },
-    {
-      "name": "B_078_Hair_ponytail_curl",
-      "part": "Hair • ponytail curl",
-      "outlined": true
-    },
-    {
-      "name": "B_079_Hair_ponytail_main",
-      "part": "Hair • ponytail main",
-      "outlined": true
-    },
-    {
-      "name": "B_080_Hair_ponytail_root",
-      "part": "Hair • ponytail root",
-      "outlined": true
-    },
-    {
-      "name": "B_081_Hair_right_temple",
-      "part": "Hair • right temple",
-      "outlined": true
-    },
-    {
-      "name": "B_082_Hair_swept_fringe",
-      "part": "Hair • swept fringe",
-      "outlined": true
-    },
-    {
-      "name": "B_083_Hand_rounded_fingers_L",
-      "part": "Hand • rounded fingers.L",
-      "outlined": true
-    },
-    {
-      "name": "B_084_Hand_rounded_fingers_R",
-      "part": "Hand • rounded fingers.R",
-      "outlined": true
-    },
-    {
-      "name": "B_085_Head",
-      "part": "Head • 둥근 얼굴",
-      "outlined": true
-    },
-    {
-      "name": "B_086_Helmet_arrow_head_1",
-      "part": "Helmet arrow head -1",
-      "outlined": false
-    },
-    {
-      "name": "B_087_Helmet_arrow_head_1",
-      "part": "Helmet arrow head 1",
-      "outlined": false
-    },
-    {
-      "name": "B_088_Helmet_arrow_shaft_1",
-      "part": "Helmet arrow shaft -1",
-      "outlined": false
-    },
-    {
-      "name": "B_089_Helmet_arrow_shaft_1",
-      "part": "Helmet arrow shaft 1",
-      "outlined": false
-    },
-    {
-      "name": "B_090_Helmet_brim_moulding",
-      "part": "Helmet brim moulding",
-      "outlined": false
-    },
-    {
-      "name": "B_091_Helmet_chin_strap_L",
-      "part": "Helmet chin strap.L",
-      "outlined": true
-    },
-    {
-      "name": "B_092_Helmet_chin_strap_R",
-      "part": "Helmet chin strap.R",
-      "outlined": true
-    },
-    {
-      "name": "B_093_Helmet_lift_badge",
-      "part": "Helmet lift badge",
-      "outlined": true
-    },
-    {
-      "name": "B_094_Helmet_lift_badge_rim",
-      "part": "Helmet lift badge rim",
-      "outlined": true
-    },
-    {
-      "name": "B_095_Helmet_raised_rib_1",
-      "part": "Helmet raised rib -1",
-      "outlined": false
-    },
-    {
-      "name": "B_096_Helmet_raised_rib_1",
-      "part": "Helmet raised rib 1",
-      "outlined": false
-    },
-    {
-      "name": "B_097_Helmet_dome_shell",
-      "part": "Helmet • dome shell",
-      "outlined": true
-    },
-    {
-      "name": "B_098_Helmet_rolled_brim",
-      "part": "Helmet • rolled brim",
-      "outlined": true
-    },
-    {
-      "name": "B_099_Jacket_center_seam",
-      "part": "Jacket center seam",
-      "outlined": false
-    },
-    {
-      "name": "B_100_Jacket_lower_pocket_1",
-      "part": "Jacket lower pocket -1",
-      "outlined": true
-    },
-    {
-      "name": "B_101_Jacket_lower_pocket_1",
-      "part": "Jacket lower pocket 1",
-      "outlined": true
-    },
-    {
-      "name": "B_102_Jacket_continuous_shoulders_and_arms",
-      "part": "Jacket • continuous shoulders and arms",
-      "outlined": true
-    },
-    {
-      "name": "B_103_Knee_padded_panel_L",
-      "part": "Knee padded panel.L",
-      "outlined": true
-    },
-    {
-      "name": "B_104_Knee_padded_panel_R",
-      "part": "Knee padded panel.R",
-      "outlined": true
-    },
-    {
-      "name": "B_105_Lash_L",
-      "part": "Lash.L",
-      "outlined": false
-    },
-    {
-      "name": "B_106_Lash_R",
-      "part": "Lash.R",
-      "outlined": false
-    },
-    {
-      "name": "B_107_Neck",
-      "part": "Neck",
-      "outlined": true
-    },
-    {
-      "name": "B_108_Nose",
-      "part": "Nose",
-      "outlined": false
-    },
-    {
-      "name": "B_109_Pocket_topstitch_1",
-      "part": "Pocket topstitch -1",
-      "outlined": false
-    },
-    {
-      "name": "B_110_Pocket_topstitch_1",
-      "part": "Pocket topstitch 1",
-      "outlined": false
-    },
-    {
-      "name": "B_111_Ponytail_sculpt_line",
-      "part": "Ponytail sculpt line",
-      "outlined": false
-    },
-    {
-      "name": "B_112_Radio_aerial",
-      "part": "Radio aerial",
-      "outlined": true
-    },
-    {
-      "name": "B_113_Radio_casing",
-      "part": "Radio casing",
-      "outlined": true
-    },
-    {
-      "name": "B_114_Radio_coiled_lead",
-      "part": "Radio coiled lead",
-      "outlined": false
-    },
-    {
-      "name": "B_115_Radio_front",
-      "part": "Radio front",
-      "outlined": true
-    },
-    {
-      "name": "B_116_Radio_grille_3_11",
-      "part": "Radio grille 3.11",
-      "outlined": false
-    },
-    {
-      "name": "B_117_Radio_grille_3_155",
-      "part": "Radio grille 3.155",
-      "outlined": false
-    },
-    {
-      "name": "B_118_Radio_grille_3_2",
-      "part": "Radio grille 3.2",
-      "outlined": false
-    },
-    {
-      "name": "B_119_Radio_LCD",
-      "part": "Radio LCD",
-      "outlined": false
-    },
-    {
-      "name": "B_120_Radio_PTT",
-      "part": "Radio PTT",
-      "outlined": true
-    },
-    {
-      "name": "B_121_Radio_shoulder_clip",
-      "part": "Radio shoulder clip",
-      "outlined": false
-    },
-    {
-      "name": "B_122_Sleeve_cuff_L",
-      "part": "Sleeve cuff.L",
-      "outlined": true
-    },
-    {
-      "name": "B_123_Sleeve_cuff_R",
-      "part": "Sleeve cuff.R",
-      "outlined": true
-    },
-    {
-      "name": "B_124_Sleeve_ivory_band_L",
-      "part": "Sleeve ivory band.L",
-      "outlined": false
-    },
-    {
-      "name": "B_125_Sleeve_ivory_band_R",
-      "part": "Sleeve ivory band.R",
-      "outlined": false
-    },
-    {
-      "name": "B_126_Sleeve_yellow_band_L",
-      "part": "Sleeve yellow band.L",
-      "outlined": false
-    },
-    {
-      "name": "B_127_Sleeve_yellow_band_R",
-      "part": "Sleeve yellow band.R",
-      "outlined": false
-    },
-    {
-      "name": "B_128_Smile_interior",
-      "part": "Smile interior",
-      "outlined": false
-    },
-    {
-      "name": "B_129_Smile_teeth",
-      "part": "Smile teeth",
-      "outlined": false
-    },
-    {
-      "name": "B_130_Smile_tongue",
-      "part": "Smile tongue",
-      "outlined": false
-    },
-    {
-      "name": "B_131_Smile_warm_rim",
-      "part": "Smile warm rim",
-      "outlined": false
-    },
-    {
-      "name": "B_132_Tool_pouch_body",
-      "part": "Tool pouch body",
-      "outlined": true
-    },
-    {
-      "name": "B_133_Tool_pouch_brass_latch",
-      "part": "Tool pouch brass latch",
-      "outlined": true
-    },
-    {
-      "name": "B_134_Tool_pouch_folded_flap",
-      "part": "Tool pouch folded flap",
-      "outlined": true
-    },
-    {
-      "name": "B_135_Trouser_fold_L",
-      "part": "Trouser fold.L",
-      "outlined": false
-    },
-    {
-      "name": "B_136_Trouser_fold_R",
-      "part": "Trouser fold.R",
-      "outlined": false
-    },
-    {
-      "name": "B_137_Trousers_continuous_tailored_hips",
-      "part": "Trousers • continuous tailored hips",
-      "outlined": true
-    },
-    {
-      "name": "B_138_Utility_belt",
-      "part": "Utility belt",
-      "outlined": true
-    },
-    {
-      "name": "B_139_Yoke_fitted_continuous_shoulder_panel",
-      "part": "Yoke • fitted continuous shoulder panel",
-      "outlined": false
-    },
-    {
-      "name": "B_140_Zipper_pull",
+      "name": "B_011_Zipper_pull",
       "part": "Zipper pull",
-      "outlined": true
+      "outlined": true,
+      "source_object": "B · Zipper pull",
+      "vertices": 96
+    },
+    {
+      "name": "B_012_Chest_name_tab",
+      "part": "Chest name tab",
+      "outlined": true,
+      "source_object": "B · Chest name tab",
+      "vertices": 96
+    },
+    {
+      "name": "B_013_Neck",
+      "part": "Neck",
+      "outlined": true,
+      "source_object": "B · Neck",
+      "vertices": 610
+    },
+    {
+      "name": "B_014_Folded_collar_R",
+      "part": "Folded collar R",
+      "outlined": true,
+      "source_object": "B · Folded collar R",
+      "vertices": 5
+    },
+    {
+      "name": "B_015_Folded_collar_L",
+      "part": "Folded collar L",
+      "outlined": true,
+      "source_object": "B · Folded collar L",
+      "vertices": 5
+    },
+    {
+      "name": "B_016_Jacket_pocket_0_64",
+      "part": "Jacket pocket -0.64",
+      "outlined": true,
+      "source_object": "B · Jacket pocket -0.64",
+      "vertices": 96
+    },
+    {
+      "name": "B_017_Jacket_pocket_0_64",
+      "part": "Jacket pocket 0.64",
+      "outlined": true,
+      "source_object": "B · Jacket pocket 0.64",
+      "vertices": 96
+    },
+    {
+      "name": "B_018_Lift_chest_badge",
+      "part": "Lift chest badge",
+      "outlined": true,
+      "source_object": "B · Lift chest badge",
+      "vertices": 96
+    },
+    {
+      "name": "B_019_Lift_chest_arrows_1",
+      "part": "Lift chest arrows 1",
+      "outlined": false,
+      "source_object": "B · Lift chest arrows 1",
+      "vertices": 8
+    },
+    {
+      "name": "B_020_Lift_chest_arrows_1",
+      "part": "Lift chest arrows -1",
+      "outlined": false,
+      "source_object": "B · Lift chest arrows -1",
+      "vertices": 8
+    },
+    {
+      "name": "B_021_Utility_belt",
+      "part": "Utility belt",
+      "outlined": true,
+      "source_object": "B · Utility belt",
+      "vertices": 256
+    },
+    {
+      "name": "B_022_Belt_buckle",
+      "part": "Belt buckle",
+      "outlined": true,
+      "source_object": "B · Belt buckle",
+      "vertices": 96
+    },
+    {
+      "name": "B_023_Belt_buckle_inset",
+      "part": "Belt buckle inset",
+      "outlined": false,
+      "source_object": "B · Belt buckle inset",
+      "vertices": 96
+    },
+    {
+      "name": "B_024_Belt_loop_0_72",
+      "part": "Belt loop -0.72",
+      "outlined": true,
+      "source_object": "B · Belt loop -0.72",
+      "vertices": 96
+    },
+    {
+      "name": "B_025_Belt_loop_0_72",
+      "part": "Belt loop 0.72",
+      "outlined": true,
+      "source_object": "B · Belt loop 0.72",
+      "vertices": 96
+    },
+    {
+      "name": "B_026_Torch_holster",
+      "part": "Torch holster",
+      "outlined": true,
+      "source_object": "B · Torch holster",
+      "vertices": 96
+    },
+    {
+      "name": "B_027_Torch_body",
+      "part": "Torch body",
+      "outlined": true,
+      "source_object": "B · Torch body",
+      "vertices": 320
+    },
+    {
+      "name": "B_028_Torch_rubber_grip",
+      "part": "Torch rubber grip",
+      "outlined": true,
+      "source_object": "B · Torch rubber grip",
+      "vertices": 320
+    },
+    {
+      "name": "B_029_Torch_yellow_collar",
+      "part": "Torch yellow collar",
+      "outlined": true,
+      "source_object": "B · Torch yellow collar",
+      "vertices": 320
+    },
+    {
+      "name": "B_030_Torch_lens_rim",
+      "part": "Torch lens rim",
+      "outlined": true,
+      "source_object": "B · Torch lens rim",
+      "vertices": 320
+    },
+    {
+      "name": "B_031_Torch_warm_lens",
+      "part": "Torch warm lens",
+      "outlined": false,
+      "source_object": "B · Torch warm lens",
+      "vertices": 320
+    },
+    {
+      "name": "B_032_Tool_pouch",
+      "part": "Tool pouch",
+      "outlined": true,
+      "source_object": "B · Tool pouch",
+      "vertices": 96
+    },
+    {
+      "name": "B_033_Tool_pouch_flap",
+      "part": "Tool pouch flap",
+      "outlined": true,
+      "source_object": "B · Tool pouch flap",
+      "vertices": 96
+    },
+    {
+      "name": "B_034_Tool_pouch_clasp",
+      "part": "Tool pouch clasp",
+      "outlined": true,
+      "source_object": "B · Tool pouch clasp",
+      "vertices": 96
+    },
+    {
+      "name": "B_035_Radio_mounting_clip",
+      "part": "Radio mounting clip",
+      "outlined": true,
+      "source_object": "B · Radio mounting clip",
+      "vertices": 96
+    },
+    {
+      "name": "B_036_Radio_casing",
+      "part": "Radio casing",
+      "outlined": true,
+      "source_object": "B · Radio casing",
+      "vertices": 96
+    },
+    {
+      "name": "B_037_Radio_face",
+      "part": "Radio face",
+      "outlined": true,
+      "source_object": "B · Radio face",
+      "vertices": 96
+    },
+    {
+      "name": "B_038_Radio_screen",
+      "part": "Radio screen",
+      "outlined": false,
+      "source_object": "B · Radio screen",
+      "vertices": 96
+    },
+    {
+      "name": "B_039_Radio_speaker_slit_0",
+      "part": "Radio speaker slit 0",
+      "outlined": false,
+      "source_object": "B · Radio speaker slit 0",
+      "vertices": 96
+    },
+    {
+      "name": "B_040_Radio_speaker_slit_1",
+      "part": "Radio speaker slit 1",
+      "outlined": false,
+      "source_object": "B · Radio speaker slit 1",
+      "vertices": 96
+    },
+    {
+      "name": "B_041_Radio_speaker_slit_2",
+      "part": "Radio speaker slit 2",
+      "outlined": false,
+      "source_object": "B · Radio speaker slit 2",
+      "vertices": 96
+    },
+    {
+      "name": "B_042_Radio_speaker_slit_3",
+      "part": "Radio speaker slit 3",
+      "outlined": false,
+      "source_object": "B · Radio speaker slit 3",
+      "vertices": 96
+    },
+    {
+      "name": "B_043_Radio_orange_PTT",
+      "part": "Radio orange PTT",
+      "outlined": false,
+      "source_object": "B · Radio orange PTT",
+      "vertices": 96
+    },
+    {
+      "name": "B_044_Radio_antenna",
+      "part": "Radio antenna",
+      "outlined": true,
+      "source_object": "B · Radio antenna",
+      "vertices": 270
+    },
+    {
+      "name": "B_045_Radio_top_knob",
+      "part": "Radio top knob",
+      "outlined": true,
+      "source_object": "B · Radio top knob",
+      "vertices": 320
+    },
+    {
+      "name": "B_046_Boot_toe_seam_R",
+      "part": "Boot toe seam.R",
+      "outlined": false,
+      "source_object": "B · Boot toe seam.R",
+      "vertices": 270
+    },
+    {
+      "name": "B_047_Boot_toe_seam_L",
+      "part": "Boot toe seam.L",
+      "outlined": false,
+      "source_object": "B · Boot toe seam.L",
+      "vertices": 270
+    },
+    {
+      "name": "B_048_Head",
+      "part": "Head · 원본 얼굴 곡면",
+      "outlined": true,
+      "source_object": "B · Head · 원본 얼굴 곡면",
+      "vertices": 8162
+    },
+    {
+      "name": "B_049_Ear_R",
+      "part": "Ear.R",
+      "outlined": true,
+      "source_object": "B · Ear.R",
+      "vertices": 610
+    },
+    {
+      "name": "B_050_Ear_L",
+      "part": "Ear.L",
+      "outlined": true,
+      "source_object": "B · Ear.L",
+      "vertices": 610
+    },
+    {
+      "name": "B_051_Hair_fitted_volume",
+      "part": "Hair · fitted volume",
+      "outlined": true,
+      "source_object": "B · Hair · fitted volume",
+      "vertices": 4992
+    },
+    {
+      "name": "B_052_Hair_side_swept_fringe",
+      "part": "Hair · side swept fringe",
+      "outlined": true,
+      "source_object": "B · Hair · side swept fringe",
+      "vertices": 1664
+    },
+    {
+      "name": "B_053_Hair_temple_fringe",
+      "part": "Hair · temple fringe",
+      "outlined": true,
+      "source_object": "B · Hair · temple fringe",
+      "vertices": 1248
+    },
+    {
+      "name": "B_054_Ponytail_tie",
+      "part": "Ponytail · tie",
+      "outlined": true,
+      "source_object": "B · Ponytail · tie",
+      "vertices": 610
+    },
+    {
+      "name": "B_055_Ponytail",
+      "part": "Ponytail",
+      "outlined": true,
+      "source_object": "B · Ponytail · continuous sculpt",
+      "vertices": 3522
+    },
+    {
+      "name": "B_056_Ear_inner_R",
+      "part": "Ear inner.R",
+      "outlined": false,
+      "source_object": "B · Ear inner.R",
+      "vertices": 610
+    },
+    {
+      "name": "B_057_Ear_inner_L",
+      "part": "Ear inner.L",
+      "outlined": false,
+      "source_object": "B · Ear inner.L",
+      "vertices": 610
+    },
+    {
+      "name": "B_058_Helmet_underchin_strap",
+      "part": "Helmet underchin strap",
+      "outlined": false,
+      "source_object": "B · Helmet underchin strap",
+      "vertices": 350
+    },
+    {
+      "name": "B_059_Eye_R",
+      "part": "Eye.R",
+      "outlined": false,
+      "source_object": "B · Eye.R",
+      "vertices": 610
+    },
+    {
+      "name": "B_060_Eye_glint_R",
+      "part": "Eye glint.R",
+      "outlined": false,
+      "source_object": "B · Eye glint.R",
+      "vertices": 610
+    },
+    {
+      "name": "B_061_Brow_R",
+      "part": "Brow.R",
+      "outlined": false,
+      "source_object": "B · Brow.R",
+      "vertices": 350
+    },
+    {
+      "name": "B_062_Cheek_R",
+      "part": "Cheek.R",
+      "outlined": false,
+      "source_object": "B · Cheek.R",
+      "vertices": 49
+    },
+    {
+      "name": "B_063_Eye_L",
+      "part": "Eye.L",
+      "outlined": false,
+      "source_object": "B · Eye.L",
+      "vertices": 610
+    },
+    {
+      "name": "B_064_Eye_glint_L",
+      "part": "Eye glint.L",
+      "outlined": false,
+      "source_object": "B · Eye glint.L",
+      "vertices": 610
+    },
+    {
+      "name": "B_065_Brow_L",
+      "part": "Brow.L",
+      "outlined": false,
+      "source_object": "B · Brow.L",
+      "vertices": 350
+    },
+    {
+      "name": "B_066_Cheek_L",
+      "part": "Cheek.L",
+      "outlined": false,
+      "source_object": "B · Cheek.L",
+      "vertices": 49
+    },
+    {
+      "name": "B_067_Nose",
+      "part": "Nose",
+      "outlined": false,
+      "source_object": "B · Nose",
+      "vertices": 610
+    },
+    {
+      "name": "B_068_Mouth_contour",
+      "part": "Mouth contour",
+      "outlined": false,
+      "source_object": "B · Mouth contour",
+      "vertices": 641
+    },
+    {
+      "name": "B_069_Mouth_cavity",
+      "part": "Mouth cavity",
+      "outlined": false,
+      "source_object": "B · Mouth cavity",
+      "vertices": 641
+    },
+    {
+      "name": "B_070_Upper_teeth",
+      "part": "Upper teeth",
+      "outlined": false,
+      "source_object": "B · Upper teeth",
+      "vertices": 66
+    },
+    {
+      "name": "B_071_Tongue",
+      "part": "Tongue",
+      "outlined": false,
+      "source_object": "B · Tongue",
+      "vertices": 66
+    },
+    {
+      "name": "B_072_Hair_temple_R",
+      "part": "Hair · temple.R",
+      "outlined": false,
+      "source_object": "B · Hair · temple.R",
+      "vertices": 350
+    },
+    {
+      "name": "B_073_Hair_temple_L",
+      "part": "Hair · temple.L",
+      "outlined": false,
+      "source_object": "B · Hair · temple.L",
+      "vertices": 350
     }
   ],
   "materials": [
     {
       "name": "Rescue_B_Mat_00",
-      "hex": "#343233",
+      "hex": "#297F7D",
       "flat": false,
-      "source": "Straps and belt"
+      "source": "Wait · Teal"
     },
     {
       "name": "Rescue_B_Mat_01",
-      "hex": "#9A9183",
+      "hex": "#226A68",
       "flat": false,
-      "source": "Buckle warm steel"
+      "source": "Wait · TealDark"
     },
     {
       "name": "Rescue_B_Mat_02",
-      "hex": "#226A68",
+      "hex": "#FFC08A",
       "flat": false,
-      "source": "B · cuff teal"
+      "source": "Wait · Skin"
     },
     {
       "name": "Rescue_B_Mat_03",
-      "hex": "#373434",
+      "hex": "#3B3E48",
       "flat": false,
-      "source": "Boots warm charcoal"
+      "source": "Wait · Navy"
     },
     {
       "name": "Rescue_B_Mat_04",
-      "hex": "#454142",
+      "hex": "#373434",
       "flat": false,
-      "source": "Boot toe panels"
+      "source": "Wait · Boot"
     },
     {
       "name": "Rescue_B_Mat_05",
       "hex": "#292727",
       "flat": false,
-      "source": "Boot soles"
+      "source": "Wait · Sole"
     },
     {
       "name": "Rescue_B_Mat_06",
-      "hex": "#3B3E48",
+      "hex": "#424751",
       "flat": false,
-      "source": "Cargo navy | #3B3E48"
+      "source": "Wait · Yoke"
     },
     {
       "name": "Rescue_B_Mat_07",
-      "hex": "#424751",
+      "hex": "#FFE56F",
       "flat": false,
-      "source": "Shoulder panels"
+      "source": "Wait · Lemon"
     },
     {
       "name": "Rescue_B_Mat_08",
-      "hex": "#F99A76",
-      "flat": true,
-      "source": "Cheek coral"
+      "hex": "#FFF0C5",
+      "flat": false,
+      "source": "Wait · Cream"
     },
     {
       "name": "Rescue_B_Mat_09",
-      "hex": "#493327",
-      "flat": true,
-      "source": "Ink | #493327"
+      "hex": "#FFD679",
+      "flat": false,
+      "source": "Wait · HelmetB"
     },
     {
       "name": "Rescue_B_Mat_10",
-      "hex": "#FFF6DB",
-      "flat": true,
-      "source": "Paper | #FFF6DB"
+      "hex": "#D6A448",
+      "flat": false,
+      "source": "Wait · HelmetBLine"
     },
     {
       "name": "Rescue_B_Mat_11",
-      "hex": "#F9BE36",
-      "flat": false,
-      "source": "Badge gold"
+      "hex": "#FFF6DB",
+      "flat": true,
+      "source": "Wait · Paper"
     },
     {
       "name": "Rescue_B_Mat_12",
-      "hex": "#FFF0C5",
-      "flat": false,
-      "source": "Reflective ivory | #FFF0C5"
+      "hex": "#493327",
+      "flat": true,
+      "source": "Wait · Ink"
     },
     {
       "name": "Rescue_B_Mat_13",
-      "hex": "#FFE56F",
+      "hex": "#205957",
       "flat": false,
-      "source": "Reflective lemon"
+      "source": "Wait · TealSeam"
     },
     {
       "name": "Rescue_B_Mat_14",
-      "hex": "#45494B",
+      "hex": "#9A9183",
       "flat": false,
-      "source": "Radio casing"
+      "source": "Wait · Steel"
     },
     {
       "name": "Rescue_B_Mat_15",
-      "hex": "#205957",
+      "hex": "#58A99A",
       "flat": false,
-      "source": "B · tailored seam"
+      "source": "Wait · TealLight"
     },
     {
       "name": "Rescue_B_Mat_16",
-      "hex": "#EF9B6D",
+      "hex": "#343233",
       "flat": false,
-      "source": "Ear warmth"
+      "source": "Wait · Strap"
     },
     {
       "name": "Rescue_B_Mat_17",
-      "hex": "#FFC08A",
+      "hex": "#45494B",
       "flat": false,
-      "source": "Skin | #FFC08A"
+      "source": "Wait · Radio"
     },
     {
       "name": "Rescue_B_Mat_18",
-      "hex": "#FFF8E8",
-      "flat": true,
-      "source": "Eye glints and teeth"
+      "hex": "#272D30",
+      "flat": false,
+      "source": "Wait · RadioEdge"
     },
     {
       "name": "Rescue_B_Mat_19",
-      "hex": "#2B211B",
-      "flat": true,
-      "source": "Eyes espresso"
+      "hex": "#F9BE36",
+      "flat": false,
+      "source": "Wait · Gold"
     },
     {
       "name": "Rescue_B_Mat_20",
-      "hex": "#66412E",
+      "hex": "#759C8C",
       "flat": false,
-      "source": "B · chestnut hair"
+      "source": "Wait · Screen"
     },
     {
       "name": "Rescue_B_Mat_21",
-      "hex": "#272D30",
+      "hex": "#FF8C2D",
       "flat": false,
-      "source": "Radio trim"
+      "source": "Wait · Orange"
     },
     {
       "name": "Rescue_B_Mat_22",
-      "hex": "#58A99A",
+      "hex": "#454142",
       "flat": false,
-      "source": "B · collar piping"
+      "source": "Wait · BootPanel"
     },
     {
       "name": "Rescue_B_Mat_23",
-      "hex": "#7C7265",
+      "hex": "#66412E",
       "flat": false,
-      "source": "Work glove seams"
+      "source": "Wait · HairB"
     },
     {
       "name": "Rescue_B_Mat_24",
-      "hex": "#BAAA8F",
+      "hex": "#EF9B6D",
       "flat": false,
-      "source": "Work gloves"
+      "source": "Wait · Ear"
     },
     {
       "name": "Rescue_B_Mat_25",
-      "hex": "#D6A448",
-      "flat": false,
-      "source": "B · helmet moulding"
+      "hex": "#2B211B",
+      "flat": true,
+      "source": "Wait · Eye"
     },
     {
       "name": "Rescue_B_Mat_26",
-      "hex": "#FFD679",
-      "flat": false,
-      "source": "B · safety yellow helmet"
+      "hex": "#FFF8E8",
+      "flat": true,
+      "source": "Wait · White"
     },
     {
       "name": "Rescue_B_Mat_27",
-      "hex": "#297F7D",
-      "flat": false,
-      "source": "B · deep teal"
+      "hex": "#F99A76",
+      "flat": true,
+      "source": "Wait · Cheek"
     },
     {
       "name": "Rescue_B_Mat_28",
-      "hex": "#77503A",
-      "flat": false,
-      "source": "Hair warm locks"
+      "hex": "#76372C",
+      "flat": true,
+      "source": "Wait · Mouth"
     },
     {
       "name": "Rescue_B_Mat_29",
-      "hex": "#759C8C",
-      "flat": false,
-      "source": "Radio screen"
-    },
-    {
-      "name": "Rescue_B_Mat_30",
-      "hex": "#FF8C2D",
-      "flat": false,
-      "source": "A · rescue orange | #FF8C2D"
-    },
-    {
-      "name": "Rescue_B_Mat_31",
-      "hex": "#76372C",
-      "flat": true,
-      "source": "Smile inside"
-    },
-    {
-      "name": "Rescue_B_Mat_32",
       "hex": "#E77D70",
       "flat": true,
-      "source": "Smile tongue"
-    },
-    {
-      "name": "Rescue_B_Mat_33",
-      "hex": "#292D36",
-      "flat": false,
-      "source": "Cargo seams"
+      "source": "Wait · Tongue"
     }
   ],
-  "source_blender_sha256": "84fd561a3cf92539845c1cb427f5b70e127f95baeae2ac75e6ead8bf121ee7d1",
-  "height_m": 1.4784758681198582,
+  "source_blender": "E:\\ProjectWait\\Blender\\구조요원 모델링 최신화\\구조요원_B_최신화.blend",
+  "source_blender_sha256": "e4fbd4d1b8bdc7f98cdd347b0ec8e04c08a2112986f63002e4f168b2afd21cbe",
+  "height_m": 1.5453978973673657,
   "pose_scale": [
     1,
     0.8611077609272273,
     1
-  ]
+  ],
+  "deform_bones": [
+    "root",
+    "pelvis",
+    "spine",
+    "chest",
+    "neck",
+    "head",
+    "hair.01",
+    "hair.02",
+    "clavicle.L",
+    "upper_arm.L",
+    "forearm.L",
+    "hand.L",
+    "fingers.L",
+    "thumb.L",
+    "clavicle.R",
+    "upper_arm.R",
+    "forearm.R",
+    "hand.R",
+    "fingers.R",
+    "thumb.R",
+    "thigh.R",
+    "shin.R",
+    "foot.R",
+    "thigh.L",
+    "shin.L",
+    "foot.L"
+  ],
+  "blend_shapes": [
+    "BlinkLeft",
+    "BlinkRight",
+    "HappyEyes",
+    "MouthClosed",
+    "MouthWide",
+    "BrowRaise",
+    "BrowWorry"
+  ],
+  "expression_defaults": {
+    "blink.L": 0.0,
+    "blink.R": 0.0,
+    "happy_eyes": 0.0,
+    "mouth_open": 0.8199999928474426,
+    "brow_raise": 0.0,
+    "brow_worry": 0.0
+  },
+  "export_note": "Saved evaluated pose baked as bind pose; modifiers and face drivers sampled. IK remains procedural in Unity."
 }

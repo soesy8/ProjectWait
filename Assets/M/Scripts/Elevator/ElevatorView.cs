@@ -216,6 +216,8 @@ namespace ProjectWait.M.Elevator
                 case ElevatorStep.Complete:
                     objective="고장난 엘리베이터에서 안전하게 대처했어요";who="친구";line="도움을 요청하고, 위치를 알리고,\n문을 건드리지 않고 함께 기다렸어요.";Add("1   우리가 해낸 일",ShowHistory);Add("2   한 번 더 해보기",lesson.Restart);break;
             }
+            if(ElevatorDoorSafetyCutscene.Describe(lesson,out var safetySpeaker,out var safetyLine))
+            {who=safetySpeaker;line=safetyLine;objective=f.IsCallCutscene?"현재 위치를 알리고 안내 듣기":"문에서 떨어져 안전하게 기다리기";}
             if(lesson.scenario){lesson.scenario.Describe(ref who,ref line);if(lesson.scenario.objectGuidedScene&&f.Step!=ElevatorStep.Call){actions.Clear();labels.Clear();}}
             if(lesson.presentation&&lesson.presentation.rescueTeam)lesson.presentation.rescueTeam.Describe(lesson,ref who,ref line);
             subtitle.text=objective;normalLine=line;normalSpeaker=who;speaker.text=who;dialogueText.text=line;
@@ -240,6 +242,7 @@ namespace ProjectWait.M.Elevator
             if(spatial)spatial.SetPanelVisible(actionPanel,actions.Count>0);else actionPanel.gameObject.SetActive(actions.Count>0);
             if(spatial)spatial.Present(who,line,objective);
             ApplyCompactLayout();SetCinematicVisibility();InteractionRevision++;
+            if(lesson.scenario)lesson.scenario.RefreshWorldMaterials();
             spatial?.Transitions?.End();
         }
         public void SetCinematicVisibility()

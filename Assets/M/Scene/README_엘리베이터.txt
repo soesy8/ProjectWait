@@ -126,3 +126,9 @@ B 원본 모델 비율 수정 (2026-11-04)
 - 원형 표식은 1.5초 지목을 마치면 정확히 100%가 되고, 다음 대사가 재생되는 동안 1초에 걸쳐 Lerp로 사라집니다. 이 페이드 때문에 대사 시작을 추가로 지연시키지 않습니다.
 - 검증 기록·화면: Assets/M/CodexTemp/IntercomAndCuePolish_20261104~/.
 - 두 씬 PC 재생 검사 각각 49개, 저장·일반/무응답 전체 진행 검사 50개 통과. 원 페이드는 약 1초, 고장 전 대사는 약 1.5초로 측정했습니다. 실제 HMD와 기기 빌드는 미검증입니다.
+
+
+[2026-11-05 최적화·임시 자료 정리]
+최적화 수치와 최신 검증: Assets/M/Documentation/OptimizationAndTempCleanup_20261105.md
+과거 CodexTemp 기록은 Assets/M/Documentation/TempCleanupArchive_20261105.md로 정리했습니다.
+이 문서의 이전 CodexTemp 경로는 과거 기록이며 정리 후 삭제되었습니다.

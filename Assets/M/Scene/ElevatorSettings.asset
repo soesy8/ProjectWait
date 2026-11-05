@@ -21,6 +21,12 @@ MonoBehaviour:
   callQuestionSeconds: 1.5
   callReplySeconds: 2
   callLocationGuideSeconds: 2.5
+  locationReportSeconds: 3.5
+  safetyAdviceSeconds: 3.5
+  doorLeanSeconds: 3
+  doorWarningSeconds: 3
+  safeWallMoveSeconds: 4
+  safeWallSettleSeconds: 3
   firstHintSeconds: 20
   secondHintSeconds: 40
   rescueWaitSeconds: 12

@@ -17,7 +17,6 @@ namespace ProjectWait.M.Elevator
    var bones=lesson.friend.GetComponentsInChildren<Transform>(true);leftHip=Find(bones,"thigh.L");leftKnee=Find(bones,"shin.L");leftFoot=Find(bones,"foot.L");rightHip=Find(bones,"thigh.R");rightKnee=Find(bones,"shin.R");rightFoot=Find(bones,"foot.R");head=Find(bones,"head");
    if(leftFoot){leftRest=lesson.friend.InverseTransformPoint(leftFoot.position);leftFootRest=Quaternion.Inverse(lesson.friend.rotation)*leftFoot.rotation;}if(rightFoot){rightRest=lesson.friend.InverseTransformPoint(rightFoot.position);rightFootRest=Quaternion.Inverse(lesson.friend.rotation)*rightFoot.rotation;}
    face=lesson.friend.GetComponentsInChildren<SkinnedMeshRenderer>().FirstOrDefault();if(face){blink=face.sharedMesh.GetBlendShapeIndex("Blink");surprised=face.sharedMesh.GetBlendShapeIndex("Surprised");}
-   if(panicFaceMesh){panicFaceMesh.SetTriangles(panicFaceMesh.triangles,0,false);panicFaceMesh.UploadMeshData(false);}
    previous=lesson.friend.position;if(panicFace)panicFace.gameObject.SetActive(false);
   }
   static Transform Find(Transform[] a,string name)=>a.FirstOrDefault(t=>t.name==name);
@@ -26,7 +25,7 @@ namespace ProjectWait.M.Elevator
    if(!lesson||lesson.Flow==null||lesson.IsPaused)return;var f=lesson.Flow;var root=lesson.friend;
    if(run!=lesson.RunVersion){run=lesson.RunVersion;phase=0;previous=root.position;}
    var displacement=Vector3.ProjectOnPlane(root.position-previous,Vector3.up);previous=root.position;
-   bool walking=f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.GoingHome;
+   bool walking=f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.GoingHome||f.Step==ElevatorStep.DoorLean||f.Step==ElevatorStep.SafeWallMove;
    if(walking&&displacement.sqrMagnitude>.000001f&&displacement.magnitude<.5f)
    {
     phase+=displacement.magnitude/.46f*Mathf.PI*2;Vector3 forward=displacement.normalized;
@@ -40,8 +39,8 @@ namespace ProjectWait.M.Elevator
     float lift=t>0&&t<1?Mathf.Sin(t*Mathf.PI)*.23f:0;
     root.position+=Vector3.up*lift;
    }
-   bool panic=!f.Reassured&&(f.Step==ElevatorStep.Stopped||f.IsCallCutscene||f.Step==ElevatorStep.Unanswered||f.Step==ElevatorStep.Call||f.Step==ElevatorStep.Waiting);
-   if(face&&normalFaceMesh&&panicFaceMesh)face.sharedMesh=panic?panicFaceMesh:normalFaceMesh;
+   bool panic=!f.Reassured&&(f.Step==ElevatorStep.Stopped||f.IsCallCutscene||f.Step==ElevatorStep.Unanswered||f.Step==ElevatorStep.Call||f.Step==ElevatorStep.Waiting||f.Step==ElevatorStep.DoorLean||f.Step==ElevatorStep.DoorPosterPointing);
+   if(face&&normalFaceMesh&&panicFaceMesh){var mesh=panic?panicFaceMesh:normalFaceMesh;if(face.sharedMesh!=mesh)face.sharedMesh=mesh;}
    if(panicFace)panicFace.gameObject.SetActive(panic);
    if(panic)
    {

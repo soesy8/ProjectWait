@@ -1,2 +1,0 @@
-using UnityEditor.SceneManagement;
-public static class OpenOriginalHV{public static string Main(){EditorSceneManager.OpenScene("Assets/M/Scene/Elevator_Safety_Prototype.unity",OpenSceneMode.Single);return "Original scene opened.";}}

@@ -2,7 +2,7 @@
 
 namespace ProjectWait.M.Elevator
 {
-    public enum ElevatorStep { Lobby, Boarding, Proposal, Jump, Stopped, Connecting, Call, Unanswered, Waiting, Retry, Rescue, Complete, Entering, Exiting, Travel, ReturnLobby, Returning, GroundFloor, GoingHome, WaitingFade, PosterPointing, PosterWarning, CallQuestion, CallResponse, CallLiftQuestion, CallIdentityGuide }
+    public enum ElevatorStep { Lobby, Boarding, Proposal, Jump, Stopped, Connecting, Call, Unanswered, Waiting, Retry, Rescue, Complete, Entering, Exiting, Travel, ReturnLobby, Returning, GroundFloor, GoingHome, WaitingFade, PosterPointing, PosterWarning, CallQuestion, CallResponse, CallLiftQuestion, CallIdentityGuide, CallLocationResponse, CallSafetyAdvice, DoorLean, DoorPosterPointing, DoorPosterWarning, SafeWallMove, SafeWallWaiting }
     public enum InteractionPhase { Dialogue, Investigation, Choice }
 
     // PC, XR and verification all use this state owner. The player's body never jumps.
@@ -16,6 +16,8 @@ namespace ProjectWait.M.Elevator
         public bool LocationReported { get; private set; }
         public bool SituationReported { get; private set; }
         public bool IdentityFound { get; private set; }
+        public bool DoorWarningGiven { get; private set; }
+        public bool SafeWallReached { get; private set; }
         public int Encouragements { get; private set; }
         public bool Reassured { get; private set; }
         public bool UsedPhone { get; private set; }
@@ -27,12 +29,13 @@ namespace ProjectWait.M.Elevator
         public string FirstJudgment { get; private set; } = "";
         public bool ProposalRetry => Step == ElevatorStep.Retry && retryReturn == ElevatorStep.Proposal;
         public float Elapsed { get; private set; }
-        public bool AwaitingPoster => Step == ElevatorStep.PosterPointing;
+        public bool AwaitingPoster => Step == ElevatorStep.PosterPointing || Step == ElevatorStep.DoorPosterPointing;
         public bool SearchingIdentity => Step == ElevatorStep.Call && Phase == InteractionPhase.Investigation && SituationReported && !IdentityFound;
-        public bool IsCallCutscene => Step == ElevatorStep.Connecting || Step == ElevatorStep.CallQuestion || Step == ElevatorStep.CallResponse || Step == ElevatorStep.CallLiftQuestion || Step == ElevatorStep.CallIdentityGuide;
-        public bool IsShotCutscene => Step == ElevatorStep.Proposal || AwaitingPoster || Step == ElevatorStep.PosterWarning || Step == ElevatorStep.Jump || Step == ElevatorStep.Stopped && Phase == InteractionPhase.Dialogue;
+        public bool IsCallCutscene => Step == ElevatorStep.Connecting || Step == ElevatorStep.CallQuestion || Step == ElevatorStep.CallResponse || Step == ElevatorStep.CallLiftQuestion || Step == ElevatorStep.CallIdentityGuide || Step == ElevatorStep.CallLocationResponse || Step == ElevatorStep.CallSafetyAdvice;
+        public bool IsDoorSafetyCutscene => Step == ElevatorStep.DoorLean || Step == ElevatorStep.DoorPosterPointing || Step == ElevatorStep.DoorPosterWarning || Step == ElevatorStep.SafeWallMove || Step == ElevatorStep.SafeWallWaiting;
+        public bool IsShotCutscene => Step == ElevatorStep.Proposal || Step == ElevatorStep.PosterPointing || Step == ElevatorStep.PosterWarning || Step == ElevatorStep.Jump || Step == ElevatorStep.Stopped && Phase == InteractionPhase.Dialogue;
         public bool IsMoving => Step == ElevatorStep.Travel || Step == ElevatorStep.Jump;
-        public bool IsCinematic => IsShotCutscene || IsCallCutscene || Step==ElevatorStep.WaitingFade || Step==ElevatorStep.Entering || Step==ElevatorStep.Exiting || Step==ElevatorStep.Travel || Step==ElevatorStep.Returning || Step==ElevatorStep.GoingHome || (Step==ElevatorStep.Stopped&&Phase==InteractionPhase.Dialogue) || (Step==ElevatorStep.Rescue&&!ReadyToExit);
+        public bool IsCinematic => IsShotCutscene || IsCallCutscene || IsDoorSafetyCutscene || Step==ElevatorStep.WaitingFade || Step==ElevatorStep.Entering || Step==ElevatorStep.Exiting || Step==ElevatorStep.Travel || Step==ElevatorStep.Returning || Step==ElevatorStep.GoingHome || (Step==ElevatorStep.Stopped&&Phase==InteractionPhase.Dialogue) || (Step==ElevatorStep.Rescue&&!ReadyToExit);
         public bool CanObserve => Phase == InteractionPhase.Investigation || Step == ElevatorStep.Boarding || Step == ElevatorStep.Waiting || SearchingIdentity;
         public bool PlayerHasBall => Step != ElevatorStep.Lobby && Step != ElevatorStep.Boarding && Step != ElevatorStep.Complete && Step != ElevatorStep.Entering;
         readonly ElevatorSettings settings;
@@ -46,6 +49,7 @@ namespace ProjectWait.M.Elevator
         public void Reset()
         {
             History.Clear(); HelpRequested = LocationReported = SituationReported = IdentityFound = Reassured = UsedPhone = ReadyToExit = false;
+            DoorWarningGiven = SafeWallReached = false;
             Encouragements = 0;
             JumpCount = 0; DestinationSelected = false; FirstJudgment = ""; retryReturn = ElevatorStep.Stopped; Enter(ElevatorStep.Lobby);
         }
@@ -81,6 +85,12 @@ namespace ProjectWait.M.Elevator
         public void PointAtSafetyPoster()
         {
             if (!AwaitingPoster) return;
+            if (Step == ElevatorStep.DoorPosterPointing)
+            {
+                DoorWarningGiven = true;
+                History.Add("안전 포스터를 다시 가리켜 친구에게 문에 기대면 안 된다고 알려 줌");
+                Enter(ElevatorStep.DoorPosterWarning); return;
+            }
             FirstJudgment = "안전 포스터를 가리키며 뛰지 말라고 말함";
             History.Add("안전 포스터를 직접 가리켜 친구에게 안에서는 뛰지 말자고 말함");
             Enter(ElevatorStep.PosterWarning);
@@ -109,7 +119,9 @@ namespace ProjectWait.M.Elevator
         public void FindIdentity()
         {
             if (!SearchingIdentity) return;
-            IdentityFound = true; Phase = InteractionPhase.Choice; History.Add("벽의 위치 표시를 직접 찾아 확인함"); Revision++;
+            IdentityFound = LocationReported = true;
+            History.Add("벽의 위치 표시를 직접 찾아 건물명과 승강기 번호를 전달함");
+            Enter(ElevatorStep.CallLocationResponse);
         }
         public void Encourage()
         {
@@ -203,6 +215,29 @@ namespace ProjectWait.M.Elevator
                         History.Add("전면 비상벨 아래 식별판에 위치가 적혀 있다는 안내를 듣고 직접 찾기 시작함");
                         Enter(ElevatorStep.Call, InteractionPhase.Investigation);
                     }
+                    break;
+                case ElevatorStep.CallLocationResponse:
+                    if (Elapsed >= settings.locationReportSeconds) Enter(ElevatorStep.CallSafetyAdvice);
+                    break;
+                case ElevatorStep.CallSafetyAdvice:
+                    if (Elapsed >= settings.safetyAdviceSeconds) Enter(ElevatorStep.DoorLean);
+                    break;
+                case ElevatorStep.DoorLean:
+                    if (Elapsed >= settings.doorLeanSeconds) Enter(ElevatorStep.DoorPosterPointing, InteractionPhase.Investigation);
+                    break;
+                case ElevatorStep.DoorPosterWarning:
+                    if (Elapsed >= settings.doorWarningSeconds && DoorWarningGiven) Enter(ElevatorStep.SafeWallMove);
+                    break;
+                case ElevatorStep.SafeWallMove:
+                    if (Elapsed >= settings.safeWallMoveSeconds)
+                    {
+                        SafeWallReached = Reassured = true;
+                        History.Add("친구가 문에서 떨어진 옆 벽으로 이동하여 안전하게 함께 기다림");
+                        Enter(ElevatorStep.SafeWallWaiting);
+                    }
+                    break;
+                case ElevatorStep.SafeWallWaiting:
+                    if (Elapsed >= settings.safeWallSettleSeconds) Enter(ElevatorStep.WaitingFade);
                     break;
                 case ElevatorStep.Waiting:
                     if (HelpRequested && LocationReported && Reassured && Elapsed >= settings.rescueWaitSeconds) Enter(ElevatorStep.Rescue);

@@ -1,1 +1,0 @@
-ProjectWait.M.Editor.ElevatorCopingSetup.CopyTestScene();return "Improved original copied to object interaction test.";

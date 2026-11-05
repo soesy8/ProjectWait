@@ -1,5 +1,0 @@
-﻿TestEnvelope success=True passed=36
-TestReadability success=True passed=203
-TestPolish success=True passed=54
-TestCamera success=True passed=126
-TestInteraction success=True passed=32

@@ -1,2 +1,0 @@
-﻿Elevator_Safety_Prototype restored authored geometry on 16 targets; Apply.cs then excludes nested ball only
-Elevator_Safety_ObjectInteraction_Test restored authored geometry on 16 targets; Apply.cs then excludes nested ball only

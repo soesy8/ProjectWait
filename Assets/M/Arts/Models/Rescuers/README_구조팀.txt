@@ -31,3 +31,9 @@ PC 검증 기록: Assets/M/CodexTemp/RescueIntegration_20261104~/.
 B 축소 검증 기록: Assets/M/CodexTemp/RescueBHeight_20261104~/.
 두 씬 재생 검사 각 32개, 저장·참조 검사 42개, 원본 대조 검사 14개 통과.
 물리 HMD와 실제 기기 빌드는 검증하지 않았습니다.
+
+
+[2026-11-05 최적화·임시 자료 정리]
+최적화 수치와 최신 검증: Assets/M/Documentation/OptimizationAndTempCleanup_20261105.md
+과거 CodexTemp 기록은 Assets/M/Documentation/TempCleanupArchive_20261105.md로 정리했습니다.
+이 문서의 이전 CodexTemp 경로는 과거 기록이며 정리 후 삭제되었습니다.

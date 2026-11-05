@@ -15,6 +15,8 @@ namespace ProjectWait.M.Elevator
         readonly List<Panel> panels = new List<Panel>();
         readonly List<TextChange> texts = new List<TextChange>();
         readonly List<Retired> retired = new List<Retired>();
+        readonly List<TMP_Text> thoughtTexts = new List<TMP_Text>();
+        int thoughtHierarchy=-1;
 
         struct Geometry
         {
@@ -69,7 +71,12 @@ namespace ProjectWait.M.Elevator
             var ui=view.spatial;
             TrackText(view.dialogueText);TrackText(ui.speaker);TrackText(view.subtitle);TrackText(ui.progress);
             TrackText(ui.notebookCaption);TrackText(ui.notebookDetail);
-            foreach(var text in view.thoughtPanel.GetComponentsInChildren<TMP_Text>(true))TrackText(text);
+            if(thoughtHierarchy!=view.thoughtPanel.hierarchyCount)
+            {
+                thoughtTexts.Clear();view.thoughtPanel.GetComponentsInChildren(true,thoughtTexts);
+                thoughtHierarchy=view.thoughtPanel.hierarchyCount;
+            }
+            foreach(var text in thoughtTexts)TrackText(text);
         }
         void TrackText(TMP_Text text)
         {

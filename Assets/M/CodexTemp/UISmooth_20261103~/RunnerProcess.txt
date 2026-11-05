@@ -1,9 +1,0 @@
-﻿
-
-Id         : 14872
-Responding : True
-CPU        : 0.734375
-StartTime  : 2026-11-03 오후 1:44:01
-
-
-

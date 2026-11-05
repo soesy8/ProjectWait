@@ -30,7 +30,10 @@ namespace ProjectWait.M.Elevator
         public float RingAlpha => ringGroup?ringGroup.alpha:0;
         public bool RingFading {get;private set;}
         public bool Awaiting => lesson&&lesson.Flow!=null&&lesson.Flow.AwaitingPoster;
-        public Vector3 TargetPosition => posterAnchor.position;
+        public Vector3 TargetPosition => lesson&&lesson.Flow!=null&&
+            (lesson.Flow.Step==ElevatorStep.DoorPosterPointing||lesson.Flow.Step==ElevatorStep.DoorPosterWarning)&&
+            lesson.doorSafetyCutscene&&lesson.doorSafetyCutscene.doorPosterAnchor?
+            lesson.doorSafetyCutscene.doorPosterAnchor.position:posterAnchor.position;
         ElevatorDesktopControls desktop;
         XRBaseInteractor[] hands;
         int run=-1;
@@ -104,7 +107,8 @@ namespace ProjectWait.M.Elevator
             }
             bool pointing=f.AwaitingPoster;
             // A brief cue back to the friend lets the player watch the shot without owning their gaze.
-            bool watchFriend=f.Step==ElevatorStep.Jump&&f.Elapsed<lesson.settings.friendReplySeconds;
+            bool watchFriend=f.Step==ElevatorStep.Jump&&f.Elapsed<lesson.settings.friendReplySeconds||
+                f.Step==ElevatorStep.DoorLean||f.Step==ElevatorStep.SafeWallMove||f.Step==ElevatorStep.SafeWallWaiting;
             worldCanvas.gameObject.SetActive(pointing||RingFading);
             if(pointing||RingFading)
             {
@@ -129,6 +133,8 @@ namespace ProjectWait.M.Elevator
                 HoldElapsed=hit?HoldElapsed+seconds:0;
                 ringGraphic.SetProgress(XRSettings.isDeviceActive?(hit?1:0):HoldElapsed/holdSeconds);
                 instruction.text=XRSettings.isDeviceActive?"안전 포스터 앞의 원에 손을 대어 가리켜요.":"마우스로 둘러보고, 포스터의 원을\n중앙 레이저로 1.5초 동안 가리켜요.";
+                if(f.Step==ElevatorStep.DoorPosterPointing)instruction.text=XRSettings.isDeviceActive?
+                    "‘문에 기대지 않아요’ 그림을 손으로 가리켜요.":"‘문에 기대지 않아요’ 그림의 원을\n중앙 레이저로 1.5초 동안 가리켜요.";
                 PlaceArrow(TargetPosition,seconds);
                 instructionGroup.alpha=1;instructionPanel.gameObject.SetActive(true);
                 if(hit&&(XRSettings.isDeviceActive||HoldElapsed>=holdSeconds))
@@ -140,7 +146,8 @@ namespace ProjectWait.M.Elevator
             }
             else
             {
-                instruction.text="친구가 하려는 행동을 살펴봐요.";
+                instruction.text=f.IsDoorSafetyCutscene?"친구가 안전하게 기다리는 모습을 살펴봐요.":"친구가 하려는 행동을 살펴봐요.";
+                if(f.Step==ElevatorStep.DoorLean)instruction.text="친구가 문에 기대려고 해요. 친구를 살펴봐요.";
                 PlaceArrow(lesson.friend.position+Vector3.up*1.05f,seconds);
                 instructionGroup.alpha=ArrowAlpha;instructionPanel.gameObject.SetActive(ArrowAlpha>.002f);
             }

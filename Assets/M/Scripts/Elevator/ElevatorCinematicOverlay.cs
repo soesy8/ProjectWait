@@ -44,7 +44,7 @@ namespace ProjectWait.M.Elevator
             Position();
             top.gameObject.SetActive(Amount>0);bottom.gameObject.SetActive(Amount>0);
             var f=lesson.Flow;
-            caption.gameObject.SetActive(!lesson.view.spatial||f.IsShotCutscene||f.IsCallCutscene||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome);
+            caption.gameObject.SetActive(!lesson.view.spatial||f.IsShotCutscene||f.IsCallCutscene||f.IsDoorSafetyCutscene||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome);
             caption.text=f.Step==ElevatorStep.Entering?"친구와 함께 엘리베이터에 들어가요.":f.Step==ElevatorStep.Exiting?"안내를 따라 천천히 밖으로 나가요.":f.Step==ElevatorStep.Proposal?"친구  ·  내가 어떻게 넣었냐면…":f.Step==ElevatorStep.Jump?"친구  ·  이렇게 뛰어서!":f.Step==ElevatorStep.Stopped?"친구  ·  어? 왜 멈췄지?":f.Step==ElevatorStep.Connecting?"비상통화 연결 중…":f.Step==ElevatorStep.Rescue?"구조원  ·  문을 열고 안전을 확인할게요.":"";
             if(f.Step==ElevatorStep.Proposal)caption.text="친구  ·  아까 슛 멋있었지? 보여 줄게!";
             if(f.Step==ElevatorStep.PosterPointing)caption.text="나  ·  안에서는 뛰면 안 되는데…\n안전 포스터를 가리켜 알려 주자.";
@@ -55,6 +55,7 @@ namespace ProjectWait.M.Elevator
             if(f.Step==ElevatorStep.CallResponse)caption.text="나  ·  "+lesson.settings.reportDialogue;
             if(f.Step==ElevatorStep.CallLiftQuestion)caption.text=caller+"  ·  어느 엘리베이터에 있나요?";
             if(f.Step==ElevatorStep.CallIdentityGuide)caption.text=caller+"  ·  전면 비상벨 아래 식별판에\n건물명과 승강기 번호가 적혀 있어요.";
+            if(ElevatorDoorSafetyCutscene.Describe(lesson,out var speaker,out var line))caption.text=speaker+"  ·  "+line;
             float alpha=0;
             if(f.Step==ElevatorStep.Returning){caption.text="직원의 안내를 받아 계단으로 1층에 내려왔어요.";alpha=S(f.Elapsed,.35f,1.1f)*(1-S(f.Elapsed,2.4f,3.25f));}
             if(f.Step==ElevatorStep.WaitingFade){caption.gameObject.SetActive(true);caption.text="문에서 떨어져 함께 기다렸어요. 잠시 후…";alpha=S(f.Elapsed,.35f,1.1f)*(1-S(f.Elapsed,3.6f,4.5f));}

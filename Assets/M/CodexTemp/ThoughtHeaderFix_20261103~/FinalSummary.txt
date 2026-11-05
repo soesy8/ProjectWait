@@ -1,7 +1,0 @@
-﻿Header success=True passed=144/144
-Fade success=True passed=41/41
-Readability success=True passed=220/220
-Polish success=True passed=54/54
-Camera success=True passed=126/126
-Interaction success=True passed=32/32
-Total passed=617

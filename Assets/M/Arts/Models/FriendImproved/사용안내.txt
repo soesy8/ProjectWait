@@ -35,3 +35,9 @@ Unity
 - 머티리얼 1개에도 표면/외곽선/그림자 렌더 패스가 있어 전체 드로우 콜이 1이라는 의미는 아닙니다.
 
 검증 결과와 캡처: Assets/M/CodexTemp/FriendImprovement_20261104~/
+
+
+[2026-11-05 최적화·임시 자료 정리]
+최적화 수치와 최신 검증: Assets/M/Documentation/OptimizationAndTempCleanup_20261105.md
+과거 CodexTemp 기록은 Assets/M/Documentation/TempCleanupArchive_20261105.md로 정리했습니다.
+이 문서의 이전 CodexTemp 경로는 과거 기록이며 정리 후 삭제되었습니다.

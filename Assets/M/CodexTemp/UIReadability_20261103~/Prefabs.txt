@@ -1,5 +1,0 @@
-﻿D:\project\ProjectWait\Assets\M\Prefabs\ElevatorUI\OpenNotebook3D.prefab
-D:\project\ProjectWait\Assets\M\Prefabs\ElevatorUI\ScreenThought.prefab
-D:\project\ProjectWait\Assets\M\Prefabs\ElevatorUI\WorldChoice.prefab
-D:\project\ProjectWait\Assets\M\Prefabs\ElevatorUI\WorldDialogue.prefab
-D:\project\ProjectWait\Assets\M\Prefabs\SportsCentre3F\SportsCentreMap.prefab

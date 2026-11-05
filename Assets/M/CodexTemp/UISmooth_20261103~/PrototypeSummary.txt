@@ -1,5 +1,0 @@
-﻿PrototypeEnvelope success=True passed=36
-PrototypeReadability success=True passed=220
-PrototypePolish success=True passed=54
-PrototypeCamera success=True passed=126
-PrototypeInteraction success=True passed=32

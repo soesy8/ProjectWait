@@ -157,10 +157,17 @@ namespace ProjectWait.M.Elevator
             if(readingStatus)
             {
                 string action=!revealComplete?"선택하면 전체 표시":dialoguePage+1<dialoguePages.Length?"선택하면 다음 문장":"";
-                readingStatus.text=(dialoguePages.Length>1?$"{dialoguePage+1} / {dialoguePages.Length}  ":"")+action;
+                if(statusPage!=dialoguePage||statusPageCount!=dialoguePages.Length||statusRevealed!=revealComplete)
+                {
+                    readingStatus.text=(dialoguePages.Length>1?$"{dialoguePage+1} / {dialoguePages.Length}  ":"")+action;
+                    statusPage=dialoguePage;statusPageCount=dialoguePages.Length;statusRevealed=revealComplete;
+                }
                 readingStatus.gameObject.SetActive(!complete&&!screenOnly&&!view.lesson.Flow.IsCinematic&&!string.IsNullOrEmpty(readingStatus.text));
             }
         }
+
+        int statusPage=-1,statusPageCount=-1;
+        bool statusRevealed;
 
         void PrepareDialogueReader()
         {
@@ -438,7 +445,7 @@ namespace ProjectWait.M.Elevator
             var f=view.lesson.Flow;
             bool transition=f.Step==ElevatorStep.WaitingFade||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome;
             bool paused=view.lesson.IsPaused;
-            worldGroup.alpha=transition||paused||f.IsShotCutscene||f.IsCallCutscene?0:1;worldGroup.interactable=!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
+            worldGroup.alpha=transition||paused||f.IsShotCutscene||f.IsCallCutscene||f.IsDoorSafetyCutscene?0:1;worldGroup.interactable=!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
             hudGroup.alpha=f.IsCinematic||paused?0:1;hudGroup.interactable=false;hudGroup.blocksRaycasts=false;
             if(notebook)notebook.gameObject.SetActive(complete&&!paused);
         }

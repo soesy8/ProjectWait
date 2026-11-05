@@ -17,6 +17,9 @@ namespace ProjectWait.M.Elevator
         public ElevatorObjectHint[] hints;
         readonly Dictionary<Material,Material> fontOverlays=new Dictionary<Material,Material>();
         ElevatorObservation[] observations;Canvas[] canvases;
+        readonly List<Graphic> graphics=new List<Graphic>();
+        ElevatorObservation previousThoughtTarget;
+        int thoughtRevision=-1,thoughtRun=-1;
         ElevatorDesktopControls desktop;
         public ElevatorObservation PrimaryTarget {get;private set;}
         [Min(0)] public float guidanceDelay=8;
@@ -27,6 +30,12 @@ namespace ProjectWait.M.Elevator
         public float GuidanceBlend=>GuidanceActive?.5f-.5f*Mathf.Cos((GuidanceElapsed-guidanceDelay)*Mathf.PI*2/guidanceCycleSeconds):0;
         int guidanceRun=-1;
         void Awake(){lesson.scenario=this;observations=lesson.CollectObservations();desktop=FindFirstObjectByType<ElevatorDesktopControls>();}
+        void Start()
+        {
+            RefreshWorldMaterials(true);
+            if(hints!=null)foreach(var h in hints)
+                if(h){if(h.group){h.group.alpha=0;h.group.blocksRaycasts=h.group.interactable=false;}h.gameObject.SetActive(false);}
+        }
         public bool Allows(ElevatorClue clue)=>lesson.CanInteract(clue);
         ElevatorClue? RequiredTarget()
         {
@@ -114,29 +123,32 @@ namespace ProjectWait.M.Elevator
             if(!lesson||lesson.Flow==null)return;
             AdvanceGuidance(Time.unscaledDeltaTime);
             if(observations==null)observations=lesson.CollectObservations();
-            PrimaryTarget=observations.FirstOrDefault(o=>o&&o.gameObject.activeInHierarchy&&o.IsHovered&&lesson.CanInteract(o.clue));
-            lesson.view.ShowThought(PrimaryTarget?Hint(PrimaryTarget.clue):"");
-            // Object descriptions share the screen thought bubble; retire the old world labels.
-            if(hints!=null)foreach(var h in hints)
+            PrimaryTarget=null;
+            foreach(var observation in observations)
+                if(observation&&observation.gameObject.activeInHierarchy&&observation.IsHovered&&lesson.CanInteract(observation.clue))
+                {PrimaryTarget=observation;break;}
+            if(previousThoughtTarget!=PrimaryTarget||thoughtRevision!=lesson.Flow.Revision||thoughtRun!=lesson.RunVersion)
             {
-                if(h){if(h.group){h.group.alpha=0;h.group.blocksRaycasts=h.group.interactable=false;}h.gameObject.SetActive(false);}
+                previousThoughtTarget=PrimaryTarget;thoughtRevision=lesson.Flow.Revision;thoughtRun=lesson.RunVersion;
+                lesson.view.ShowThought(PrimaryTarget?Hint(PrimaryTarget.clue):"");
             }
-            ApplyWorldMaterials();
         }
-        void ApplyWorldMaterials()
+        // Run when content is created or its presentation mode changes, rather than every frame.
+        public void RefreshWorldMaterials(bool rescan=false)
         {
-            if(canvases==null)canvases=FindObjectsByType<Canvas>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(c=>c.gameObject.scene==gameObject.scene).ToArray();
+            if(rescan||canvases==null)canvases=FindObjectsByType<Canvas>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(c=>c.gameObject.scene==gameObject.scene).ToArray();
             foreach(var canvas in canvases)
             {
-                if(canvas.renderMode!=RenderMode.WorldSpace)continue;
-                foreach(var g in canvas.GetComponentsInChildren<Graphic>(true))
+                if(!canvas||canvas.renderMode!=RenderMode.WorldSpace)continue;
+                graphics.Clear();canvas.GetComponentsInChildren(true,graphics);
+                foreach(var g in graphics)
                 {
                     if(g is TMP_Text t)
                     {
                         var source=t.fontSharedMaterial;if(!source||source.shader.name=="TextMeshPro/Distance Field Overlay")continue;
                         if(!fontOverlays.TryGetValue(source,out var m)){m=new Material(source);m.name="World readable text";m.shader=Shader.Find("TextMeshPro/Distance Field Overlay");m.renderQueue=4201;fontOverlays.Add(source,m);}t.fontSharedMaterial=m;
                     }
-                    else if(!(g is TMP_SubMeshUI)&&worldOverlay)g.material=worldOverlay;
+                    else if(!(g is TMP_SubMeshUI)&&worldOverlay&&g.material!=worldOverlay)g.material=worldOverlay;
                 }
             }
         }

@@ -1,6 +1,6 @@
 ﻿Shader "ProjectWait/M/Vertex Palette Toon"
 {
- Properties { [MainColor] _BaseColor("Tint",Color)=(1,1,1,1) }
+ Properties { [MainColor] _BaseColor("Tint",Color)=(1,1,1,1) [Enum(UnityEngine.Rendering.CullMode)] _Cull("Surface culling",Float)=0 }
  SubShader
  {
   Tags {"RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" "Queue"="Geometry"}
@@ -8,6 +8,7 @@
   #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
   CBUFFER_START(UnityPerMaterial)
    half4 _BaseColor;
+   half _Cull;
   CBUFFER_END
   struct A {float4 p:POSITION;float3 n:NORMAL;float4 color:COLOR;float4 style:TEXCOORD1;float4 shade:TEXCOORD2;float4 ink:TEXCOORD3;float2 bands:TEXCOORD4;UNITY_VERTEX_INPUT_INSTANCE_ID};
   struct V {float4 p:SV_POSITION;float3 world:TEXCOORD0;half3 normal:TEXCOORD1;half4 color:TEXCOORD2;float4 style:TEXCOORD3;half4 shade:TEXCOORD4;half4 ink:TEXCOORD5;float2 bands:TEXCOORD6;UNITY_VERTEX_OUTPUT_STEREO};
@@ -20,7 +21,7 @@
   ENDHLSL
   Pass
   {
-   Name "ToonSurface" Tags {"LightMode"="UniversalForward"} Cull Off
+   Name "ToonSurface" Tags {"LightMode"="UniversalForward"} Cull [_Cull]
    HLSLPROGRAM
    #pragma target 3.0
    #pragma vertex Vert

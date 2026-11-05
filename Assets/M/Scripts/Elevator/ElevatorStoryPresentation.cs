@@ -26,6 +26,7 @@ namespace ProjectWait.M.Elevator
         Quaternion[] rest; Transform[] joints;
         Vector3 home,ballHome;
         SkinnedMeshRenderer face;
+        ProjectWait.M.FriendImprovedExpressions expressionOwner;
         int blinkIndex=-1,surpriseIndex=-1;
         AudioSource sound;
         AudioClip catchSound,whoosh,connected,success,arrival;
@@ -37,7 +38,7 @@ namespace ProjectWait.M.Elevator
         Quaternion rescueUpperRest,rescueLowerRest;
         void Awake()
         {
-            if(sound)return;
+            if(sound&&ballProperties!=null&&rest!=null)return;
             home=space?space.friendInside:lesson.friend.localPosition;ballHome=friendBall.localPosition;
             heldBallRenderers=playerBall.GetComponentsInChildren<Renderer>(true);
             ballProperties=new MaterialPropertyBlock();
@@ -49,8 +50,9 @@ namespace ProjectWait.M.Elevator
             head=Bone(bones,"head");pelvis=Bone(bones,"pelvis");leftThigh=Bone(bones,"thigh.L");rightThigh=Bone(bones,"thigh.R");leftShin=Bone(bones,"shin.L");rightShin=Bone(bones,"shin.R");
             joints=new[]{leftArm,leftForearm,leftHand,rightArm,rightForearm,rightHand,head,pelvis,leftThigh,rightThigh,leftShin,rightShin};rest=joints.Select(t=>t?t.localRotation:Quaternion.identity).ToArray();
             face=lesson.friend.GetComponentInChildren<SkinnedMeshRenderer>();
+            expressionOwner=lesson.friend.GetComponentInChildren<ProjectWait.M.FriendImprovedExpressions>();
             if(face){blinkIndex=face.sharedMesh.GetBlendShapeIndex("Blink");surpriseIndex=face.sharedMesh.GetBlendShapeIndex("Surprised");}
-            sound=gameObject.AddComponent<AudioSource>();sound.playOnAwake=false;sound.spatialBlend=0;sound.volume=.16f;
+            if(!sound)sound=gameObject.AddComponent<AudioSource>();sound.playOnAwake=false;sound.spatialBlend=0;sound.volume=.16f;
             catchSound=Tone("Soft catch",new[]{220f,165f},.11f);
             whoosh=Tone("Shot swish",new[]{380f,520f,660f},.09f);
             connected=Tone("Connected",new[]{523.25f,659.25f},.17f);
@@ -168,7 +170,7 @@ namespace ProjectWait.M.Elevator
                 float walk=Mathf.Sin(f.Elapsed*7)*16;
                 if(leftThigh)leftThigh.localRotation*=Quaternion.Euler(0,0,walk);if(rightThigh)rightThigh.localRotation*=Quaternion.Euler(0,0,-walk);
             }
-            if(face)
+            if(face&&(!expressionOwner||!expressionOwner.isActiveAndEnabled))
             {
                 float blink=Mathf.Abs((Time.unscaledTime%4.2f)-4.05f);if(blinkIndex>=0)face.SetBlendShapeWeight(blinkIndex,Mathf.Clamp01(1-blink/.12f)*100);
                 if(surpriseIndex>=0)face.SetBlendShapeWeight(surpriseIndex,(f.Step==ElevatorStep.Stopped||f.Step==ElevatorStep.Connecting)?100:0);

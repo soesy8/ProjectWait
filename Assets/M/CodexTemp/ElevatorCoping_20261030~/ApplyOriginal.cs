@@ -1,1 +1,0 @@
-ProjectWait.M.Editor.ElevatorCopingSetup.ApplyOriginal();return "Original coping scenario saved.";

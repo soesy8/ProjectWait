@@ -10,6 +10,7 @@ namespace ProjectWait.M.Elevator
         public const float ThirdFloorHeight = 7.92f;
         public ElevatorSpacePresentation space;
         public Transform geometry;
+        public GameObject firstFloorGeometry;
         public Transform autoDoorLeft, autoDoorRight;
         public Transform thirdFloorAutoDoorLeft,thirdFloorAutoDoorRight;
         public Transform sideIntercom, frontIntercom, identity, facilityGuide;
@@ -29,8 +30,9 @@ namespace ProjectWait.M.Elevator
         bool initialized;
         bool teleported;
         bool entryTurnComplete;
+        bool ringsInitialized,previousDestination;
         float entryTurnApplied;
-        public bool IsInteriorBeat=>InteriorBeat(Lesson.Flow.Step);
+        public bool IsInteriorBeat=>InteriorBeat(Lesson.Flow.Step)||Lesson.Flow.IsDoorSafetyCutscene||Lesson.Flow.IsCallCutscene;
         static bool InteriorBeat(ElevatorStep step)=>step==ElevatorStep.Boarding||step==ElevatorStep.Proposal||step==ElevatorStep.PosterPointing||step==ElevatorStep.PosterWarning||step==ElevatorStep.Jump||step==ElevatorStep.Travel||step==ElevatorStep.Stopped||step==ElevatorStep.Connecting||step==ElevatorStep.Call||step==ElevatorStep.CallQuestion||step==ElevatorStep.CallResponse||step==ElevatorStep.CallLiftQuestion||step==ElevatorStep.CallIdentityGuide||step==ElevatorStep.Unanswered||step==ElevatorStep.Retry||step==ElevatorStep.Waiting||step==ElevatorStep.WaitingFade||step==ElevatorStep.Rescue;
         Vector3 transitionStart;
         float thirdFloorDoorOpen;
@@ -80,7 +82,7 @@ namespace ProjectWait.M.Elevator
                 if(reset)
                 {
                     if(f.Step==ElevatorStep.Lobby)MoveRig(lobby,true,0);
-                    else if(InteriorBeat(f.Step))MoveRig(inside,true,180);
+                    else if(IsInteriorBeat)MoveRig(inside,true,180);
                     else if(f.Step==ElevatorStep.ReturnLobby)MoveRig(lobby,true,0);
                     else if(f.Step==ElevatorStep.GroundFloor)MoveRig(groundLobby,true,180);
                     else if(f.Step==ElevatorStep.Complete)MoveRig(groundExit,true,180);
@@ -138,9 +140,16 @@ namespace ProjectWait.M.Elevator
                 Lesson.friend.rotation=Quaternion.Euler(0,Mathf.Lerp(0,180,S(t,4.6f,5.8f)),0);
             }
             else if(f.Step==ElevatorStep.Complete)Lesson.friend.position=new Vector3(.1f,0,-8.4f);
+            if(Lesson.doorSafetyCutscene)Lesson.doorSafetyCutscene.ApplyPosition();
             p.leftDoor.localPosition=leftClosed+Vector3.left*(DoorOpen*.9f);
             p.rightDoor.localPosition=rightClosed+Vector3.right*(DoorOpen*.9f);
             p.closedDoorCollider.enabled=DoorOpen<.95f;
+            // A closed 3F cabin cannot see or reach 1F. Restore it before any door opens.
+            if(firstFloorGeometry)
+            {
+                bool show=OnGround||!IsInteriorBeat||DoorOpen>.001f;
+                if(firstFloorGeometry.activeSelf!=show)firstFloorGeometry.SetActive(show);
+            }
             float autoOpen=f.Step==ElevatorStep.GoingHome?S(t,.1f,.85f):f.Step==ElevatorStep.Complete?1:0;
             if(autoDoorLeft)autoDoorLeft.localPosition=Vector3.left*(autoOpen*1.3f);
             if(autoDoorRight)autoDoorRight.localPosition=Vector3.right*(autoOpen*1.3f);
@@ -150,8 +159,12 @@ namespace ProjectWait.M.Elevator
             thirdFloorDoorOpen=Mathf.MoveTowards(thirdFloorDoorOpen,nearThirdDoor?1:0,Time.deltaTime*2.4f);
             if(thirdFloorAutoDoorLeft)thirdFloorAutoDoorLeft.localPosition=Vector3.left*(thirdFloorDoorOpen*1.3f);
             if(thirdFloorAutoDoorRight)thirdFloorAutoDoorRight.localPosition=Vector3.right*(thirdFloorDoorOpen*1.3f);
-            if(firstFloorRings!=null)foreach(var r in firstFloorRings)if(r)r.sharedMaterial=f.DestinationSelected?selectedButton:normalButton;
-            if(thirdFloorRings!=null)foreach(var r in thirdFloorRings)if(r)r.sharedMaterial=f.DestinationSelected?normalButton:selectedButton;
+            if(!ringsInitialized||previousDestination!=f.DestinationSelected)
+            {
+                if(firstFloorRings!=null)foreach(var r in firstFloorRings)if(r)r.sharedMaterial=f.DestinationSelected?selectedButton:normalButton;
+                if(thirdFloorRings!=null)foreach(var r in thirdFloorRings)if(r)r.sharedMaterial=f.DestinationSelected?normalButton:selectedButton;
+                ringsInitialized=true;previousDestination=f.DestinationSelected;
+            }
             bool rescue=f.Step==ElevatorStep.Rescue || f.Step==ElevatorStep.Exiting || f.Step==ElevatorStep.ReturnLobby || f.Step==ElevatorStep.Returning || f.Step==ElevatorStep.GroundFloor;
             p.rescuer.SetActive(rescue);p.rescuer.transform.position=OnGround?new Vector3(-2.8f,0,-2.5f):new Vector3(-2.3f,ThirdFloorHeight,1.25f);
             p.rescuer.transform.rotation=Quaternion.Euler(0,f.Step==ElevatorStep.ReturnLobby?0:180,0);
