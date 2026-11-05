@@ -1,0 +1,65 @@
+fileFormatVersion: 2
+guid: d81aa9413aa848458adb58d9efa8d323
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Soft_Cream
+    second: {fileID: 2100000, guid: f0e82404264e4ea4b25da340fcaacfab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Soft_Glass
+    second: {fileID: 2100000, guid: 6df932a8b34d49959e507b42f37c57b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Soft_Ink
+    second: {fileID: 2100000, guid: e0913c21f61e47b292b6d070d91ea5ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Soft_Roof
+    second: {fileID: 2100000, guid: 45beebbf51b74fc4bb510ad8a3ddb8e5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Soft_School
+    second: {fileID: 2100000, guid: 199f80aba445481882f15dd71ac614c6, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    optimizeGameObjects: 0
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    fileIdsGeneration: 2
+    useFileUnits: 1
+    useFileScale: 1
+    preserveHierarchy: 1
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 0
+    indexFormat: 0
+  tangentSpace:
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 0
+  animationType: 0
+  avatarSetup: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

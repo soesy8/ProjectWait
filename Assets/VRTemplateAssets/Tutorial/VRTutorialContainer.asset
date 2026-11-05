@@ -16,57 +16,58 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ParentContainer: {fileID: 0}
-  OrderInParent: 0
-  Sections:
-  - Heading:
-      m_Untranslated: Quick Start Guide VR
-    Text:
-      m_Untranslated: Learn about the template features
-    Type: 1
-    Url: https://docs.unity3d.com/Packages/com.unity.template.vr@10.0
-    Metadata: 
-    Image: {fileID: 2800000, guid: af6a62c59f219a6419d0d3a1e6aaa037, type: 3}
-    Tutorial: {fileID: 0}
-  - Heading:
-      m_Untranslated: Online Documentation
-    Text:
-      m_Untranslated: Read the official documentation
-    Type: 1
-    Url: https://docs.unity3d.com/Documentation/Manual/xr-create-projects.html
-    Metadata: 
-    Image: {fileID: 2800000, guid: af6a62c59f219a6419d0d3a1e6aaa037, type: 3}
-    Tutorial: {fileID: 11400000, guid: 5781675d770c68d469ed7a9b2e934afc, type: 2}
-  - Heading:
-      m_Untranslated: Discussions
-    Text:
-      m_Untranslated: Connect with the XR community
-    Type: 1
-    Url: https://discussions.unity.com/tags/c/unity-engine/52/xr-interaction-toolkit
-    Metadata: 
-    Image: {fileID: 2800000, guid: af6a62c59f219a6419d0d3a1e6aaa037, type: 3}
-    Tutorial: {fileID: 0}
-  - Heading:
-      m_Untranslated: Bug Reporting
-    Text:
-      m_Untranslated: Report bugs to the XR team
-    Type: 1
-    Url: https://unity3d.com/unity/qa/bug-reporting
-    Metadata: 
-    Image: {fileID: 2800000, guid: af6a62c59f219a6419d0d3a1e6aaa037, type: 3}
-    Tutorial: {fileID: 0}
-  - Heading:
-      m_Untranslated: Template Feedback
-    Text:
-      m_Untranslated: Tell us about your experience
-    Type: 1
-    Url: https://unitysoftware.co1.qualtrics.com/jfe/form/SV_b8GWOIYxi4l6PDE
-    Metadata: 
-    Image: {fileID: 2800000, guid: af6a62c59f219a6419d0d3a1e6aaa037, type: 3}
-    Tutorial: {fileID: 0}
+  OrderInView: 0
+  BackgroundImage: {fileID: 2800000, guid: 6eaf09dd6cc8a49708bf60691e32bebf, type: 3}
   Title:
     m_Untranslated: Virtual Reality Template
   Subtitle:
     m_Untranslated: A list of resources to get you started
-  BackgroundImage: {fileID: 2800000, guid: 6eaf09dd6cc8a49708bf60691e32bebf, type: 3}
+  Description:
+    m_Untranslated: 
   ProjectLayout: {fileID: 102900000, guid: bd2287c5608e485449e4a5ea7889ac30, type: 3}
-  FaqEntries: []
+  Sections:
+  - OrderInView: 0
+    Heading:
+      m_Untranslated: Quick Start Guide VR
+    Text:
+      m_Untranslated: Learn about the template features
+    Metadata: 
+    Url: https://docs.unity3d.com/Packages/com.unity.template.vr@9.2
+    Image: {fileID: 2800000, guid: af6a62c59f219a6419d0d3a1e6aaa037, type: 3}
+    Tutorial: {fileID: 0}
+  - OrderInView: 1
+    Heading:
+      m_Untranslated: Online Documentation
+    Text:
+      m_Untranslated: Read the official documentation
+    Metadata: 
+    Url: https://docs.unity3d.com/Documentation/Manual/xr-create-projects.html
+    Image: {fileID: 2800000, guid: af6a62c59f219a6419d0d3a1e6aaa037, type: 3}
+    Tutorial: {fileID: 0}
+  - OrderInView: 2
+    Heading:
+      m_Untranslated: Discussions
+    Text:
+      m_Untranslated: Connect with the XR community
+    Metadata: 
+    Url: https://discussions.unity.com/tags/c/unity-engine/52/xr-interaction-toolkit
+    Image: {fileID: 2800000, guid: af6a62c59f219a6419d0d3a1e6aaa037, type: 3}
+    Tutorial: {fileID: 0}
+  - OrderInView: 3
+    Heading:
+      m_Untranslated: Bug Reporting
+    Text:
+      m_Untranslated: Report bugs to the XR team
+    Metadata: 
+    Url: https://unity3d.com/unity/qa/bug-reporting
+    Image: {fileID: 2800000, guid: af6a62c59f219a6419d0d3a1e6aaa037, type: 3}
+    Tutorial: {fileID: 0}
+  - OrderInView: 4
+    Heading:
+      m_Untranslated: Template Feedback
+    Text:
+      m_Untranslated: Tell us about your experience
+    Metadata: 
+    Url: https://unitysoftware.co1.qualtrics.com/jfe/form/SV_b8GWOIYxi4l6PDE
+    Image: {fileID: 2800000, guid: af6a62c59f219a6419d0d3a1e6aaa037, type: 3}
+    Tutorial: {fileID: 0}
