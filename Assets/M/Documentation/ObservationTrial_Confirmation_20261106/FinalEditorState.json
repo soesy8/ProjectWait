@@ -1,0 +1,16 @@
+{
+    "success":  true,
+    "result":  {
+                   "count":  1,
+                   "scenes":  [
+                                  {
+                                      "name":  "Elevator_Observation_Choice_Test",
+                                      "path":  "Assets/M/Scenes/Elevator_Observation_Choice_Test.unity",
+                                      "isLoaded":  true,
+                                      "isDirty":  false,
+                                      "isActive":  true,
+                                      "rootCount":  8
+                                  }
+                              ]
+               }
+}

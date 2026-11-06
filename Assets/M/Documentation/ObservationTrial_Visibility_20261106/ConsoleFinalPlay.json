@@ -1,0 +1,90 @@
+{
+    "success":  true,
+    "result":  {
+                   "entries":  [
+                                   {
+                                       "seq":  259,
+                                       "timestampUtc":  "2026-11-06T07:15:43.0661647Z",
+                                       "level":  "warn",
+                                       "logType":  "Warning",
+                                       "message":  "Importer(NativeFormatImporter) generated inconsistent result for asset(guid:3dd11dcd12272e54f8a19d8224e35f53) \"Assets/XR/Settings/OpenXRPackageSettings.asset\"",
+                                       "stackTrace":  "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+                                       "seeded":  false
+                                   },
+                                   {
+                                       "seq":  261,
+                                       "timestampUtc":  "2026-11-06T07:15:43.3204866Z",
+                                       "level":  "warn",
+                                       "logType":  "Warning",
+                                       "message":  "XR: Error setting active audio output driver. Falling back to default.",
+                                       "stackTrace":  "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+                                       "seeded":  false
+                                   },
+                                   {
+                                       "seq":  262,
+                                       "timestampUtc":  "2026-11-06T07:15:43.3239871Z",
+                                       "level":  "warn",
+                                       "logType":  "Warning",
+                                       "message":  "XR: Error setting active audio output driver. Falling back to default.",
+                                       "stackTrace":  "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+                                       "seeded":  false
+                                   },
+                                   {
+                                       "seq":  263,
+                                       "timestampUtc":  "2026-11-06T07:15:43.6340409Z",
+                                       "level":  "warn",
+                                       "logType":  "Warning",
+                                       "message":  "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+                                       "stackTrace":  "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+                                       "seeded":  false
+                                   },
+                                   {
+                                       "seq":  264,
+                                       "timestampUtc":  "2026-11-06T07:15:45.5394574Z",
+                                       "level":  "warn",
+                                       "logType":  "Warning",
+                                       "message":  "Importer(NativeFormatImporter) generated inconsistent result for asset(guid:3dd11dcd12272e54f8a19d8224e35f53) \"Assets/XR/Settings/OpenXRPackageSettings.asset\"",
+                                       "stackTrace":  "UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+                                       "seeded":  false
+                                   },
+                                   {
+                                       "seq":  265,
+                                       "timestampUtc":  "2026-11-06T07:15:45.5809792Z",
+                                       "level":  "warn",
+                                       "logType":  "Warning",
+                                       "message":  "Importer(NativeFormatImporter) generated inconsistent result for asset(guid:3dd11dcd12272e54f8a19d8224e35f53) \"Assets/XR/Settings/OpenXRPackageSettings.asset\"",
+                                       "stackTrace":  "UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+                                       "seeded":  false
+                                   },
+                                   {
+                                       "seq":  266,
+                                       "timestampUtc":  "2026-11-06T07:15:45.6190934Z",
+                                       "level":  "warn",
+                                       "logType":  "Warning",
+                                       "message":  "Importer(NativeFormatImporter) generated inconsistent result for asset(guid:3dd11dcd12272e54f8a19d8224e35f53) \"Assets/XR/Settings/OpenXRPackageSettings.asset\"",
+                                       "stackTrace":  "UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()\n",
+                                       "seeded":  false
+                                   }
+                               ],
+                   "cursor":  266,
+                   "session":  "637c0091f3604135bce89e611d57ed49",
+                   "returned":  7,
+                   "dropped":  false,
+                   "reset":  false,
+                   "counts":  {
+                                  "error":  51,
+                                  "warn":  197,
+                                  "log":  18
+                              },
+                   "groundTruth":  {
+                                       "sampledUtc":  "2026-11-06T07:18:25.1936032Z",
+                                       "ageMs":  56,
+                                       "compilationFailed":  false,
+                                       "compiling":  false,
+                                       "consoleErrors":  0,
+                                       "consoleWarnings":  5,
+                                       "consoleLogs":  1,
+                                       "seeded":  true
+                                   }
+               }
+}

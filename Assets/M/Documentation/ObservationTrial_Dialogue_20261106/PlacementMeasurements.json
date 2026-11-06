@@ -1,0 +1,385 @@
+[
+  {
+    "stage": "door inspection",
+    "column": [
+      0.307953715,
+      0.07766098,
+      0.3840927,
+      0.4300205
+    ],
+    "overlaps": [
+      {
+        "name": "Door seam",
+        "weight": 3.0,
+        "area": 0.0194945037
+      },
+      {
+        "name": "Intercom",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "FrontIntercom",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Identity",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Notice",
+        "weight": 12.0,
+        "area": 0.0
+      },
+      {
+        "name": "FrontFloorButtons",
+        "weight": 100.0,
+        "area": 0.000208678655
+      },
+      {
+        "name": "Display",
+        "weight": 12.0,
+        "area": 0.0
+      },
+      {
+        "name": "Side control panel",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Front control panel",
+        "weight": 100.0,
+        "area": 0.00720930751
+      },
+      {
+        "name": "Friend face",
+        "weight": 80.0,
+        "area": 0.0342172533
+      }
+    ]
+  },
+  {
+    "stage": "side panel inspection",
+    "column": [
+      0.103300333,
+      0.123884089,
+      0.4197263,
+      0.509827137
+    ],
+    "overlaps": [
+      {
+        "name": "Intercom",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "FloorButtons",
+        "weight": 100.0,
+        "area": 0.00432354026
+      },
+      {
+        "name": "Side control panel",
+        "weight": 100.0,
+        "area": 0.0545779727
+      },
+      {
+        "name": "Friend face",
+        "weight": 80.0,
+        "area": 0.0
+      }
+    ]
+  },
+  {
+    "stage": "location guide",
+    "column": [
+      0.475537121,
+      0.368583977,
+      0.414342642,
+      0.472095549
+    ],
+    "overlaps": [
+      {
+        "name": "Door seam",
+        "weight": 3.0,
+        "area": 0.0186684839
+      },
+      {
+        "name": "Intercom",
+        "weight": 100.0,
+        "area": 0.00416084146
+      },
+      {
+        "name": "FloorButtons",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Side control panel",
+        "weight": 100.0,
+        "area": 0.0431944653
+      },
+      {
+        "name": "Friend face",
+        "weight": 80.0,
+        "area": 0.09414173
+      }
+    ]
+  },
+  {
+    "stage": "identity",
+    "column": [
+      0.308863342,
+      0.464772165,
+      0.382273138,
+      0.4832875
+    ],
+    "overlaps": [
+      {
+        "name": "Door seam",
+        "weight": 3.0,
+        "area": 0.00201543584
+      },
+      {
+        "name": "FrontIntercom",
+        "weight": 100.0,
+        "area": 0.00399138173
+      },
+      {
+        "name": "Identity",
+        "weight": 100.0,
+        "area": 0.008529611
+      },
+      {
+        "name": "FacilityGuide",
+        "weight": 12.0,
+        "area": 0.0137200095
+      },
+      {
+        "name": "Notice",
+        "weight": 12.0,
+        "area": 0.0424758
+      },
+      {
+        "name": "FrontFloorButtons",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Display",
+        "weight": 12.0,
+        "area": 0.012826534
+      },
+      {
+        "name": "Front control panel",
+        "weight": 100.0,
+        "area": 0.0352935866
+      },
+      {
+        "name": "Friend face",
+        "weight": 80.0,
+        "area": 0.0
+      }
+    ]
+  },
+  {
+    "stage": "safety guide",
+    "column": [
+      0.310634345,
+      0.4881004,
+      0.378731042,
+      0.4286704
+    ],
+    "overlaps": [
+      {
+        "name": "Door seam",
+        "weight": 3.0,
+        "area": 0.00177433772
+      },
+      {
+        "name": "FrontIntercom",
+        "weight": 100.0,
+        "area": 9.727893E-05
+      },
+      {
+        "name": "Identity",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "FacilityGuide",
+        "weight": 12.0,
+        "area": 0.0133733107
+      },
+      {
+        "name": "Notice",
+        "weight": 12.0,
+        "area": 0.025642382
+      },
+      {
+        "name": "FrontFloorButtons",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Display",
+        "weight": 12.0,
+        "area": 0.012003948
+      },
+      {
+        "name": "Front control panel",
+        "weight": 100.0,
+        "area": 0.0154367145
+      },
+      {
+        "name": "Friend face",
+        "weight": 80.0,
+        "area": 0.0
+      }
+    ]
+  },
+  {
+    "stage": "friend replies",
+    "column": [
+      0.402790725,
+      0.159704924,
+      0.374718726,
+      0.6354674
+    ],
+    "overlaps": [
+      {
+        "name": "Door seam",
+        "weight": 3.0,
+        "area": 0.04625441
+      },
+      {
+        "name": "Intercom",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "FloorButtons",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "FrontFloorButtons",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Side control panel",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Front control panel",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Friend face",
+        "weight": 80.0,
+        "area": 0.0588293374
+      }
+    ]
+  },
+  {
+    "stage": "4:3 replies",
+    "column": [
+      0.338359773,
+      0.0545891821,
+      0.5001556,
+      0.633475065
+    ],
+    "overlaps": [
+      {
+        "name": "Door seam",
+        "weight": 3.0,
+        "area": 0.0297367275
+      },
+      {
+        "name": "FrontIntercom",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Identity",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Notice",
+        "weight": 12.0,
+        "area": 0.007976167
+      },
+      {
+        "name": "FrontFloorButtons",
+        "weight": 100.0,
+        "area": 0.00383103779
+      },
+      {
+        "name": "Display",
+        "weight": 12.0,
+        "area": 0.0
+      },
+      {
+        "name": "Front control panel",
+        "weight": 100.0,
+        "area": 0.0459384546
+      },
+      {
+        "name": "Friend face",
+        "weight": 80.0,
+        "area": 0.0
+      }
+    ]
+  },
+  {
+    "stage": "local retry",
+    "column": [
+      0.319258332,
+      0.191452235,
+      0.361483216,
+      0.408336669
+    ],
+    "overlaps": [
+      {
+        "name": "Door seam",
+        "weight": 3.0,
+        "area": 0.008656966
+      },
+      {
+        "name": "Intercom",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Notice",
+        "weight": 12.0,
+        "area": 0.0
+      },
+      {
+        "name": "FrontFloorButtons",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Side control panel",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Front control panel",
+        "weight": 100.0,
+        "area": 0.0
+      },
+      {
+        "name": "Friend face",
+        "weight": 80.0,
+        "area": 0.0
+      }
+    ]
+  }
+]

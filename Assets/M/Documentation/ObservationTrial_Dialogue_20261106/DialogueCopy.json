@@ -1,0 +1,170 @@
+[
+  {
+    "name": "Lobby",
+    "text": "오늘 재밌었다!\n이제 1층으로 내려가자.",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "CallLift",
+    "text": "오늘 재밌었다!\n내려가는 버튼 좀 눌러 줄래?",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "ChooseFloor",
+    "text": "우리 1층으로 가자.\n1층 버튼 좀 눌러 줄래?",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "Handoff",
+    "text": "고마워!\n내 공 좀 잠깐 받아 줄래?",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "ShotStory",
+    "text": "아까 그 슛 봤지?",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "ShotGesture",
+    "text": "이렇게 던졌잖아!",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "Stopped",
+    "text": "어? 왜 멈췄지?",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "SituationReport",
+    "text": "엘리베이터가 멈췄어요.\n친구랑 둘이 안에 있어요.",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "LocationQuestion",
+    "text": "건물 이름과 승강기 번호를\n알려 주세요.",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "IdentityGuide",
+    "text": "문 옆 비상벨 아래에\n건물 이름과 승강기 번호가\n적혀 있어요.",
+    "captionHeight": 81.09,
+    "spoken": true
+  },
+  {
+    "name": "SafetyAdvice",
+    "text": "네, 위치 확인했어요.\n구조요원이 갈 테니\n문에서 떨어져 기다려 주세요.",
+    "captionHeight": 81.09,
+    "spoken": true
+  },
+  {
+    "name": "FriendQuestion",
+    "text": "아직 좀 무서워…\n다리가 떨리는데,\n문에 잠깐 기대도 될까?",
+    "captionHeight": 81.09,
+    "spoken": true
+  },
+  {
+    "name": "SafeReply",
+    "text": "옆 벽으로 가서 같이 기다리자.",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "UnsafeReply",
+    "text": "그래, 문에 잠깐 기대서 쉬어.",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "DoorWarning",
+    "text": "문에 기대면 위험해.\n저쪽 벽으로 가서 기다리자.",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "FriendMoving",
+    "text": "응, 그쪽으로 갈게.",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "FriendSettled",
+    "text": "이제 좀 괜찮아졌어.\n옆에 있어 줘서 고마워.",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "FriendWaiting",
+    "text": "아직 좀 무서워…\n옆에 있어 줄래?",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "Reassure",
+    "text": "응, 내가 옆에 있을게. 같이 기다리자.",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "RescueArrival",
+    "text": "구조대입니다.\n문에서 떨어져 기다려 주세요.",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "RescueChecking",
+    "text": "문 앞 바닥을 확인 중이에요.\n안전하게 나올 수 있게 도와드릴게요.",
+    "captionHeight": 81.09,
+    "spoken": true
+  },
+  {
+    "name": "RescueReady",
+    "text": "이제 나오셔도 괜찮아요.\n저희 안내에 따라 천천히 나와 주세요.",
+    "captionHeight": 81.09,
+    "spoken": true
+  },
+  {
+    "name": "Stairs",
+    "text": "엘리베이터는 점검해야 해요.\n계단으로 1층까지 안내할게요.",
+    "captionHeight": 81.09,
+    "spoken": true
+  },
+  {
+    "name": "GroundFloor",
+    "text": "휴, 이제 좀 안심이 된다.\n우리 집에 가자.",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "Complete",
+    "text": "같이 있어 줘서 고마워.\n다음엔 코트에서 또 놀자!",
+    "captionHeight": 40.55,
+    "spoken": true
+  },
+  {
+    "name": "RetryDoor",
+    "text": "문에 기대면 다칠 수 있어요.\n문에서 떨어진 곳에서\n기다리는 게 안전해요.",
+    "captionHeight": 81.09,
+    "spoken": false
+  },
+  {
+    "name": "RetryExit",
+    "text": "문을 억지로 열면 위험해요.\n밖에 도움을 요청하고\n구조요원을 기다려 주세요.",
+    "captionHeight": 81.09,
+    "spoken": false
+  },
+  {
+    "name": "SafetyNotice",
+    "text": "문에 기대거나\n억지로 열지 마세요.\n구조요원의 안내를 기다리세요.",
+    "captionHeight": 81.09,
+    "spoken": false
+  }
+]

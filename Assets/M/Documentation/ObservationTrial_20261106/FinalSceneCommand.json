@@ -1,0 +1,37 @@
+{
+    "success":  true,
+    "result":  {
+                   "diagnostics":  [
+
+                                   ],
+                   "compileMs":  43,
+                   "executeMs":  466,
+                   "assemblyName":  "PipelineRunScript_TrialDriver_eca8f19f5bac4ccda8367df2b04e5138",
+                   "success":  true,
+                   "result":  {
+                                  "scene":  "Assets/M/Scenes/Elevator_Observation_Choice_Test.unity",
+                                  "missingScripts":  0,
+                                  "missingReferences":  [
+
+                                                        ],
+                                  "shaderErrors":  [
+
+                                                   ],
+                                  "isolatedLessons":  1,
+                                  "originalLessons":  0,
+                                  "observations":  25,
+                                  "notebookRows":  4,
+                                  "temporaryDependencies":  [
+
+                                                            ],
+                                  "independentSettings":  true,
+                                  "sharedFontDependencies":  [
+
+                                                             ],
+                                  "guidance":  {
+                                                   "textSeconds":  20.0,
+                                                   "highlightSeconds":  40.0
+                                               }
+                              }
+               }
+}

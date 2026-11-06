@@ -1,0 +1,1742 @@
+{
+    "success":  true,
+    "result":  {
+                   "output":  null,
+                   "diagnostics":  [
+
+                                   ],
+                   "success":  true,
+                   "result":  {
+                                  "scene":  "Assets/M/Scenes/Elevator_Observation_Choice_Test.unity",
+                                  "playing":  true,
+                                  "step":  "Lobby",
+                                  "objectGuided":  true,
+                                  "settings":  "Assets/M/Scenes/Elevator_Observation_Settings.asset",
+                                  "texts":  [
+                                                {
+                                                    "path":  "Stationary_XR_Origin/Camera Offset/Left Controller/Affordance Callouts Left/Affordance Callout Grab/Lazy Tooltip/Tooltip Canvas/Tooltip Text",
+                                                    "text":  "Grab",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Tooltip Canvas",
+                                                                             "alpha":  1.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Stationary_XR_Origin/Camera Offset/Left Controller/Affordance Callouts Left/Affordance Callout Click/Lazy Tooltip/Tooltip Canvas/Tooltip Text",
+                                                    "text":  "UI Press",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Tooltip Canvas",
+                                                                             "alpha":  1.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Stationary_XR_Origin/Camera Offset/Left Controller/Affordance Callouts Left/Affordance Callout Smooth/Lazy Tooltip/Tooltip Canvas/Tooltip Text",
+                                                    "text":  "Move",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Tooltip Canvas",
+                                                                             "alpha":  1.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Stationary_XR_Origin/Camera Offset/Right Controller/Affordance Callouts Right/Affordance Callout Grab/Lazy Tooltip/Tooltip Canvas/Tooltip Text",
+                                                    "text":  "Grab",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Tooltip Canvas",
+                                                                             "alpha":  1.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Stationary_XR_Origin/Camera Offset/Right Controller/Affordance Callouts Right/Affordance Callout Click/Lazy Tooltip/Tooltip Canvas/Tooltip Text",
+                                                    "text":  "UI Press",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Tooltip Canvas",
+                                                                             "alpha":  1.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Stationary_XR_Origin/Camera Offset/Right Controller/Affordance Callouts Right/Affordance Callout Blink/Lazy Tooltip/Tooltip Canvas/Tooltip Text",
+                                                    "text":  "Blink",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Tooltip Canvas",
+                                                                             "alpha":  1.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Stationary_XR_Origin/Camera Offset/Right Controller/Affordance Callouts Right/Affordance Callout Turn/Lazy Tooltip/Tooltip Canvas/Tooltip Text",
+                                                    "text":  "Turn",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Tooltip Canvas",
+                                                                             "alpha":  1.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/FloorNumber",
+                                                    "text":  "3",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/FloorDigit",
+                                                    "text":  "5",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/FloorDigit",
+                                                    "text":  "6",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/FloorDigit",
+                                                    "text":  "3",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/FloorDigit",
+                                                    "text":  "4",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/FloorDigit",
+                                                    "text":  "1",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/FloorDigit",
+                                                    "text":  "2",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/DoorControlSymbol",
+                                                    "text":  "\u003c \u003e",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/DoorControlSymbol",
+                                                    "text":  "\u003e \u003c",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/DoorButtonLabel",
+                                                    "text":  "열림          닫힘",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/IntercomTitle",
+                                                    "text":  "비상통화",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/BellIcon",
+                                                    "text":  "☎",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/LiftIdentityText",
+                                                    "text":  "햇살아파트 · M-01\n정원 8명  |  600 kg",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/AdEyebrow",
+                                                    "text":  "우리 동네 주말 소식",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/AdTitle",
+                                                    "text":  "함께하는\n농구 교실",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/AdDate",
+                                                    "text":  "토요일 10시 · 야외 운동장",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Cabin/FlyerText",
+                                                    "text":  "안전하게 함께\n멈추면 비상통화\n문에서 떨어져 기다리기",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/BasketballLobby/CallIndicator",
+                                                    "text":  "↑",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/BasketballLobby/CallUp",
+                                                    "text":  "↑",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/BasketballLobby/CallDown",
+                                                    "text":  "↓",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/BasketballLobby/LobbyFloor",
+                                                    "text":  "1F",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/BasketballLobby/LobbyTitle",
+                                                    "text":  "햇살아파트",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/CinematicLetterbox/BottomLetterbox/CinematicSubtitle",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/Chapter/StoryTitle",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_Screen_Thoughts",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/Chapter/Objective",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_Screen_Thoughts",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/TeamProgress",
+                                                    "text":  "○ 도움 요청   ○ 위치 전달   ○ 함께 대기",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_Screen_Thoughts",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/Controls",
+                                                    "text":  "WASD 이동  ·  마우스로 둘러보기  ·  중앙 조준 후 클릭  ·  Esc 일시정지",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_Screen_Thoughts",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/PlayerThought/Thought",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "PlayerThought",
+                                                                             "alpha":  0.0
+                                                                         },
+                                                                         {
+                                                                             "name":  "Elevator_Screen_Thoughts",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/PlayerThought/ThoughtHeading",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "PlayerThought",
+                                                                             "alpha":  0.0
+                                                                         },
+                                                                         {
+                                                                             "name":  "Elevator_Screen_Thoughts",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/PlayerThought/CurrentThoughtBubble/Heading",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "PlayerThought",
+                                                                             "alpha":  0.0
+                                                                         },
+                                                                         {
+                                                                             "name":  "Elevator_Screen_Thoughts",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Elevator_Screen_Thoughts/PlayerThought/CurrentThoughtBubble/Thought",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "PlayerThought",
+                                                                             "alpha":  0.0
+                                                                         },
+                                                                         {
+                                                                             "name":  "Elevator_Screen_Thoughts",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/NotebookTitle",
+                                                    "text":  "우리 둘이 해냈어!",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/NotebookEyebrow",
+                                                    "text":  "함께 쓴 안전 기록",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep0/StepLabel",
+                                                    "text":  "도움 요청",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep0/DoneBadge/Done",
+                                                    "text":  "완료",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep1/StepLabel",
+                                                    "text":  "위치 전달",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep1/DoneBadge/Done",
+                                                    "text":  "완료",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep2/StepLabel",
+                                                    "text":  "안전 대기",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep2/DoneBadge/Done",
+                                                    "text":  "완료",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/NotebookFooter",
+                                                    "text":  "도움을 요청하고,\n안전한 곳에서 기다려요.",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep3/StepLabel",
+                                                    "text":  "안내 따르기",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/LeftLeaf/PageSurface/CompletedStep3/DoneBadge/Done",
+                                                    "text":  "완료",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/RightLeaf/PageSurface/PictureCaption/MemoryTitle",
+                                                    "text":  "함께 안전하게 기다렸어요.",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Completion_3D_Notebook/RightLeaf/PageSurface/MemoryDetail",
+                                                    "text":  "도움을 요청하고, 위치를 알리고,\n친구와 함께 안내를 기다렸어요.",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontFloor1/Label",
+                                                    "text":  "1",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideFloor1/Label",
+                                                    "text":  "1",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontFloor2/Label",
+                                                    "text":  "2",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideFloor2/Label",
+                                                    "text":  "2",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontFloor3/Label",
+                                                    "text":  "3",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideFloor3/Label",
+                                                    "text":  "3",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontFloor4/Label",
+                                                    "text":  "4",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideFloor4/Label",
+                                                    "text":  "4",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontFloor5/Label",
+                                                    "text":  "5",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideFloor5/Label",
+                                                    "text":  "5",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontFloor6/Label",
+                                                    "text":  "6",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideFloor6/Label",
+                                                    "text":  "6",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontFloor7/Label",
+                                                    "text":  "7",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideFloor7/Label",
+                                                    "text":  "7",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontFloor8/Label",
+                                                    "text":  "8",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideFloor8/Label",
+                                                    "text":  "8",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontFloor9/Label",
+                                                    "text":  "9",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideFloor9/Label",
+                                                    "text":  "9",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontFloor10/Label",
+                                                    "text":  "10",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideFloor10/Label",
+                                                    "text":  "10",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontFloor11/Label",
+                                                    "text":  "11",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideFloor11/Label",
+                                                    "text":  "11",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontFloor12/Label",
+                                                    "text":  "12",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideFloor12/Label",
+                                                    "text":  "12",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontEmergency/Label",
+                                                    "text":  "비상",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideEmergency/Label",
+                                                    "text":  "비상",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_FrontEmergencyGuide/Label",
+                                                    "text":  "비상 호출",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_SideEmergencyGuide/Label",
+                                                    "text":  "비상 호출",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_DoorGuide0/Label",
+                                                    "text":  "열림",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_CallArrow0/Label",
+                                                    "text":  "▲",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_DoorGuide1/Label",
+                                                    "text":  "닫힘",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_CallArrow1/Label",
+                                                    "text":  "▼",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_LiftIdentity/Label",
+                                                    "text":  "한빛 생활체육센터",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_LiftIdentity/Label",
+                                                    "text":  "본관 1호기 · HB-EL-01",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_LiftIdentity/Label",
+                                                    "text":  "1000 kg / 13명",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_LobbyDirectory/Label",
+                                                    "text":  "층별 안내",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_LobbyDirectory/Label",
+                                                    "text":  "1F  로비 · 주출입구    2F  준비 중\n3F  농구장 · 탈의실    4F  운동교실\n5F  체력단련실    6–12F  문화 · 운영",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_CabinDirectory/Label",
+                                                    "text":  "층별 시설 안내",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_CabinDirectory/Label",
+                                                    "text":  "6–12F  문화 · 운영",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_CabinDirectory/Label",
+                                                    "text":  "5F  체력단련실",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_CabinDirectory/Label",
+                                                    "text":  "4F  운동교실",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_CabinDirectory/Label",
+                                                    "text":  "3F  농구장 · 탈의실",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_CabinDirectory/Label",
+                                                    "text":  "2F  준비 중",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/1F_CabinDirectory/Label",
+                                                    "text":  "1F  로비 · 주출입구",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontFloor1/Label",
+                                                    "text":  "1",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideFloor1/Label",
+                                                    "text":  "1",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontFloor2/Label",
+                                                    "text":  "2",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideFloor2/Label",
+                                                    "text":  "2",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontFloor3/Label",
+                                                    "text":  "3",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideFloor3/Label",
+                                                    "text":  "3",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontFloor4/Label",
+                                                    "text":  "4",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideFloor4/Label",
+                                                    "text":  "4",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontFloor5/Label",
+                                                    "text":  "5",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideFloor5/Label",
+                                                    "text":  "5",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontFloor6/Label",
+                                                    "text":  "6",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideFloor6/Label",
+                                                    "text":  "6",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontFloor7/Label",
+                                                    "text":  "7",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideFloor7/Label",
+                                                    "text":  "7",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontFloor8/Label",
+                                                    "text":  "8",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideFloor8/Label",
+                                                    "text":  "8",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontFloor9/Label",
+                                                    "text":  "9",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideFloor9/Label",
+                                                    "text":  "9",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontFloor10/Label",
+                                                    "text":  "10",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideFloor10/Label",
+                                                    "text":  "10",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontFloor11/Label",
+                                                    "text":  "11",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideFloor11/Label",
+                                                    "text":  "11",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontFloor12/Label",
+                                                    "text":  "12",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideFloor12/Label",
+                                                    "text":  "12",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontEmergency/Label",
+                                                    "text":  "비상",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideEmergency/Label",
+                                                    "text":  "비상",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_FrontEmergencyGuide/Label",
+                                                    "text":  "비상 호출",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_SideEmergencyGuide/Label",
+                                                    "text":  "비상 호출",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_DoorGuide0/Label",
+                                                    "text":  "열림",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_CallArrow0/Label",
+                                                    "text":  "▲",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_DoorGuide1/Label",
+                                                    "text":  "닫힘",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_CallArrow1/Label",
+                                                    "text":  "▼",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_LiftIdentity/Label",
+                                                    "text":  "한빛 생활체육센터",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_LiftIdentity/Label",
+                                                    "text":  "본관 1호기 · HB-EL-01",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_LiftIdentity/Label",
+                                                    "text":  "1000 kg / 13명",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_LobbyDirectory/Label",
+                                                    "text":  "층별 안내",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_LobbyDirectory/Label",
+                                                    "text":  "1F  로비 · 주출입구    2F  준비 중\n3F  농구장 · 탈의실    4F  운동교실\n5F  체력단련실    6–12F  문화 · 운영",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_CabinDirectory/Label",
+                                                    "text":  "층별 시설 안내",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_CabinDirectory/Label",
+                                                    "text":  "6–12F  문화 · 운영",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_CabinDirectory/Label",
+                                                    "text":  "5F  체력단련실",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_CabinDirectory/Label",
+                                                    "text":  "4F  운동교실",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_CabinDirectory/Label",
+                                                    "text":  "3F  농구장 · 탈의실",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_CabinDirectory/Label",
+                                                    "text":  "2F  준비 중",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/SportsCentreMap/ReadableSignage/3F_CabinDirectory/Label",
+                                                    "text":  "1F  로비 · 주출입구",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/ElevatorPauseCanvas/PauseCard/Heading",
+                                                    "text":  "일시 정지",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/ElevatorPauseCanvas/PauseCard/Resume/Label",
+                                                    "text":  "게임 재개",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/ElevatorPauseCanvas/PauseCard/Restart/Label",
+                                                    "text":  "처음부터 다시하기",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/ElevatorPauseCanvas/PauseCard/Title/Label",
+                                                    "text":  "타이틀로 돌아가기",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/ElevatorPauseCanvas/PauseCard/Quit/Label",
+                                                    "text":  "게임 종료하기",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_Friend_Jump_Root/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_Friend_Jump_Root",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_FriendBasketball/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_FriendBasketball",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_FriendlyRescuer/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_FriendlyRescuer",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_3F_Door_KeepClear/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_3F_Door_KeepClear",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_3F_Side_Emergency_1.28m/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_3F_Side_Emergency_1.28m",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_3F_Front_Emergency_2.15m/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_3F_Front_Emergency_2.15m",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_3F_LiftIdentity_HB-EL-01/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_3F_LiftIdentity_HB-EL-01",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_3F_FacilityDirectory_NoHighlight/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_3F_FacilityDirectory_NoHighlight",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_3F_SafetyPoster/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_3F_SafetyPoster",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_3F_Side_Floor01/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_3F_Side_Floor01",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_3F_Front_Floor01/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_3F_Front_Floor01",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_3F_Display_LastKnown3/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_3F_Display_LastKnown3",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_3F_Lobby_Call/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_3F_Lobby_Call",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_1F_MainExit/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_1F_MainExit",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/Fixed_Object_Hints/Hint_Cabin_Optional119Phone/HintText",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Hint_Cabin_Optional119Phone",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_Safety_Lesson/PosterScreenGuide/PointingInstruction/Instruction",
+                                                    "text":  "마우스로 둘러보고, 포스터의 원을\n중앙 레이저로 1.5초 동안 가리켜요.",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "PointingInstruction",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_World_Dialogue/StoryCard/Dialogue",
+                                                    "text":  "오늘 재밌었다!\n내려가는 버튼 좀 눌러 줄래?",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Dialogue",
+                                                                             "alpha":  1.0
+                                                                         },
+                                                                         {
+                                                                             "name":  "StoryCard",
+                                                                             "alpha":  1.0
+                                                                         },
+                                                                         {
+                                                                             "name":  "Elevator_World_Dialogue",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_World_Dialogue/StoryCard/ReadingStatus",
+                                                    "text":  "",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "StoryCard",
+                                                                             "alpha":  1.0
+                                                                         },
+                                                                         {
+                                                                             "name":  "Elevator_World_Dialogue",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_World_Dialogue/StoryCard/SpeakerTab/Speaker",
+                                                    "text":  "친구",
+                                                    "active":  true,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Speaker",
+                                                                             "alpha":  1.0
+                                                                         },
+                                                                         {
+                                                                             "name":  "SpeakerTab",
+                                                                             "alpha":  1.0
+                                                                         },
+                                                                         {
+                                                                             "name":  "StoryCard",
+                                                                             "alpha":  1.0
+                                                                         },
+                                                                         {
+                                                                             "name":  "Elevator_World_Dialogue",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_World_Dialogue/DeveloperPanel/DevTitle",
+                                                    "text":  "개발 도구 · F8 닫기",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_World_Dialogue",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_World_Dialogue/DeveloperPanel/Stage0/Label",
+                                                    "text":  "로비",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_World_Dialogue",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_World_Dialogue/DeveloperPanel/Stage1/Label",
+                                                    "text":  "공 받기",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_World_Dialogue",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_World_Dialogue/DeveloperPanel/Stage2/Label",
+                                                    "text":  "짧은 도입 연출",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_World_Dialogue",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_World_Dialogue/DeveloperPanel/Stage3/Label",
+                                                    "text":  "정지",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_World_Dialogue",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_World_Dialogue/DeveloperPanel/Stage4/Label",
+                                                    "text":  "통화",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_World_Dialogue",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_World_Dialogue/DeveloperPanel/Stage5/Label",
+                                                    "text":  "친구에게 말 걸기",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_World_Dialogue",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_World_Dialogue/DeveloperPanel/Stage6/Label",
+                                                    "text":  "구조 안내",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_World_Dialogue",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                },
+                                                {
+                                                    "path":  "Elevator_World_Dialogue/DeveloperPanel/NoResponse/Label",
+                                                    "text":  "비상통화 응답 / 무응답",
+                                                    "active":  false,
+                                                    "enabled":  true,
+                                                    "canvasGroups":  [
+                                                                         {
+                                                                             "name":  "Elevator_World_Dialogue",
+                                                                             "alpha":  0.0
+                                                                         }
+                                                                     ]
+                                                }
+                                            ],
+                                  "legacyText":  [
+
+                                                 ],
+                                  "uiText":  [
+
+                                             ]
+                              }
+               }
+}

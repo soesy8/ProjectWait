@@ -1,0 +1,185 @@
+{
+  "scene": "Assets/M/Scenes/Elevator_Observation_Choice_Test.unity",
+  "playing": false,
+  "step": "EditMode",
+  "paused": false,
+  "objectGuided": true,
+  "noResponse": false,
+  "observations": [
+    {
+      "name": "DoorInteraction",
+      "clue": "Door",
+      "active": false,
+      "enabled": true,
+      "hasDescription": false
+    },
+    {
+      "name": "FloorDisplayInteraction",
+      "clue": "Display",
+      "active": false,
+      "enabled": true,
+      "hasDescription": false
+    },
+    {
+      "name": "FloorButtons",
+      "clue": "FloorButtons",
+      "active": false,
+      "enabled": true,
+      "hasDescription": false
+    },
+    {
+      "name": "EmergencyIntercom",
+      "clue": "Intercom",
+      "active": false,
+      "enabled": true,
+      "hasDescription": false
+    },
+    {
+      "name": "LiftIdentity",
+      "clue": "Identity",
+      "active": false,
+      "enabled": true,
+      "hasDescription": false
+    },
+    {
+      "name": "Advertisement",
+      "clue": "Advertisement",
+      "active": false,
+      "enabled": true,
+      "hasDescription": false
+    },
+    {
+      "name": "SafetyFlyerInteraction",
+      "clue": "Notice",
+      "active": false,
+      "enabled": true,
+      "hasDescription": false
+    },
+    {
+      "name": "Friend_Jump_Root",
+      "clue": "Friend",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "FriendBasketball",
+      "clue": "Ball",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "Cabin_Optional119Phone",
+      "clue": "Phone",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "LobbyCallButton",
+      "clue": "LobbyCall",
+      "active": false,
+      "enabled": true,
+      "hasDescription": false
+    },
+    {
+      "name": "3F_Door_KeepClear",
+      "clue": "Door",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "3F_Side_Emergency_1.28m",
+      "clue": "Intercom",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "3F_Front_Emergency_2.15m",
+      "clue": "FrontIntercom",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "3F_LiftIdentity_HB-EL-01",
+      "clue": "Identity",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "3F_FacilityDirectory_NoHighlight",
+      "clue": "FacilityGuide",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "3F_SafetyPoster",
+      "clue": "Notice",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "3F_Side_Floor01",
+      "clue": "FloorButtons",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "3F_Front_Floor01",
+      "clue": "FrontFloorButtons",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "3F_Display_LastKnown3",
+      "clue": "Display",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "3F_Lobby_Call",
+      "clue": "LobbyCall",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "1F_MainExit",
+      "clue": "GroundExit",
+      "active": true,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "3F_Lobby_Up_Unavailable",
+      "clue": "LobbyCallUp",
+      "active": true,
+      "enabled": true,
+      "hasDescription": false
+    },
+    {
+      "name": "Rescuer_A_Firefighter",
+      "clue": "Rescuer",
+      "active": false,
+      "enabled": true,
+      "hasDescription": true
+    },
+    {
+      "name": "Rescuer_B_LiftSpecialist",
+      "clue": "Rescuer",
+      "active": false,
+      "enabled": true,
+      "hasDescription": true
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+    "success":  true,
+    "result":  {
+                   "diagnostics":  [
+
+                                   ],
+                   "compileMs":  1874,
+                   "executeMs":  18791,
+                   "assemblyName":  "PipelineRunScript_RuntimeChecks_b147d1e827614f8fa32255bf60e797f0",
+                   "success":  true,
+                   "result":  {
+                                  "status":  "PASS",
+                                  "count":  39,
+                                  "checks":  [
+                                                 "first poster is an interactive observation checkpoint",
+                                                 "friend and poster are both observable",
+                                                 "centre ray resolves world clue Notice",
+                                                 "poster selection warns instead of requiring timed gaze",
+                                                 "door and floor buttons inspect without progressing or punishment",
+                                                 "first assistance is descriptive, not a failing timer",
+                                                 "second assistance tier is available",
+                                                 "second tier highlights the required object",
+                                                 "centre ray resolves world clue Intercom",
+                                                 "real intercom object initiates connection",
+                                                 "centre ray resolves world clue Identity",
+                                                 "actual identity object opens confirmation, not automatic reporting",
+                                                 "location information has enlarged Korean type",
+                                                 "all location information is visible without memorization or pagination",
+                                                 "centre ray resolves actual Choice1",
+                                                 "actual close button returns to observation",
+                                                 "centre ray resolves world clue Identity",
+                                                 "centre ray resolves actual Choice0",
+                                                 "actual confirm button reports the checked information",
+                                                 "centre ray resolves world clue Notice",
+                                                 "door judgment has two actions and an observation return",
+                                                 "both actions use identical visual styling",
+                                                 "all judgment action labels fit their buttons",
+                                                 "pause blocks story time and object activation",
+                                                 "centre ray resolves actual Choice1",
+                                                 "actual unsafe action opens a local, non-injury result",
+                                                 "centre ray resolves actual Choice0",
+                                                 "actual retry returns only to this judgment",
+                                                 "centre ray resolves actual Choice2",
+                                                 "actual re-observe button restores clue interaction",
+                                                 "centre ray resolves world clue Notice",
+                                                 "centre ray resolves actual Choice0",
+                                                 "actual safe action resumes authored friend warning",
+                                                 "existing friend movement reaches the safe wall",
+                                                 "original rescue ends with four-action notebook",
+                                                 "notebook reflects actual completed actions, not a score",
+                                                 "four notebook action labels remain readable",
+                                                 "all runtime text and fallback fonts remain isolated from originals",
+                                                 "restart closes all trial UI and clears state"
+                                             ],
+                                  "coverage":  "Play Mode; actual 3D observation activation and desktop centre-ray button events. Not injected physical mouse input or HMD hardware."
+                              }
+               }
+}

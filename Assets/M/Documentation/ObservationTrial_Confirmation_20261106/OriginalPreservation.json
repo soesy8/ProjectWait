@@ -1,0 +1,12 @@
+{
+    "checked":  354,
+    "sharedFontMatchesCleanBaseline":  true,
+    "restoredOnlyKnownAutomaticWrites":  [
+                                             "Assets/XR/Settings/OpenXRPackageSettings.asset",
+                                             "ProjectSettings/Packages/com.unity.learn.iet-framework/Settings.json"
+                                         ],
+    "changedOriginals":  [
+
+                         ],
+    "preExistingUserChangesPreserved":  true
+}

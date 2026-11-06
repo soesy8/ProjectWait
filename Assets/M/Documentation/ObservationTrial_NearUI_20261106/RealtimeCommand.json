@@ -1,0 +1,17 @@
+{
+    "success":  true,
+    "result":  {
+                   "diagnostics":  [
+
+                                   ],
+                   "compileMs":  277,
+                   "executeMs":  77213,
+                   "assemblyName":  "PipelineRunScript_FocusedRuntimeChecks_14157052e39d4a2c8c6673b1cf29c1d9",
+                   "success":  true,
+                   "result":  {
+                                  "status":  "PASS",
+                                  "elapsedSeconds":  77.2,
+                                  "coverage":  "One full automatic-timing route. Lesson Update enabled; no manual Tick/Advance or developer stage skips. Actions invoked programmatically, not a human usability test."
+                              }
+               }
+}
