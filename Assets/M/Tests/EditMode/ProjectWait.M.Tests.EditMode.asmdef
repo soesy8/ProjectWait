@@ -1,0 +1,19 @@
+{
+  "name": "ProjectWait.M.Tests.EditMode",
+  "references": [
+    "ProjectWait.M.Tests.Support"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "autoReferenced": false,
+  "defineConstraints": [
+    "UNITY_EDITOR"
+  ],
+  "noEngineReferences": false,
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

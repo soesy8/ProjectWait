@@ -38,7 +38,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         {
             friendHome = presentation&&presentation.space?presentation.space.friendInside:friend.localPosition;
             cabin = transform.Find("Cabin").gameObject;
-            Flow = new ElevatorFlow(settings) { NoResponse = simulateNoResponse };
+            Flow = new ElevatorFlow(settings, presentation && presentation.space && presentation.space.sportsCentre) { NoResponse = simulateNoResponse };
             motor.clip = motorClip; motor.loop = true; motor.volume = .08f;
             signal.clip = stopClip; signal.volume = .18f;
             view.Initialize(this); ResetPresentation();
@@ -53,6 +53,8 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         {
             if(IsPaused||Flow==null)return;
             Flow.NoResponse = simulateNoResponse;
+            var previousStep=Flow.Step;var previousPhase=Flow.Phase;
+            int previousRevision=Flow.Revision,previousHint=Flow.HintLevel;
             Flow.Tick(delta);
             bool outside = Flow.Step == ElevatorStep.Lobby || Flow.Step == ElevatorStep.Complete;
             cabin.SetActive(presentation&&presentation.space||!outside); friend.gameObject.SetActive(true);
@@ -74,7 +76,10 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             if (presentation) presentation.Apply(this);
             if (renderedRevision != Flow.Revision)
             {
-                renderedRevision = Flow.Revision; Thought = "";activeClue=null; ClearHover(); view.Refresh();
+                bool hintOnly=renderedRevision==previousRevision&&previousStep==Flow.Step&&previousPhase==Flow.Phase&&previousHint!=Flow.HintLevel;
+                renderedRevision = Flow.Revision;
+                if(!hintOnly){Thought="";activeClue=null;ClearHover();}
+                view.Refresh();
             }
         }
         public void Refresh() { view.Refresh(); }
@@ -131,6 +136,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             Inspect(clue);
             if (clue == ElevatorClue.Intercom && Flow.Step == ElevatorStep.Stopped) { Intercom(); return; }
             if (clue == ElevatorClue.Phone && Flow.Step == ElevatorStep.Unanswered) { Phone(); return; }
+            if (clue == ElevatorClue.Identity && Flow.SearchingIdentity) { FindIdentity(); return; }
             if (Flow.SupportsObjectPreview) { Flow.PreviewObject(clue); Sync(); return; }
             if(scenario&&scenario.objectGuidedScene&&scenario.HandleObjectAction(clue))return;
             if(clue==ElevatorClue.Notice&&Flow.AwaitingPoster){Flow.PointAtSafetyPoster();Sync();}

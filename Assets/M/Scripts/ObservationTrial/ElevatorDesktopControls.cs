@@ -32,7 +32,14 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         Renderer dotRenderer;
         MaterialPropertyBlock tint;
         float yaw,pitch;
-        bool initialized,skipDelta,wasFocused,calibrateXR;
+        bool initialized,skipDelta,wasFocused;
+        readonly ElevatorXRHeightCalibration heightCalibration=new ElevatorXRHeightCalibration();
+        readonly List<XRInputSubsystem> inputSubsystems=new List<XRInputSubsystem>();
+        readonly List<XRInputSubsystem> currentSubsystems=new List<XRInputSubsystem>();
+        bool calibrationMenuShown;
+        bool previousPresenceKnown,previousPresence;
+        public bool XRHeightReady=>IsDesktop||heightCalibration.Calibrated;
+        public bool XRCalibrationPending=>!IsDesktop&&heightCalibration.Pending;
         InputAction[] choices;
         InputAction restartAction,developerAction,clickAction;
         int pendingChoice=-1,pendingRevision,pendingRun,clickRevision,clickRun,viewRevision=-1;
@@ -67,7 +74,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
                 SetScriptedHeading(lesson.presentation&&lesson.presentation.space?lesson.presentation.space.DefaultHeading:0);
                 SetMouseLook(true);
             }
-            else{SetMouseLook(false);calibrateXR=true;}
+            else{SetMouseLook(false);RequestXRHeightCalibration(false);}
             RefreshLaserVisibility();
         }
         void Update()
@@ -112,15 +119,40 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         }
         void LateUpdate()
         {
-            if(!calibrateXR||IsDesktop)return;
-            var d=UnityEngine.XR.InputDevices.GetDeviceAtXRNode(XRNode.CenterEye);
-            if(!d.TryGetFeatureValue(UnityEngine.XR.CommonUsages.isTracked,out bool tracked)||!tracked)return;
-            float floor=lesson.presentation.space.sportsCentre?lesson.presentation.space.sportsCentre.CurrentFloorHeight:0;
-            var c=xrOrigin.GetComponent<CharacterController>();bool enabled=c&&c.enabled;if(enabled)c.enabled=false;
-            xrOrigin.position+=Vector3.up*(floor+eyeHeight-targetCamera.transform.position.y);
-            if(movement)movement.CalibrateFeet(floor);if(enabled)c.enabled=true;
-            lesson.view.Reanchor(targetCamera.transform.position);calibrateXR=false;
+            if(IsDesktop)return;
+            var device=UnityEngine.XR.InputDevices.GetDeviceAtXRNode(XRNode.CenterEye);
+            bool tracked=device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.isTracked,out bool value)&&value;
+            bool known=device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.userPresence,out bool present);
+            previousPresenceKnown=known;previousPresence=present;
+            currentSubsystems.Clear();SubsystemManager.GetSubsystems(currentSubsystems);
+            foreach(var subsystem in currentSubsystems)if(!inputSubsystems.Contains(subsystem)){inputSubsystems.Add(subsystem);subsystem.trackingOriginUpdated+=TrackingOriginChanged;}
+            // Defer during authored motion, but allow menu recalibration while it is paused.
+            if(lesson&&lesson.Flow!=null&&lesson.Flow.IsCinematic&&!lesson.IsPaused)return;
+            ObserveXRHeight(tracked,known?(bool?)present:null,Time.unscaledDeltaTime);
+            if(heightCalibration.Pending&&!known&&!calibrationMenuShown&&lesson&&lesson.pauseMenu)
+            {calibrationMenuShown=true;lesson.pauseMenu.Pause();}
         }
+        void TrackingOriginChanged(XRInputSubsystem subsystem){RequestXRHeightCalibration(false);}
+        public void RequestXRHeightCalibration(){RequestXRHeightCalibration(true);}
+        void RequestXRHeightCalibration(bool confirm)
+        {
+            heightCalibration.Request(confirm);calibrationMenuShown=confirm;
+            if(movement)movement.ResetVerticalMotion();
+        }
+        public bool ObserveXRHeight(bool tracked,bool? present,float seconds)
+        {
+            if(!targetCamera||!xrOrigin)return false;
+            // Origin-relative height stays comparable when the lesson changes floors.
+            float height=targetCamera.transform.position.y-xrOrigin.position.y;
+            if(!heightCalibration.Observe(height,tracked,present,seconds))return false;
+            float floor=lesson&&lesson.presentation&&lesson.presentation.space&&lesson.presentation.space.sportsCentre?lesson.presentation.space.sportsCentre.CurrentFloorHeight:0;
+            var controller=xrOrigin.GetComponent<CharacterController>();bool enabled=controller&&controller.enabled;if(enabled)controller.enabled=false;
+            xrOrigin.position+=Vector3.up*(floor+eyeHeight-targetCamera.transform.position.y);
+            if(movement)movement.CalibrateFeet(floor);if(enabled)controller.enabled=true;
+            if(lesson&&lesson.view)lesson.view.Reanchor(targetCamera.transform.position);
+            return true;
+        }
+        public string XRHeightStatus=>previousPresenceKnown&&!previousPresence?"헤드셋을 착용해 주세요.":XRCalibrationPending?"정면을 편하게 보고 높이를 맞춰 주세요.":"높이 설정 완료";
         public void SetMouseLook(bool active)
         {
             bool value=active&&IsDesktop&&!(lesson&&lesson.IsPaused);
@@ -215,6 +247,8 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         }
         void OnDisable()
         {
+            foreach(var subsystem in inputSubsystems)if(subsystem!=null)subsystem.trackingOriginUpdated-=TrackingOriginChanged;
+            inputSubsystems.Clear();heightCalibration.Request();
             ClearTarget();if(choices!=null)foreach(var a in choices)a.Dispose();restartAction?.Dispose();developerAction?.Dispose();clickAction?.Dispose();
             pendingChoice=-1;pendingRestart=pendingDeveloper=pendingClick=false;
             if(IsDesktop){Cursor.lockState=CursorLockMode.None;Cursor.visible=true;}

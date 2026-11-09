@@ -1,0 +1,657 @@
+// Dialogue-preview snapshot of Assets/M/Scripts/ObservationTrial/ElevatorSpatialUI.cs. Original is not modified.
+using TMPro;
+using UnityEngine;
+using UnityEngine.XR;
+using DwtD.TestScene;
+
+namespace ProjectWait.M.Elevator.DialoguePreview
+{
+    // World dialogue keeps its position, but faces the player's eye position.
+    [RequireComponent(typeof(CanvasGroup))]
+    public sealed class ElevatorSpatialUI : MonoBehaviour
+    {
+        public ElevatorView view;
+        public ElevatorStorybookUI storybook;
+        public ElevatorUIFocusWindow focusWindow;
+        public Canvas hud;
+        public RectTransform mission, speakerTab;
+        public TMP_Text speaker, progress, controls, thoughtHeading;
+        public RectTransform progressBackdrop;
+        public RectTransform controlsBackdrop;
+        public Transform intercomAnchor, rescuerAnchor;
+        public Transform notebook;
+        public RectTransform leftPage, rightPage;
+        public TMP_Text notebookCaption, notebookDetail;
+        public TMP_Text[] completionMarks;
+        public RectTransform[] completionRows;
+        [Header("World placement in metres, relative to the scene's forward direction")]
+        public Vector3 friendOffset = new Vector3(1.12f, 1.53f, -.18f);
+        public Vector3 intercomOffset = new Vector3(-1.14f, .72f, -.80f);
+        [Min(.0001f)] public float worldPixelSize = .00215f;
+        [Range(1.2f,1.6f)] public float readingDistance=1.4f;
+        [Min(.1f)] public float notebookDistance = 1.0f;
+        public Vector3 notebookOffset = new Vector3(0, -.22f, 0);
+        public Vector3 notebookTilt = new Vector3(12, 0, 0);
+        [Min(.1f)] public float notebookScale = 1.12f;
+        public Vector3 rescuerOffset = new Vector3(1.40f, 1.67f, -2.05f);
+        [Min(.1f)] public float maximumReadabilityScale=1.45f;
+
+        static readonly Color Ink = new Color(.28f,.19f,.14f);
+        static readonly Color Paper = new Color(1,.965f,.86f);
+        static readonly Color Teal = new Color(.16f,.48f,.44f);
+        static readonly Color Mint = new Color(.79f,.89f,.76f);
+        string baseThought = "", observed = "";
+        string statusHeading="",statusAction="";
+        float revealStarted;
+        int historyPage;
+        bool screenOnly, complete;
+        ElevatorStep placedStep = (ElevatorStep)(-1);
+        int placedRun = -1;
+        CanvasGroup worldGroup, hudGroup;
+        const float HudFadeSeconds=.5f;
+        float hudOpacity=1,hudFadeStart=1,hudFadeGoal=1,hudFadeElapsed=HudFadeSeconds;
+        int hudVisibilityRun=-1;
+        float layoutAspect=-1;
+        int layoutWidth,layoutHeight;
+        Vector2 layoutHudSize;
+        string dialogueSource, dialogueSpeaker;
+        string[] dialoguePages = { "" };
+        int dialoguePage, dialogueRun = -1;
+        bool revealComplete;
+        TMP_Text readingStatus;
+        UnityEngine.UI.Button dialogueReader;
+        readonly Vector3[] projectionCorners = new Vector3[4];
+        readonly System.Collections.Generic.List<Rect> readingObstacles = new System.Collections.Generic.List<Rect>();
+        bool thoughtPlacementReady;
+        Vector2 thoughtAnchor;
+        bool worldPlacementReady;
+        Quaternion dialogueRotation;
+        Vector3 dialogueScale;
+        Vector3 dialoguePosition;
+        float columnHalfHeight,columnHalfWidth;
+        public float PlacedReadingDistance {get;private set;}
+        readonly System.Collections.Generic.List<ElevatorUIPlacement.Region> protectedRegions = new System.Collections.Generic.List<ElevatorUIPlacement.Region>();
+        public Rect PlacementViewportRect { get; private set; }
+        public float PlacementWeightedOverlap { get; private set; }
+        public Rect HudViewportRect { get; private set; }
+        ElevatorStep dialoguePlacedStep=(ElevatorStep)(-1);
+        int dialoguePlacedRun=-1;
+        public int DialoguePage => dialoguePage;
+        public int DialoguePageCount => dialoguePages.Length;
+        public bool DialogueFullyRevealed => revealComplete;
+        public float DialogueStartedAt => revealStarted;
+        ElevatorUITransitions transitions;
+        public ElevatorUITransitions Transitions
+        {
+            get
+            {
+                if(!Application.isPlaying)return null;
+                if(!transitions){transitions=GetComponent<ElevatorUITransitions>();if(!transitions)transitions=gameObject.AddComponent<ElevatorUITransitions>();transitions.Initialize(view);}
+                return transitions;
+            }
+        }
+
+        void OnEnable(){Application.onBeforeRender+=PositionHud;}
+        void OnDisable(){Application.onBeforeRender-=PositionHud;}
+
+        public void Present(string who, string line, string objective)
+        {
+            Transitions?.Begin();
+            var f = view.lesson.Flow;
+            complete = f.Step == ElevatorStep.Complete;
+            screenOnly = !f.HasObjectPreview && (f.Step==ElevatorStep.Stopped&&f.CanObserve ||
+                f.SearchingIdentity || f.Step==ElevatorStep.DoorPosterPointing || f.Step==ElevatorStep.Unanswered ||
+                f.Step==ElevatorStep.Rescue&&view.lesson.scenario&&view.lesson.scenario.objectGuidedScene);
+            observed = "";
+            baseThought = "";
+            if(f.SearchingIdentity&&!f.HasObjectPreview)
+            {
+                // The call cinematic has finished; the player now finds the clue.
+                view.dialogueText.text = ElevatorDialogue.IdentitySearchHint(f.HintLevel);
+            }
+            speaker.text = who;
+            SetPanelVisible(view.dialoguePanel,!screenOnly);
+            view.actionPanel.SetParent(complete ? rightPage : view.transform, false);
+            view.actionPanel.localScale = Vector3.one;
+            if(complete)
+            {
+                view.dialogueText.text = ElevatorDialogue.Complete;
+                SetPanelVisible(view.dialoguePanel,false);
+                bool[] done = {f.HelpRequested, f.LocationReported, f.SafeWallReached, f.ReadyToExit};
+                for(int i=0;i<completionMarks.Length;i++)
+                {
+                    completionMarks[i].text = done[i] ? "완료" : "돌아보기";
+                    completionMarks[i].color = done[i] ? Teal : Ink;
+                }
+                notebookCaption.text = "안에서는 뛰지 않아요.";
+                notebookDetail.text = "";
+            }
+            notebook.gameObject.SetActive(complete);
+            progress.gameObject.SetActive(!complete);
+            string source=view.dialogueText.text;
+            bool changed=dialogueRun!=view.lesson.RunVersion||dialogueSource!=source||dialogueSpeaker!=who;
+            if(changed)
+            {
+                worldPlacementReady=false;
+                Transitions?.FadeContent(view.dialoguePanel);
+                Transitions?.FadeContent(speakerTab);
+                dialogueRun=view.lesson.RunVersion;dialogueSource=source;dialogueSpeaker=who;
+                bool explicitAction=f.SupportsObjectPreview||f.ReviewingIdentity||f.SearchingIdentity||f.AwaitingCallContinue||f.Step==ElevatorStep.Retry;
+                dialoguePages=explicitAction?new[]{source}:ElevatorDialogueText.Pages(view.dialogueText,source);dialoguePage=0;
+                revealStarted=Time.time;revealComplete=explicitAction||!Application.isPlaying||f.IsCinematic||f.Step==ElevatorStep.Call||f.Step==ElevatorStep.Unanswered;
+            }
+            view.dialogueText.text=dialoguePages[dialoguePage];
+            UpdateDialogueReveal();
+            UpdateThought();
+            Layout();
+            Transitions?.End();
+        }
+
+        public bool TryReadDialogue()
+        {
+            if(!view.lesson||view.lesson.CinematicBlocking||screenOnly||complete||!view.dialoguePanel.gameObject.activeInHierarchy)return false;
+            if(!revealComplete){revealComplete=true;UpdateDialogueReveal();return true;}
+            if(dialoguePage+1>=dialoguePages.Length)return false;
+            Transitions?.Begin();
+            dialoguePage++;view.dialogueText.text=dialoguePages[dialoguePage];
+            revealStarted=Time.time;revealComplete=false;UpdateDialogueReveal();Layout();Transitions?.End();return true;
+        }
+
+        void UpdateDialogueReveal()
+        {
+            if(!view.dialogueText)return;
+            int count=revealComplete?int.MaxValue:Mathf.Max(1,(int)((Time.time-revealStarted)*42));
+            if(count>=view.dialogueText.text.Length)revealComplete=true;
+            view.dialogueText.maxVisibleCharacters=revealComplete?int.MaxValue:count;
+            if(dialogueReader)
+            {
+                bool canRead=!view.lesson.CinematicBlocking&&!complete&&!screenOnly&&(!revealComplete||dialoguePage+1<dialoguePages.Length);
+                dialogueReader.interactable=canRead;dialogueReader.targetGraphic.raycastTarget=canRead;
+            }
+            if(readingStatus)
+            {
+                string action=!revealComplete?"눌러서 모두 보기":dialoguePage+1<dialoguePages.Length?"눌러서 다음 글 보기":"";
+                if(statusPage!=dialoguePage||statusPageCount!=dialoguePages.Length||statusRevealed!=revealComplete)
+                {
+                    readingStatus.text=(dialoguePages.Length>1?$"{dialoguePage+1} / {dialoguePages.Length}  ":"")+action;
+                    statusPage=dialoguePage;statusPageCount=dialoguePages.Length;statusRevealed=revealComplete;
+                }
+                readingStatus.gameObject.SetActive(!complete&&!screenOnly&&!view.lesson.Flow.IsCinematic&&!string.IsNullOrEmpty(readingStatus.text));
+            }
+        }
+
+        int statusPage=-1,statusPageCount=-1;
+        bool statusRevealed;
+
+        void PrepareDialogueReader()
+        {
+            if(!dialogueReader)
+            {
+                var r=(RectTransform)new GameObject("DialogueReader",typeof(RectTransform)).transform;r.SetParent(view.dialoguePanel,false);
+                r.anchorMin=Vector2.zero;r.anchorMax=Vector2.one;r.offsetMin=r.offsetMax=Vector2.zero;
+                var image=r.gameObject.AddComponent<UnityEngine.UI.Image>();image.color=Color.clear;image.raycastTarget=true;
+                dialogueReader=r.gameObject.AddComponent<UnityEngine.UI.Button>();dialogueReader.targetGraphic=image;dialogueReader.transition=UnityEngine.UI.Selectable.Transition.None;
+                dialogueReader.onClick.AddListener(()=>TryReadDialogue());
+            }
+            if(focusWindow)
+            {
+                var filter=dialogueReader.GetComponent<ElevatorUIFocusRaycastFilter>();
+                if(!filter)filter=dialogueReader.gameObject.AddComponent<ElevatorUIFocusRaycastFilter>();
+                filter.window=focusWindow;
+            }
+            if(!readingStatus)
+            {
+                var r=(RectTransform)new GameObject("ReadingStatus",typeof(RectTransform)).transform;r.SetParent(view.dialoguePanel,false);
+                r.anchorMin=r.anchorMax=r.pivot=Vector2.one*.5f;
+                readingStatus=r.gameObject.AddComponent<TextMeshProUGUI>();readingStatus.font=view.font;readingStatus.color=Ink;readingStatus.alignment=TextAlignmentOptions.MidlineRight;
+            }
+            ElevatorTypography.Apply(readingStatus,ElevatorTypography.HintSize);
+            readingStatus.rectTransform.sizeDelta=new Vector2(view.dialoguePanel.rect.width-100,26);
+            readingStatus.rectTransform.anchoredPosition=new Vector2(0,-view.dialoguePanel.rect.height*.5f+16);
+            UpdateDialogueReveal();
+        }
+
+        public void StyleButton(UnityEngine.UI.Button button)
+        {
+            var g = button.GetComponent<CorridorBubbleGraphic>();
+            g.color = Teal; g.borderColor = Paper; g.borderWidth = 2.5f;
+            g.cornerRadius = 15; g.extrusion = 8; g.bevelWidth = 4;
+            g.shadowOffset = new Vector2(4,-10); g.shadowOpacity = .16f;
+            var label = button.GetComponentInChildren<TMP_Text>();
+            label.text = ElevatorDialogue.WithoutShortcut(label.text);
+            label.text = label.text.Replace("요. ","요.\n");
+            label.color = Paper; ElevatorTypography.Apply(label,ElevatorTypography.ChoiceSize);
+            if(storybook)storybook.SkinButton(button);
+        }
+
+        public void ShowThought(string value)
+        {
+            value = value ?? "";
+            if (observed == value){ElevatorThoughtHeaderPolicy.Hide(view.thoughtPanel);return;}
+            Transitions?.Begin();
+            observed = value;
+            if(!string.IsNullOrEmpty(value)||!string.IsNullOrEmpty(baseThought))Transitions?.FadeContent(view.thoughtPanel);
+            UpdateThought();
+            LayoutHud();
+            Transitions?.End();
+        }
+
+        void UpdateThought()
+        {
+            var text = string.IsNullOrEmpty(observed) ? baseThought : observed;
+            view.thought.text = text;
+            view.thought.maxVisibleCharacters = int.MaxValue;
+            thoughtHeading.text = "";
+            thoughtHeading.gameObject.SetActive(false);
+            ElevatorThoughtHeaderPolicy.Hide(view.thoughtPanel);
+            SetPanelVisible(view.thoughtPanel,!complete && !string.IsNullOrEmpty(text));
+        }
+
+        public void SetPanelVisible(RectTransform panel,bool visible)
+        {
+            if(Transitions)Transitions.Visibility(panel,visible);else panel.gameObject.SetActive(visible);
+            if(panel==view.dialoguePanel&&speakerTab)
+            {if(Transitions)Transitions.Visibility(speakerTab,visible);else speakerTab.gameObject.SetActive(visible);}
+        }
+
+        public void Restore()
+        {
+            historyPage = 0; placedRun = -1; observed = baseThought = "";dialogueRun=-1;dialogueSource=null;
+            thoughtPlacementReady=worldPlacementReady=false;
+            if(focusWindow)focusWindow.ResetWindow();
+            if(storybook)storybook.HighlightHistory(-1);
+            if(notebook)notebook.gameObject.SetActive(false);
+            UpdateThought();
+        }
+
+        public void ShowHistory()
+        {
+            Transitions?.Begin();
+            string[] titles = {"01  도움을 요청했어요", "02  위치를 전달했어요", "03  문에서 떨어져 기다렸어요", "04  안내에 따라 이동했어요"};
+            string[] details = {
+                "엘리베이터가 멈췄다고 알리고,\n친구와 둘이 있다고 말했어요.",
+                "식별판에서 건물 이름과\n승강기 번호를 찾아 알려 줬어요.",
+                "문에서 떨어진 옆 벽에서\n친구와 함께 기다렸어요.",
+                "안전한지 확인한 뒤,\n구조요원을 따라 나왔어요."
+            };
+            int page = historyPage++ % 4;
+            notebookCaption.text = titles[page];
+            notebookDetail.text = details[page];
+            for(int i=0;i<completionRows.Length;i++)completionRows[i].GetComponent<CorridorBubbleGraphic>().color = i==page ? Mint : Paper;
+            if(storybook)storybook.HighlightHistory(page);
+            Transitions?.End();
+        }
+
+        public void Layout()
+        {
+            if(!view || !hud || !view.playerCamera)return;
+            Transitions?.Begin();
+            if(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height)
+                worldPlacementReady=false;
+            var root = (RectTransform)view.transform;
+            root.sizeDelta = new Vector2(660,620);
+            root.localScale = Vector3.one * worldPixelSize;
+            const float width = ElevatorDialogueText.PanelWidth;
+            view.dialogueText.fontSize=view.lesson.Flow!=null&&view.lesson.Flow.ReviewingIdentity?34:ElevatorDialogueText.BodySize;view.dialogueText.lineSpacing=9;view.dialogueText.alignment=TextAlignmentOptions.MidlineLeft;
+            float body = Mathf.Max(102, view.dialogueText.GetPreferredValues(view.dialogueText.text,ElevatorDialogueText.TextWidth,0).y+12);
+            float height = Mathf.Max(210,body+80);
+            view.dialoguePanel.sizeDelta = new Vector2(width,height);
+            view.dialoguePanel.anchoredPosition = Vector2.zero;
+            view.dialogueText.rectTransform.sizeDelta = new Vector2(width-56,body);
+            view.dialogueText.rectTransform.anchoredPosition = new Vector2(0,-12);
+            ElevatorTypography.Apply(speaker,ElevatorTypography.SpeakerSize);
+            speaker.textWrappingMode=TextWrappingModes.NoWrap;
+            speakerTab.sizeDelta = new Vector2(Mathf.Clamp(speaker.GetPreferredValues(speaker.text,float.PositiveInfinity,float.PositiveInfinity).x+56,132,Mathf.Max(360,width-48)),54);
+            speakerTab.anchoredPosition = new Vector2(-width*.5f+speakerTab.rect.width*.5f+24,height*.5f+5);
+            speaker.rectTransform.sizeDelta = speakerTab.sizeDelta-new Vector2(22,4);
+            speaker.rectTransform.anchoredPosition = Vector2.zero;
+            view.actionPanel.sizeDelta = complete ? new Vector2(438,72) : new Vector2(width,100*view.ChoiceButtons.Count);
+            float buttonY=0;
+            for(int i=0;i<view.ChoiceButtons.Count;i++)
+            {
+                var button = view.ChoiceButtons[i];
+                if(!button)continue;
+                float buttonWidth = complete ? 211 : button.name=="DialogueNext"?190:width;
+                var r = (RectTransform)button.transform;
+                var label = button.GetComponentInChildren<TMP_Text>();
+                ElevatorTypography.Apply(label,complete?24:button.name=="DialogueNext"?ElevatorTypography.NextSize:ElevatorTypography.ChoiceSize);
+                if(complete)label.text = i==0 ? "함께한 일 보기" : "다시 해보기";
+                float padding=buttonWidth<300?38:storybook?64:44;
+                float minimumHeight=complete?82:76;
+                // Storybook artwork insets the final label by 26 pixels vertically.
+                // Measure enough padding for that final rectangle, not the pre-skin size.
+                float buttonHeight=Mathf.Max(minimumHeight,label.GetPreferredValues(label.text,buttonWidth-padding,0).y+32);
+                r.sizeDelta=new Vector2(buttonWidth,buttonHeight);
+                r.anchoredPosition=complete?new Vector2((i-.5f)*227,0):new Vector2(0,-buttonY-buttonHeight*.5f);
+                r.localPosition=new Vector3(r.localPosition.x,r.localPosition.y,-1);
+                label.rectTransform.sizeDelta=r.sizeDelta-new Vector2(44,20);
+                buttonY+=buttonHeight+12;
+            }
+            if(!complete)view.actionPanel.sizeDelta=new Vector2(width,Mathf.Max(0,buttonY-12));
+            view.actionPanel.anchoredPosition=complete?new Vector2(0,-216):new Vector2(0,-height*.5f-24);
+            if(storybook)storybook.LayoutWorld();
+            PrepareDialogueReader();
+            // Rotate the whole reading column around its centre, not around the body
+            // card, so billboarding never swings the buttons around the player.
+            float top=height*.5f+48;
+            float bottom=-height*.5f-(view.ChoiceButtons.Count>0?24+view.actionPanel.rect.height:34)-16;
+            float centre=(top+bottom)*.5f;
+            columnHalfHeight=(top-bottom)*.5f*worldPixelSize;
+            columnHalfWidth=(width*.5f+24)*worldPixelSize;
+            if(!complete)
+            {
+                view.dialoguePanel.anchoredPosition=new Vector2(0,-centre);
+                var actions=view.actionPanel.anchoredPosition;actions.y-=centre;view.actionPanel.anchoredPosition=actions;
+            }
+            if(focusWindow)focusWindow.Refresh();
+            LayoutHud();
+            PositionWorld();
+            layoutAspect=view.playerCamera.aspect;layoutWidth=Screen.width;layoutHeight=Screen.height;
+            Transitions?.End();
+        }
+
+        void LayoutHud()
+        {
+            bool descriptionsOnly = view.lesson.scenario;
+            hud.gameObject.SetActive(true);
+            var camera = view.playerCamera;
+            bool xr = XRSettings.isDeviceActive;
+            hud.renderMode = xr ? RenderMode.WorldSpace : RenderMode.ScreenSpaceOverlay;
+            hud.worldCamera = camera;
+            hud.planeDistance = .4f;
+            var scaler = hud.GetComponent<UnityEngine.UI.CanvasScaler>();
+            scaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1280,720); scaler.matchWidthOrHeight = 1;
+            var hudRect = (RectTransform)hud.transform;
+            float width = xr ? 720*camera.aspect : hudRect.rect.width;
+            if(xr)
+            {
+                var hr = (RectTransform)hud.transform; hr.sizeDelta=new Vector2(width,720);
+                PositionHud();
+            }
+            bool status=DescribeStatus(out var heading,out var action);
+            bool show=!view.lesson.Flow.IsCinematic&&status&&!complete&&(screenOnly||!DialogueOnScreen());
+            // Keep the outgoing status intact until the cinematic fade has finished.
+            // Never activate a new status just because the dialogue hides for a cutscene.
+            bool keepStatus=KeepOutgoingHudStatus();
+            mission.gameObject.SetActive(show||keepStatus);
+            if(!keepStatus){statusHeading=heading;statusAction=action;}
+            view.title.text=statusHeading;view.subtitle.text=statusAction;
+            ElevatorTypography.Apply(view.title,ElevatorTypography.HeadingSize);
+            ElevatorTypography.Apply(view.subtitle,ElevatorTypography.ObjectiveSize);
+            float missionWidth=Mathf.Min(430,width-48);
+            float objectiveHeight=Mathf.Max(38,view.subtitle.GetPreferredValues(view.subtitle.text,missionWidth-40,0).y+8);
+            mission.sizeDelta=new Vector2(missionWidth,objectiveHeight+58);
+            // Keep the screen-space status fixed even when targets, text or gaze change.
+            mission.anchorMin=mission.anchorMax=mission.pivot=new Vector2(1,0);
+            mission.anchoredPosition=new Vector2(-24,24);
+            var hudSize=new Vector2(Mathf.Max(1,width),Mathf.Max(1,hudRect.rect.height));
+            var size=mission.sizeDelta/hudSize;
+            var lowerRight=new Vector2(1,0)+mission.anchoredPosition/hudSize;
+            HudViewportRect=new Rect(lowerRight-new Vector2(size.x,0),size);
+            view.title.rectTransform.sizeDelta=new Vector2(mission.rect.width-40,30);view.title.rectTransform.anchoredPosition=new Vector2(0,mission.rect.height*.5f-24);
+            view.subtitle.rectTransform.sizeDelta=new Vector2(mission.rect.width-40,objectiveHeight);view.subtitle.rectTransform.anchoredPosition=new Vector2(0,-19);
+            progress.rectTransform.anchorMin=progress.rectTransform.anchorMax=progress.rectTransform.pivot=new Vector2(1,1);
+            ElevatorTypography.Apply(progress,ElevatorTypography.HintSize);
+            float progressWidth=progress.GetPreferredValues(progress.text,float.PositiveInfinity,float.PositiveInfinity).x+20;
+            progress.rectTransform.anchoredPosition=new Vector2(-24,-24);progress.rectTransform.sizeDelta=new Vector2(progressWidth,38);
+            progress.gameObject.SetActive(!complete&&!descriptionsOnly&&width>missionWidth+progressWidth+80);
+            if(progressBackdrop){progressBackdrop.anchorMin=progressBackdrop.anchorMax=progressBackdrop.pivot=Vector2.one;progressBackdrop.anchoredPosition=new Vector2(-14,-16);progressBackdrop.sizeDelta=new Vector2(progressWidth+20,54);progressBackdrop.gameObject.SetActive(progress.gameObject.activeSelf);}
+            controls.rectTransform.anchorMin=controls.rectTransform.anchorMax=new Vector2(.5f,0);
+            ElevatorTypography.Apply(controls,ElevatorTypography.ControlsSize);
+            controls.text=xr?"왼손 스틱으로 이동 · 메뉴 버튼으로 잠시 멈춤":width<850?"WASD 이동 · 마우스로 둘러보기\n가운데에 맞추고 클릭 · Esc 메뉴":"WASD 이동  ·  마우스로 둘러보기  ·  가운데에 맞추고 클릭  ·  Esc 메뉴";
+            float controlsWidth=Mathf.Max(120,width-64);
+            float controlsHeight=Mathf.Max(32,controls.GetPreferredValues(controls.text,controlsWidth,0).y+6);
+            controls.rectTransform.anchoredPosition=new Vector2(0,12+controlsHeight*.5f);controls.rectTransform.sizeDelta=new Vector2(controlsWidth,controlsHeight);
+            controls.gameObject.SetActive(ShowInitialControls());
+            if(controlsBackdrop){controlsBackdrop.anchorMin=controlsBackdrop.anchorMax=new Vector2(.5f,0);controlsBackdrop.pivot=new Vector2(.5f,0);controlsBackdrop.anchoredPosition=new Vector2(0,6);controlsBackdrop.sizeDelta=new Vector2(Mathf.Min(controlsWidth+20,controls.GetPreferredValues().x+32),controlsHeight+12);controlsBackdrop.gameObject.SetActive(controls.gameObject.activeSelf);}
+            float thoughtWidth=Mathf.Min(380,width-48);
+            float bodyWidth=thoughtWidth*.72f;
+            float bodyHeight=Mathf.Max(56,view.thought.GetPreferredValues(view.thought.text,bodyWidth,0).y);
+            float thoughtHeight=Mathf.Max(200,(bodyHeight+58)/.70f);
+            if(layoutWidth!=Screen.width||layoutHeight!=Screen.height||Mathf.Abs(layoutAspect-camera.aspect)>.001f)thoughtPlacementReady=false;
+            var placement=thoughtPlacementReady?thoughtAnchor:new Vector2(1,.55f);
+            view.thoughtPanel.anchorMin=view.thoughtPanel.anchorMax=placement;
+            view.thoughtPanel.pivot=new Vector2(placement.x,.5f);
+            view.thoughtPanel.sizeDelta=new Vector2(thoughtWidth,thoughtHeight);
+            view.thoughtPanel.anchoredPosition=new Vector2(placement.x>0?-24:24,0);
+            var cloud=view.thoughtPanel.GetComponent<CorridorBubbleGraphic>();
+            if(cloud&&!cloud.thoughtCloud){cloud.thoughtCloud=true;cloud.speechTail=false;cloud.SetVerticesDirty();}
+            thoughtHeading.alignment=TextAlignmentOptions.Center;
+            thoughtHeading.rectTransform.sizeDelta=new Vector2(bodyWidth,24);thoughtHeading.rectTransform.anchoredPosition=new Vector2(0,bodyHeight*.5f+12);
+            view.thought.rectTransform.sizeDelta=new Vector2(bodyWidth,bodyHeight);view.thought.rectTransform.anchoredPosition=new Vector2(0,-16);
+            if(storybook)storybook.LayoutThought(!string.IsNullOrEmpty(observed));
+            ElevatorThoughtHeaderPolicy.Hide(view.thoughtPanel);
+            PlaceThoughtOutsideDialogue();
+            layoutHudSize=hudRect.rect.size;
+        }
+
+        void PositionWorld()
+        {
+            var lesson=view.lesson;
+            var f=lesson.Flow;
+            var step=f!=null?f.Step:ElevatorStep.Lobby;
+            if(!worldPlacementReady||dialoguePlacedStep!=step||dialoguePlacedRun!=lesson.RunVersion)
+            {
+                // Readability takes priority: keep a near radial distance. Obstacles
+                // affect the opening position only, never push the card farther away.
+                var camera=view.playerCamera;
+                var eyes=camera.transform;
+                float tangent=Mathf.Max(.1f,Mathf.Tan(camera.fieldOfView*.5f*Mathf.Deg2Rad));
+                var face=eyes.InverseTransformPoint(lesson.friend.position+Vector3.up*1.04f);
+                var preferred=new Vector2(face.z>0&&face.x>=0?.28f:.72f,.53f);
+                ElevatorUIPlacement.Collect(lesson,protectedRegions);
+                float best=float.PositiveInfinity;
+                float distance=Mathf.Clamp(readingDistance,1.2f,1.6f);
+                dialoguePosition=eyes.position+eyes.forward*distance;
+                dialogueRotation=Quaternion.LookRotation(eyes.forward,Vector3.up);
+                for(int x=0;x<=10;x++)for(int y=0;y<=8;y++)
+                {
+                    var center=new Vector2(Mathf.Lerp(.12f,.88f,x/10f),Mathf.Lerp(.12f,.88f,y/8f));
+                    var direction=(eyes.forward+eyes.right*((center.x-.5f)*2*tangent*camera.aspect)+eyes.up*((center.y-.5f)*2*tangent)).normalized;
+                    var position=eyes.position+direction*distance;
+                    var rotation=Quaternion.LookRotation(direction,Vector3.up);
+                    Vector2 min=Vector2.one*float.MaxValue,max=Vector2.one*float.MinValue;
+                    for(int i=0;i<4;i++)
+                    {
+                        var corner=position+rotation*new Vector3((i&1)==0?-columnHalfWidth:columnHalfWidth,(i&2)==0?-columnHalfHeight:columnHalfHeight,0);
+                        var p=camera.WorldToViewportPoint(corner);min=Vector2.Min(min,p);max=Vector2.Max(max,p);
+                    }
+                    var rect=Rect.MinMaxRect(min.x,min.y,max.x,max.y);
+                    if(min.x<.025f||max.x>.975f||min.y<.025f||max.y>.975f)continue;
+                    float collision=0;
+                    foreach(var area in protectedRegions)collision+=ElevatorUIPlacement.Overlap(rect,area.rect)*area.weight;
+                    float score=collision*10000+Vector2.SqrMagnitude(center-preferred)*.01f;
+                    if(score>=best)continue;
+                    best=score;PlacementWeightedOverlap=collision;PlacementViewportRect=rect;
+                    dialoguePosition=position;dialogueRotation=rotation;
+                }
+                PlacedReadingDistance=Vector3.Distance(eyes.position,dialoguePosition);
+                dialogueScale=Vector3.one*worldPixelSize;
+                worldPlacementReady=true;dialoguePlacedStep=step;dialoguePlacedRun=lesson.RunVersion;
+            }
+            // Only eye POSITION changes its facing. Turning/rolling the head in place
+            // cannot drag the card around, and no camera or player pose is written.
+            var facing=dialoguePosition-view.playerCamera.transform.position;
+            if(facing.sqrMagnitude>.01f)dialogueRotation=Quaternion.LookRotation(facing,Vector3.up);
+            transform.SetPositionAndRotation(dialoguePosition,dialogueRotation);
+            transform.localScale=dialogueScale;
+            if(placedStep!=step||placedRun!=lesson.RunVersion)
+            {
+                // Place the book once when the stage changes; subsequent gaze changes do not move it.
+                var camera=view.playerCamera.transform;
+                var bookRotation=Quaternion.Euler(0,camera.eulerAngles.y,0);
+                notebook.SetPositionAndRotation(camera.position+bookRotation*(Vector3.forward*notebookDistance+notebookOffset),bookRotation*Quaternion.Euler(notebookTilt));
+                notebook.localScale=Vector3.one*notebookScale;
+                placedStep=step;placedRun=lesson.RunVersion;
+            }
+            if(complete&&notebook)
+            {
+                var direction=notebook.position-view.playerCamera.transform.position;
+                if(direction.sqrMagnitude>.001f)notebook.rotation=Quaternion.LookRotation(direction,Vector3.up)*Quaternion.Euler(notebookTilt);
+            }
+        }
+
+        public void SetCinematicVisibility()
+        {
+            if(!view.lesson||view.lesson.Flow==null)return;
+            if(!worldGroup)worldGroup=GetComponent<CanvasGroup>();
+            if(!worldGroup)worldGroup=gameObject.AddComponent<CanvasGroup>();
+            if(!hudGroup)hudGroup=hud.GetComponent<CanvasGroup>();
+            if(!hudGroup)hudGroup=hud.gameObject.AddComponent<CanvasGroup>();
+            // Dialogue remains spatial during story beats; transitions use the existing comfort fade.
+            var f=view.lesson.Flow;
+            bool transition=f.IsOpening||f.Step==ElevatorStep.WaitingFade||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome;
+            bool paused=view.lesson.IsPaused;
+            worldGroup.alpha=transition||paused||f.IsShotCutscene||f.IsCallCutscene||f.IsDoorSafetyCutscene?0:1;worldGroup.interactable=!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
+            float goal=f.IsCinematic?0:1;
+            if(hudVisibilityRun!=view.lesson.RunVersion||!Application.isPlaying)
+            {
+                hudVisibilityRun=view.lesson.RunVersion;
+                hudOpacity=hudFadeStart=hudFadeGoal=goal;hudFadeElapsed=HudFadeSeconds;
+            }
+            else if(hudFadeGoal!=goal)
+            {
+                hudFadeStart=hudOpacity;hudFadeGoal=goal;hudFadeElapsed=0;
+            }
+            hudGroup.alpha=paused?0:hudOpacity;hudGroup.interactable=false;hudGroup.blocksRaycasts=false;
+            if(notebook)notebook.gameObject.SetActive(complete&&!paused);
+        }
+
+        bool KeepOutgoingHudStatus()=>view.lesson.Flow.IsCinematic&&hudOpacity>0&&mission.gameObject.activeSelf;
+        bool ShowInitialControls()=>!complete&&!view.lesson.IsPaused&&view.lesson.Flow.Step==ElevatorStep.Lobby&&view.lesson.Flow.Elapsed<12;
+
+        public void AdvanceHudVisibility(float seconds)
+        {
+            SetCinematicVisibility();
+            if(view.lesson.IsPaused||seconds<0||float.IsNaN(seconds)||float.IsInfinity(seconds))return;
+            hudFadeElapsed=Mathf.Min(HudFadeSeconds,hudFadeElapsed+seconds);
+            float t=Mathf.SmoothStep(0,1,hudFadeElapsed/HudFadeSeconds);
+            hudOpacity=Mathf.Lerp(hudFadeStart,hudFadeGoal,t);
+            hudGroup.alpha=hudOpacity;
+        }
+
+        public void Tick()
+        {
+            Transitions?.Begin();
+            // CanvasScaler may resize after the screen/camera change was observed.
+            // Reflow against the actual canvas once its new size has been applied.
+            if(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height||layoutHudSize!=((RectTransform)hud.transform).rect.size)Layout();
+            else PositionWorld();
+            bool wantsStatus=!view.lesson.Flow.IsCinematic&&DescribeStatus(out _,out _)&&!complete&&(screenOnly||!DialogueOnScreen())||KeepOutgoingHudStatus();
+            if(mission.gameObject.activeSelf!=wantsStatus||controls.gameObject.activeSelf!=ShowInitialControls())LayoutHud();
+            PositionHud();AdvanceHudVisibility(Time.unscaledDeltaTime);
+            ElevatorThoughtHeaderPolicy.Hide(view.thoughtPanel);
+            if(view.lesson.Flow!=null&&!view.lesson.IsPaused)UpdateDialogueReveal();
+            Transitions?.End();
+            Transitions?.Advance(view.lesson.IsPaused?0:Time.unscaledDeltaTime);
+            if(focusWindow)focusWindow.Advance(view.lesson.IsPaused?0:Time.unscaledDeltaTime);
+        }
+
+        bool DialogueOnScreen()
+        {
+            var f=view.lesson.Flow;
+            if(screenOnly||!view.dialoguePanel.gameObject.activeInHierarchy||f.IsShotCutscene||f.IsCallCutscene||f.IsDoorSafetyCutscene||f.Step==ElevatorStep.WaitingFade||f.Step==ElevatorStep.Exiting)return false;
+            if(!ScreenRect(view.dialoguePanel,out var rect))return false;
+            var screen=new Rect(0,0,Screen.width,Screen.height);
+            if(Overlap(rect,screen)<rect.width*rect.height*.8f)return false;
+            foreach(var button in view.ChoiceButtons)
+                if(button&&(!ScreenRect((RectTransform)button.transform,out var action)||Overlap(action,screen)<action.width*action.height*.8f))return false;
+            return true;
+        }
+
+        bool DescribeStatus(out string heading,out string action)
+        {
+            var f=view.lesson.Flow;heading="";action="";
+            if(f==null)return false;
+            if(f.ReviewingIdentity){heading="건물 이름과 번호를 찾았어요";action="‘위치 알려 주기’를 선택해\n통화로 알려 주세요.";return true;}
+            if(f.AwaitingCallContinue){heading=f.UsedPhone?"119의 안내예요":"관리실의 안내예요";action=f.Step==ElevatorStep.CallIdentityGuide?"안내를 읽고\n‘찾아볼게요’를 선택하세요.":"안내를 읽고\n‘알겠어요’를 선택하세요.";return true;}
+            switch(f.Step)
+            {
+                case ElevatorStep.Stopped:
+                    heading="엘리베이터가 멈췄어요";action=ElevatorDialogue.HelpHint(f.HintLevel);return f.CanObserve;
+                case ElevatorStep.Unanswered:
+                    heading="비상통화에 응답이 없어요";action="휴대폰으로\n119에 연락해 주세요.";return true;
+                case ElevatorStep.Call:
+                    heading="현재 위치를 알려 주세요";action=ElevatorDialogue.IdentitySearchHint(f.HintLevel);return f.SearchingIdentity;
+                case ElevatorStep.DoorLean:
+                    heading="친구가 문에 기대려고 해요";action="친구의 이야기를\n잠시 들어 주세요.";return true;
+                case ElevatorStep.DoorPosterPointing:
+                    heading="친구가 불안해하고 있어요";
+                    action=f.CanConfirmObject?"친구에게 할 말을\n골라 주세요.":f.HintLevel>0?"친구와 이야기해 보세요.\n주변 안전 안내도 살펴볼 수 있어요.":"친구와 이야기해 보세요.";return true;
+                case ElevatorStep.DoorPosterWarning:case ElevatorStep.SafeWallMove:
+                    heading="친구가 문에서 떨어지고 있어요";action="옆 벽으로 이동 중이에요.\n잠시만 기다려 주세요.";return true;
+                case ElevatorStep.SafeWallWaiting:case ElevatorStep.WaitingFade:
+                    heading="문에서 떨어져 함께 기다려요";action="구조요원이 올 때까지\n여기서 함께 기다려요.";return true;
+                case ElevatorStep.Rescue:
+                    heading=f.ReadyToExit?"안전 확인이 끝났어요":"구조대가 도착했어요";
+                    action=f.ReadyToExit?"구조요원의 안내를 따라\n함께 나가세요.":"밖으로 나가도 안전한지\n확인할 때까지 기다리세요.";return true;
+                case ElevatorStep.Exiting:
+                    heading="구조요원과 함께 나가고 있어요";action="안내를 따라\n천천히 이동하세요.";return true;
+                default:return false;
+            }
+        }
+
+        bool ScreenRect(RectTransform rect,out Rect bounds)
+        {
+            rect.GetWorldCorners(projectionCorners);Vector2 min=Vector2.one*float.MaxValue,max=Vector2.one*float.MinValue;
+            foreach(var corner in projectionCorners)
+            {
+                var p=view.playerCamera.WorldToScreenPoint(corner);
+                if(p.z<=view.playerCamera.nearClipPlane){bounds=default;return false;}
+                min=Vector2.Min(min,p);max=Vector2.Max(max,p);
+            }
+            bounds=Rect.MinMaxRect(min.x,min.y,max.x,max.y);return true;
+        }
+        static float Overlap(Rect a,Rect b)=>Mathf.Max(0,Mathf.Min(a.xMax,b.xMax)-Mathf.Max(a.xMin,b.xMin))*Mathf.Max(0,Mathf.Min(a.yMax,b.yMax)-Mathf.Max(a.yMin,b.yMin));
+        void PlaceThoughtOutsideDialogue()
+        {
+            if(!hud||!view.thoughtPanel.gameObject.activeInHierarchy||thoughtPlacementReady)return;
+            readingObstacles.Clear();
+            if(view.dialoguePanel.gameObject.activeInHierarchy&&ScreenRect(view.dialoguePanel,out var dialogue))readingObstacles.Add(dialogue);
+            if(view.actionPanel.gameObject.activeInHierarchy)foreach(var button in view.ChoiceButtons)
+                if(button&&button.IsActive()&&ScreenRect((RectTransform)button.transform,out var action))readingObstacles.Add(action);
+            var actor=view.lesson.friend;
+            if(actor&&actor.gameObject.activeInHierarchy)
+            {
+                var face=view.playerCamera.WorldToScreenPoint(actor.position+Vector3.up*1.04f);
+                var edge=view.playerCamera.WorldToScreenPoint(actor.position+Vector3.up*1.04f+view.playerCamera.transform.right*.34f);
+                if(face.z>0){float radius=Mathf.Abs(edge.x-face.x);readingObstacles.Add(new Rect(face.x-radius,face.y-radius,2*radius,2*radius));}
+            }
+            var map=view.lesson.presentation&&view.lesson.presentation.space?view.lesson.presentation.space.sportsCentre:null;
+            if(map&&map.sideIntercom)
+            {
+                var p=view.playerCamera.WorldToScreenPoint(map.sideIntercom.position);
+                if(p.z>0)readingObstacles.Add(new Rect(p.x-28,p.y-28,56,56));
+            }
+            var panel=view.thoughtPanel;
+            var previousPlacement=panel.anchorMin;
+            var candidates=new[]{new Vector2(1,.55f),new Vector2(0,.55f),new Vector2(1,.24f),new Vector2(0,.24f),new Vector2(1,.78f),new Vector2(0,.78f)};
+            float best=float.MaxValue;Vector2 selected=candidates[0];
+            var hudCamera=hud.renderMode==RenderMode.ScreenSpaceOverlay?null:view.playerCamera;
+            foreach(var candidate in candidates)
+            {
+                panel.anchorMin=panel.anchorMax=candidate;panel.pivot=new Vector2(candidate.x,.5f);panel.anchoredPosition=new Vector2(candidate.x>0?-24:24,0);
+                panel.GetWorldCorners(projectionCorners);Vector2 min=Vector2.one*float.MaxValue,max=Vector2.one*float.MinValue;
+                foreach(var corner in projectionCorners){var p=RectTransformUtility.WorldToScreenPoint(hudCamera,corner);min=Vector2.Min(min,p);max=Vector2.Max(max,p);}
+                var rect=Rect.MinMaxRect(min.x,min.y,max.x,max.y);float area=rect.width*rect.height;
+                float score=(area-Overlap(rect,new Rect(12,12,Screen.width-24,Screen.height-24)))*4;
+                foreach(var avoid in readingObstacles)score+=Overlap(rect,Rect.MinMaxRect(avoid.xMin-16,avoid.yMin-16,avoid.xMax+16,avoid.yMax+16));
+                score+=Vector2.Distance(candidate,new Vector2(1,.55f))*40;
+                // Keep the chosen side until another position is meaningfully clearer.
+                if(candidate!=previousPlacement)score+=area*.04f;
+                if(score<best){best=score;selected=candidate;}
+            }
+            panel.anchorMin=panel.anchorMax=selected;panel.pivot=new Vector2(selected.x,.5f);panel.anchoredPosition=new Vector2(selected.x>0?-24:24,0);
+            thoughtAnchor=selected;thoughtPlacementReady=true;
+        }
+        void PositionHud()
+        {
+            if(!XRSettings.isDeviceActive||!hud||!view||!view.playerCamera)return;
+            var camera=view.playerCamera;
+            const float distance=1;
+            hud.transform.SetPositionAndRotation(camera.transform.position+camera.transform.forward*distance,camera.transform.rotation);
+            hud.transform.localScale=Vector3.one*(2*distance*Mathf.Tan(camera.fieldOfView*.5f*Mathf.Deg2Rad)/720);
+        }
+    }
+}

@@ -49,7 +49,7 @@ Shader "ProjectWait/M/Outline Distance"
     float d=dot(candidate.xy-pixel,candidate.xy-pixel);if(candidate.w>.5&&d<best){best=d;seed=candidate;}
    }
    if(seed.w<.5)return 0;
-   float scene=LinearEyeDepth(SampleSceneDepth(i.uv),_ZBufferParams);if(scene+max(_OutlineWidths.w,seed.z*.001)<seed.z)return 0;
+   float raw=SampleSceneDepth(i.uv);float scene=unity_OrthoParams.w>.5?LinearDepthToEyeDepth(raw):LinearEyeDepth(raw,_ZBufferParams);if(scene+max(_OutlineWidths.w,seed.z*.001)<seed.z)return 0;
    // Scale at the nearest silhouette's eye depth, including the current eye's projection.
    // Orthographic cameras have no perspective distance attenuation.
    float scale=_OutlineWidths.z*abs(UNITY_MATRIX_P._m11)/(unity_OrthoParams.w>.5?1:max(seed.z,_ProjectionParams.y));

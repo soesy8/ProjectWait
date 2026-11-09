@@ -25,7 +25,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             toggle.AddBinding("<Keyboard>/escape");toggle.AddBinding("<XRController>{LeftHand}/menuButton");toggle.AddBinding("<XRController>{RightHand}/secondaryButton");
             toggle.performed+=_=>Toggle();toggle.Enable();
             Bind(resumeButton,Resume);Bind(restartButton,Restart);Bind(quitButton,QuitGame);
-            if(titleButton){titleButton.onClick.RemoveAllListeners();titleButton.interactable=false;}
+            Bind(titleButton,CalibrateHeight);UpdateCalibrationButton();
             if(canvas)canvas.gameObject.SetActive(false);
         }
         static void Bind(UnityEngine.UI.Button button,UnityEngine.Events.UnityAction action){if(!button)return;button.onClick.RemoveAllListeners();button.onClick.AddListener(action);}
@@ -57,6 +57,18 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             controls?.ClearTarget();controls?.SetMouseLook(true);lesson?.view.SetCinematicVisibility();
         }
         public void Restart(){Resume();lesson.Restart();}
+        public void CalibrateHeight()
+        {
+            if(controls&&!controls.IsDesktop)controls.RequestXRHeightCalibration();
+        }
+        void UpdateCalibrationButton()
+        {
+            if(!titleButton)return;
+            bool vr=controls&&!controls.IsDesktop;
+            titleButton.interactable=vr;
+            var label=titleButton.GetComponentInChildren<TMPro.TMP_Text>(true);
+            if(label)label.text=vr?(controls.XRCalibrationPending?"정면 보고 높이 맞추기":"높이 다시 맞추기"):"높이 맞추기 · VR 전용";
+        }
         public void QuitGame()
         {
             QuitRequested=true;Resume();
@@ -68,6 +80,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         }
         void LateUpdate()
         {
+            UpdateCalibrationButton();
             if(IsPaused&&canvas)
             {Vector3 facing=canvas.transform.position-lesson.playerCamera.transform.position;if(facing.sqrMagnitude>.001f)canvas.transform.rotation=Quaternion.LookRotation(facing,Vector3.up);}
         }

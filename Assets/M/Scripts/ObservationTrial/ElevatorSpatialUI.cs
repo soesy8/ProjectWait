@@ -41,12 +41,16 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         static readonly Color Teal = new Color(.16f,.48f,.44f);
         static readonly Color Mint = new Color(.79f,.89f,.76f);
         string baseThought = "", observed = "";
+        string statusHeading="",statusAction="";
         float revealStarted;
         int historyPage;
         bool screenOnly, complete;
         ElevatorStep placedStep = (ElevatorStep)(-1);
         int placedRun = -1;
         CanvasGroup worldGroup, hudGroup;
+        const float HudFadeSeconds=.5f;
+        float hudOpacity=1,hudFadeStart=1,hudFadeGoal=1,hudFadeElapsed=HudFadeSeconds;
+        int hudVisibilityRun=-1;
         float layoutAspect=-1;
         int layoutWidth,layoutHeight;
         Vector2 layoutHudSize;
@@ -67,9 +71,6 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         float columnHalfHeight,columnHalfWidth;
         public float PlacedReadingDistance {get;private set;}
         readonly System.Collections.Generic.List<ElevatorUIPlacement.Region> protectedRegions = new System.Collections.Generic.List<ElevatorUIPlacement.Region>();
-        bool hudPlacementReady;
-        ElevatorObservation hudTarget;
-        string hudHeading, hudAction;
         public Rect PlacementViewportRect { get; private set; }
         public float PlacementWeightedOverlap { get; private set; }
         public Rect HudViewportRect { get; private set; }
@@ -103,7 +104,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
                 f.Step==ElevatorStep.Rescue&&view.lesson.scenario&&view.lesson.scenario.objectGuidedScene);
             observed = "";
             baseThought = "";
-            if(f.SearchingIdentity)
+            if(f.SearchingIdentity&&!f.HasObjectPreview)
             {
                 // The call cinematic has finished; the player now finds the clue.
                 view.dialogueText.text = "문 옆 비상벨 아래의\n식별판을 눌러 확인하세요.";
@@ -126,13 +127,12 @@ namespace ProjectWait.M.Elevator.ObservationTrial
                 notebookDetail.text = "도움 요청 · 위치 전달\n안전 대기 · 안내 이동";
             }
             notebook.gameObject.SetActive(complete);
-            mission.gameObject.SetActive(!complete);
             progress.gameObject.SetActive(!complete);
             string source=view.dialogueText.text;
             bool changed=dialogueRun!=view.lesson.RunVersion||dialogueSource!=source||dialogueSpeaker!=who;
             if(changed)
             {
-                worldPlacementReady=hudPlacementReady=false;
+                worldPlacementReady=false;
                 Transitions?.FadeContent(view.dialoguePanel);
                 Transitions?.FadeContent(speakerTab);
                 dialogueRun=view.lesson.RunVersion;dialogueSource=source;dialogueSpeaker=who;
@@ -257,8 +257,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         public void Restore()
         {
             historyPage = 0; placedRun = -1; observed = baseThought = "";dialogueRun=-1;dialogueSource=null;
-            thoughtPlacementReady=worldPlacementReady=hudPlacementReady=false;
-            hudHeading=hudAction=null;hudTarget=null;
+            thoughtPlacementReady=worldPlacementReady=false;
             if(focusWindow)focusWindow.ResetWindow();
             if(storybook)storybook.HighlightHistory(-1);
             if(notebook)notebook.gameObject.SetActive(false);
@@ -288,7 +287,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             if(!view || !hud || !view.playerCamera)return;
             Transitions?.Begin();
             if(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height)
-                worldPlacementReady=hudPlacementReady=false;
+                worldPlacementReady=false;
             var root = (RectTransform)view.transform;
             root.sizeDelta = new Vector2(660,620);
             root.localScale = Vector3.one * worldPixelSize;
@@ -368,27 +367,26 @@ namespace ProjectWait.M.Elevator.ObservationTrial
                 var hr = (RectTransform)hud.transform; hr.sizeDelta=new Vector2(width,720);
                 PositionHud();
             }
-            if(layoutHudSize!=hudRect.rect.size)hudPlacementReady=false;
             bool status=DescribeStatus(out var heading,out var action);
-            bool show=status&&!complete&&(screenOnly||!DialogueOnScreen());
-            mission.gameObject.SetActive(show);
-            var flow=view.lesson.Flow;
-            if(hudHeading!=heading||hudAction!=action){hudHeading=heading;hudAction=action;hudPlacementReady=false;}
-            view.title.text=heading;view.subtitle.text=action;
+            bool show=!view.lesson.Flow.IsCinematic&&status&&!complete&&(screenOnly||!DialogueOnScreen());
+            // Keep the outgoing status intact until the cinematic fade has finished.
+            // Never activate a new status just because the dialogue hides for a cutscene.
+            bool keepStatus=KeepOutgoingHudStatus();
+            mission.gameObject.SetActive(show||keepStatus);
+            if(!keepStatus){statusHeading=heading;statusAction=action;}
+            view.title.text=statusHeading;view.subtitle.text=statusAction;
             ElevatorTypography.Apply(view.title,ElevatorTypography.HeadingSize);
             ElevatorTypography.Apply(view.subtitle,ElevatorTypography.ObjectiveSize);
             float missionWidth=Mathf.Min(430,width-48);
             float objectiveHeight=Mathf.Max(38,view.subtitle.GetPreferredValues(view.subtitle.text,missionWidth-40,0).y+8);
             mission.sizeDelta=new Vector2(missionWidth,objectiveHeight+58);
-            mission.pivot=Vector2.one*.5f;
-            if(show&&!hudPlacementReady)
-            {
-                ElevatorUIPlacement.Collect(view.lesson,protectedRegions);
-                var size=new Vector2(mission.sizeDelta.x/Mathf.Max(1,width),mission.sizeDelta.y/Mathf.Max(1,hudRect.rect.height));
-                var center=ElevatorUIPlacement.Choose(size,protectedRegions,new Vector2(.82f,.9f),flow.IsCinematic?.15f:.02f,flow.IsCinematic?.86f:.98f,out _);
-                mission.anchorMin=mission.anchorMax=center;mission.anchoredPosition=Vector2.zero;
-                HudViewportRect=new Rect(center-size*.5f,size);hudPlacementReady=true;
-            }
+            // Keep the screen-space status fixed even when targets, text or gaze change.
+            mission.anchorMin=mission.anchorMax=mission.pivot=new Vector2(1,0);
+            mission.anchoredPosition=new Vector2(-24,24);
+            var hudSize=new Vector2(Mathf.Max(1,width),Mathf.Max(1,hudRect.rect.height));
+            var size=mission.sizeDelta/hudSize;
+            var lowerRight=new Vector2(1,0)+mission.anchoredPosition/hudSize;
+            HudViewportRect=new Rect(lowerRight-new Vector2(size.x,0),size);
             view.title.rectTransform.sizeDelta=new Vector2(mission.rect.width-40,30);view.title.rectTransform.anchoredPosition=new Vector2(0,mission.rect.height*.5f-24);
             view.subtitle.rectTransform.sizeDelta=new Vector2(mission.rect.width-40,objectiveHeight);view.subtitle.rectTransform.anchoredPosition=new Vector2(0,-19);
             progress.rectTransform.anchorMin=progress.rectTransform.anchorMax=progress.rectTransform.pivot=new Vector2(1,1);
@@ -501,11 +499,33 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             if(!hudGroup)hudGroup=hud.gameObject.AddComponent<CanvasGroup>();
             // Dialogue remains spatial during story beats; transitions use the existing comfort fade.
             var f=view.lesson.Flow;
-            bool transition=f.Step==ElevatorStep.WaitingFade||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome;
+            bool transition=f.IsOpening||f.Step==ElevatorStep.WaitingFade||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome;
             bool paused=view.lesson.IsPaused;
             worldGroup.alpha=transition||paused||f.IsShotCutscene||f.IsCallCutscene||f.IsDoorSafetyCutscene?0:1;worldGroup.interactable=!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
-            hudGroup.alpha=paused?0:1;hudGroup.interactable=false;hudGroup.blocksRaycasts=false;
+            float goal=f.IsCinematic?0:1;
+            if(hudVisibilityRun!=view.lesson.RunVersion||!Application.isPlaying)
+            {
+                hudVisibilityRun=view.lesson.RunVersion;
+                hudOpacity=hudFadeStart=hudFadeGoal=goal;hudFadeElapsed=HudFadeSeconds;
+            }
+            else if(hudFadeGoal!=goal)
+            {
+                hudFadeStart=hudOpacity;hudFadeGoal=goal;hudFadeElapsed=0;
+            }
+            hudGroup.alpha=paused?0:hudOpacity;hudGroup.interactable=false;hudGroup.blocksRaycasts=false;
             if(notebook)notebook.gameObject.SetActive(complete&&!paused);
+        }
+
+        bool KeepOutgoingHudStatus()=>view.lesson.Flow.IsCinematic&&hudOpacity>0&&mission.gameObject.activeSelf;
+
+        public void AdvanceHudVisibility(float seconds)
+        {
+            SetCinematicVisibility();
+            if(view.lesson.IsPaused||seconds<0||float.IsNaN(seconds)||float.IsInfinity(seconds))return;
+            hudFadeElapsed=Mathf.Min(HudFadeSeconds,hudFadeElapsed+seconds);
+            float t=Mathf.SmoothStep(0,1,hudFadeElapsed/HudFadeSeconds);
+            hudOpacity=Mathf.Lerp(hudFadeStart,hudFadeGoal,t);
+            hudGroup.alpha=hudOpacity;
         }
 
         public void Tick()
@@ -515,11 +535,9 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             // Reflow against the actual canvas once its new size has been applied.
             if(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height||layoutHudSize!=((RectTransform)hud.transform).rect.size)Layout();
             else PositionWorld();
-            var target=view.lesson.scenario?view.lesson.scenario.PrimaryTarget:null;
-            bool wantsStatus=DescribeStatus(out _,out _)&&!complete&&(screenOnly||!DialogueOnScreen());
-            if(target!=hudTarget||mission.gameObject.activeSelf!=wantsStatus)
-            {hudTarget=target;hudPlacementReady=false;LayoutHud();}
-            PositionHud();SetCinematicVisibility();
+            bool wantsStatus=!view.lesson.Flow.IsCinematic&&DescribeStatus(out _,out _)&&!complete&&(screenOnly||!DialogueOnScreen())||KeepOutgoingHudStatus();
+            if(mission.gameObject.activeSelf!=wantsStatus)LayoutHud();
+            PositionHud();AdvanceHudVisibility(Time.unscaledDeltaTime);
             ElevatorThoughtHeaderPolicy.Hide(view.thoughtPanel);
             if(view.lesson.Flow!=null&&!view.lesson.IsPaused)UpdateDialogueReveal();
             Transitions?.End();
@@ -557,7 +575,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
                     heading="친구가 문에 기대려고 해요";action="친구의 이야기를\n잠시 들어 주세요.";return true;
                 case ElevatorStep.DoorPosterPointing:
                     heading="친구가 문에 기대려고 해요";
-                    action=f.CanConfirmObject?"어떻게 대답할지\n대화 카드에서 골라 주세요.":f.HasObjectPreview?"살펴본 뒤 친구에게\n다시 말을 걸어 주세요.":"친구를 눌러\n말을 걸어 주세요.";return true;
+                    action=!f.DoorPosterRead?"안전 포스터를 눌러\n내용을 확인하세요.":f.CanConfirmObject?"어떻게 대답할지\n대화 카드에서 골라 주세요.":"친구를 눌러\n말을 걸어 주세요.";return true;
                 case ElevatorStep.DoorPosterWarning:case ElevatorStep.SafeWallMove:
                     heading="친구가 문에서 떨어지고 있어요";action="옆 벽으로 이동 중이에요.\n잠시만 기다려 주세요.";return true;
                 case ElevatorStep.SafeWallWaiting:case ElevatorStep.WaitingFade:

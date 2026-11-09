@@ -22,7 +22,7 @@ Shader "ProjectWait/M/Outline Coverage"
     // Keep the entire silhouette, including coplanar faces. Scene-depth clipping
     // here turns small depth differences into false internal triangle outlines.
     // Max blending keeps the nearest surface independent of triangle draw order.
-    float own=LinearEyeDepth(i.positionCS.z,_ZBufferParams);
+    float own=unity_OrthoParams.w>.5?LinearDepthToEyeDepth(i.positionCS.z):LinearEyeDepth(i.positionCS.z,_ZBufferParams);
     return float2(1,rcp(max(own,.0001)));
    }
    ENDHLSL

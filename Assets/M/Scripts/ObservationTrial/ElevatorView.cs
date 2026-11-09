@@ -163,6 +163,8 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             var f=lesson.Flow;string objective="",line="",who="친구";
             switch(f.Step)
             {
+                case ElevatorStep.StartupFade:objective="시작 준비";who="안내";break;
+                case ElevatorStep.GymDeparture:objective="친구와 체육관에서 나가기";who="친구";line=ElevatorOpeningSequence.FriendLine;break;
                 case ElevatorStep.Entering:objective="친구와 함께 타기";who="안내";line="친구와 함께 엘리베이터에 타고 있어요.";break;
                 case ElevatorStep.Exiting:objective="구조요원을 따라 나가기";who="안내";line="구조요원과 함께 밖으로 나가고 있어요.";break;
                 case ElevatorStep.Lobby:
@@ -205,8 +207,8 @@ namespace ProjectWait.M.Elevator.ObservationTrial
                     else if(f.ReviewingIdentity){objective="승강기 위치 알리기";line=lesson.settings.building+"\n"+lesson.settings.liftId;who="승강기 식별판";Add("위치 알려주기",lesson.Report);Add("다시 살펴보기",lesson.ReinspectIdentity);}
                     else{objective="안전 안내 확인하기";line=ElevatorDialogue.SafetyAdvice;Add("알겠어요",lesson.Advice);}break;
                 case ElevatorStep.DoorPosterPointing:
-                    objective="친구를 눌러\n말을 걸어 주세요.";who="친구에게 말 걸기";
-                    line="친구가 문에 기대려고 해요.\n친구를 눌러 말을 걸어 주세요.";
+                    objective=f.DoorPosterRead?"친구를 눌러\n말을 걸어 주세요.":"안전 포스터를 눌러\n내용을 확인하세요.";who="안전하게 기다리기";
+                    line="친구가 문에 기대려고 해요.\n"+objective;
                     break;
                 case ElevatorStep.Waiting:
                     objective="친구와 함께 기다리기";
@@ -238,7 +240,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
                 actions.Clear();labels.Clear();
                 if(f.CanConfirmObject)
                 {
-                    Add(ElevatorDialogue.SafeReply,lesson.ChooseSafeWall);
+                    if(f.CanChooseSafeWall)Add(ElevatorDialogue.SafeReply,lesson.ChooseSafeWall);
                     Add(ElevatorDialogue.UnsafeReply,lesson.ChooseUnsafeWall);
                 }
                 Add(f.CanConfirmObject?"조금 더 살펴보기":"닫기",lesson.CloseObjectPreview);

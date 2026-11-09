@@ -14,6 +14,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         public const string SituationReport="엘리베이터가 멈췄어요.\n친구랑 둘이 안에 있어요.";
         public const string LocationQuestion="건물 이름과 승강기 번호를\n알려 주세요.";
         public const string IdentityGuide="문 옆 비상벨 아래에\n건물 이름과 승강기 번호가\n적혀 있어요.";
+        public const string IdentityPanelHint="식별판은 문 옆 전면 조작판의\n비상벨 아래에 있어요.\n건물 이름과 승강기 번호를 확인하세요.";
         public const string SafetyAdvice="네, 위치 확인했어요.\n구조요원이 갈 테니\n문에서 떨어져 기다려 주세요.";
         public const string FriendQuestion="아직 좀 무서워…\n다리가 떨리는데,\n문에 잠깐 기대도 될까?";
         public const string SafeReply="옆 벽으로 가서 같이 기다리자.";
@@ -65,7 +66,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
                         f.Step==ElevatorStep.Boarding?Handoff:f.HelpRequested?"연락했으니까\n조금만 더 기다려 보자.":"우리 괜찮겠지?\n밖에 연락해 보자.";
                 case ElevatorClue.Door:return f.HelpRequested?"닫혀 있는 엘리베이터 문이에요.\n직접 열지 말고\n구조요원을 기다려 주세요.":"엘리베이터 문이 닫혀 있어요.\n억지로 열지 말고\n비상통화로 도움을 요청하세요.";
                 case ElevatorClue.Notice:return SafetyNotice;
-                case ElevatorClue.Intercom:return f.HelpRequested?"도움을 요청한 상태예요.\n구조요원의 안내를 기다려 주세요.":"비상벨을 누르면\n관리실과 통화할 수 있어요.";
+                case ElevatorClue.Intercom:return f.SearchingIdentity?IdentityPanelHint:f.HelpRequested?"도움을 요청한 상태예요.\n구조요원의 안내를 기다려 주세요.":"비상벨을 누르면\n관리실과 통화할 수 있어요.";
                 case ElevatorClue.FrontIntercom:return "높은 곳에 있는 비상벨이에요.\n옆쪽 조작판의 낮은 비상벨을\n이용할 수 있어요.";
                 case ElevatorClue.Identity:return lesson.settings.building+"\n"+lesson.settings.liftId;
                 case ElevatorClue.Display:return "층 표시기에 3층이라고 나와요.\n정확히 어디에 멈췄는지는\n이 표시만으로 알 수 없어요.";

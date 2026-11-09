@@ -82,7 +82,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             hadBall=f.PlayerHasBall;
             if(!f.PlayerHasBall)transferringBall=false;
             friendBall.gameObject.SetActive(!f.PlayerHasBall);
-            friendBall.localPosition=ballHome+Vector3.up*(Mathf.Sin(f.Elapsed*2.2f)*.007f);
+            friendBall.localPosition=ballHome+Vector3.up*(f.Step==ElevatorStep.StartupFade?0:Mathf.Sin(f.Elapsed*2.2f)*.007f);
             float open=f.Step==ElevatorStep.Rescue?Mathf.SmoothStep(0,1,(f.Elapsed-.35f)/1.8f):0;
             if(!space){leftDoor.localPosition=new Vector3(-.41f-open*.80f,1.10f,1.74f);rightDoor.localPosition=new Vector3(.41f+open*.80f,1.10f,1.74f);closedDoorCollider.enabled=f.Step!=ElevatorStep.Rescue;}
             // Waiting keeps the friend in place instead of moving toward the door.
@@ -147,7 +147,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             {
                 PoseArm(leftArm,leftForearm,leftHand,p+lesson.friend.rotation*new Vector3(.25f,.69f,-.12f),p+lesson.friend.rotation*new Vector3(.13f,.71f,-.22f));
                 PoseArm(rightArm,rightForearm,rightHand,p+lesson.friend.rotation*new Vector3(-.25f,.69f,-.12f),p+lesson.friend.rotation*new Vector3(-.13f,.71f,-.22f));
-                if(head)head.localRotation*=Quaternion.Euler(0,Mathf.Sin(f.Elapsed*1.3f)*3,Mathf.Sin(f.Elapsed*1.8f)*3);
+                if(head&&f.Step!=ElevatorStep.StartupFade)head.localRotation*=Quaternion.Euler(0,Mathf.Sin(f.Elapsed*1.3f)*3,Mathf.Sin(f.Elapsed*1.8f)*3);
             }
             else if(anxious)
             {

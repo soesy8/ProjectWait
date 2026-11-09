@@ -16,6 +16,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         [SerializeField] RectTransform top,bottom,fade;
         [SerializeField] TMP_Text caption;
         public float Amount {get;private set;}
+        public float FadeAlpha {get;private set;}
         public bool LetterboxVisible => isActiveAndEnabled && Amount > .001f;
         public bool Blocking => lesson&&lesson.Flow!=null&&(lesson.Flow.IsCinematic||Amount>.015f);
         int run=-1;
@@ -33,19 +34,21 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             var r=(RectTransform)new GameObject(name,typeof(RectTransform)).transform;r.SetParent(transform,false);r.anchorMin=r.anchorMax=r.pivot=Vector2.one*.5f;
             var image=r.gameObject.AddComponent<Image>();image.color=Color.black;image.raycastTarget=false;image.material=overlayMaterial;return r;
         }
-        void OnEnable(){Application.onBeforeRender+=Position;}
+        void OnEnable(){Application.onBeforeRender+=Position;if(Application.isPlaying)Advance(0);}
         void OnDisable(){Application.onBeforeRender-=Position;}
         void LateUpdate(){Advance(Time.unscaledDeltaTime);}
         public void Advance(float seconds)
         {
             if(lesson&&lesson.IsPaused)return;
+            if(seconds<0||float.IsNaN(seconds)||float.IsInfinity(seconds))return;
             if(!lesson||lesson.Flow==null)return;if(!top)Build();
-            if(run!=lesson.RunVersion){run=lesson.RunVersion;Amount=0;}
+            if(run!=lesson.RunVersion){run=lesson.RunVersion;Amount=lesson.Flow.IsOpening?1:0;}
             Amount=Mathf.MoveTowards(Amount,lesson.Flow.IsCinematic?1:0,seconds/.38f);
             Position();
             top.gameObject.SetActive(Amount>0);bottom.gameObject.SetActive(Amount>0);
             var f=lesson.Flow;
-            caption.gameObject.SetActive(!lesson.view.spatial||f.IsShotCutscene||f.IsCallCutscene||f.IsDoorSafetyCutscene||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome);
+            caption.color=Color.white;
+            caption.gameObject.SetActive(!lesson.view.spatial||f.IsShotCutscene||f.IsCallCutscene||f.IsDoorSafetyCutscene||f.Step==ElevatorStep.GymDeparture||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome||f.Step==ElevatorStep.Rescue&&!f.ReadyToExit);
             caption.text=f.Step==ElevatorStep.Entering?"친구와 함께 엘리베이터에 타고 있어요.":f.Step==ElevatorStep.Exiting?"구조요원과 함께 밖으로 나가고 있어요.":f.Step==ElevatorStep.Connecting?"비상통화 연결 중…":"";
             if(f.Step==ElevatorStep.Proposal)caption.text=ElevatorDialogue.Caption("친구",ElevatorDialogue.ShotStory);
             if(f.Step==ElevatorStep.PosterPointing)caption.text="친구가 뛰려고 해요. 안전 안내를 살펴보세요.";
@@ -58,14 +61,28 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             if(f.Step==ElevatorStep.CallLiftQuestion)caption.text=ElevatorDialogue.Caption(caller,ElevatorDialogue.LocationQuestion);
             if(f.Step==ElevatorStep.CallIdentityGuide)caption.text=ElevatorDialogue.Caption(caller,ElevatorDialogue.IdentityGuide);
             if(ElevatorDoorSafetyCutscene.Describe(lesson,out var speaker,out var line))caption.text=ElevatorDialogue.Caption(speaker,line);
+            if(f.Step==ElevatorStep.Rescue&&!f.ReadyToExit)
+            {
+                speaker="구조요원";line=ElevatorDialogue.RescueChecking;
+                if(lesson.presentation&&lesson.presentation.rescueTeam)lesson.presentation.rescueTeam.Describe(lesson,ref speaker,ref line);
+                caption.text=ElevatorDialogue.Caption(speaker,line);
+            }
             float alpha=0;
+            if(f.Step==ElevatorStep.StartupFade){caption.gameObject.SetActive(false);alpha=ElevatorOpeningSequence.FadeAlpha(f.Elapsed);}
+            if(f.Step==ElevatorStep.GymDeparture)
+            {
+                caption.text=ElevatorOpeningSequence.Caption(f.Elapsed);
+                float startupAlpha=ElevatorOpeningSequence.FadeAlpha(f.Elapsed);
+                caption.color=new Color(1,1,1,1-startupAlpha);
+                alpha=Mathf.Max(startupAlpha,ElevatorOpeningSequence.ComfortFadeAlpha(f.Elapsed,XRSettings.isDeviceActive));
+            }
             if(f.Step==ElevatorStep.Returning){caption.text="구조요원과 함께 계단으로 내려가고 있어요.";alpha=S(f.Elapsed,.35f,1.1f)*(1-S(f.Elapsed,2.4f,3.25f));}
             if(f.Step==ElevatorStep.WaitingFade){caption.gameObject.SetActive(true);caption.text="친구와 함께 기다리던 중…";alpha=S(f.Elapsed,.35f,1.1f)*(1-S(f.Elapsed,3.6f,4.5f));}
             if(f.Step==ElevatorStep.GoingHome)caption.text="친구와 함께 집으로 돌아가요.";
             if(XRSettings.isDeviceActive&&(f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting))
             {float middle=f.Step==ElevatorStep.Entering?3.1f:2.3f;alpha=1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.10f,.60f,Mathf.Abs(f.Elapsed-middle)));}
             if(XRSettings.isDeviceActive&&f.Step==ElevatorStep.GoingHome)alpha=1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.12f,.65f,Mathf.Abs(f.Elapsed-3)));
-            fade.gameObject.SetActive(alpha>0);fade.GetComponent<Image>().color=new Color(0,0,0,alpha);
+            FadeAlpha=alpha;fade.gameObject.SetActive(alpha>0);fade.GetComponent<Image>().color=new Color(0,0,0,alpha);
             lesson.view.SetCinematicVisibility();
         }
         static float S(float t,float a,float b)=>Mathf.SmoothStep(0,1,Mathf.InverseLerp(a,b,t));
@@ -78,7 +95,8 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             top.sizeDelta=bottom.sizeDelta=new Vector2(width+20,82);float slide=Mathf.SmoothStep(0,1,Amount)*82;
             top.anchoredPosition=new Vector2(0,401-slide);bottom.anchoredPosition=new Vector2(0,-401+slide);
             ElevatorTypography.Apply(caption,ElevatorTypography.CaptionSize);
-            fade.sizeDelta=new Vector2(width+20,740);caption.rectTransform.sizeDelta=new Vector2(Mathf.Min(1100,width-48),82);
+            // Overscan the head-locked black panel for asymmetric per-eye XR frusta.
+            fade.sizeDelta=XRSettings.isDeviceActive?new Vector2(2880,2880):new Vector2(width+20,740);caption.rectTransform.sizeDelta=new Vector2(Mathf.Min(1100,width-48),82);
         }
     }
 }

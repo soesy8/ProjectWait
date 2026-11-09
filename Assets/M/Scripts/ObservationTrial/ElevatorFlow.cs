@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ProjectWait.M.Elevator.ObservationTrial
 {
-    public enum ElevatorStep { Lobby, Boarding, Proposal, Jump, Stopped, Connecting, Call, Unanswered, Waiting, Retry, Rescue, Complete, Entering, Exiting, Travel, ReturnLobby, Returning, GroundFloor, GoingHome, WaitingFade, PosterPointing, PosterWarning, CallQuestion, CallResponse, CallLiftQuestion, CallIdentityGuide, CallLocationResponse, CallSafetyAdvice, DoorLean, DoorPosterPointing, DoorPosterWarning, SafeWallMove, SafeWallWaiting }
+    public enum ElevatorStep { Lobby, Boarding, Proposal, Jump, Stopped, Connecting, Call, Unanswered, Waiting, Retry, Rescue, Complete, Entering, Exiting, Travel, ReturnLobby, Returning, GroundFloor, GoingHome, WaitingFade, PosterPointing, PosterWarning, CallQuestion, CallResponse, CallLiftQuestion, CallIdentityGuide, CallLocationResponse, CallSafetyAdvice, DoorLean, DoorPosterPointing, DoorPosterWarning, SafeWallMove, SafeWallWaiting, GymDeparture, StartupFade }
     public enum InteractionPhase { Dialogue, Investigation, Choice }
 
     // PC, XR and verification all use this state owner. The player's body never jumps.
@@ -42,17 +42,20 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         public bool IsDoorSafetyCutscene => Step == ElevatorStep.DoorLean || Step == ElevatorStep.DoorPosterWarning || Step == ElevatorStep.SafeWallMove || Step == ElevatorStep.SafeWallWaiting;
         public bool IsShotCutscene => Step == ElevatorStep.Proposal || Step == ElevatorStep.PosterWarning || Step == ElevatorStep.Jump || Step == ElevatorStep.Stopped && Phase == InteractionPhase.Dialogue;
         public bool IsMoving => Step == ElevatorStep.Travel || Step == ElevatorStep.Jump;
-        public bool IsCinematic => IsShotCutscene || IsCallCutscene || IsDoorSafetyCutscene || Step==ElevatorStep.WaitingFade || Step==ElevatorStep.Entering || Step==ElevatorStep.Exiting || Step==ElevatorStep.Travel || Step==ElevatorStep.Returning || Step==ElevatorStep.GoingHome || (Step==ElevatorStep.Stopped&&Phase==InteractionPhase.Dialogue) || (Step==ElevatorStep.Rescue&&!ReadyToExit);
+        public bool IsOpening => Step == ElevatorStep.StartupFade || Step == ElevatorStep.GymDeparture;
+        public bool IsCinematic => IsShotCutscene || IsCallCutscene || IsDoorSafetyCutscene || IsOpening || Step==ElevatorStep.WaitingFade || Step==ElevatorStep.Entering || Step==ElevatorStep.Exiting || Step==ElevatorStep.Travel || Step==ElevatorStep.Returning || Step==ElevatorStep.GoingHome || (Step==ElevatorStep.Stopped&&Phase==InteractionPhase.Dialogue) || (Step==ElevatorStep.Rescue&&!ReadyToExit);
         public bool CanObserve => Phase == InteractionPhase.Investigation || Step == ElevatorStep.Boarding || Step == ElevatorStep.Waiting || SearchingIdentity;
-        public bool SupportsObjectPreview => Step == ElevatorStep.DoorPosterPointing || Step == ElevatorStep.Stopped && CanObserve || Step == ElevatorStep.Unanswered;
+        public bool SupportsObjectPreview => SearchingIdentity || Step == ElevatorStep.DoorPosterPointing || Step == ElevatorStep.Stopped && CanObserve || Step == ElevatorStep.Unanswered;
         public bool UsesObjectConfirmation => Step == ElevatorStep.DoorPosterPointing;
         public bool HasObjectPreview => SupportsObjectPreview && PreviewClue.HasValue;
         public bool CanConfirmObject => Step == ElevatorStep.DoorPosterPointing && PreviewClue == ElevatorClue.Friend;
-        public bool PlayerHasBall => Step != ElevatorStep.Lobby && Step != ElevatorStep.Boarding && Step != ElevatorStep.Complete && Step != ElevatorStep.Entering;
+        public bool CanChooseSafeWall => CanConfirmObject && DoorPosterRead;
+        public bool PlayerHasBall => !IsOpening && Step != ElevatorStep.Lobby && Step != ElevatorStep.Boarding && Step != ElevatorStep.Complete && Step != ElevatorStep.Entering;
         readonly ElevatorSettings settings;
+        readonly bool playOpening;
         ElevatorStep retryReturn;
 
-        public ElevatorFlow(ElevatorSettings value) { settings = value; Reset(); }
+        public ElevatorFlow(ElevatorSettings value, bool includeOpening = false) { settings = value; playOpening = includeOpening; Reset(); }
         void Enter(ElevatorStep step, InteractionPhase phase = InteractionPhase.Dialogue)
         {
             Step = step; Phase = phase; PreviewClue = null; Elapsed = 0; HintLevel = 0; Revision++;
@@ -62,7 +65,9 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             History.Clear(); HelpRequested = LocationReported = SituationReported = IdentityFound = Reassured = UsedPhone = ReadyToExit = false;
             DoorWarningGiven = SafeWallReached = DoorPosterRead = IdentityReviewOpen = false;
             Encouragements = 0;
-            JumpCount = 0; DestinationSelected = false; FirstJudgment = ""; retryReturn = ElevatorStep.Stopped; Enter(ElevatorStep.Lobby);
+            JumpCount = 0; DestinationSelected = false; FirstJudgment = ""; retryReturn = ElevatorStep.Stopped;
+            // The opening reveal and departure begin together, without a separate waiting phase.
+            Enter(playOpening ? ElevatorStep.GymDeparture : ElevatorStep.Lobby);
         }
         public void Continue()
         {
@@ -160,7 +165,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         }
         public void ChooseDoorAction(bool safe)
         {
-            if (!CanConfirmObject) return;
+            if (!CanConfirmObject || safe && !CanChooseSafeWall) return;
             if (!safe) { UnsafeAction("문에 기대도 된다고 친구에게 말함"); return; }
             DoorWarningGiven = true;
             History.Add("문에서 떨어진 옆 벽에서 함께 기다리자고 말함");
@@ -199,6 +204,16 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             Elapsed += seconds;
             switch (Step)
             {
+                case ElevatorStep.StartupFade:
+                    if (Elapsed >= ElevatorOpeningSequence.FadeDuration) Enter(ElevatorStep.GymDeparture);
+                    break;
+                case ElevatorStep.GymDeparture:
+                    if (Elapsed >= ElevatorOpeningSequence.DepartureSeconds)
+                    {
+                        History.Add("농구를 마치고 친구와 함께 체육관에서 3층 로비로 나옴");
+                        Enter(ElevatorStep.Lobby);
+                    }
+                    break;
                 case ElevatorStep.Entering:
                     if(Elapsed>=settings.boardingSeconds)Enter(ElevatorStep.Boarding);
                     break;
@@ -303,7 +318,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         }
         public void DeveloperJump(int stage)
         {
-            Reset(); if (stage <= 0) return;
+            Reset(); if (stage <= 0) { Enter(ElevatorStep.Lobby); return; }
             History.Add("개발용 단계 이동: 앞 단계 생략");
             if (stage == 1) { Enter(ElevatorStep.Boarding); return; }
             if (stage == 2) { DestinationSelected = true; Enter(ElevatorStep.Proposal); return; }

@@ -66,7 +66,8 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             if (automaticBlink)
             {
                 float distance = Mathf.Abs(Time.unscaledTime % 4.2f - 4.05f);
-                Weight(blink, Mathf.Clamp01(1 - distance / .12f) * 100);
+                bool waitingForFade = followElevatorLesson && lesson && lesson.Flow != null && lesson.Flow.Step == ElevatorStep.StartupFade;
+                Weight(blink, waitingForFade ? 0 : Mathf.Clamp01(1 - distance / .12f) * 100);
             }
         }
 

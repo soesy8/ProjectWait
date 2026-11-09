@@ -43,6 +43,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         public bool IsPersistentSelectable(ElevatorClue clue)
         {
             var f=lesson.Flow;if(f==null)return false;
+            if(f.SearchingIdentity)return IsLocationClue(clue)||clue==ElevatorClue.Intercom;
             if(f.SupportsObjectPreview)
                 return clue==ElevatorClue.Friend||clue==ElevatorClue.Notice||clue==ElevatorClue.Intercom||
                     clue==(f.Step==ElevatorStep.Unanswered?ElevatorClue.Phone:ElevatorClue.Identity);
@@ -51,7 +52,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
                 case ElevatorStep.Lobby:return clue==ElevatorClue.LobbyCall;
                 case ElevatorStep.Boarding:return clue==ElevatorClue.FloorButtons||clue==ElevatorClue.FrontFloorButtons||
                     f.DestinationSelected&&(clue==ElevatorClue.Ball||clue==ElevatorClue.Friend);
-                case ElevatorStep.Call:return f.SearchingIdentity&&clue==ElevatorClue.Identity;
+                case ElevatorStep.Call:return f.SearchingIdentity&&IsLocationClue(clue);
                 case ElevatorStep.Rescue:return f.ReadyToExit&&clue==ElevatorClue.Rescuer;
                 case ElevatorStep.ReturnLobby:return clue==ElevatorClue.Rescuer;
                 case ElevatorStep.GroundFloor:return clue==ElevatorClue.GroundExit;
@@ -61,12 +62,12 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         ElevatorClue? RequiredTarget()
         {
             var f=lesson.Flow;
-            if(f.IsCinematic||f.AwaitingCallContinue||f.CanConfirmObject)return null;
+            if(f.IsCinematic||f.AwaitingCallContinue||f.CanChooseSafeWall)return null;
             switch(f.Step)
             {
                 case ElevatorStep.Lobby:return ElevatorClue.LobbyCall;
                 case ElevatorStep.Boarding:return f.DestinationSelected?ElevatorClue.Ball:ElevatorClue.FloorButtons;
-                case ElevatorStep.DoorPosterPointing:return ElevatorClue.Friend;
+                case ElevatorStep.DoorPosterPointing:return f.DoorPosterRead?ElevatorClue.Friend:ElevatorClue.Notice;
                 case ElevatorStep.Stopped:return ElevatorClue.Intercom;
                 case ElevatorStep.Unanswered:return ElevatorClue.Phone;
                 case ElevatorStep.Call:return f.SearchingIdentity?(ElevatorClue?)ElevatorClue.Identity:null;
@@ -88,10 +89,13 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         }
         public void NotifySelection(ElevatorClue clue)
         {
-            if(clue==GuidanceTarget||GuidanceTarget==ElevatorClue.FloorButtons&&clue==ElevatorClue.FrontFloorButtons)
+            if(clue==GuidanceTarget||GuidanceTarget==ElevatorClue.FloorButtons&&clue==ElevatorClue.FrontFloorButtons||
+                GuidanceTarget==ElevatorClue.Identity&&IsLocationClue(clue))
                 GuidanceElapsed=0;
         }
-        public bool IsGuidanceTarget(ElevatorClue clue)=>GuidanceActive&&GuidanceTarget==clue;
+        static bool IsLocationClue(ElevatorClue clue)=>clue==ElevatorClue.Identity||clue==ElevatorClue.Notice||clue==ElevatorClue.FacilityGuide;
+        public bool IsGuidanceTarget(ElevatorClue clue)=>GuidanceActive&&(GuidanceTarget==clue||
+            lesson.Flow.SearchingIdentity&&GuidanceTarget==ElevatorClue.Identity&&IsLocationClue(clue));
         public bool HandleObjectAction(ElevatorClue clue)
         {
             var f=lesson.Flow;
@@ -133,8 +137,9 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             if(previousThoughtTarget!=PrimaryTarget||thoughtRevision!=lesson.Flow.Revision||thoughtRun!=lesson.RunVersion)
             {
                 previousThoughtTarget=PrimaryTarget;thoughtRevision=lesson.Flow.Revision;thoughtRun=lesson.RunVersion;
-                // Do not stack a hover description on the current task/dialogue card.
-                lesson.view.ShowThought("");
+                // The side bell gives a location hint without accepting it as identification.
+                bool identityHint=lesson.Flow.SearchingIdentity&&!lesson.Flow.HasObjectPreview&&PrimaryTarget&&PrimaryTarget.clue==ElevatorClue.Intercom;
+                lesson.view.ShowThought(identityHint?ElevatorDialogue.IdentityPanelHint:"");
             }
         }
         // Run when content is created or its presentation mode changes, rather than every frame.

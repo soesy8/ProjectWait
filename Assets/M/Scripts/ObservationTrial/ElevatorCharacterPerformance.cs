@@ -26,7 +26,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
    if(!lesson||lesson.Flow==null||lesson.IsPaused)return;var f=lesson.Flow;var root=lesson.friend;
    if(run!=lesson.RunVersion){run=lesson.RunVersion;phase=0;previous=root.position;}
    var displacement=Vector3.ProjectOnPlane(root.position-previous,Vector3.up);previous=root.position;
-   bool walking=f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.GoingHome||f.Step==ElevatorStep.DoorLean||f.Step==ElevatorStep.SafeWallMove;
+   bool walking=f.Step==ElevatorStep.GymDeparture||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.GoingHome||f.Step==ElevatorStep.DoorLean||f.Step==ElevatorStep.SafeWallMove;
    if(walking&&displacement.sqrMagnitude>.000001f&&displacement.magnitude<.5f)
    {
     phase+=displacement.magnitude/.46f*Mathf.PI*2;Vector3 forward=displacement.normalized;
