@@ -50,8 +50,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             switch(f.Step)
             {
                 case ElevatorStep.Lobby:return clue==ElevatorClue.LobbyCall;
-                case ElevatorStep.Boarding:return clue==ElevatorClue.FloorButtons||clue==ElevatorClue.FrontFloorButtons||
-                    f.DestinationSelected&&(clue==ElevatorClue.Ball||clue==ElevatorClue.Friend);
+                case ElevatorStep.Boarding:return !f.DestinationSelected&&(clue==ElevatorClue.FloorButtons||clue==ElevatorClue.FrontFloorButtons)||
+                    !f.BallReceived&&(clue==ElevatorClue.Ball||clue==ElevatorClue.Friend);
                 case ElevatorStep.Call:return f.SearchingIdentity&&IsLocationClue(clue);
                 case ElevatorStep.Rescue:return f.ReadyToExit&&clue==ElevatorClue.Rescuer;
                 case ElevatorStep.ReturnLobby:return clue==ElevatorClue.Rescuer;
@@ -94,8 +94,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 GuidanceElapsed=0;
         }
         static bool IsLocationClue(ElevatorClue clue)=>clue==ElevatorClue.Identity||clue==ElevatorClue.Notice||clue==ElevatorClue.FacilityGuide;
-        public bool IsGuidanceTarget(ElevatorClue clue)=>GuidanceActive&&(GuidanceTarget==clue||
-            lesson.Flow.SearchingIdentity&&GuidanceTarget==ElevatorClue.Identity&&IsLocationClue(clue));
+        public bool IsGuidanceTarget(ElevatorClue clue)=>GuidanceActive&&(lesson.Flow.Step==ElevatorStep.Boarding?IsPersistentSelectable(clue):
+            GuidanceTarget==clue||lesson.Flow.SearchingIdentity&&GuidanceTarget==ElevatorClue.Identity&&IsLocationClue(clue));
         public bool HandleObjectAction(ElevatorClue clue)
         {
             var f=lesson.Flow;
@@ -114,7 +114,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             switch(f.Step)
             {
                 case ElevatorStep.Lobby:who="친구";line=ElevatorDialogue.CallLift;break;
-                case ElevatorStep.Boarding:who="친구";line=f.DestinationSelected?ElevatorDialogue.Handoff:ElevatorDialogue.ChooseFloor;break;
+                case ElevatorStep.Boarding:who="친구";line=f.BallReceived?ElevatorDialogue.ChooseFloor:f.DestinationSelected?ElevatorDialogue.Handoff:ElevatorDialogue.Boarding;break;
                 case ElevatorStep.Stopped:
                     who=f.CanObserve?"도움 요청":"친구";
                     line=!f.CanObserve?ElevatorDialogue.Stopped:ElevatorDialogue.HelpHint(f.HintLevel);break;

@@ -76,11 +76,15 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             bool enabledController=controller&&controller.enabled;
             if(enabledController)controller.enabled=false;
             space.playerRig.position=p+Vector3.up*offset;lastFloor=p.y;
-            if(enabledController)controller.enabled=true;
-            if(movement)movement.ResetVerticalMotion();
             // New runs reset heading; cinematic turns are applied separately, additive to live look.
             if(resetHeading){if(XRSettings.isDeviceActive)space.playerRig.rotation=Quaternion.Euler(0,heading,0);
             else {space.playerRig.rotation=Quaternion.identity;if(controls)controls.SetScriptedHeading(heading);}}
+            // Destinations describe the head/capsule footprint, not the tracking origin.
+            // Apply this after heading changes, which also rotate room-scale offsets.
+            var horizontal=Lesson.playerCamera.transform.position-space.playerRig.position;
+            horizontal.y=0;space.playerRig.position-=horizontal;
+            if(enabledController)controller.enabled=true;
+            if(movement)movement.ResetVerticalMotion();
             Lesson.view.Reanchor(Lesson.playerCamera.transform.position);
         }
         public void Apply()
@@ -93,8 +97,17 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             bool outside=f.IsOpening || f.Step==ElevatorStep.Lobby || f.Step==ElevatorStep.ReturnLobby || OnGround;
             if(reset||changed)
             {
+                // Flow can cross a whole movement interval before presentation runs.
+                // Commit a missed arrival without repeating an already completed teleport.
+                if(changed&&!reset&&!teleported)
+                {
+                    if(previous==ElevatorStep.Entering&&f.Step==ElevatorStep.Boarding)MoveRig(inside);
+                    else if(previous==ElevatorStep.Exiting&&f.Step==ElevatorStep.ReturnLobby)MoveRig(lobby);
+                    else if(previous==ElevatorStep.GoingHome&&f.Step==ElevatorStep.Complete)MoveRig(groundExit);
+                }
+                if(changed&&previous==ElevatorStep.GymDeparture&&f.Step==ElevatorStep.Lobby)
+                {ApplyOpeningView(0);if(!teleported)MoveRig(lobby);}
                 teleported=false;
-                if(changed&&previous==ElevatorStep.GymDeparture&&f.Step==ElevatorStep.Lobby){ApplyOpeningView(0);MoveRig(lobby);}
                 if(changed&&f.Step==ElevatorStep.GroundFloor&&!reset&&lastFloor>1)MoveRig(groundLobby);
                 var walking=space.playerRig.GetComponent<ElevatorPlayerMovement>();
                 transitionStart=walking?walking.FeetPosition:space.playerRig.position;
@@ -151,6 +164,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                     var approach=new Vector3(-1.8f,ThirdFloorHeight,2.2f);
                     var position=t<2.5f?Vector3.Lerp(transitionStart,approach,S(t,1.2f,2.5f)):Vector3.Lerp(approach,inside,S(t,2.5f,4.5f));
                     MoveRig(position);
+                    teleported=t>=4.5f;
                     // Boarding contributes a fixed turn while the player's look stays additive.
                     if(t>=3.4f&&!entryTurnComplete)
                     {
@@ -172,6 +186,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                     var threshold=new Vector3(-1.8f,ThirdFloorHeight,3.65f);
                     var position=t<1.8f?Vector3.Lerp(transitionStart,threshold,S(t,.65f,1.8f)):Vector3.Lerp(threshold,lobby,S(t,1.8f,3.95f));
                     MoveRig(position);
+                    teleported=t>=3.95f;
                 }
             }
             else if(f.Step==ElevatorStep.Returning)
@@ -181,7 +196,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             else if(f.Step==ElevatorStep.GoingHome)
             {
                 if(XRSettings.isDeviceActive){if(t>=3&&!teleported){MoveRig(groundExit);teleported=true;}}
-                else MoveRig(Vector3.Lerp(transitionStart,groundExit,S(t,.7f,5.3f)));
+                else {MoveRig(Vector3.Lerp(transitionStart,groundExit,S(t,.7f,5.3f)));teleported=t>=5.3f;}
                 Lesson.friend.position=Vector3.Lerp(new Vector3(-.2f,0,-2.4f),new Vector3(.1f,0,-8.4f),S(t,.2f,4.9f));
                 Lesson.friend.rotation=Quaternion.Euler(0,Mathf.Lerp(0,180,S(t,4.6f,5.8f)),0);
             }

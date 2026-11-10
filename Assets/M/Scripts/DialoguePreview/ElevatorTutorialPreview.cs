@@ -12,7 +12,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
     [DisallowMultipleComponent]
     public sealed class ElevatorTutorialPreview : MonoBehaviour
     {
-        public enum GuideStep { None, CallLift, ChooseFloor, ReceiveBall }
+        public enum GuideStep { None, CallLift, ChooseFloor, ReceiveBall, BoardingActions }
 
         public ElevatorLesson lesson;
         public TMP_FontAsset font;
@@ -59,6 +59,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         Vector3 anchorOffset;
         readonly Vector3[] corners = new Vector3[4];
         readonly List<Rect> obstacles = new List<Rect>();
+        readonly List<ElevatorObservation> candidates = new List<ElevatorObservation>();
 
         void Start() { BuildViews(); }
 
@@ -74,7 +75,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             var f = lesson.Flow;
             if (f.Step == ElevatorStep.Lobby) return GuideStep.CallLift;
-            if (f.Step == ElevatorStep.Boarding) return f.DestinationSelected ? GuideStep.ReceiveBall : GuideStep.ChooseFloor;
+            if (f.Step == ElevatorStep.Boarding) return !f.DestinationSelected && !f.BallReceived ? GuideStep.BoardingActions :
+                f.DestinationSelected ? GuideStep.ReceiveBall : GuideStep.ChooseFloor;
             return GuideStep.None;
         }
 
@@ -114,13 +116,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             }
             if (relevant)
             {
-                Revealed |= Step == GuideStep.CallLift || Target.IsHovered || StepElapsed >= reminderDelay;
+                Revealed |= Step == GuideStep.CallLift || lesson.Flow.Step == ElevatorStep.Boarding || Target.IsHovered || StepElapsed >= reminderDelay;
                 UpdateMarker();
             }
             else markerCanvas.enabled = false;
 
             // Instructions are screen-fixed, so looking away hides only the object marker.
-            UpdateInstruction(relevant && Revealed, Step == GuideStep.CallLift || StepElapsed >= repeatControlDelay, seconds);
+            UpdateInstruction(relevant && Revealed, Step == GuideStep.CallLift || Step == GuideStep.BoardingActions || StepElapsed >= repeatControlDelay, seconds);
         }
 
         void UpdateInstruction(bool wanted, bool expanded, float seconds)
@@ -151,14 +153,15 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             if (Step == GuideStep.CallLift) return Usable(callButton) ? callButton : null;
             if (Step == GuideStep.ReceiveBall) return Usable(ball) ? ball : null;
-            if (floorButtons == null) return null;
-            foreach (var candidate in floorButtons) if (Usable(candidate) && candidate.IsHovered) return candidate;
-            if (Usable(Target)) return Target;
+            candidates.Clear();
+            if (Step == GuideStep.BoardingActions && Usable(ball)) candidates.Add(ball);
+            if (floorButtons != null) foreach (var candidate in floorButtons) if (Usable(candidate)) candidates.Add(candidate);
+            foreach (var candidate in candidates) if (candidate.IsHovered) return candidate;
+            if (candidates.Contains(Target)) return Target;
             float best = float.PositiveInfinity;
             ElevatorObservation selected = null;
-            foreach (var candidate in floorButtons)
+            foreach (var candidate in candidates)
             {
-                if (!Usable(candidate)) continue;
                 var p = lesson.playerCamera.WorldToViewportPoint(AnchorPosition(candidate));
                 float score = Vector3.Distance(lesson.playerCamera.transform.position, AnchorPosition(candidate));
                 if (p.z <= 0 || p.x < 0 || p.x > 1 || p.y < 0 || p.y > 1) score += 100;
@@ -180,18 +183,22 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             DisplayedStep = Step;
             Expanded = expanded;
             contentXR = XRSettings.isDeviceActive;
-            title.text = Step == GuideStep.CallLift ? "내려가는 버튼" : Step == GuideStep.ChooseFloor ? "1층 버튼" : "공 받기";
-            instruction.text = expanded ? contentXR ? "가리킨 뒤\n" + selectButtonName + "를\n눌러 주세요" : "화면 가운데에\n맞추고 클릭하세요" :
+            bool combined = Step == GuideStep.BoardingActions;
+            title.text = combined ? "1층 선택 · 공 받기" : Step == GuideStep.CallLift ? "내려가는 버튼" : Step == GuideStep.ChooseFloor ? "1층 버튼" : "공 받기";
+            string controls = contentXR ? "가리킨 뒤\n" + selectButtonName + "를\n눌러 주세요" : "화면 가운데에\n맞추고 클릭하세요";
+            instruction.text = combined ? "순서는 자유예요\n" + (contentXR ? "레이로 가리키고\n" + selectButtonName + "를 눌러요" : controls) : expanded ? controls :
                 Step == GuideStep.ChooseFloor ? "1층을 선택하세요" : "공을 선택해 받으세요";
-            instructionPanel.sizeDelta = new Vector2(320, expanded ? 158 : 98);
+            instructionPanel.sizeDelta = new Vector2(combined ? 400 : 320, expanded ? 158 : 98);
+            ((RectTransform)inputIcon.transform.parent).anchoredPosition = new Vector2(combined ? -156 : -116, 0);
+            title.rectTransform.sizeDelta = new Vector2(combined ? 296 : 216, 42);
             title.rectTransform.anchoredPosition = new Vector2(34, expanded ? 54 : 23);
             instruction.rectTransform.anchoredPosition = new Vector2(34, expanded ? -18 : -20);
-            instruction.rectTransform.sizeDelta = new Vector2(216, expanded ? 100 : 38);
+            instruction.rectTransform.sizeDelta = new Vector2(combined ? 296 : 216, expanded ? 100 : 38);
         }
 
         void UpdateMarker()
         {
-            markerLabel.text = Step == GuideStep.CallLift ? "선택" : Step == GuideStep.ChooseFloor ? "1층" : "받기";
+            markerLabel.text = Step == GuideStep.CallLift ? "선택" : Target == ball ? "받기" : "1층";
             if (!placed) PlaceBesideTarget();
             marker.position = AnchorPosition(Target) + anchorOffset;
             FaceEyes();

@@ -30,6 +30,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         public int Revision { get; private set; }
         public int JumpCount { get; private set; }
         public bool DestinationSelected { get; private set; }
+        public bool BallReceived { get; private set; }
         public string FirstJudgment { get; private set; } = "";
         public bool ProposalRetry => Step == ElevatorStep.Retry && retryReturn == ElevatorStep.Proposal;
         public bool DoorRetry => Step == ElevatorStep.Retry && retryReturn == ElevatorStep.DoorPosterPointing;
@@ -50,7 +51,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         public bool HasObjectPreview => SupportsObjectPreview && PreviewClue.HasValue;
         public bool CanConfirmObject => Step == ElevatorStep.DoorPosterPointing && PreviewClue == ElevatorClue.Friend;
         public bool CanChooseSafeWall => CanConfirmObject && DoorPosterRead;
-        public bool PlayerHasBall => !IsOpening && Step != ElevatorStep.Lobby && Step != ElevatorStep.Boarding && Step != ElevatorStep.Complete && Step != ElevatorStep.Entering;
+        public bool PlayerHasBall => Step == ElevatorStep.Boarding ? BallReceived : !IsOpening && Step != ElevatorStep.Lobby && Step != ElevatorStep.Complete && Step != ElevatorStep.Entering;
         readonly ElevatorSettings settings;
         readonly bool playOpening;
         ElevatorStep retryReturn;
@@ -65,7 +66,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             History.Clear(); HelpRequested = LocationReported = SituationReported = IdentityFound = Reassured = UsedPhone = ReadyToExit = false;
             DoorWarningGiven = SafeWallReached = DoorPosterRead = IdentityReviewOpen = false;
             Encouragements = 0;
-            JumpCount = 0; DestinationSelected = false; FirstJudgment = ""; retryReturn = ElevatorStep.Stopped;
+            JumpCount = 0; DestinationSelected = BallReceived = false; FirstJudgment = ""; retryReturn = ElevatorStep.Stopped;
             // The opening reveal and departure begin together, without a separate waiting phase.
             Enter(playOpening ? ElevatorStep.GymDeparture : ElevatorStep.Lobby);
         }
@@ -76,8 +77,9 @@ namespace ProjectWait.M.Elevator.ObservationTrial
                 case ElevatorStep.Lobby:
                     History.Add("한빛 생활체육센터 3층에서 농구를 마치고 1층으로 귀가 준비"); Enter(ElevatorStep.Entering); break;
                 case ElevatorStep.Boarding:
-                    if (!DestinationSelected) return;
-                    History.Add("친구의 농구공을 받아 안고 슛 이야기를 들음"); Enter(ElevatorStep.Proposal); break;
+                    if (BallReceived) return;
+                    BallReceived = true; History.Add("친구의 농구공을 받아 안음"); Revision++;
+                    CompleteBoarding(); break;
                 case ElevatorStep.Stopped:
                     if (Phase == InteractionPhase.Dialogue) Enter(ElevatorStep.Stopped, InteractionPhase.Investigation);
                     break;
@@ -101,6 +103,12 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         {
             if (Step != ElevatorStep.Boarding || DestinationSelected) return;
             DestinationSelected = true; History.Add(panel+" 패널에서 목적지 1층을 선택함"); Revision++;
+            CompleteBoarding();
+        }
+        void CompleteBoarding()
+        {
+            if (Step != ElevatorStep.Boarding || !DestinationSelected || !BallReceived) return;
+            History.Add("목적지 선택과 공 받기를 마치고 친구의 슛 이야기를 들음"); Enter(ElevatorStep.Proposal);
         }
         public void PointAtSafetyPoster()
         {

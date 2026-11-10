@@ -11,6 +11,40 @@ namespace ProjectWait.M.Tests.EditMode
     [TestFixture, Category("WaitRegression")]
     public sealed class FlowAndOwnershipTests
     {
+        [TestCase("ObservationTrial", true), TestCase("ObservationTrial", false)]
+        [TestCase("DialoguePreview", true), TestCase("DialoguePreview", false)]
+        public void Boarding_EitherOrderRemembersFirstActionAndWaitsForBoth(string runtime, bool floorFirst)
+        {
+            var settings = ScriptableObject.CreateInstance(R.Type("ProjectWait.M.Elevator.ElevatorSettings"));
+            try
+            {
+                var flow = Activator.CreateInstance(R.Type("ProjectWait.M.Elevator." + runtime + ".ElevatorFlow"), settings, false);
+                R.Call(flow, "DeveloperJump", 1);
+                Action first = () => { if (floorFirst) R.Call(flow, "SelectDestination"); else R.Call(flow, "Continue"); };
+                first();
+                Assert.That(R.Get(flow, "Step").ToString(), Is.EqualTo("Boarding"), "One task must not start the shot story");
+                Assert.That(R.Get<bool>(flow, "DestinationSelected"), Is.EqualTo(floorFirst));
+                Assert.That(R.Get<bool>(flow, "PlayerHasBall"), Is.EqualTo(!floorFirst), "Receiving the ball must work before selecting 1F");
+                int revision = R.Get<int>(flow, "Revision");
+                first();
+                Assert.That(R.Get<int>(flow, "Revision"), Is.EqualTo(revision), "Repeated input must not replay a completed task");
+                R.Call(flow, "Tick", 60f);
+                Assert.That(R.Get(flow, "Step").ToString(), Is.EqualTo("Boarding"), "The remaining task has no time limit");
+                if (floorFirst) R.Call(flow, "Continue"); else R.Call(flow, "SelectDestination", "전면");
+                Assert.That(R.Get(flow, "Step").ToString(), Is.EqualTo("Proposal"));
+                Assert.That(R.Get<bool>(flow, "DestinationSelected"), Is.True);
+                Assert.That(R.Get<bool>(flow, "PlayerHasBall"), Is.True);
+                revision = R.Get<int>(flow, "Revision");
+                first();
+                Assert.That(R.Get<int>(flow, "Revision"), Is.EqualTo(revision), "The second task advances exactly once");
+                R.Call(flow, "Reset");
+                R.Call(flow, "DeveloperJump", 1);
+                Assert.That(R.Get<bool>(flow, "DestinationSelected"), Is.False);
+                Assert.That(R.Get<bool>(flow, "PlayerHasBall"), Is.False, "Restart must clear ball ownership too");
+            }
+            finally { Object.DestroyImmediate(settings); }
+        }
+
         [TestCase(false), TestCase(true)]
         public void RealFlow_CallBranchesRequireExplicitIdentityAndSafetyConfirmation(bool phone)
         {

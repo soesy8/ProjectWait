@@ -13,7 +13,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public Camera playerCamera;
         public float desktopSpeed=2.2f, vrSpeed=1.65f, gravity=-15;
         public float FeetOffset {get;private set;}
-        public Vector3 FeetPosition=>transform.position+Vector3.up*FeetOffset;
+        public Vector3 FeetPosition=>new Vector3(
+            playerCamera?playerCamera.transform.position.x:transform.position.x,
+            transform.position.y+FeetOffset,
+            playerCamera?playerCamera.transform.position.z:transform.position.z);
         public Vector2 LastInput {get;private set;}
         public CharacterController Controller {get;private set;}
         InputAction keyboard, leftStick;

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+<title id="title">마우스로 둘러보기</title>
+<desc id="desc">마우스를 움직여 주변을 살펴봐요。중립 마우스와 좌우 이동 화살표. 우클릭 강조 없음.</desc>
+<g stroke-linecap="round" stroke-linejoin="round">
+<path d="M88 76 C88 31 168 31 168 76 L177 157 C180 195 158 220 128 220 C97 220 76 195 79 157 Z" fill="#FFF6DB" stroke="#473024" stroke-width="7.5" /><path d="M157 119 L168 156 Q174 191 145 209 Q172 206 170 160 L165 119 Z" fill="#E2CEAA" stroke="none" stroke-width="0" /><path d="M94 73 C94 58 106 46 123 46 L123 110 L89 110 Z" fill="#FFFBEF" stroke="none" stroke-width="0" /><path d="M134 46 Q160 51 161 76 L165 110 L134 110 Z" fill="#C9E3C2" stroke="none" stroke-width="0" /><path d="M128 45 L128 112" fill="none" stroke="#473024" stroke-width="5" /><path d="M87 113 Q129 122 169 113" fill="none" stroke="#473024" stroke-width="5" /><rect x="121" y="70" width="14" height="25" rx="6" fill="#297A70" stroke="#473024" stroke-width="4"/><path d="M90 165 Q87 188 104 199" fill="none" stroke="#FFFBEF" stroke-width="5" /><path d="M61 139 L30.0 139.0" fill="none" stroke="#297A70" stroke-width="8" /><polygon points="18,139 30.0,130.84 30.0,147.16" fill="#297A70" stroke="none" stroke-width="0"/><path d="M196 139 L227.0 139.0" fill="none" stroke="#297A70" stroke-width="8" /><polygon points="239,139 227.0,147.16 227.0,130.84" fill="#297A70" stroke="none" stroke-width="0"/>
+</g>
+</svg>

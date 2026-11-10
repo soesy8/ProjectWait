@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+<title id="title">Esc로 메뉴 열기</title>
+<desc id="desc">Esc로 쉬거나 계속해요。크림색 Esc 키와 청록 일시정지 기호.</desc>
+<g stroke-linecap="round" stroke-linejoin="round">
+<rect x="109" y="29" width="12" height="29" rx="4" fill="#297A70" stroke="none" stroke-width="0"/><rect x="137" y="29" width="12" height="29" rx="4" fill="#297A70" stroke="none" stroke-width="0"/><rect x="34" y="89" width="188" height="115" rx="13" fill="#E2CEAA" stroke="#473024" stroke-width="7.5"/><rect x="34" y="83" width="188" height="115" rx="13" fill="#FFF6DB" stroke="#473024" stroke-width="7.5"/><path d="M42 180 Q128.0 190 214 180 L214 188 Q128.0 199 42 188 Z" fill="#E2CEAA" stroke="none" stroke-width="0" /><path d="M51 94 L205 94" fill="none" stroke="#FFFBEF" stroke-width="4" /><g transform="translate(74.28571428571428 116.0) scale(1.6785714285714286)"><path d="M19 1 L2 1 L2 27 L19 27 M2 14 L16 14" fill="none" stroke="#473024" stroke-width="3.4" /></g><g transform="translate(117.92857142857142 116.0) scale(1.6785714285714286)"><path d="M15 10 C10 5 1 8 2 14 C3 18 15 16 15 22 C15 28 5 30 1 25" fill="none" stroke="#473024" stroke-width="3.4" /></g><g transform="translate(154.85714285714283 116.0) scale(1.6785714285714286)"><path d="M15 10 C1 1 -3 30 15 26" fill="none" stroke="#473024" stroke-width="3.4" /></g>
+</g>
+</svg>

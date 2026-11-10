@@ -13,7 +13,8 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         public Vector3 friendByDoor=new Vector3(-1.10f,ElevatorSportsCentreMap.ThirdFloorHeight,3.85f);
         public Vector3 friendAtSafeWall=new Vector3(-.86f,ElevatorSportsCentreMap.ThirdFloorHeight,4.75f);
         public Transform doorPosterAnchor;
-        Transform spine,head;
+        Transform spine,head,leftShoulder,rightShoulder,leftThigh,rightThigh,leftShin,rightShin;
+        Vector3 leftShoulderRest,rightShoulderRest;
         Quaternion spineRest;
         float soleOffset;
         Transform[] feet;
@@ -22,6 +23,11 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         public Vector3 SafeWallPosition {get{Initialize();return friendAtSafeWall-Vector3.up*soleOffset;}}
         public bool AtSafeWall => lesson&&lesson.Flow!=null&&lesson.Flow.SafeWallReached&&
             (lesson.Flow.Step==ElevatorStep.SafeWallWaiting||lesson.Flow.Step==ElevatorStep.WaitingFade||lesson.Flow.Step==ElevatorStep.Rescue);
+        public static bool IsRelieved(ElevatorFlow flow) => flow.Step==ElevatorStep.CallSafetyAdvice||flow.Step==ElevatorStep.DoorLean||
+            flow.Step==ElevatorStep.DoorPosterPointing||flow.Step==ElevatorStep.DoorPosterWarning||flow.DoorRetry||
+            flow.Step==ElevatorStep.SafeWallMove||flow.Step==ElevatorStep.SafeWallWaiting||
+            flow.Step==ElevatorStep.Waiting&&flow.HelpRequested&&flow.LocationReported||
+            flow.SafeWallReached&&(flow.Step==ElevatorStep.WaitingFade||flow.Step==ElevatorStep.Rescue);
         static float S(float t,float a,float b)=>Mathf.SmoothStep(0,1,Mathf.InverseLerp(a,b,t));
         public static bool Describe(ElevatorLesson value,out string who,out string line)
         {
@@ -43,6 +49,10 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             if(initialized||!lesson||!lesson.friend)return;
             var bones=lesson.friend.GetComponentsInChildren<Transform>(true);
             spine=bones.FirstOrDefault(t=>t.name=="spine");head=bones.FirstOrDefault(t=>t.name=="head");
+            leftShoulder=bones.FirstOrDefault(t=>t.name=="shoulder.L");rightShoulder=bones.FirstOrDefault(t=>t.name=="shoulder.R");
+            leftThigh=bones.FirstOrDefault(t=>t.name=="thigh.L");rightThigh=bones.FirstOrDefault(t=>t.name=="thigh.R");
+            leftShin=bones.FirstOrDefault(t=>t.name=="shin.L");rightShin=bones.FirstOrDefault(t=>t.name=="shin.R");
+            if(leftShoulder)leftShoulderRest=leftShoulder.localPosition;if(rightShoulder)rightShoulderRest=rightShoulder.localPosition;
             if(spine)spineRest=spine.localRotation;
             // The imported child has a model-space vertical offset. Ground its
             // shoes at the authored floor anchors instead of floating by that offset.
@@ -76,7 +86,9 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             if(f.Step==ElevatorStep.DoorLean)
             {
                 var map=lesson.presentation.space.sportsCentre;
-                root.position=Vector3.Lerp(map.friendInside,doorPosition,S(f.Elapsed,.2f,1.6f));
+                // First exhale in place, then take a small step and begin to lean.
+                float progress=f.Elapsed/Mathf.Max(.1f,lesson.settings.doorLeanSeconds);
+                root.position=Vector3.Lerp(map.friendInside,doorPosition,S(progress,.28f,.62f));
                 root.rotation=Quaternion.Euler(0,180,0);
             }
             else if(f.Step==ElevatorStep.DoorPosterPointing||f.Step==ElevatorStep.DoorPosterWarning)
@@ -106,7 +118,29 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             Initialize();if(!spine)return;
             spine.localRotation=spineRest;
             var f=lesson.Flow;
-            float lean=f.Step==ElevatorStep.DoorLean?S(f.Elapsed,1.4f,2.5f):
+            if(leftShoulder)leftShoulder.localPosition=leftShoulderRest;if(rightShoulder)rightShoulder.localPosition=rightShoulderRest;
+            float progress=f.Elapsed/Mathf.Max(.1f,lesson.settings.doorLeanSeconds);
+            float release=f.Step==ElevatorStep.DoorLean?S(progress,0,.24f):f.Step==ElevatorStep.DoorPosterPointing?1:
+                f.Step==ElevatorStep.DoorPosterWarning?1-S(f.Elapsed,.1f,.8f):0;
+            float knees=f.Step==ElevatorStep.DoorLean?S(progress,.18f,.42f):f.Step==ElevatorStep.DoorPosterPointing?1:
+                f.Step==ElevatorStep.DoorPosterWarning?1-S(f.Elapsed,.1f,.8f):0;
+            if(release>0)
+            {
+                // A small sigh and lowered shoulders show relief, not shaking or distress.
+                if(leftShoulder)leftShoulder.position+=Vector3.down*(.018f*release);
+                if(rightShoulder)rightShoulder.position+=Vector3.down*(.018f*release);
+                spine.rotation=Quaternion.AngleAxis(3*release,lesson.friend.right)*spine.rotation;
+                if(head)head.rotation=Quaternion.AngleAxis(4*release,lesson.friend.right)*head.rotation;
+            }
+            if(knees>0)
+            {
+                // Soften both knees without buckling, falling or touching the door.
+                if(leftThigh)leftThigh.localRotation*=Quaternion.Euler(4*knees,0,0);
+                if(rightThigh)rightThigh.localRotation*=Quaternion.Euler(4*knees,0,0);
+                if(leftShin)leftShin.localRotation*=Quaternion.Euler(-8*knees,0,0);
+                if(rightShin)rightShin.localRotation*=Quaternion.Euler(-8*knees,0,0);
+            }
+            float lean=f.Step==ElevatorStep.DoorLean?S(progress,.62f,.92f):
                 f.Step==ElevatorStep.DoorPosterPointing?1:
                 f.Step==ElevatorStep.DoorPosterWarning?1-S(f.Elapsed,.25f,1.0f):f.DoorRetry?.15f*Mathf.Sin(Mathf.Clamp01(f.Elapsed/.8f)*Mathf.PI):0;
             if(lean>0)
@@ -134,6 +168,10 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             float floor=lesson.presentation.space.sportsCentre.CurrentFloorHeight;
             lesson.friend.position+=Vector3.up*(floor-lowest);
         }
-        void OnDisable(){if(spine)spine.localRotation=spineRest;}
+        void OnDisable()
+        {
+            if(spine)spine.localRotation=spineRest;
+            if(leftShoulder)leftShoulder.localPosition=leftShoulderRest;if(rightShoulder)rightShoulder.localPosition=rightShoulderRest;
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         public const string CallLift="오늘 재밌었다!\n내려가는 버튼 좀 눌러 줄래?";
         public const string ChooseFloor="우리 1층으로 가자.\n1층 버튼 좀 눌러 줄래?";
         public const string Handoff="고마워!\n내 공 좀 잠깐 받아 줄래?";
+        public const string Boarding="1층 버튼 눌러 주고,\n공도 잠깐 받아 줄래?";
         public const string ShotStory="아까 그 슛 봤지?";
         public const string ShotGesture="이렇게 던졌잖아!";
         public const string Stopped="어? 왜 멈췄지?";
@@ -16,13 +17,13 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         public const string IdentityGuide="문 옆 비상벨 아래에\n건물 이름과 승강기 번호가\n적혀 있어요.";
         public const string IdentityPanelHint="식별판은 문 옆 전면 조작판의\n비상벨 아래에 있어요.\n건물 이름과 승강기 번호를 확인하세요.";
         public const string SafetyAdvice="네, 위치 확인했어요.\n구조요원이 갈 테니\n문에서 떨어져 기다려 주세요.";
-        public const string FriendQuestion="아직 좀 무서워…\n다리가 떨리는데,\n문에 잠깐 기대도 될까?";
-        public const string SafeReply="옆 벽으로 가서 같이 기다리자.";
+        public const string FriendQuestion="휴, 이제 좀 안심돼.\n다리에 힘이 풀리네…\n문에 잠깐 기대서 쉴까?";
+        public const string SafeReply="문에 기대면 위험해.\n옆 벽에서 쉬면서 기다리자.";
         public const string UnsafeReply="그래, 문에 잠깐 기대서 쉬어.";
-        public const string DoorWarning="문에 기대면 위험해.\n저쪽 벽으로 가서 기다리자.";
-        public const string FriendMoving="응, 그쪽으로 갈게.";
-        public const string FriendSettled="이제 좀 괜찮아졌어.\n옆에 있어 줘서 고마워.";
-        public const string FriendWaiting="아직 좀 무서워…\n옆에 있어 줄래?";
+        public const string DoorWarning=SafeReply;
+        public const string FriendMoving="응, 저쪽에서\n쉬면서 기다리자.";
+        public const string FriendSettled="여기서 좀 쉬면 되겠다.\n같이 기다려 줘서 고마워.";
+        public const string FriendWaiting="구조요원이 온다니 다행이야.\n여기서 같이 기다려 줄래?";
         public const string Reassure="응, 내가 옆에 있을게. 같이 기다리자.";
         public const string RescueArrival="구조대입니다.\n문에서 떨어져 기다려 주세요.";
         public const string RescueChecking="문 앞 바닥을 확인 중이에요.\n안전하게 나올 수 있게 도와드릴게요.";
@@ -63,7 +64,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
                 case ElevatorClue.Ball:return "친구가 건네주는 농구공이에요.\n튀기지 말고 안고 있어 주세요.";
                 case ElevatorClue.Friend:
                     return f.Step==ElevatorStep.DoorPosterPointing?FriendQuestion:
-                        f.Step==ElevatorStep.Boarding?Handoff:f.HelpRequested?"연락했으니까\n조금만 더 기다려 보자.":"우리 괜찮겠지?\n밖에 연락해 보자.";
+                        f.Step==ElevatorStep.Boarding?(f.BallReceived?ChooseFloor:f.DestinationSelected?Handoff:Boarding):f.HelpRequested?"연락했으니까\n조금만 더 기다려 보자.":"우리 괜찮겠지?\n밖에 연락해 보자.";
                 case ElevatorClue.Door:return f.HelpRequested?"닫혀 있는 엘리베이터 문이에요.\n직접 열지 말고\n구조요원을 기다려 주세요.":"엘리베이터 문이 닫혀 있어요.\n억지로 열지 말고\n비상통화로 도움을 요청하세요.";
                 case ElevatorClue.Notice:return SafetyNotice;
                 case ElevatorClue.Intercom:return f.SearchingIdentity?IdentityPanelHint:f.HelpRequested?"도움을 요청한 상태예요.\n구조요원의 안내를 기다려 주세요.":"비상벨을 누르면\n관리실과 통화할 수 있어요.";

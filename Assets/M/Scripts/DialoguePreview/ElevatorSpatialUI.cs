@@ -575,9 +575,9 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 case ElevatorStep.Call:
                     heading="현재 위치를 알려 주세요";action=ElevatorDialogue.IdentitySearchHint(f.HintLevel);return f.SearchingIdentity;
                 case ElevatorStep.DoorLean:
-                    heading="친구가 문에 기대려고 해요";action="친구의 이야기를\n잠시 들어 주세요.";return true;
+                    heading="친구가 잠깐 쉬려고 해요";action="친구의 이야기를\n잠시 들어 주세요.";return true;
                 case ElevatorStep.DoorPosterPointing:
-                    heading="친구가 불안해하고 있어요";
+                    heading="친구가 잠깐 쉬려고 해요";
                     action=f.CanConfirmObject?"친구에게 할 말을\n골라 주세요.":f.HintLevel>0?"친구와 이야기해 보세요.\n주변 안전 안내도 살펴볼 수 있어요.":"친구와 이야기해 보세요.";return true;
                 case ElevatorStep.DoorPosterWarning:case ElevatorStep.SafeWallMove:
                     heading="친구가 문에서 떨어지고 있어요";action="옆 벽으로 이동 중이에요.\n잠시만 기다려 주세요.";return true;

@@ -148,7 +148,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             else if (clue == ElevatorClue.Identity && Flow.Step == ElevatorStep.Call) FindIdentity();
             else if (clue == ElevatorClue.Phone && Flow.Step == ElevatorStep.Unanswered) Phone();
             else if (clue == ElevatorClue.Rescuer && ((Flow.Step == ElevatorStep.Rescue && Flow.ReadyToExit) || Flow.Step == ElevatorStep.ReturnLobby)) Continue();
-            else if ((clue == ElevatorClue.Ball || clue == ElevatorClue.Friend) && Flow.Step == ElevatorStep.Boarding && Flow.DestinationSelected) Continue();
+            else if ((clue == ElevatorClue.Ball || clue == ElevatorClue.Friend) && Flow.Step == ElevatorStep.Boarding) Continue();
             else if (clue == ElevatorClue.Friend && Flow.Step == ElevatorStep.Waiting) { if(Flow.Reassured)Encourage();else Reassure(); }
             // Selecting a door inspects it; it does not mean trying to force it open.
         }
@@ -157,6 +157,11 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         public bool CanInteract(ElevatorClue clue)
         {
             if (Flow != null && (Flow.ReviewingIdentity || Flow.AwaitingCallContinue || Flow.Step == ElevatorStep.Retry)) return false;
+            if (Flow != null && Flow.Step == ElevatorStep.Boarding)
+            {
+                if ((clue == ElevatorClue.Ball || clue == ElevatorClue.Friend) && Flow.BallReceived) return false;
+                if ((clue == ElevatorClue.FloorButtons || clue == ElevatorClue.FrontFloorButtons) && Flow.DestinationSelected) return false;
+            }
             return clue!=ElevatorClue.LobbyCallUp&&Flow!=null&&!IsPaused&&!CinematicBlocking&&!Flow.IsCinematic&&Flow.Step!=ElevatorStep.Complete;
         }
         void OnDisable()

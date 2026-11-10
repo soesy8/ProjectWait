@@ -10,10 +10,30 @@ namespace ProjectWait.M.Elevator.ObservationTrial
         static readonly Color Ink = new Color(.28f, .19f, .14f);
         static readonly Color Paper = new Color(1, .965f, .86f);
         static readonly Color Teal = new Color(.16f, .48f, .44f);
+        public bool ControllerMode { get; private set; } = true;
+
+        public void SetInputMode(bool controller)
+        {
+            if (ControllerMode == controller) return;
+            ControllerMode = controller;
+            SetVerticesDirty();
+        }
 
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();
+            if (!ControllerMode)
+            {
+                Circle(vh, new Vector2(0, 5), 19, Ink);
+                Circle(vh, new Vector2(0, -12), 19, Ink);
+                Polygon(vh, Ink, new[] { new Vector2(-19, 5), new Vector2(19, 5), new Vector2(19, -12), new Vector2(-19, -12) });
+                Circle(vh, new Vector2(0, 5), 16, Paper);
+                Circle(vh, new Vector2(0, -12), 16, Paper);
+                Polygon(vh, Paper, new[] { new Vector2(-16, 5), new Vector2(16, 5), new Vector2(16, -12), new Vector2(-16, -12) });
+                Polygon(vh, Teal, new[] { new Vector2(-14, 5), new Vector2(-12, 15), new Vector2(-2, 19), new Vector2(-2, 1), new Vector2(-14, 1) });
+                Polygon(vh, Ink, new[] { new Vector2(-1, 20), new Vector2(1, 20), new Vector2(1, 0), new Vector2(-1, 0) });
+                return;
+            }
             Polygon(vh, Ink, new[] { new Vector2(-15, 16), new Vector2(12, 16), new Vector2(16, 5),
                 new Vector2(9, -26), new Vector2(-4, -29), new Vector2(-12, -18), new Vector2(-17, 4) });
             Polygon(vh, Paper, new[] { new Vector2(-12, 13), new Vector2(10, 13), new Vector2(13, 4),

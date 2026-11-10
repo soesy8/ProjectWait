@@ -170,8 +170,11 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 case ElevatorStep.Lobby:
                     objective="엘리베이터 부르기";line=lesson.settings.lobbyDialogue;Add("1   엘리베이터 타기",lesson.Continue);break;
                 case ElevatorStep.Boarding:
-                    if(!f.DestinationSelected){objective="1층 버튼 누르기";line=ElevatorDialogue.ChooseFloor;Add("1   1층 누르기",lesson.SelectFloor);}
-                    else{objective="친구의 공 받기";line=lesson.settings.handoffDialogue;Add("1   공 받기",lesson.Continue);}break;
+                    objective=f.BallReceived?"1층 버튼 누르기":f.DestinationSelected?"친구의 공 받기":"1층 누르기 · 공 받기\n순서는 자유예요";
+                    line=f.BallReceived?ElevatorDialogue.ChooseFloor:f.DestinationSelected?lesson.settings.handoffDialogue:ElevatorDialogue.Boarding;
+                    if(!f.DestinationSelected)Add("1   1층 누르기",lesson.SelectFloor);
+                    if(!f.BallReceived)Add(f.DestinationSelected?"1   공 받기":"2   공 받기",lesson.Continue);
+                    break;
                 case ElevatorStep.Proposal:
                     objective="친구의 슛 이야기";line=ElevatorDialogue.ShotStory;break;
                 case ElevatorStep.PosterPointing:
@@ -208,7 +211,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                     else{objective="안전 안내 확인하기";line=ElevatorDialogue.SafetyAdvice;Add("알겠어요",lesson.Advice);}break;
                 case ElevatorStep.DoorPosterPointing:
                     objective="친구와 이야기해 보세요.";who="친구와 함께 기다리기";
-                    line="친구가 불안해하고 있어요.\n어떻게 대답할지 생각해 보세요.";
+                    line="친구가 문에 기대어 쉬려고 해요.\n어떻게 대답할지 생각해 보세요.";
                     break;
                 case ElevatorStep.Waiting:
                     objective="친구와 함께 기다리기";

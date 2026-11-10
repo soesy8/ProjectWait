@@ -572,9 +572,9 @@ namespace ProjectWait.M.Elevator.ObservationTrial
                 case ElevatorStep.Call:
                     heading="어느 승강기인지 알려 주세요";action="문 옆 식별판을 눌러\n적힌 내용을 확인하세요.";return f.SearchingIdentity;
                 case ElevatorStep.DoorLean:
-                    heading="친구가 문에 기대려고 해요";action="친구의 이야기를\n잠시 들어 주세요.";return true;
+                    heading="친구가 잠깐 쉬려고 해요";action="친구의 이야기를\n잠시 들어 주세요.";return true;
                 case ElevatorStep.DoorPosterPointing:
-                    heading="친구가 문에 기대려고 해요";
+                    heading="친구가 잠깐 쉬려고 해요";
                     action=!f.DoorPosterRead?"안전 포스터를 눌러\n내용을 확인하세요.":f.CanConfirmObject?"어떻게 대답할지\n대화 카드에서 골라 주세요.":"친구를 눌러\n말을 걸어 주세요.";return true;
                 case ElevatorStep.DoorPosterWarning:case ElevatorStep.SafeWallMove:
                     heading="친구가 문에서 떨어지고 있어요";action="옆 벽으로 이동 중이에요.\n잠시만 기다려 주세요.";return true;

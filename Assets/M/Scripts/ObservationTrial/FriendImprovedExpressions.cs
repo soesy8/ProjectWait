@@ -9,7 +9,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
     [DefaultExecutionOrder(200)]
     public sealed class FriendImprovedExpressions : MonoBehaviour
     {
-        public enum Expression { Happy, Surprised, Worried, Sad, Neutral }
+        public enum Expression { Happy, Surprised, Worried, Sad, Neutral, Relieved }
         public SkinnedMeshRenderer face;
         public Expression expression = Expression.Happy;
         [Range(0, 100)] public float strength = 100;
@@ -54,7 +54,9 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             if (followElevatorLesson && lesson && lesson.Flow != null)
             {
                 var flow = lesson.Flow;
-                if (flow.DoorRetry) value = flow.Elapsed < .8f ? Expression.Surprised : Expression.Worried;
+                if (flow.DoorRetry) value = flow.Elapsed < .8f ? Expression.Surprised : Expression.Relieved;
+                else if (ElevatorDoorSafetyCutscene.IsRelieved(flow))
+                    value = flow.Step == ElevatorStep.DoorPosterWarning ? Expression.Neutral : Expression.Relieved;
                 else if (flow.Step == ElevatorStep.Stopped || flow.Step == ElevatorStep.Connecting || flow.Step == ElevatorStep.DoorPosterWarning)
                     value = Expression.Surprised;
                 else if (!flow.Reassured && (flow.Step == ElevatorStep.Waiting || flow.Step == ElevatorStep.Unanswered || flow.Step == ElevatorStep.Call || flow.IsCallCutscene || flow.AwaitingCallContinue || flow.Step == ElevatorStep.DoorLean || flow.Step == ElevatorStep.DoorPosterPointing))
@@ -67,13 +69,14 @@ namespace ProjectWait.M.Elevator.ObservationTrial
             {
                 float distance = Mathf.Abs(Time.unscaledTime % 4.2f - 4.05f);
                 bool waitingForFade = followElevatorLesson && lesson && lesson.Flow != null && lesson.Flow.Step == ElevatorStep.StartupFade;
-                Weight(blink, waitingForFade ? 0 : Mathf.Clamp01(1 - distance / .12f) * 100);
+                Weight(blink, waitingForFade ? 0 : Mathf.Max(value == Expression.Relieved ? strength * .18f : 0, Mathf.Clamp01(1 - distance / .12f) * 100));
             }
         }
 
         void Apply(Expression value, float amount)
         {
-            Weight(smile, value == Expression.Happy ? amount * .25f : 0);
+            Weight(smile, value == Expression.Happy ? amount * .25f : value == Expression.Relieved ? amount * .10f : 0);
+            Weight(blink, value == Expression.Relieved ? amount * .18f : 0);
             Weight(surprised, value == Expression.Surprised ? amount : 0);
             Weight(worried, value == Expression.Worried ? amount : 0);
             Weight(sad, value == Expression.Sad ? amount : 0);

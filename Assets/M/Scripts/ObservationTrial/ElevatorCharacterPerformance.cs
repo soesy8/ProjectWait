@@ -40,7 +40,7 @@ namespace ProjectWait.M.Elevator.ObservationTrial
     float lift=t>0&&t<1?Mathf.Sin(t*Mathf.PI)*.23f:0;
     root.position+=Vector3.up*lift;
    }
-    bool panic=!f.Reassured&&(f.Step==ElevatorStep.Stopped||f.IsCallCutscene||f.AwaitingCallContinue||f.Step==ElevatorStep.Unanswered||f.Step==ElevatorStep.Call||f.Step==ElevatorStep.Waiting||f.Step==ElevatorStep.DoorLean||f.Step==ElevatorStep.DoorPosterPointing);
+    bool panic=!f.Reassured&&!ElevatorDoorSafetyCutscene.IsRelieved(f)&&(f.Step==ElevatorStep.Stopped||f.IsCallCutscene||f.AwaitingCallContinue||f.Step==ElevatorStep.Unanswered||f.Step==ElevatorStep.Call||f.Step==ElevatorStep.Waiting||f.Step==ElevatorStep.DoorLean||f.Step==ElevatorStep.DoorPosterPointing);
    if(face&&normalFaceMesh&&panicFaceMesh){var mesh=panic?panicFaceMesh:normalFaceMesh;if(face.sharedMesh!=mesh)face.sharedMesh=mesh;}
    if(panicFace)panicFace.gameObject.SetActive(panic);
    if(panic)

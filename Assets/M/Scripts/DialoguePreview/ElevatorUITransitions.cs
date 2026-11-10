@@ -35,12 +35,30 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 r.localPosition=center-rotation*Vector3.Scale(r.rect.center,scale);
             }
         }
+        struct WorldGeometry
+        {
+            public Geometry local;
+            public Vector3 center, scale;
+            public Quaternion rotation;
+            public static WorldGeometry Read(RectTransform rect)=>new WorldGeometry {
+                local=Geometry.Read(rect),center=rect.TransformPoint(rect.rect.center),
+                scale=rect.lossyScale,rotation=rect.rotation };
+            public void Apply(RectTransform rect)
+            {
+                local.Apply(rect);rect.rotation=rotation;
+                var parentScale=rect.parent?rect.parent.lossyScale:Vector3.one;
+                rect.localScale=new Vector3(scale.x/parentScale.x,scale.y/parentScale.y,scale.z/parentScale.z);
+                rect.position=center-rect.TransformVector(rect.rect.center);
+            }
+        }
         sealed class Panel
         {
             public RectTransform rect;
             public bool visibility, visible;
             public CanvasGroup group;
             public float opacity=1;
+            public bool outgoing;
+            public WorldGeometry outgoingGeometry;
         }
         sealed class TextChange
         {
@@ -54,6 +72,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         sealed class Retired
         {
             public GameObject root;
+            public RectTransform rect;
+            public WorldGeometry geometry;
             public CanvasGroup group;
             public float elapsed;
             public float opacity;
@@ -108,6 +128,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             if(depth==0||--depth>0)return;
             Discover();
+            RestoreOutgoingGeometry();
             foreach(var item in texts)
             {
                 if(!item.text)continue;
@@ -139,6 +160,15 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 panel.visibility=true;panel.opacity=Application.isPlaying?0:visible?1:0;
                 panel.group=rect.GetComponent<CanvasGroup>();if(!panel.group)panel.group=rect.gameObject.AddComponent<CanvasGroup>();
             }
+            if(visible)
+            {
+                // World-space compensation belongs only to the outgoing frame.
+                // Reopening/restarting must restore the authored local pose first.
+                if(panel.outgoing)panel.outgoingGeometry.local.Apply(rect);
+                panel.outgoing=false;
+            }
+            else if(panel.visible&&panel.opacity>.001f)
+            {panel.outgoingGeometry=WorldGeometry.Read(rect);panel.outgoing=true;}
             panel.visible=visible;
             if(visible)rect.gameObject.SetActive(true);
             panel.group.interactable=visible;panel.group.blocksRaycasts=visible;
@@ -160,6 +190,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public void RetireChoice(RectTransform rect)
         {
             if(!rect)return;
+            var geometry=WorldGeometry.Read(rect);
             foreach(var button in rect.GetComponentsInChildren<Button>(true)){button.onClick.RemoveAllListeners();button.interactable=false;button.enabled=false;}
             foreach(var graphic in rect.GetComponentsInChildren<Graphic>(true))graphic.raycastTarget=false;
             panels.RemoveAll(p=>!p.rect||p.rect==rect||p.rect.IsChildOf(rect));
@@ -168,7 +199,15 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             rect.name="Retiring_"+rect.name;rect.SetParent(view.actionPanel.parent,true);
             var group=rect.GetComponent<CanvasGroup>();if(!group)group=rect.gameObject.AddComponent<CanvasGroup>();
             group.interactable=false;group.blocksRaycasts=false;
-            retired.Add(new Retired{root=rect.gameObject,group=group,opacity=group.alpha});
+            retired.Add(new Retired{root=rect.gameObject,rect=rect,geometry=geometry,group=group,opacity=group.alpha});
+        }
+        void RestoreOutgoingGeometry()
+        {
+            // Layout may relocate the live column while its old cards/buttons fade.
+            // Keep outgoing geometry in world space, including after reparenting.
+            foreach(var panel in panels)
+                if(panel.rect&&panel.outgoing&&!panel.visible&&panel.opacity>0)panel.outgoingGeometry.Apply(panel.rect);
+            foreach(var item in retired)if(item.rect)item.geometry.Apply(item.rect);
         }
         static float Amount(float delta,float duration)=>duration<=0?1:1-Mathf.Exp(-delta*5/Mathf.Max(.01f,duration));
         void ApplyText(TextChange item)
@@ -210,6 +249,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 if(!item.root||item.elapsed>=fadeSeconds){if(item.root)Destroy(item.root);retired.RemoveAt(i);}
                 else item.group.alpha=item.opacity*(1-Mathf.SmoothStep(0,1,item.elapsed/Mathf.Max(.01f,fadeSeconds)));
             }
+            RestoreOutgoingGeometry();
         }
         void OnDestroy(){foreach(var item in texts)if(item.ghost)Destroy(item.ghost.gameObject);foreach(var item in retired)if(item.root)Destroy(item.root);}
     }
