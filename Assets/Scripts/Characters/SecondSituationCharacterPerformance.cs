@@ -1,4 +1,4 @@
-﻿using System.Collections; // 경고·물러남·놀람을 순서대로 재생합니다.
+using System.Collections; // 경고·물러남·놀람을 순서대로 재생합니다.
 using UnityEngine; // 기존 사람형 골격의 관절과 발 접지만 제어합니다.
 
 namespace Y.Crosswalk // 두 번째 상황의 친구 2 표현을 진행·입력과 분리합니다.
@@ -74,13 +74,24 @@ namespace Y.Crosswalk // 두 번째 상황의 친구 2 표현을 진행·입력�
             yield return LookAtTarget(signal, 1.4f, true); // 기존 빨간불 반응은 놀란 입을 포함합니다.
         } // 두 번째 상황의 결과 순서는 변경하지 않습니다.
 
-        public IEnumerator LookAtTarget(Transform target, float duration = 1f, bool surprised = false) // 신호·자동차·플레이어를 같은 사람형 머리 관절로 살펴봅니다.
-        { // 신호 색에 따른 진행 판단은 상황 제어기가 담당합니다.
-            m_LookTarget = target; m_NoticeSurprised = surprised; m_Time = 0f; m_Mode = PoseMode.Notice; // 응시할 실제 대상과 필요한 표정만 지정합니다.
-            while (m_Time < Mathf.Max(0.2f, duration) && isActiveAndEnabled && m_Mode == PoseMode.Notice) yield return null; // 복원·비활성화 시 이전 관절 연출의 대기를 종료합니다.
-            if (!isActiveAndEnabled || m_Mode != PoseMode.Notice) yield break; // 종료된 코루틴이 다음 상태의 자세를 덮어쓰지 않습니다. // 개별 연출 시간 동안 실제 대상의 위치를 바라봅니다.
-            m_Mode = PoseMode.None; BlenderRigPose.SetSurprise(m_Head, m_SurpriseMouth, false); // 다음 보행이나 감사에 놀란 입을 남기지 않습니다.
-        } // 플레이어 카메라를 회전시키지 않습니다.
+        public void BeginLookingAt(Transform target, bool surprised = false) // 신호나 계속 움직이는 자동차를 실제 위치에 맞춰 바라보기 시작합니다.
+        { // 같은 고개 움직임을 시간 지정 연출과 차량 통과 대기에 사용합니다.
+            m_LookTarget = target; m_NoticeSurprised = surprised; m_Time = 0f; m_Mode = PoseMode.Notice; // 현재 응시 대상과 표정을 골격 갱신에 전달합니다.
+        } // 시선의 지속 시간은 이 동작을 시작한 상황에서 정합니다.
+
+        public void StopLookingAt() // 현재 응시 동작을 정리하고 다음 주변 확인이나 보행으로 이어갑니다.
+        { // 이미 다른 관절 연출로 넘어갔다면 그 자세를 건드리지 않습니다.
+            if (m_Mode != PoseMode.Notice) return; // 차량 확인을 끝낼 때 뒷걸음이나 감사 동작의 상태를 지우지 않습니다.
+            m_Mode = PoseMode.None; m_LookTarget = null; // 다음 프레임부터 기존 Animator에 기본 자세를 맡깁니다.
+            BlenderRigPose.SetSurprise(m_Head, m_SurpriseMouth, false); // 다음 표정으로 넘어갈 때 입에 이전 반응을 남기지 않습니다.
+        } // 친구의 위치나 플레이어 시점은 유지합니다.
+
+        public IEnumerator LookAtTarget(Transform target, float duration = 1f, bool surprised = false) // 신호나 좌우 방향을 일정 시간 확인하는 기존 연출에 사용합니다.
+        { // 같은 응시 자세를 정해진 길이로 재생합니다.
+            BeginLookingAt(target, surprised); // 현재 실제 응시점과 필요한 표정을 지정합니다.
+            while (m_Time < Mathf.Max(0.2f, duration) && isActiveAndEnabled && m_Mode == PoseMode.Notice) yield return null; // 지정한 시간까지 보되 취소된 연출은 다음 상태에 접근하지 않습니다.
+            if (isActiveAndEnabled) StopLookingAt(); // 응시가 계속 살아 있는 경우에만 자세를 정리합니다.
+        } // 다음 시선이나 횡단 명령은 현재 상황 제어기에서 시작합니다.
 
         private float m_RetreatDuration = 1.8f; // 실제 이동 거리와 돌아설 각도로 한 번의 발 디딤 연출 시간을 결정합니다.
         public IEnumerator RetreatInsideSidewalk(Transform destination, Transform viewer) // 도로 쪽 첫 발을 거두고 인도 안으로 물러나며 플레이어를 바라봅니다.

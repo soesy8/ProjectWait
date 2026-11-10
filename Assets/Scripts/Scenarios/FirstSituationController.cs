@@ -183,9 +183,9 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
         { // 행동 선택을 자동으로 시작하지 않습니다.
             m_State = SituationState.Observation; m_RetryRequested = false; // 이전 실패의 재시도 요청을 지웁니다.
             m_WalkAudio.Stop(); // 관찰과 재시도에서는 상황 오디오를 진행시키지 않습니다.
-            SetObservation(true); m_UI.PlaceInFront(m_Origin.Camera.transform); m_UI.ShowObservation(FinishObservation); // 첫 번째 상황의 네 단서와 기존 선택 단계만 공통 관찰 완료 버튼에 연결합니다.
-        } // 플레이어가 관찰을 마쳤다고 선택할 때까지 기다립니다.
-        public void FinishObservation() { if (m_State != SituationState.Observation) return; m_State = SituationState.Choice; SetObservation(false); m_UI.ShowChoice(); } // 관찰 완료 버튼으로만 행동 선택을 표시합니다.
+            SetObservation(true); m_UI.PlaceInFront(m_Origin.Camera.transform); m_UI.ShowObservation(OpenFriendChoices); // 휴대전화와 전봇대를 조사할 수 있고 친구를 누르면 바로 경고 선택을 엽니다.
+        } // 플레이어가 친구에게 말을 걸기 전에는 주변을 자유롭게 볼 수 있습니다.
+        private void OpenFriendChoices() { if (m_State != SituationState.Observation) return; m_State = SituationState.Choice; SetObservation(false); m_UI.ShowChoice(); } // 전화에 집중한 친구에게 무엇을 말할지 제시하고 단서 입력을 닫습니다.
         public void ResumeObservation() { if (m_State == SituationState.Choice) EnterObservation(); } // 선택 전 다시 주변을 살펴볼 수 있게 합니다.
         public void ChooseUnsafe() { if (m_State != SituationState.Choice) return; m_State = SituationState.Accident; m_UI.HideAll(); StartCoroutine(RunUnsafe()); } // 상태를 먼저 잠가 위험 선택을 한 번만 실행합니다.
         public void ChooseSafe() { if (m_State != SituationState.Choice) return; m_State = SituationState.Safe; m_UI.HideAll(); StartCoroutine(RunSafe()); } // 상태를 먼저 잠가 경고 선택을 한 번만 실행합니다.
@@ -202,7 +202,7 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
             yield return m_Performance.PlayImpact(); // 머리·상체·팔·양다리의 큰 휘청임과 순간 슬로우모션을 끝까지 보여 줍니다.
             m_State = SituationState.Retry; m_UI.PlaceInFront(m_Origin.Camera.transform); m_UI.ShowUnsafe(); // 사고 원인과 같은 관찰 지점으로 돌아간다는 안내를 표시합니다.
             float elapsed = 0f; // 결과 설명에만 짧은 표시 시간을 적용합니다.
-            while (elapsed < 4f && !m_RetryRequested) { elapsed += Time.unscaledDeltaTime; yield return null; } // 관찰·선택에는 제한 시간을 두지 않고 결과 뒤에만 자동 복원합니다.
+            while (elapsed < 3f && !m_RetryRequested) { elapsed += Time.unscaledDeltaTime; yield return null; } // 충돌 원인을 짧게 읽은 뒤 친구가 전봇대에 닿기 전으로 돌아갑니다.
             yield return RestoreResultObservation(); // 사고 설명 뒤 같은 관찰 체크포인트로 돌아갑니다.
         } // 접촉과 결과가 실제 완료된 경우만 설명을 표시합니다.
 
@@ -224,10 +224,10 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
             }); // 감사 동작이 끝나기 전에는 완료 설명으로 넘어가지 않습니다.
             m_WalkAudio.Stop(); // 우회 구간이 취소된 경우에도 보행 소리가 남지 않게 합니다.
             if (!m_Performance.HasCompletedSafeAvoidance) { yield return RestoreResultObservation(); yield break; } // 우회 실패도 위치를 드러내며 순간 복원하지 않습니다. // 중단된 경로나 연출을 완료로 기록하지 않습니다.
-            m_Completed = true; m_State = SituationState.Complete; m_UI.ShowSafe(); // 첫 번째 상황 완료만 기록하고 안전한 이유를 표시합니다.
+            m_Completed = true; m_State = SituationState.Complete; m_UI.PlaySuccessCue(); // 친구의 감사 대사를 이어 보여 주면서 다음 동행에 첫 회피 완료를 넘깁니다.
             SetLocomotionPaused(false); // 첫 상황이 보류한 이동 설정을 복원한 뒤 다음 도입이 필요한 보류 상태를 직접 인계받게 합니다.
             m_OnCompleted.Invoke(); // 실제 씬에 연결된 두 번째 상황 도입을 한 번만 시작합니다.
-        } // 두 번째 상황의 호출과 관찰 정지는 별도 제어기가 담당합니다.
+        } // 친구가 전봇대를 피한 자리에서 횡단보도까지의 동행이 이어집니다.
 
         private void SetObservation(bool available) { foreach (FirstSituationObservation target in m_Observations) if (target != null) target.SetAvailable(available); } // 씬 종료 중 먼저 파괴된 관찰 대상을 건너뛰고 남은 입력을 정리합니다.
         private void SetLocomotionPaused(bool paused) // 기존 보행 Provider의 활성 상태를 연출 전후로 보존합니다.

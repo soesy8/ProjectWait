@@ -13,11 +13,10 @@ namespace Y.Crosswalk // 세 안전 상황 앞에 붙는 제목·조작 안내�
         [SerializeField, InspectorName("잠깐 제목 패널"), Tooltip("제목·부제·시작하기 버튼이 있는 실제 Hierarchy 패널입니다.")] private FirstSituationPanel m_Title; // 기존 파스텔 배경과 버튼 반응을 재사용합니다.
         [SerializeField, InspectorName("조작 안내 패널"), Tooltip("세 안내 문구·그림 아이콘·알겠어 버튼을 저장한 실제 패널입니다.")] private FirstSituationPanel m_Instructions; // 코드로 텍스트나 기본 패널을 생성하지 않습니다.
         [SerializeField, Range(2f, 3.5f), InspectorName("시작 화면 읽기 거리(m)"), Tooltip("제목과 한 화면의 안내를 표시할 편안한 월드 거리입니다.")] private float m_Distance = 2.5f; // VR에서도 얼굴에 지나치게 가까이 붙지 않게 합니다.
-        [SerializeField, InspectorName("대기할 친구 2"), Tooltip("제목과 안내 동안 배경의 친구 2 자세만 정지합니다.")] private FriendCharacterMovement m_Friend2; // 친구 1의 대기는 기존 첫 번째 제어기가 담당합니다.
         [SerializeField, InspectorName("대기할 기존 자동차"), Tooltip("시작 전 주행만 보류하고 실제 시작 시 원래 상태를 복원합니다.")] private TrafficCarMovement m_Car; // 제목을 보는 동안 교통 연출이 먼저 진행되지 않게 합니다.
         [SerializeField, InspectorName("대기할 기존 신호"), Tooltip("표시를 끄지 않고 자동 신호 타이머만 보류합니다.")] private PedestrianTrafficLight m_Signal; // 전역 시간과 UI 애니메이션은 계속 갱신합니다.
         [SerializeField, InspectorName("현재 시작 화면 상태"), Tooltip("제목·안내 전환·첫 상황 진입을 구분합니다.")] private ScreenState m_State; // 버튼이 실제 화면 단계에서만 동작하게 합니다.
-        private bool m_BackgroundHeld, m_Friend2WasPaused, m_CarWasPaused, m_SignalWasPaused; // 이 화면이 보류한 기존 상태만 저장합니다.
+        private bool m_BackgroundHeld, m_CarWasPaused, m_SignalWasPaused; // 시작 화면이 보류한 차량과 신호 상태만 복원합니다.
 
         private void Start() // 첫 번째 상황이 시작 대기 상태인지 확인한 뒤 제목을 표시합니다.
         { // 이미 진행하거나 완료한 교육에 안내를 다시 띄우지 않습니다.
@@ -57,13 +56,13 @@ namespace Y.Crosswalk // 세 안전 상황 앞에 붙는 제목·조작 안내�
 
         private void HoldBackground() // 시작 전에 진행하면 안 되는 기존 배경 동작만 보류합니다.
         { // 모든 오브젝트와 시간 배율을 정지하는 방식은 사용하지 않습니다.
-            m_Friend2WasPaused = m_Friend2.IsScenarioPaused; m_CarWasPaused = m_Car.IsScenarioPaused; m_SignalWasPaused = m_Signal.IsScenarioPaused; // 실제 기존 개별 정지 상태를 저장합니다.
-            m_BackgroundHeld = true; m_Friend2.SetScenarioPaused(true); m_Car.SetScenarioPaused(true); m_Signal.SetScenarioPaused(true); // 머리 추적·마우스·UI는 유지하면서 배경 연출만 대기합니다.
+            m_CarWasPaused = m_Car.IsScenarioPaused; m_SignalWasPaused = m_Signal.IsScenarioPaused; // 시작 전 차량과 신호의 원래 타이머 상태를 보관합니다.
+            m_BackgroundHeld = true; m_Car.SetScenarioPaused(true); m_Signal.SetScenarioPaused(true); // 공통 친구의 시작 자세는 첫 상황 제어기가 관리합니다.
         } // 캐릭터와 차량을 비활성화하여 초기화 경로를 다시 실행하지 않습니다.
         private void RestoreBackground() // 안내 완료나 씬 종료에서 이 화면이 보류한 상태만 돌립니다.
         { // 두 번 호출해도 진행 중인 배경을 다시 초기화하지 않습니다.
             if (!m_BackgroundHeld) return; // 이미 복원한 경우에는 관여하지 않습니다.
-            m_BackgroundHeld = false; if (m_Friend2 != null) m_Friend2.SetScenarioPaused(m_Friend2WasPaused); // 살아 있는 원래 친구의 개별 정지를 복원합니다.
+            m_BackgroundHeld = false; // 시작 뒤나 화면 종료 시 배경 상태를 한 번만 복원합니다.
             if (m_Car != null) m_Car.SetScenarioPaused(m_CarWasPaused); if (m_Signal != null) m_Signal.SetScenarioPaused(m_SignalWasPaused); // 원래 주행과 자동 신호 타이머를 같은 상태로 이어갑니다.
         } // 첫 번째·두 번째·세 번째 상황의 기록은 변경하지 않습니다.
         private void OnDisable() // 중단된 시작 화면과 전환을 정리합니다.

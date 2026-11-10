@@ -700,6 +700,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 600000, guid: 81fb0f2978a54d52a30b9d7103d2a5e7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -719,9 +723,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 600000, guid: 81fb0f2978a54d52a30b9d7103d2a5e7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9000001126}
-    - targetCorrespondingSourceObject: {fileID: 600000, guid: 81fb0f2978a54d52a30b9d7103d2a5e7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9200001205}
   m_SourcePrefab: {fileID: 100100000, guid: 81fb0f2978a54d52a30b9d7103d2a5e7, type: 3}
 --- !u!114 &60000001 stripped
 MonoBehaviour:
@@ -925,6 +926,10 @@ PrefabInstance:
       propertyPath: m_TappingThumb
       value: 
       objectReference: {fileID: 4000000012}
+    - target: {fileID: 114600000, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
+      propertyPath: m_CrossingEndPoint
+      value:
+      objectReference: {fileID: 70000011}
     m_RemovedComponents:
     - {fileID: 114600001, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
     - {fileID: 114600002, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
@@ -959,6 +964,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 600000, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9300001197}
+    - targetCorrespondingSourceObject: {fileID: 600000, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9200001205}
   m_SourcePrefab: {fileID: 100100000, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
 --- !u!1 &81000000
 GameObject:
@@ -2072,7 +2080,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "마우스로 주변을 둘러보고\n중앙 조준점으로 단서를 클릭해요."
+  m_text: "주변을 가리켜 살펴봐요.\n친구를 눌러 말을 걸어요."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -2181,19 +2189,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4000000110}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4000000052}
-        m_TargetAssemblyTypeName: Y.Crosswalk.FirstSituationUI, Assembly-CSharp
-        m_MethodName: FinishCurrentObservation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &4000000112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2668,7 +2664,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "주변에서 찾은 단서를 떠올려 보세요."
+  m_text: "친구가 휴대전화를 보며 걷고 있어요."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -2829,7 +2825,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "앞에 전봇대야! 앞을 봐!"
+  m_text: "앞 봐! 전봇대야!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -2990,7 +2986,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "괜찮아, 계속 가자!"
+  m_text: "그냥 따라간다"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -3586,7 +3582,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "친구의 위치와 자세를 되돌릴게요.\n같은 장면을 다시 살펴보고 선택할 수 있어요."
+  m_text: "부딪히기 전으로 돌아가서\n친구에게 다시 말을 걸어 보세요."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -4850,7 +4846,10 @@ MonoBehaviour:
   m_Width: 0.009
   m_FadeDuration: 0.16
   m_InputSource: {fileID: 6000000001}
+  m_SecondThought: "아직 빨간불인데 친구가 건너려 하고 있어."
+  m_ThirdThought: "친구는 파란불만 보고 바로 건너려 해."
   m_PointerPriority: 0
+  m_StartsConversation: 1
 
 --- !u!4 &4000000322 stripped
 Transform:
@@ -10759,7 +10758,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -315, y: 125}
-  m_SizeDelta: {x: 585, y: 172}
+  m_SizeDelta: {x: 585, y: 114}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4000000099
 GameObject:
@@ -10787,7 +10786,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4000000099}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -255, y: 65, z: -1}
+  m_LocalPosition: {x: -255, y: 43, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10795,7 +10794,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -255, y: 65}
+  m_AnchoredPosition: {x: -255, y: 43}
   m_SizeDelta: {x: 55, y: 38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4000000103
@@ -10824,7 +10823,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4000000103}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 37, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10832,7 +10831,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 37}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 550, y: 77}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4000000107
@@ -10854,7 +10853,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4000000108
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15522,7 +15521,6 @@ MonoBehaviour:
   - {fileID: 4000000329}
   - {fileID: 4000000445}
   - {fileID: 4000000456}
-  - {fileID: 9000001126}
   - {fileID: 9000001136}
   - {fileID: 9000001240}
   - {fileID: 9100001021}
@@ -15534,8 +15532,6 @@ MonoBehaviour:
   m_DesktopObservationHUD: {fileID: 9601000001}
   m_DesktopAimMark: {fileID: 9601000010}
   m_DesktopModeHint: {fileID: 9601000023}
-  m_ObservationUI: {fileID: 4000000052}
-  m_ObservationFinishButton: {fileID: 4000000111}
 --- !u!114 &6000000002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16155,7 +16151,7 @@ GameObject:
   - component: {fileID: 9200001206}
   - component: {fileID: 9200001207}
   m_Layer: 0
-  m_Name: 두 번째 상황_횡단보도 호출 도입
+  m_Name: 두 번째 상황_동행과 빨간불 기다리기
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16243,7 +16239,7 @@ Transform:
   m_GameObject: {fileID: 9000001005}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.17716962062164926, z: 0, w: 0.984180331813627}
-  m_LocalPosition: {x: -3.2, y: 0.15, z: -4.35}
+  m_LocalPosition: {x: -1.25, y: 0.15, z: -4.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20252,24 +20248,19 @@ MonoBehaviour:
   m_First: {fileID: 4000000003}
   m_SharedUI: {fileID: 4000000052}
   m_Origin: {fileID: 4000000004}
-  m_Friend1: {fileID: 4000000005}
-  m_Friend1Performance: {fileID: 4000000046}
-  m_Friend2: {fileID: 9000001057}
-  m_Greeting: {fileID: 9000001072}
+  m_Friend: {fileID: 4000000005}
+  m_FirstPerformance: {fileID: 4000000046}
   m_Signal: {fileID: 30000001}
   m_RedSignalPoint: {fileID: 30000002}
   m_Cars:
   - {fileID: 40000001}
   m_CarEntries:
   - {fileID: 9000001012}
-  m_LegacyCommands:
-  - {fileID: 9000001059}
-  - {fileID: 60000001}
   m_Locomotion:
   - {fileID: 4000000010}
   - {fileID: 4000000011}
   m_Observations:
-  - {fileID: 9000001126}
+  - {fileID: 4000000319}
   - {fileID: 9000001136}
   - {fileID: 9000001240}
   - {fileID: 9100001021}
@@ -20277,29 +20268,20 @@ MonoBehaviour:
   m_OnObservationFinished:
     m_PersistentCalls:
       m_Calls: []
-  m_FirstPole: {fileID: 9000001061}
-  m_WalkCamera: {fileID: 4000000459}
   m_WalkAudio: {fileID: 7000000001}
   m_LeavePoint: {fileID: 9000001004}
   m_PlayerPoint: {fileID: 9000001006}
-  m_Friend1Entry: {fileID: 9000001008}
-  m_Friend1Arrival: {fileID: 9000001010}
-  m_Friend2Waiting: {fileID: 70000011}
-  m_Canvas: {fileID: 9000001014}
-  m_WalkPanel: {fileID: 9000001021}
-  m_CallPanel: {fileID: 9000001043}
-  m_ResultHold: 1.5
-  m_CallOffset: {x: -1.2, y: 0.85, z: 0}
-  m_WalkDuration: 3.5
-  m_TransitionDuration: 0.4
+  m_FriendArrival: {fileID: 70000031}
+  m_WalkSpeed: 1.55
+  m_CarReleaseDistance: 10
+  m_ResultHold: 0.8
   m_FirstStepTime: 0.14
   m_State: 0
   m_ResultUI: {fileID: 9200001207}
   m_Performance: {fileID: 9200001205}
-  m_FriendWalkAudio: {fileID: 9200001206}
   m_RetreatPoint: {fileID: 9200001192}
   m_NearMissPoint: {fileID: 9200001194}
-  m_FriendBody: {fileID: 9200001156}
+  m_FriendBody: {fileID: 4000000275}
   m_CarBody: {fileID: 9000001238}
   m_HornAudio: {fileID: 9200001169}
   m_BrakeAudio: {fileID: 9200001172}
@@ -20327,7 +20309,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_DesktopInput: {fileID: 6000000001}
 
 --- !u!1 &9100001001
 GameObject:
@@ -23502,7 +23483,7 @@ MonoBehaviour:
   m_Interactable: {fileID: 9100001020}
   m_InputSource: {fileID: 6000000001}
   m_UI: {fileID: 4000000052}
-  m_Thought: "친구가 여기로 건너오려고 하는구나."
+  m_Thought: "우리 앞에 횡단보도가 있어. 신호를 먼저 확인해야겠어."
   m_Outlines:
   - {fileID: 9100001025}
   m_Color: {r: 0.015, g: 0.1, b: 1.75, a: 1}
@@ -23794,7 +23775,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "친구에게 뭐라고 말할까요?"
+  m_text: "지금 건너도 돼?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -23894,7 +23875,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "충분히 살펴본 뒤 원하는 행동을 선택하세요."
+  m_text: "친구가 횡단보도에 한 발을 내밀어요."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -24132,7 +24113,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "① 기다려! 아직 빨간불이야!"
+  m_text: "① 잠깐, 아직 빨간불이야."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -24370,7 +24351,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "② 건너와!"
+  m_text: "② 그냥 건너가자!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -26405,7 +26386,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "아, 빨간불이었네! 고마워!"
+  m_text: "아, 그러네. 여기서 기다리자."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -26763,7 +26744,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "기다려! 아직 빨간불이야!"
+  m_text: "잠깐, 아직 빨간불이야."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -27471,7 +27452,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9200001192}
   m_Layer: 0
-  m_Name: 친구 2_인도 안쪽 대기
+  m_Name: 공통 친구_가까운 인도 안쪽 대기
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27485,13 +27466,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9200001191}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.98631, z: 0, w: -0.16491}
-  m_LocalPosition: {x: 0, y: 0.15, z: 4.95}
+  m_LocalRotation: {x: 0, y: -0.707106781, z: 0, w: 0.707106781}
+  m_LocalPosition: {x: 0, y: 0.15, z: -4.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9000001002}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!1 &9200001193
 GameObject:
   m_ObjectHideFlags: 0
@@ -27502,7 +27483,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9200001194}
   m_Layer: 0
-  m_Name: 친구 2_차량 앞 횡단 제한
+  m_Name: 공통 친구_빨간불 위험 접근 제한
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27734,35 +27715,35 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9000001056}
+  m_GameObject: {fileID: 4000000047}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 045ca51f7f8f4ea1986d372a0188bcde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.SecondSituationCharacterPerformance
-  m_Movement: {fileID: 9000001057}
-  m_Animator: {fileID: 9200001155}
-  m_Hips: {fileID: 9000001077}
-  m_Spine: {fileID: 9000001078}
-  m_Chest: {fileID: 9000001066}
-  m_Head: {fileID: 9000001065}
+  m_Movement: {fileID: 4000000005}
+  m_Animator: {fileID: 4000000006}
+  m_Hips: {fileID: 4000000031}
+  m_Spine: {fileID: 4000000032}
+  m_Chest: {fileID: 4000000033}
+  m_Head: {fileID: 4000000018}
   m_Arms:
-  - {fileID: 9000001083}
-  - {fileID: 9000001067}
+  - {fileID: 4000000034}
+  - {fileID: 4000000036}
   m_Forearms:
-  - {fileID: 9000001084}
-  - {fileID: 9000001068}
+  - {fileID: 4000000035}
+  - {fileID: 4000000037}
   m_Thighs:
-  - {fileID: 9000001101}
-  - {fileID: 9000001121}
+  - {fileID: 4000000038}
+  - {fileID: 4000000040}
   m_Shins:
-  - {fileID: 9000001102}
-  - {fileID: 9000001122}
+  - {fileID: 4000000039}
+  - {fileID: 4000000041}
   m_Feet:
-  - {fileID: 9000001103}
-  - {fileID: 9000001123}
-  m_SurpriseMouth: {fileID: 9200001157}
-  m_Footsteps: {fileID: 9200001190}
+  - {fileID: 4000000042}
+  - {fileID: 4000000043}
+  m_SurpriseMouth: {fileID: 4000000021}
+  m_Footsteps: {fileID: 7000000130}
   m_StepDuration: 0.34
 --- !u!114 &9200001206
 MonoBehaviour:
@@ -27870,7 +27851,7 @@ Transform:
   m_GameObject: {fileID: 9300001004}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.707106781, z: 0, w: 0.707106781}
-  m_LocalPosition: {x: 28, y: 0, z: 1.75}
+  m_LocalPosition: {x: 36, y: 0, z: 1.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27932,7 +27913,7 @@ Transform:
   m_GameObject: {fileID: 9300001008}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.707106781, z: 0, w: 0.707106781}
-  m_LocalPosition: {x: 16.5, y: 0, z: 1.75}
+  m_LocalPosition: {x: 30, y: 0, z: 1.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27963,7 +27944,7 @@ Transform:
   m_GameObject: {fileID: 9300001010}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.707106781, z: 0, w: 0.707106781}
-  m_LocalPosition: {x: 0, y: 0.016, z: 3.28}
+  m_LocalPosition: {x: 0, y: 0.016, z: 0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28278,7 +28259,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "파란불! 이제 건너도 될까요?"
+  m_text: "파란불이다! 이제 건너갈까?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -28378,7 +28359,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "자동차와 친구, 신호를 살펴본 뒤 선택해요."
+  m_text: "파란불이 켜졌어요. 차는 멈췄을까요?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -28616,7 +28597,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "① 잠깐! 차가 지나갈 때까지 기다려!"
+  m_text: "① 잠깐, 저 차부터 보내자."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -28854,7 +28835,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "② 파란불이야! 건너와!"
+  m_text: "② 파란불이야! 바로 건너가자!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -29834,7 +29815,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "세 번째 상황으로 돌아갈게요.\n자동차와 친구를 다시 살펴보세요."
+  m_text: "차가 다가오던 순간으로 돌아가서\n친구에게 다시 말을 걸어 보세요."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -31248,7 +31229,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "잠깐! 저 차가 지나갈 때까지 기다려!"
+  m_text: "잠깐, 저 차부터 보내자."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -31958,17 +31939,15 @@ MonoBehaviour:
   m_Thought: {fileID: 9300001173}
   m_ThoughtText: {fileID: 9300001185}
   m_Viewer: {fileID: 6000000003}
+  m_Origin: {fileID: 4000000004}
   m_Observations:
-  - {fileID: 9000001126}
+  - {fileID: 4000000319}
   - {fileID: 9000001136}
   - {fileID: 9000001240}
   - {fileID: 9100001021}
-  m_Friend1: {fileID: 4000000005}
-  m_Friend1Performance: {fileID: 4000000046}
-  m_Friend1Greeting: {fileID: 9300001197}
-  m_Friend2: {fileID: 9000001057}
+  m_Friend: {fileID: 4000000005}
   m_Performance: {fileID: 9200001205}
-  m_WalkAudio: {fileID: 9200001206}
+  m_WalkAudio: {fileID: 7000000001}
   m_Car: {fileID: 40000001}
   m_CarBody: {fileID: 9000001238}
   m_Signal: {fileID: 30000001}
@@ -31978,14 +31957,10 @@ MonoBehaviour:
   m_CarSignalChangePoint: {fileID: 9300001009}
   m_CarApproachSpeed: 8
   m_CrosswalkHalfWidth: 1.9
-  m_CurbPoint: {fileID: 70000011}
+  m_CurbPoint: {fileID: 70000031}
   m_NearMissPoint: {fileID: 9300001011}
-  m_ArrivalPoint: {fileID: 70000031}
   m_CheckLeft: {fileID: 9300001013}
   m_CheckRight: {fileID: 9300001015}
-  m_PreviousWaitingPoint: {fileID: 9200001192}
-  m_SecondResultHold: 1.8
-  m_TransitionDuration: 0.18
   m_ResultDuration: 4
   m_State: 0
   m_Completed: 0
@@ -33061,7 +33036,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "마우스로 주변을 둘러보고,\n궁금한 물건을 클릭하면 생각을 확인할 수 있어요."
+  m_text: "마우스로 둘러보고 중앙에 맞춰 클릭해요.\n단서는 조사하고, 친구를 눌러 말을 걸어요."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -35925,7 +35900,6 @@ MonoBehaviour:
   m_Title: {fileID: 9500001009}
   m_Instructions: {fileID: 9500001031}
   m_Distance: 2.5
-  m_Friend2: {fileID: 9000001057}
   m_Car: {fileID: 40000001}
   m_Signal: {fileID: 30000001}
   m_State: 0
@@ -36387,7 +36361,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "차가 완전히 지나가고 주변을 확인한 뒤\n친구들과 안전하게 다시 만났어요!"
+  m_text: "차가 완전히 지나가고 주변을 확인한 뒤\n친구와 함께 안전하게 건넜어요!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
@@ -36887,7 +36861,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "중앙 + 조준 · 좌클릭: 조사/버튼  |  탭: 커서  |  스페이스: 관찰 완료"
+  m_text: "중앙 조준 · 좌클릭: 단서 조사 / 친구에게 말 걸기"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}

@@ -54,7 +54,10 @@ namespace Y.Crosswalk // 기존 관찰 UI와 같은 월드 공간 입력 구성�
         } // 중요한 도로와 캐릭터를 계속 둘러볼 수 있습니다.
 
         public void ShowChoice() { HideAll(); PlaceAnchor(); m_Choice.Show(true); } // 시간 제한 없이 두 행동과 다시 관찰하기를 표시합니다.
-        public void ShowWarning() { HideAll(); PlaceAnchor(); m_Warning.Show(true); } // 안전 선택의 경고 문구를 낮은 위치의 실제 말풍선으로 표시합니다.
+        public void ShowWarning(Vector3 friendHeadPosition) // 플레이어의 제지 대사를 중요 단서와 떨어진 말풍선으로 표시합니다.
+        { // 기존 말풍선 배치가 친구와 접근 차량의 화면 영역을 피합니다.
+            HideAll(); m_SharedLayout.ShowDialogue(m_Warning, friendHeadPosition); // 현재 상황의 경고 패널만 공유 배치에 전달합니다.
+        } // 경고가 끝나면 같은 패널의 기존 퇴장 효과를 사용합니다.
         public void ShowSafe() { HideAll(); if (m_OverallSummary != null) PlaceCompletionAnchor(); else PlaceAnchor(); m_Safe.Show(true); m_SharedLayout.PlaySuccessCue(); } // 두 번째와 세 번째의 실제 완료 패널에 공유 성공 광채와 차임을 맞춰 표시합니다.
         public void ShowUnsafe() { HideAll(); PlaceAnchor(); m_Unsafe.Show(true); m_Retry.Show(true); } // 사고 원인과 빠른 재시도 버튼을 함께 표시합니다.
 

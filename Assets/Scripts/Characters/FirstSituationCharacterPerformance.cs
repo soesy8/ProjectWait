@@ -1,4 +1,4 @@
-﻿using System.Collections; // 충돌과 감사 동작을 순서대로 재생하고 상황 제어기에서 종료를 기다립니다.
+using System.Collections; // 충돌과 감사 동작을 순서대로 재생하고 상황 제어기에서 종료를 기다립니다.
 using UnityEngine; // 기존 골격 Transform과 Animator의 자세를 재사용합니다.
 
 namespace Y.Crosswalk // 첫 번째 상황의 캐릭터 연출을 기존 개인 작업 영역에 둡니다.
@@ -34,7 +34,8 @@ namespace Y.Crosswalk // 첫 번째 상황의 캐릭터 연출을 기존 개인 
         private Quaternion[] m_CheckpointRotations, m_ImpactRotations; // 재시도 자세와 충돌 직전 자세를 따로 보관합니다.
         private Vector3[] m_ImpactPositions, m_ImpactScales; // 충격 연출의 기준 자세를 매 프레임 복원하여 누적 변형을 막습니다.
         private Vector3 m_ImpactRootPosition, m_Backward; // 실제 접촉 위치와 뒤로 물러날 수평 방향을 보관합니다.
-        private float m_ImpactTime, m_SafeTime; // 전역 시간 배율과 무관한 이 친구의 연출 시간입니다.
+        private const float k_NoticeDuration = 0.85f; // 전봇대 경고를 들은 친구가 휴대전화를 내리고 위험을 알아차리는 짧은 반응 길이입니다.
+        private float m_ImpactTime, m_SafeTime; // 충돌과 경고 반응의 관절 연출 시간을 각각 추적합니다.
         private bool m_ImpactPlaying, m_SafePlaying, m_TurnPlaying; // 충돌·감사·돌아서기 중 현재 연출에 필요한 관절 처리만 실행합니다.
         private readonly Vector3[] m_TurnFootPositions = new Vector3[2]; // 왼발과 오른발이 마지막으로 디딘 월드 위치를 각각 유지합니다.
         private readonly Quaternion[] m_TurnFootRotations = new Quaternion[2]; // 지지하는 발의 방향이 루트 회전에 끌려 돌지 않게 합니다.
@@ -103,7 +104,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 캐릭터 연출을 기존 개인 
             m_Phone.SetScenarioPhoneReleased(true); m_SafePhase = SafePhase.Notice; // 고개와 전화가 내려오며 위험을 확인한 뒤에는 화면을 다시 보지 않게 합니다.
             m_Movement.TryStop(pole.transform); // 위험 지점 전에 발걸음을 멈추고 실제 전봇대를 바라봅니다.
             m_SafePlaying = true; m_SafeTime = 0f; // 놀람에서 감사로 이어지는 연출을 시작합니다.
-            while (m_SafeTime < 1.15f) // 먼저 전화에서 고개를 들고 전봇대를 발견하는 동작만 보여 줍니다.
+            while (m_SafeTime < k_NoticeDuration) // 휴대전화를 내리는 동안의 반응만 보여 주고 이어서 전봇대를 피해 걷습니다.
             { // 같은 경고 선택이 연출을 재시작하지 않게 상태 제어기에서 입력을 잠급니다.
                 m_SafeTime += Time.unscaledDeltaTime; // 놀람의 길이를 실제 경과 시간으로 유지합니다.
                 yield return null; // 기존 Animator와 전화 내리기 보간을 계속 적용합니다.
@@ -121,30 +122,22 @@ namespace Y.Crosswalk // 첫 번째 상황의 캐릭터 연출을 기존 개인 
             float deadline = Time.unscaledTime + distance / Mathf.Max(0.3f, m_SafeWalkSpeed) * 2f + 2f; // 가속·감속을 포함한 실제 거리 기반 대기 상한입니다.
             while (m_Movement.IsScenarioDetouring && Time.unscaledTime < deadline) yield return null; // 정상 보행은 실제 마지막 도착으로 끝냅니다.
             if (m_Movement.IsScenarioDetouring || Vector3.Distance(transform.position, m_SafeWaypoints[m_SafeWaypoints.Length - 1].position) > 0.08f) { m_SafePhase = SafePhase.None; yield break; } // 실패를 감사·완료로 건너뛰지 않고 기존 관찰로 복원합니다.
-            m_SafePhase = SafePhase.Turning; // 멈춘 자리에서 몸 방향만 플레이어 쪽으로 돌려 감사로 연결합니다.
-            Vector3 direction = Vector3.ProjectOnPlane(viewer.position - transform.position, Vector3.up); // 실제 관찰자 방향에서 머리 높이를 제외합니다.
-            if (direction.sqrMagnitude > 0.001f && Vector3.Angle(transform.forward, direction) > 5f) // 실제로 돌아설 각도가 있을 때만 제자리 발 디딤을 시작합니다.
-            { // 루트 방향은 기존 이동기가 맡고 이 연출은 발 접지와 관절 움직임을 연결합니다.
-                BeginTurnSteps(direction); float turnDeadline = Time.unscaledTime + Vector3.Angle(transform.forward, direction) / m_Movement.ScenarioTurnSpeed + 0.6f; // 실제 몸 회전 속도에 맞는 발 디딤 완료 상한입니다. // 현재 양발의 접지 위치에서 자연스럽게 첫 발을 떼게 합니다.
-                while (direction.sqrMagnitude > 0.001f && Vector3.Angle(transform.forward, direction) > 5f && Time.unscaledTime < turnDeadline) // 플레이어를 향하는 동안 양발을 번갈아 옮깁니다.
-                { // 카메라와 캐릭터 위치는 움직이지 않습니다.
-                    m_TurnLookDirection = direction; m_Movement.FaceScenarioTarget(viewer); // 몸의 기존 회전 목표와 머리가 먼저 바라볼 방향을 함께 갱신합니다.
-                    yield return null; // 기존 이동기의 루트 회전과 이번 프레임의 발 접지를 기다립니다.
-                    direction = Vector3.ProjectOnPlane(viewer.position - transform.position, Vector3.up); // 실제 플레이어 위치를 기준으로 남은 방향 차이를 구합니다.
-                } // 몸이 돌아선 순간에도 들고 있는 발을 바로 대기 자세로 바꾸지 않습니다.
-                if (Vector3.Angle(transform.forward, direction) > 5f) { m_TurnPlaying = false; m_SafePhase = SafePhase.None; yield break; } // 회전 실패를 성공으로 기록하지 않습니다.
-                m_TurnSettleSteps = 1; // 몸이 돌아선 뒤 다음 한 번의 착지만 마치고 감사로 이어갑니다. // 현재 들고 있는 발과 반대 발을 순서대로 새 정면에 내려놓습니다.
-                float settleDeadline = Time.unscaledTime + m_TurnStepDuration + 0.1f; // 마지막 착지 대기가 무기한 남지 않게 합니다.
-                while (!m_TurnFeetSettled && Time.unscaledTime < settleDeadline) yield return null; // 양발 디딤 두 번을 추가로 반복하지 않습니다. // 두 발이 모두 내려오기 전에는 감사 손짓으로 넘어가지 않습니다.
-                m_TurnPlaying = false; // 접지가 끝난 뒤 기존 대기 자세와 감사 연출로 제어를 넘깁니다.
-            } // 기존 얼굴의 미소가 플레이어에게 보이는 구도에서 인사합니다.
-            m_SafePhase = SafePhase.Thanks; m_SafePlaying = true; m_SafeTime = 1.2f; // 감사 말풍선과 기존 오른팔 손짓을 같은 시점에서 시작합니다.
-            BlenderRigPose.PlayFace(m_Head, 1.8f, 4.2f); // 감사할 때 입과 눈을 움직이고 안전 완료 화면까지 웃는 표정을 이어갑니다.
-            onThank?.Invoke(); // 감사 단계에 도달한 바로 이 지점에서 대사를 표시하고 보행 소리를 멈추도록 알립니다.
-            while (m_SafeTime < 4f) { m_SafeTime += Time.unscaledDeltaTime; yield return null; } // 미소·끄덕임·손 흔들기를 충분히 보여 줍니다.
-            m_SafePlaying = false; BlenderRigPose.SetSurprise(m_Head, m_SurpriseMouth, false); // 다음 프레임부터 기존 대기 애니메이션에 제어를 돌려줍니다.
-            m_SafePhase = SafePhase.Finished; // 실제 회피와 감사가 모두 끝난 경우에만 완료 상태를 제공합니다.
-        } // 두 번째 상황을 시작하거나 친구 2에게 명령하지 않습니다.
+            m_SafePhase = SafePhase.Turning; // 회피를 마친 친구의 짧은 돌아보기 동작을 준비합니다.
+            Vector3 direction = Vector3.ProjectOnPlane(viewer.position - transform.position, Vector3.up); // 플레이어 쪽 수평 방향을 계산합니다.
+            if (direction.sqrMagnitude > 0.001f && Vector3.Angle(transform.forward, direction) > 5f) // 플레이어와 같은 방향을 보고 있다면 바로 감사 대사를 표시합니다.
+            { // 필요한 경우에만 기존 발 디딤 동작을 적용합니다.
+                BeginTurnSteps(direction); m_Movement.FaceScenarioTarget(viewer); // 친구만 플레이어 쪽으로 몸을 돌립니다.
+                float turnDeadline = Time.unscaledTime + 0.45f; // 제자리 회전 때문에 이미 성공한 상황의 진행이 오래 지연되지 않게 합니다.
+                while (Vector3.Angle(transform.forward, direction) > 5f && Time.unscaledTime < turnDeadline) yield return null; // 기존 회전이 계속되더라도 짧은 몸짓 뒤에는 대사를 시작합니다.
+                m_TurnPlaying = false; // 회전 발 디딤 자세를 끝내고 다음 보행에 남기지 않습니다.
+            } // 실제 우회 지점 도착으로 이미 회피 성공을 판정했습니다.
+            m_SafePhase = SafePhase.Thanks; m_SafePlaying = true; m_SafeTime = 1.2f; // 기존 감사 표정이 나타나는 시점부터 짧게 재생합니다.
+            BlenderRigPose.PlayFace(m_Head, 0.95f, 4.2f); // 말하는 얼굴이 다음 보행까지 계속되지 않게 대사 표시 시간에 맞춥니다.
+            onThank?.Invoke(); // 첫 상황의 기존 감사 말풍선을 표시합니다.
+            while (m_SafeTime < 2.15f) { m_SafeTime += Time.unscaledDeltaTime; yield return null; } // 긴 동작 종료를 기다리지 않고 대사를 읽을 시간만 확보합니다.
+            m_SafePlaying = false; BlenderRigPose.SetSurprise(m_Head, m_SurpriseMouth, false); // 다음 보행 전에 기존 놀람과 감사 자세를 정리합니다.
+            m_SafePhase = SafePhase.Finished; // 실제 회피가 끝났음을 첫 상황 제어기에 넘깁니다.
+        } // 같은 친구가 다음 인도 경로를 이어갈 수 있습니다.
 
         private bool HasPoleClearance(Vector3 start, Vector3 destination, Collider pole) // 현재 위치에서 다음 우회 지점까지 기둥과 충분한 간격을 유지하는지 계산합니다.
         { // 도착점이 떨어져 있어도 중간 경로가 기둥을 통과하는 경우에는 걷기를 시작하지 않습니다.
@@ -181,8 +174,14 @@ namespace Y.Crosswalk // 첫 번째 상황의 캐릭터 연출을 기존 개인 
             else if (m_TurnPlaying) ApplyTurnSteps(); // 돌아서는 동안에는 지지발을 고정하고 반대 발을 들어 새 방향에 내려놓습니다.
             else if (m_SafePlaying) // 경고 뒤의 놀람과 감사 손짓입니다.
             { // 기존 정지·휴대전화 해제와 함께 얼굴과 오른손만 조절합니다.
-                BlenderRigPose.SetSurprise(m_Head, m_SurpriseMouth, m_SafeTime > 0.2f && m_SafeTime < 1.15f); // 앞의 위험을 깨달은 짧은 놀람 후 기존 미소로 돌아갑니다.
-                if (m_SafeTime > 1.2f) // 팔과 고개가 먼저 올라온 뒤 감사 동작을 보여 줍니다.
+                BlenderRigPose.SetSurprise(m_Head, m_SurpriseMouth, m_SafePhase == SafePhase.Notice && m_SafeTime > 0.14f); // 휴대전화에서 시선을 떼고 전봇대를 알아차린 동안 놀란 표정을 보여 줍니다.
+                if (m_SafePhase == SafePhase.Notice) // 경고를 들은 직후에는 기존 전화 내리기에 상체와 고개의 반응을 더합니다.
+                { // 발이 멈춘 자리에서 화면을 보던 자세를 풀고 앞을 확인합니다.
+                    float reaction = Mathf.Sin(Mathf.PI * Mathf.Clamp01(m_SafeTime / k_NoticeDuration)); // 몸을 짧게 젖혔다가 우회 보행 전에 기본 자세로 돌립니다.
+                    Rotate(m_Spine, -8f * reaction, 0f, 0f); // 전봇대를 보고 몸을 살짝 뒤로 빼는 동작을 표현합니다.
+                    Rotate(m_Head, -12f * reaction, 0f, 0f); // 휴대전화를 내리는 동안 친구가 고개를 들어 앞을 봅니다.
+                } // 반응이 끝나면 기존 발걸음으로 전봇대를 피해 이동합니다.
+                else if (m_SafePhase == SafePhase.Thanks && m_SafeTime > 1.2f) // 전봇대를 피한 뒤에는 기존 감사 손짓과 끄덕임을 보여 줍니다.
                 { // 손짓의 앞뒤를 부드럽게 섞습니다.
                     float blend = Mathf.SmoothStep(0f, 1f, Mathf.Min((m_SafeTime - 1.2f) / 0.35f, (4f - m_SafeTime) / 0.45f)); // 손을 들고 내리는 양끝의 급격한 회전을 줄입니다.
                     m_RightArm.localRotation = Quaternion.Slerp(m_RightArm.localRotation, BlenderRigPose.LocalRotation(m_RightArm, Quaternion.Euler(-18f, 0f, -30f)), blend); // 오른손을 보기 편한 높이로 들어 올립니다.

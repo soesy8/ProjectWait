@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic; // 말풍선 한 번의 배치 동안 UI 및 관찰 대상의 화면 영역을 재사용합니다.
 using TMPro; // 씬에 미리 제작된 선명한 한국어 UI 텍스트를 사용합니다.
 using UnityEngine; // 월드 공간 UI의 배치와 포함 글꼴 리소스를 관리합니다.
-using UnityEngine.Events; // 같은 관찰 완료 버튼을 현재 상황의 완료 처리에만 연결합니다.
+using UnityEngine.Events; // 친구에게 말을 걸었을 때 현재 상황의 선택지를 여는 콜백을 사용합니다.
 
 namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리합니다.
 { // UI 오브젝트는 모두 씬에 저장하며 실행 중에는 표시 상태만 바꿉니다.
@@ -57,12 +57,17 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
         private bool m_BubbleHasBounds; // 단서 크기가 전달된 경우에만 전체 대상을 보호합니다. // 실제 관찰 안내 패널을 화면에 투영할 네 모서리입니다.
         private readonly List<Rect> m_OccupiedUIAreas = new List<Rect>(); // 후보마다 투영을 반복하지 않고 화면에 보이는 패널 영역을 한 번만 수집합니다.
         private readonly List<Rect> m_ProtectedWorldAreas = new List<Rect>(); // 친구 얼굴·휴대전화·신호등 등 보호할 세계 오브젝트 영역을 한 번만 계산합니다.
-        private UnityAction m_FinishObservation; // 현재 관찰을 연 상황의 콜백만 보관하여 전봇대와 횡단보도의 선택 흐름이 섞이지 않게 합니다.
+        private UnityAction m_FriendConversation; // 관찰 중인 상황에서 친구에게 말을 걸면 실행할 선택지 연결입니다.
+        private Vector3 m_ObservationLocalPosition; // VR과 숨김 상태에서 되돌릴 안내창의 씬 배치입니다.
+        private Quaternion m_ObservationLocalRotation; // PC용 배치가 끝나면 기존 월드 UI의 방향을 복원합니다.
+        private bool m_ObservationInViewport; // PC에서 조작 안내를 화면 가장자리로 옮긴 경우만 복원합니다.
 
         private void Awake() // 실제 씬 UI의 연결과 한글 표시를 준비합니다.
         { // 패널·텍스트·버튼 오브젝트를 실행 중 생성하지 않습니다.
             m_Panels = new[] { m_Guidance, m_Closeup, m_Observation, m_Thought, m_Choice, m_Unsafe, m_Safe, m_Thanks, m_Retry }; // 전환막은 다른 패널과 독립적으로 페이드합니다.
-            m_Viewer = m_Anchor.GetComponent<Canvas>().worldCamera; // 씬에 이미 지정된 입력·표시 카메라를 공유하고 별도 카메라를 만들지 않습니다.
+            m_Viewer = m_Anchor.GetComponent<Canvas>().worldCamera; // 월드 패널과 같은 카메라를 화면 배치 기준으로 사용합니다.
+            m_ObservationLocalPosition = m_Observation.transform.localPosition; // 관찰 안내의 씬에 저장된 위치를 보관합니다.
+            m_ObservationLocalRotation = m_Observation.transform.localRotation; // PC 모드가 끝나면 되돌릴 안내 방향을 보관합니다.
             m_FadeProperties = new MaterialPropertyBlock(); m_ImmersiveFade.enabled = false; // 씬에 저장한 전체 시야 전환막은 필요할 때만 표시합니다.
             m_ActiveFadeDuration = m_FadeDuration; // 기존 첫 번째 상황의 짧은 전환 시간을 기본값으로 유지합니다.
             foreach (TMP_Text label in m_Texts) // 에디터와 실행 중에 동일한 Noto 한국어 글꼴 및 머티리얼 연결을 유지합니다.
@@ -84,7 +89,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
         public void HideAll() // 현재 상황의 추가 말풍선까지 숨기고 다음 관찰 연결을 비웁니다.
         { // 원래 첫 번째·두 번째 패널 구성은 그대로 유지합니다.
             if (m_PlacedBubble != null) m_PlacedBubble.Show(false); m_PlacedBubble = null; // 다른 상황의 감사·호출 말풍선도 단계 종료와 함께 숨깁니다.
-            m_FinishObservation = null; if (m_ContextThought != null && m_ContextThought != m_Thought) m_ContextThought.Show(false); // 세 번째 상황의 실제 말풍선도 퇴장시킵니다.
+            m_FriendConversation = null; if (m_ContextThought != null && m_ContextThought != m_Thought) m_ContextThought.Show(false); // 상황이 끝나면 친구 대화 입력과 현재 말풍선을 함께 정리합니다.
             foreach (FirstSituationPanel panel in m_Panels) if (panel != null) panel.Show(false); // 원래 파스텔 패널의 표시를 정리합니다.
             m_ContextThought = m_Thought; m_ContextThoughtText = m_ThoughtText; // 다음 기본 관찰은 기존 말풍선으로 시작합니다.
         } // 첫 번째·두 번째 관찰 문구를 덮어쓰지 않습니다.
@@ -96,27 +101,35 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             m_IntroductionHeading.SetActive(introduction); m_IntroductionCaption.SetActive(introduction); // 자동 보행 도입에서만 도입 문구를 표시합니다.
             m_CloseupHeading.SetActive(!introduction); m_CloseupCaption.SetActive(!introduction); // 이후 전화 클로즈업 문구로 전환합니다.
         } // 문구 내용과 글자 크기는 각 TMP 오브젝트에 저장된 값을 사용합니다.
-        public void ShowObservation(UnityAction onFinished, FirstSituationPanel thoughtPanel = null, TMP_Text thoughtText = null) // 실제 씬에 배치한 관찰 안내와 완료 버튼을 두 상황이 함께 사용합니다.
+        public void ShowObservation(UnityAction onTalkToFriend, FirstSituationPanel thoughtPanel = null, TMP_Text thoughtText = null) // 주변 조사 안내를 띄우고 같은 친구의 클릭을 현재 상황에 연결합니다.
         { // 관찰 문구와 결과 선택지는 상황 제어기가 각각 소유합니다.
-            HideAll(); // 이전 상황의 생각과 선택지를 숨기고 남아 있는 완료 연결을 비웁니다.
+            HideAll(); // 이전 결과와 대화를 닫고 이번 상황에 맞는 관찰부터 시작합니다.
             m_ContextThought = thoughtPanel != null ? thoughtPanel : m_Thought; m_ContextThoughtText = thoughtText != null ? thoughtText : m_ThoughtText; // 세 번째 상황도 실제 씬에 저장된 말풍선을 같은 표시 규칙에 연결합니다.
-            m_FinishObservation = onFinished; // 이번에 관찰을 시작한 상황의 다음 단계만 버튼에 연결합니다.
+            m_FriendConversation = onTalkToFriend; // 친구를 직접 선택했을 때 열어야 할 현재 상황의 선택지를 기억합니다.
             m_Observation.Show(true); // 기존 파스텔 안내 패널을 시간 제한 없이 표시합니다.
             BeginCue(new Color(0.14f, 0.48f, 1f, 0.65f), 0.8f, m_ObservationClip); // 관찰이 시작된 순간에만 파란 주변광과 짧은 차임으로 입력 가능한 단계를 알립니다.
         } // 단서를 모두 조사했는지는 완료 조건으로 사용하지 않습니다.
-        public void FinishCurrentObservation() // 기존 관찰 완료 버튼의 Inspector 이벤트가 호출하는 공통 진입점입니다.
-        { // 중복 클릭이나 퇴장 중 입력으로 같은 전환이 두 번 실행되지 않게 합니다.
-            UnityAction finish = m_FinishObservation; // 현재 상황이 등록한 완료 연결을 이번 호출에만 보관합니다.
-            m_FinishObservation = null; // 다음 단계의 UI를 열기 전에 현재 관찰의 연결부터 해제합니다.
-            finish?.Invoke(); // 실제 관찰을 소유한 상황만 자신의 상태 조건에 따라 다음 단계로 전환합니다.
-        } // 다른 상황의 선택 패널이나 사고 연출은 직접 호출하지 않습니다.
+        public bool BeginFriendConversation() // 마우스와 XR의 친구 선택을 현재 상황의 행동 선택으로 연결합니다.
+        { // 활성 관찰에 등록된 대화만 한 번 실행합니다.
+            UnityAction conversation = m_FriendConversation; // 현재 상황이 등록한 선택 진입점을 이 호출에 보관합니다.
+            if (conversation == null) return false; // 대화 연결이 끝난 상태의 클릭은 소비하지 않습니다.
+            m_FriendConversation = null; // 선택지로 전환하기 전에 중복 클릭 연결을 비웁니다.
+            conversation.Invoke(); // 전봇대·빨간불·파란불 제어기가 각각 자신의 선택 패널을 엽니다.
+            return true; // PC 입력은 대화가 열렸을 때 바로 선택용 커서를 표시합니다.
+        } // 다시 둘러보기를 선택하면 관찰 진입에서 대화를 새로 연결합니다.
+
+        public void ShowFriendDialogue(string line, Vector3 headPosition) // 지금 관찰 중인 상황에 친구가 먼저 건네는 대사를 표시합니다.
+        { // 기존 말풍선 글꼴과 위치 배치 규칙을 사용합니다.
+            m_ContextThoughtText.text = line; // 관찰 진입 직후에는 친구의 첫마디를 표시하고, 단서를 선택하면 그 단서의 생각으로 바꿉니다.
+            ShowDialogue(m_ContextThought, headPosition); // 현재 상황의 말풍선을 친구 얼굴을 피하는 위치에 띄웁니다.
+        } // 친구를 누를 수 있는 상태에서 대사를 읽으며 주변도 조사할 수 있습니다.
         public void ShowThought(string thought, Vector3 hitPosition, Bounds bounds) // 실제 클릭한 지점 옆에 해당 관찰 대상의 생각을 표시합니다.
         { // 선택 패널 전체를 시야 중앙으로 옮기지 않고 생각 말풍선만 배치합니다.
             m_ContextThoughtText.text = thought; // 기존 씬 텍스트에 선택한 단서의 문구를 반영합니다.
             TrackBubble(m_ContextThought, hitPosition, bounds, true); // 선택 대상의 실제 크기까지 고려하여 같은 말풍선을 배치합니다. // 마우스 클릭 또는 VR 레이가 닿은 위치를 기준으로 말풍선을 놓습니다.
             m_ContextThought.Show(true); // 기존 둥근 말풍선의 부드러운 등장 효과를 사용합니다.
         } // 다른 패널의 Inspector 위치와 실제 관찰 대상은 변경하지 않습니다.
-        public void ShowChoice() { HideAll(); PlaceInFront(m_Viewer.transform); m_Choice.Show(true); } // 관찰을 마친 뒤에만 두 행동을 제시합니다.
+        public void ShowChoice() { HideAll(); PlaceInFront(m_Viewer.transform); m_Choice.Show(true); } // 친구에게 말을 걸면 기존 전봇대 선택지 두 개를 표시합니다.
         public void ShowUnsafe() { HideAll(); PlaceInFront(m_Viewer.transform); m_Unsafe.Show(true); m_Retry.Show(true); } // 사고 원인과 관찰 복원 안내를 함께 표시합니다.
         public void ShowSafe() { HideAll(); PlaceInFront(m_Viewer.transform); m_Safe.Show(true); PlaySuccessCue(); } // 실제 안전 완료 패널과 같은 시점에 성공 광채와 차임을 재생합니다.
         public void ShowDialogue(FirstSituationPanel panel, Vector3 headPosition) // 두 번째·세 번째 대사도 동일한 배치 규칙을 사용합니다.
@@ -168,7 +181,8 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
 
         private float LayoutCost(Vector2 center, Vector2 half, Vector2 preferred) // 미리 계산한 화면 영역과 현재 말풍선 후보의 겹침을 비교합니다.
         { // 배치 후보 수가 증가해도 WorldToViewportPoint 호출 횟수가 함께 늘지 않습니다.
-            Rect area = new Rect(center - half, half * 2f); float cost = (center - preferred).sqrMagnitude * 0.15f; // 클릭 위치와 가까운 후보를 선호합니다.
+            Rect area = new Rect(center - half, half * 2f); float cost = (center - preferred).sqrMagnitude * 0.15f; // 말풍선이 가리키는 단서와의 거리를 배치 비용으로 사용합니다.
+            cost += OverlapArea(area, new Rect(0.32f, 0.27f, 0.36f, 0.46f)) * 35f; // 보호 대상과 안내창을 피하면서도 중앙 조준점과 주요 연출은 비워 둡니다.
             foreach (Rect occupied in m_OccupiedUIAreas) cost += OverlapArea(area, occupied) * 1000f; // 선택·안내·결과 화면은 우선적으로 피합니다.
             for (int i = 0; i < m_ProtectedWorldAreas.Count; ++i) cost += OverlapArea(area, m_ProtectedWorldAreas[i]) * (m_BubbleHasBounds && i == 0 ? 180f : 65f); // 선택 대상과 친구 얼굴을 더 강하게 보호해 글자가 사물 위를 덮는 후보를 뒤로 미룹니다.
             return cost; // 공간이 좁을 때도 겹침이 가장 적은 위치를 반환합니다.
@@ -195,10 +209,28 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             panel.transform.SetPositionAndRotation(Vector3.Lerp(panel.transform.position, position, blend), Quaternion.Slerp(panel.transform.rotation, m_Viewer.transform.rotation, blend)); // 실제 월드 패널만 조정하고 XR 추적은 유지합니다.
         } // 생각·감사·호출에 동일한 규칙을 적용합니다.
 
-        private void LateUpdate() // 현재 보이는 말풍선만 카메라 시야 안에서 부드럽게 유지합니다.
-        { // 숨겨진 이전 단계 UI는 다시 나타내거나 이동시키지 않습니다.
-            if (m_PlacedBubble != null && m_PlacedBubble.WantsVisible) PlaceTrackedBubble(false); // 마우스 회전 뒤에도 말풍선이 화면 밖에 남지 않게 합니다.
-        } // 제한 시간이나 자동 선택을 추가하지 않습니다.
+        private void LateUpdate() // 시점이 갱신된 뒤 안내창과 말풍선의 화면 위치를 정합니다.
+        { // 말풍선은 이동한 안내창을 가림 영역으로 읽습니다.
+            if (m_Observation.WantsVisible && m_InputSource != null && m_InputSource.IsDesktopActive) // PC에서 둘러보는 동안에도 안내창을 중앙 조준점 밖에 유지합니다.
+            { // 이미 배치한 관찰 안내를 화면 왼쪽 아래에 맞춥니다.
+                m_ObservationInViewport = true; m_Observation.SetLayoutScale(1f); // 씬 원래 크기를 기준으로 화면에 맞는 배율을 새로 계산합니다.
+                Vector2 size = m_Observation.GetVisibleWorldSize(); // 버튼과 문구를 포함한 실제 월드 크기를 읽습니다.
+                const float depth = 2.15f; // 기존 안내창과 비슷한 읽기 거리를 유지합니다.
+                Vector3 corner = m_Viewer.ViewportToWorldPoint(new Vector3(0f, 0f, depth)); // 같은 깊이에서 화면 왼쪽 아래의 위치를 구합니다.
+                Vector3 upper = m_Viewer.ViewportToWorldPoint(new Vector3(1f, 1f, depth)) - corner; // 카메라 기준으로 사용할 가로·세로 표시 범위입니다.
+                float width = Vector3.Dot(upper, m_Viewer.transform.right), height = Vector3.Dot(upper, m_Viewer.transform.up); // 화면 비율이나 카메라 시야각에 맞는 월드 길이를 구합니다.
+                float fit = Mathf.Clamp(Mathf.Min(width * 0.35f / size.x, height * 0.2f / size.y), 0.35f, 1f); // 안내가 중앙 시야를 가리지 않는 크기로 줄입니다.
+                m_Observation.SetLayoutScale(fit); // 글과 버튼의 실제 클릭 영역을 같은 비율로 조정합니다.
+                Vector3 center = m_Viewer.ViewportToWorldPoint(new Vector3(0.04f + size.x * fit / (2f * width), 0.09f + size.y * fit / (2f * height), depth)); // 하단 조작 문구 위에 여백을 두고 왼쪽 가장자리에 놓습니다.
+                m_Observation.transform.SetPositionAndRotation(center, m_Viewer.transform.rotation); // 플레이어가 고개를 돌려도 안내가 화면 모서리를 따라옵니다.
+            } // 배치는 안내창 자체에만 적용해 공유 Canvas의 선택지와 암전을 움직이지 않습니다.
+            else if (m_ObservationInViewport) // 안내가 닫히거나 VR로 전환되면 원래 배치로 되돌립니다.
+            { // 데스크톱용 위치와 배율이 다른 조작 모드에 남지 않게 합니다.
+                m_ObservationInViewport = false; m_Observation.SetLayoutScale(1f); // 씬 원래 글과 버튼 크기를 복원합니다.
+                m_Observation.transform.SetLocalPositionAndRotation(m_ObservationLocalPosition, m_ObservationLocalRotation); // 저장한 안내창의 위치와 방향을 복원합니다.
+            } // PC 이외에는 기존 월드 배치를 계속 사용합니다.
+            if (m_PlacedBubble != null && m_PlacedBubble.WantsVisible) PlaceTrackedBubble(false); // 안내창과 친구·차량을 피하는 기존 말풍선 배치를 갱신합니다.
+        } // UI는 카메라의 회전을 읽기만 하고 시점 입력을 변경하지 않습니다.
 
         public void ShowThanks(Transform friend) // 안전하게 피한 친구의 화면 위치 옆에서 감사 대사를 읽을 수 있게 합니다.
         { // 다른 패널의 편집된 위치는 변경하지 않습니다.

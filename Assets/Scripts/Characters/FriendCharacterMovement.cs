@@ -1,4 +1,4 @@
-﻿using UnityEngine; // 캐릭터 루트의 이동과 기존 뼈대의 Animator를 제어합니다.
+using UnityEngine; // 캐릭터 루트의 이동과 기존 뼈대의 Animator를 제어합니다.
 
 namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두되 해당 기능을 직접 참조하지 않습니다.
 { // 친구 캐릭터의 한 번 걷기 기능을 선언합니다.
@@ -6,7 +6,9 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
     public sealed class FriendCharacterMovement : MonoBehaviour // 인도 접근과 명령을 받은 뒤의 횡단에 기존 걷기·정지 애니메이션을 공통 적용합니다.
     { // 경로 설정과 이번 이동의 진행 상태를 보관합니다.
         private const float k_StrideLength = 0.4352f; // 새 캐릭터의 다리 비율 0.68에 맞춰 제작한 걷기 클립의 실제 전진 거리로 걸음 위상을 맞춥니다.
-        private const float k_StopDistance = 0.13056f; // 같은 비율로 제작한 정지 클립의 마지막 발 디딤 거리와 루트 감속 이동을 일치시킵니다.
+        private const float k_StopDistance = 0.13056f; // 기존 정지 클립의 마지막 발 디딤 거리에 맞춰 감속합니다.
+        private const float k_SignalReactionDuration = 0.2f; // 기존 빨간불 명령의 발 디딤 반응 시간을 유지합니다.
+        private const float k_ScenarioFirstStepDistance = 0.18f; // 횡단보도 입구의 인도 안에서 위험한 출발 의도를 드러낼 만큼만 앞으로 움직입니다.
         private static readonly int k_IdleState = Animator.StringToHash("Base Layer.Idle"); // 대기 상태를 문자열 검색 없이 선택합니다.
         private static readonly int k_WalkState = Animator.StringToHash("Base Layer.Walk"); // 기존 스킨 관절을 움직이는 걷기 상태를 선택합니다.
         private static readonly int k_StopState = Animator.StringToHash("Base Layer.Stop"); // 지지발을 유지하며 마지막 한 걸음을 마무리하는 상태를 선택합니다.
@@ -23,8 +25,8 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
         private Transform m_EndPoint; // 자동차·보행 신호와 연결되지 않은 이동 목표를 보관합니다.
 
         [Header("명령으로 시작하는 횡단 경로")] // 자동 인도 접근과 구분하여 플레이어 명령으로만 사용하는 도착점을 지정합니다.
-        [SerializeField, InspectorName("플레이어 쪽 횡단 도착점")] // 현재 횡단보도 중심선에 놓인 가까운 인도 끝 지점을 연결합니다.
-        [Tooltip("CrosswalkScene의 FriendCrossingArrivalPoint입니다. 건너편 대기 위치에서 횡단보도 흰색 줄무늬의 중앙을 따라 플레이어 쪽 인도로 이동합니다.")] // 이동 목표를 카메라 위치가 아닌 고정 경로 끝으로 설정하도록 안내합니다.
+        [SerializeField, InspectorName("횡단보도 반대편 도착점")] // 현재 인도에서 출발한 친구가 닿을 건너편 위치를 지정합니다.
+        [Tooltip("횡단보도 줄무늬를 따라 도로를 건넌 뒤 도착할 반대편 인도 위 지점입니다.")] // 실제 횡단 경로의 끝이 인도에 있도록 안내합니다.
         private Transform m_CrossingEndPoint; // 플레이어가 고개를 돌리거나 움직여도 횡단 경로가 흔들리지 않는 고정 도착점입니다.
 
         [SerializeField, InspectorName("횡단 바닥 환경")] // 기존 횡단보도 환경 계층에서 바닥 Collider를 읽습니다.
@@ -92,7 +94,8 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
         private Collider[] m_CrossingGrounds; // 명령을 받을 때 기존 환경에서 가져온 바닥 Collider를 횡단 중 재사용합니다.
         private Transform m_RejectedSignalTarget; // 위험 명령에 대한 발 디딤 시도 후 몸을 돌려 바라볼 신호등 위치입니다.
         private bool m_ScenarioPaused; // 첫 번째 상황의 관찰과 충돌 연출 동안 이 친구의 경로 갱신만 중단합니다.
-        private bool m_ScenarioFirstStepHold; // 두 번째 도입의 첫 발이 끝나기 전에 기존 반응 자세를 유지합니다.
+        private bool m_ScenarioFirstStepHold; // 빨간불과 파란불에서 첫 발이 보인 자세를 선택할 때까지 유지합니다.
+        private Vector3 m_ScenarioFirstStepOrigin, m_CheckpointFirstStepOrigin; // 시작점을 보존해 첫 발의 전진량이 프레임마다 누적되지 않고 재시도에서도 같은 위치를 사용하게 합니다.
         private float m_ScenarioFirstStepTime = 0.14f; // 실제로 보여 줄 첫 발 반응의 최대 진행 시간입니다.
         private bool m_AnimatorWasEnabled; // 상황 정지 이전의 Animator 활성 상태를 재개 시 복원합니다.
         private Vector3 m_CheckpointPosition; // 재시도할 관찰 지점의 실제 루트 위치를 보관합니다.
@@ -109,7 +112,6 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
         public bool IsScenarioDetouring => isActiveAndEnabled && (m_State == MovementState.TurningToWalk || IsWalking); // 우회 방향 준비와 실제 보행·감속이 모두 끝났는지 제공합니다.
         public void SetScenarioApproachLimit(Transform limit) { m_ScenarioApproachLimit = limit; } // 도입 연출만 관찰 지점에서 대기시키고 위험 선택에서는 제한을 명시적으로 해제합니다.
         public bool IsScenarioPaused => m_ScenarioPaused; // 다른 상황이 이 친구의 기존 정지 상태를 보존하고 복원하게 합니다.
-        public void SetScenarioFirstStepHold(bool held, float elapsed = 0.14f) { m_ScenarioFirstStepHold = held; m_ScenarioFirstStepTime = Mathf.Clamp(elapsed, 0.08f, 0.16f); } // 긴 프레임에서도 첫 발이 대기 자세로 끝나지 않도록 기존 반응 시간을 제한합니다.
         public float ScenarioLimitRemaining => m_ScenarioApproachLimit != null ? Mathf.Max(0f, Vector3.Dot(m_ScenarioApproachLimit.position - transform.position, m_PathDirection)) : float.PositiveInfinity; // 위험 횡단에서 실제 경로를 따라 남은 접근 거리만 제공합니다.
         public void SetScenarioPlaybackRate(float rate) { m_ScenarioPlaybackRate = Mathf.Clamp(rate, 0.08f, 1f); if (m_Animator != null) m_Animator.speed = m_ScenarioPlaybackRate; } // 이 친구의 걸음과 Animator만 느리게 재생하고 VR 입력과 전역 시간은 유지합니다.
 
@@ -126,19 +128,35 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
         public bool TryBeginScenarioFirstStep(Transform signal, float elapsed) // 보행 신호 색과 무관하게 상황 연출용 첫 발 자세를 기존 반응으로 준비합니다.
         { // 실제 횡단 시작은 별도 선택과 차량 정지 판단 뒤에만 허용합니다.
             if (!TryReactToRedSignal(signal)) return false; // 기존 대기·경로 조건을 통과한 같은 친구만 첫 발을 준비합니다.
-            SetScenarioFirstStepHold(true, elapsed); return true; // 다음 자동 안전 반응으로 넘어가지 않도록 첫 발 자세를 유지합니다.
+            m_ScenarioFirstStepOrigin = transform.position; // 실제 보행을 마친 인도 위치를 첫 발의 기준으로 잡습니다.
+            m_ScenarioFirstStepTime = Mathf.Clamp(elapsed, 0.08f, 0.16f); // 기존 반응 시간 안에서 첫 발의 이동을 끝내도록 제한합니다.
+            m_ScenarioFirstStepHold = true; // 발을 내민 자세에서 멈추고 플레이어의 결정을 기다립니다.
+            return true; // 실제 움직임을 시작한 경우에만 다음 관찰 단계를 예약합니다.
         } // 기존 빨간불 명령 판정 함수의 동작은 변경하지 않습니다.
 
-        public void PlaceWaitingForScenario(Transform point) // 암전 중 다음 상황의 인도 대기 지점으로 이 친구만 배치합니다.
-        { // 루트 위치와 실제 이동 상태를 함께 바꾸어 이전 경로로 되돌아가지 않게 합니다.
-            if (point == null || m_CrossingStarted) return; // 실제 횡단을 시작한 친구의 경로와 기록은 초기화하지 않습니다.
-            m_DetourWaypoints = null; // 이전 우회 경로가 다음 장소의 대기에 남지 않게 합니다.
-            m_PathStart = point.position; m_PathDirection = Vector3.ProjectOnPlane(point.forward, Vector3.up).normalized; // 다음 인도 대기의 위치와 정면을 저장합니다.
-            m_PathLength = 0f; m_Distance = 0f; m_CurrentSpeed = 0f; m_StopProgress = 0f; m_WaitRemaining = 0f; // 이전 보행의 진행도와 자동 출발 대기를 남기지 않습니다.
-            m_ScenarioApproachLimit = null; m_ResponseElapsed = 1.6f; m_RejectedSignalTarget = null; m_ScenarioFirstStepHold = false; // 전봇대 접근 제한·명령 손짓·이전 첫 발 보류를 다음 배치에 넘기지 않습니다.
-            m_ArrivalRotation = point.rotation; m_State = MovementState.Arrived; // 기존 대기 상태에서 다음 인도 보행이나 명령만 받게 합니다.
-            transform.SetPositionAndRotation(point.position, point.rotation); // 캐릭터 루트만 새 인도 위치에 배치합니다.
-            m_Animator.Play(k_IdleState, 0, 0f); // 재개 시 기존 대기 애니메이션을 사용합니다.
+        public void StopScenarioFirstStep() // 접근하는 차를 기다리라는 말을 들으면 친구를 현재 인도 위치에서 멈춥니다.
+        { // 보류한 첫 발을 일반 대기 자세로 부드럽게 연결합니다.
+            if (m_State != MovementState.RedSignalReaction || !m_ScenarioFirstStepHold) return; // 도입에서 내민 첫 발만 멈추고 다른 보행에는 관여하지 않습니다.
+            SetScenarioPaused(false); // 대기 애니메이션과 차를 확인하는 관절 연출이 다시 적용되게 합니다.
+            m_ScenarioFirstStepHold = false; m_WaitRemaining = 0f; m_State = MovementState.CommandStopped; // 이전 출발 반응이 이어지거나 신호등을 다시 바라보지 않게 현재 상태를 정리합니다.
+            m_Animator.CrossFadeInFixedTime(k_IdleState, Mathf.Clamp(m_FadeTime, 0.05f, 0.4f), 0, 0f); // 실제 전진은 멈추고 발을 내민 자세에서 대기로 전환합니다.
+        } // 안전한 횡단은 차체가 모두 지나간 뒤 별도 명령으로 시작합니다.
+
+        public void PlaceWaitingForScenario(Transform point) // 씬에 배치한 인도 기준점으로 대기 상태를 설정합니다.
+        { // 기준점을 지정한 호출부도 위치와 방향을 직접 복원하는 것과 같은 경로를 사용합니다.
+            if (point != null) PlaceWaitingForScenario(point.position, point.rotation); // 연결된 대기점에서만 경로와 자세를 갱신합니다.
+        } // 위치가 없는 경우 현재 이동 상태를 유지합니다.
+
+        public void PlaceWaitingForScenario(Vector3 position, Quaternion rotation) // 상황 취소 시 기록한 실제 위치와 방향으로 같은 친구를 복원합니다.
+        { // 보행과 첫 발의 잔여 상태가 새 대기에 섞이지 않게 합니다.
+            if (m_CrossingStarted) return; // 먼저 관찰 체크포인트를 복원해야 진행 중인 횡단을 되돌릴 수 있습니다.
+            m_DetourWaypoints = null; // 이전 인도 보행이 끝난 뒤 중간 지점을 다시 따르지 않게 합니다.
+            m_PathStart = position; m_PathDirection = Vector3.ProjectOnPlane(rotation * Vector3.forward, Vector3.up).normalized; // 대기 위치와 다음 방향을 실제 인도 기준으로 설정합니다.
+            m_PathLength = 0f; m_Distance = 0f; m_CurrentSpeed = 0f; m_StopProgress = 0f; m_WaitRemaining = 0f; // 직전 보행과 감속 수치를 초기화합니다.
+            m_ScenarioApproachLimit = null; m_ResponseElapsed = 1.6f; m_RejectedSignalTarget = null; m_ScenarioFirstStepHold = false; // 첫 발이나 차량 앞 제한이 남지 않게 합니다.
+            m_ArrivalRotation = rotation; m_State = MovementState.Arrived; // 같은 위치에서 다음 횡단 명령을 받을 수 있는 대기 상태로 둡니다.
+            transform.SetPositionAndRotation(position, rotation); // 이동 루트와 실제 보이는 친구의 방향을 함께 맞춥니다.
+            m_Animator.Play(k_IdleState, 0, 0f); // 뒷걸음이나 취소 뒤 기존 대기 클립을 이어서 사용합니다.
         } // 다른 친구와 XR Origin의 위치·상태는 변경하지 않습니다.
 
         public bool TryBeginScenarioDetour(Transform waypoint) // 단일 도착 보행도 기존과 같은 진입점을 사용합니다.
@@ -206,7 +224,8 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
             m_CheckpointPathStart = m_PathStart; m_CheckpointPathDirection = m_PathDirection; m_CheckpointPathLength = m_PathLength; // 우회 전에 사용하던 직선 경로 전체를 보관합니다.
             m_CheckpointPhaseOffset = m_PhaseOffset; m_CheckpointSpeedSetting = m_Speed; m_CheckpointApproachLimit = m_ScenarioApproachLimit; // 경로별 보폭 기준과 관찰 지점 제한도 저장합니다.
             m_CheckpointCrossingStarted = m_CrossingStarted; m_CheckpointFirstStepHold = m_ScenarioFirstStepHold; // 위험 선택으로 생길 횡단 기록을 관찰 당시 상태와 분리합니다.
-            m_CheckpointWaitRemaining = m_WaitRemaining; m_CheckpointFirstStepTime = m_ScenarioFirstStepTime; m_CheckpointRejectedSignalTarget = m_RejectedSignalTarget; // 같은 첫 발 자세와 빨간 신호 참조로 다시 관찰할 수 있게 합니다.
+            m_CheckpointWaitRemaining = m_WaitRemaining; m_CheckpointFirstStepTime = m_ScenarioFirstStepTime; m_CheckpointRejectedSignalTarget = m_RejectedSignalTarget; // 관찰 당시 첫 발의 남은 시간과 신호 위치를 기록합니다.
+            m_CheckpointFirstStepOrigin = m_ScenarioFirstStepOrigin; // 사고 뒤에도 관찰 때의 실제 한 걸음이 같은 인도 위치에 남게 시작점을 저장합니다.
         } // 휴대전화의 추가 자세와 뼈대 복원은 첫 번째 상황의 캐릭터 연출이 담당합니다.
 
         public void RestoreScenarioCheckpoint() // 사고 후 관찰 위치와 기존 걷기 진행도를 함께 되돌립니다.
@@ -220,7 +239,8 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
             m_PathStart = m_CheckpointPathStart; m_PathDirection = m_CheckpointPathDirection; m_PathLength = m_CheckpointPathLength; // 우회 중 중단되어도 처음 관찰했던 보행 경로로 복원합니다.
             m_PhaseOffset = m_CheckpointPhaseOffset; m_Speed = m_CheckpointSpeedSetting; m_ScenarioApproachLimit = m_CheckpointApproachLimit; // 같은 속도 설정·보폭·안전 대기 지점으로 재시도합니다.
             m_CrossingStarted = m_CheckpointCrossingStarted; m_ScenarioFirstStepHold = m_CheckpointFirstStepHold; m_UnsafeScenarioCrossing = false; // 위험 횡단 기록을 없애고 원래 첫 발의 인도 대기 상태로 되돌립니다.
-            m_WaitRemaining = m_CheckpointWaitRemaining; m_ScenarioFirstStepTime = m_CheckpointFirstStepTime; m_RejectedSignalTarget = m_CheckpointRejectedSignalTarget; SetScenarioPlaybackRate(1f); // 첫 발 반응의 남은 시간과 정상 재생 속도를 복원합니다.
+            m_WaitRemaining = m_CheckpointWaitRemaining; m_ScenarioFirstStepTime = m_CheckpointFirstStepTime; m_RejectedSignalTarget = m_CheckpointRejectedSignalTarget; SetScenarioPlaybackRate(1f); // 첫 발의 남은 반응 시간과 정상 재생 속도를 복원합니다.
+            m_ScenarioFirstStepOrigin = m_CheckpointFirstStepOrigin; // 복원한 첫 발 자세의 전진 기준도 같은 위치로 맞춥니다.
             m_ResponseElapsed = 1.6f; // 이전 명령의 손들기 반응이 재시도에 남지 않게 합니다.
             m_Animator.SetFloat(k_WalkPhase, m_CheckpointWalkPhase); // 보폭과 자세의 기준을 함께 복원합니다.
             m_Animator.Play(m_CheckpointAnimationState, 0, m_CheckpointAnimationTime); // 정지된 Animator에도 재개할 상태와 시간을 예약합니다.
@@ -330,7 +350,7 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
             Vector3 crossingDirection = Vector3.ProjectOnPlane(m_CrossingEndPoint.position - transform.position, Vector3.up); // 기존 횡단 경로 방향으로 발을 내딛으려는 몸 방향을 구합니다.
             if (crossingDirection.sqrMagnitude > 0.001f) m_ArrivalRotation = Quaternion.LookRotation(crossingDirection, Vector3.up); // 도로에 진입하지 않고 제자리에서 횡단 방향을 향합니다.
             m_CurrentSpeed = 0f; // 출발 시도 중 루트의 전진 속도를 만들지 않아 반복 명령으로 인도 끝에서 밀려나지 않게 합니다.
-            m_WaitRemaining = 0.2f; // 기존 걷기의 첫 발을 조금 움직이는 짧은 멈칫 구간입니다.
+            m_WaitRemaining = k_SignalReactionDuration; // 기존 명령 반응의 전체 시간을 사용해 걷기에서 대기로 돌아갑니다.
             m_ResponseElapsed = 1.6f; // 이전 손들기 반응을 출발 시도에 겹치지 않습니다.
             m_Animator.SetFloat(k_WalkPhase, 0f); // 기존 걷기 클립의 첫 발 디딤 자세부터 사용합니다.
             m_Animator.CrossFadeInFixedTime(k_WalkState, 0.08f, 0, 0f); // 기존 걷기를 짧게 보여 횡단하려다가 멈추는 의도를 표현합니다.
@@ -363,18 +383,25 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
             if (m_ScenarioPaused) return; // 이 친구의 시간만 멈추고 프로젝트의 전역 시간과 입력은 유지합니다.
             float deltaTime = Time.deltaTime * m_ScenarioPlaybackRate; // 이 친구의 경로와 걸음 진행에만 개별 느린 동작을 반영합니다.
             if (deltaTime <= 0f) return; // 게임 일시정지 중에는 대기와 이동을 진행하지 않습니다.
-            if (m_State == MovementState.RedSignalReaction) // 위험 명령에서는 실제 횡단 이동 대신 첫 발을 내딛으려다 멈추는 동작을 수행합니다.
-            { // 인도 위 루트 위치를 보존하여 빨간불에 도로로 진입하지 않습니다.
-                m_WaitRemaining = Mathf.Max(m_ScenarioFirstStepHold ? 0.2f - m_ScenarioFirstStepTime : 0f, m_WaitRemaining - deltaTime); // 관찰 도입에서는 프레임 길이와 무관하게 첫 발 도중의 자세까지만 진행합니다.
-                m_Animator.SetFloat(k_WalkPhase, (0.2f - m_WaitRemaining) * 0.6f); // 기존 걷기 위상을 최대 0.12까지만 재생하여 짧은 발 디딤 시도를 만듭니다.
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, m_ArrivalRotation, Mathf.Max(1f, PositiveOrZero(m_TurnSpeed)) * deltaTime); // 친구 몸만 횡단 방향으로 돌리고 카메라는 제어하지 않습니다.
-                if (m_ScenarioFirstStepHold || m_WaitRemaining > 0f) return; // 첫 발 보류 중에는 신호등 응시나 도착 대기로 넘어가지 않습니다.
-                m_State = MovementState.CommandStopped; // 횡단 시작 기록 없이 인도 대기로 돌아가 이후 새 명령을 허용합니다.
-                Vector3 signalDirection = m_RejectedSignalTarget != null ? Vector3.ProjectOnPlane(m_RejectedSignalTarget.position - transform.position, Vector3.up) : Vector3.zero; // 멈춘 뒤 몸을 향할 실제 신호등 방향을 구합니다.
-                if (signalDirection.sqrMagnitude > 0.001f) m_ArrivalRotation = Quaternion.LookRotation(signalDirection, Vector3.up); // 기존 대기 회전 처리로 몸을 신호등 쪽에 맞춥니다.
-                m_ResponseElapsed = 0f; // 기존 오른팔의 짧은 손들기를 멈칫한 반응으로 한 번 재사용합니다.
-                m_Animator.CrossFadeInFixedTime(k_IdleState, Mathf.Clamp(m_FadeTime, 0.05f, 0.4f), 0, 0f); // 발 디딤 시도를 멈추고 기존 대기 애니메이션으로 전환합니다.
-                return; // 이번 프레임에 접근이나 횡단을 이어서 실행하지 않습니다.
+            if (m_State == MovementState.RedSignalReaction) // 기존 첫 발 클립을 도로에 진입하지 않는 짧은 시도로 사용합니다.
+            { // 걷기 자세와 몸 방향이 같은 횡단 방향을 가리키게 합니다.
+                m_WaitRemaining = Mathf.Max(m_ScenarioFirstStepHold ? k_SignalReactionDuration - m_ScenarioFirstStepTime : 0f, m_WaitRemaining - deltaTime); // 상황 도입은 첫 발의 끝에서 보류하고 일반 명령 반응은 기존 시간까지 진행합니다.
+                if (m_ScenarioFirstStepHold) // 빨간불과 파란불의 상황 연출에서만 인도 위로 짧게 한 발을 내밉니다.
+                { // 기존 걸음 위상과 실제 전진 거리가 어긋나지 않게 같이 갱신합니다.
+                    float progress = Mathf.Clamp01((k_SignalReactionDuration - m_WaitRemaining) / m_ScenarioFirstStepTime); // 긴 프레임에서도 한 걸음의 범위를 넘지 않는 진행도를 구합니다.
+                    float distance = k_ScenarioFirstStepDistance * Mathf.SmoothStep(0f, 1f, progress); // 한 발을 내딛고 끝에서 멈추도록 이동을 완만하게 만듭니다.
+                    transform.position = m_ScenarioFirstStepOrigin + m_ArrivalRotation * Vector3.forward * distance; // 현재 횡단 방향으로 친구의 루트만 인도 위에서 움직입니다.
+                    m_Animator.SetFloat(k_WalkPhase, distance / k_StrideLength); // 루트가 실제 움직인 거리에 맞춰 기존 걷기 클립의 발 디딤을 표시합니다.
+                } // 선택 대기에서는 실제 위치와 자세가 한 프레임의 상태로 함께 저장됩니다.
+                else m_Animator.SetFloat(k_WalkPhase, (k_SignalReactionDuration - m_WaitRemaining) * 0.6f); // 일반 빨간불 거절 반응은 기존의 제자리 발 디딤을 사용합니다.
+                float turnSpeed = m_ScenarioFirstStepHold ? Mathf.Max(720f, ScenarioTurnSpeed) : ScenarioTurnSpeed; // 짧은 관찰 첫 발에서도 인도 진행 방향에서 횡단 방향으로 충분히 돌아봅니다.
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, m_ArrivalRotation, turnSpeed * deltaTime); // 캐릭터 몸만 회전해 플레이어 시점을 유지합니다.
+                if (m_ScenarioFirstStepHold || m_WaitRemaining > 0f) return; // 관찰 정지나 실제 첫 발이 끝나기 전에는 대기 상태로 바꾸지 않습니다.
+                m_State = MovementState.CommandStopped; // 안전 선택으로 첫 발이 풀리면 같은 인도에서 기다립니다.
+                if (m_RejectedSignalTarget != null) FaceScenarioTarget(m_RejectedSignalTarget); // 대기 자세에서 실제 보행 신호를 바라봅니다.
+                m_ResponseElapsed = 0f; // 기존 제지 반응의 시작 시각을 기록합니다.
+                m_Animator.CrossFadeInFixedTime(k_IdleState, Mathf.Clamp(m_FadeTime, 0.05f, 0.4f), 0, 0f); // 첫 발에서 대기 자세로 이어집니다.
+                return; // 이 프레임에는 인도나 횡단 경로로 전진하지 않습니다.
             } // 정상 횡단은 기존 준비·보행·감속 상태를 그대로 사용합니다.
             if (m_State == MovementState.TurningToCross || m_State == MovementState.TurningToWalk) // 횡단과 첫 번째 상황의 인도 우회 모두 기존 제자리 방향 전환을 사용합니다.
             { // 회전이 끝나기 전에는 걷기 애니메이션과 루트 전진을 시작하지 않습니다.
@@ -395,13 +422,14 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
                 if (m_WaitRemaining > 0f) return; // Inspector에 지정한 시작 대기 시간이 끝나기 전에는 위치와 방향을 유지합니다.
                 BeginWalk(); // 대기를 마쳤으므로 한 번의 이동을 시작합니다.
             } // 이어지는 코드는 남은 프레임 시간만 사용합니다.
-            if (m_State == MovementState.Walking) // 보행과 몸 회전을 같은 프레임에 진행합니다.
-            { // 경유점에서 남은 시간도 다음 구간의 이동에 반영합니다.
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, m_ArrivalRotation, ScenarioTurnSpeed * deltaTime); // 경로 방향을 향해 연속적으로 몸을 돌립니다.
-                for (int leg = 0; leg < 8 && deltaTime > 0.00001f && m_State == MovementState.Walking; ++leg) deltaTime = AdvanceWalk(deltaTime); // 긴 프레임에도 여러 경유점에서 이동이 끊기지 않게 합니다.
-            } // 정지는 마지막 목적지에 가까워졌을 때만 시작합니다. // 정지 구간에 진입했다면 그 뒤의 남은 시간을 돌려받습니다.
-            if (m_State == MovementState.Stopping) AdvanceStop(deltaTime); // 마지막 발 디딤과 감속을 같은 곡선으로 진행합니다.
-            if (m_State == MovementState.Stopping || m_State == MovementState.Arrived || m_State == MovementState.CommandStopped || m_State == MovementState.Crossed) // 접근·횡단 도착 또는 명령 정지 뒤 위치를 움직이지 않고 목표 방향만 맞춥니다.
+            if (m_State == MovementState.Walking) // 방향을 맞추는 동안에도 실제 경로를 따라 보행합니다.
+            { // 프레임 시간을 경로 구간과 감속에 순서대로 배분합니다.
+                float turnSpeed = m_DetourWaypoints != null || m_CrossingStarted ? Mathf.Max(360f, ScenarioTurnSpeed) : ScenarioTurnSpeed; // 꺾이는 동행 경로와 횡단에서 느린 몸 돌리기를 줄입니다.
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, m_ArrivalRotation, turnSpeed * deltaTime); // 애니메이션이 끝나기를 기다리지 않고 이동 중에 몸을 돌립니다.
+                for (int leg = 0; leg < 8 && deltaTime > 0.00001f && m_State == MovementState.Walking; ++leg) deltaTime = AdvanceWalk(deltaTime); // 중간 지점을 통과하고 남은 시간은 다음 인도 구간이나 감속에 사용합니다.
+            } // 감속에 들어가면 보행에 쓴 시간은 중복 적용하지 않습니다.
+            if (m_State == MovementState.Stopping) AdvanceStop(deltaTime); // 실제 이동 거리가 도착점에 닿았을 때 상태를 완료로 바꿉니다.
+            else if (m_State == MovementState.Arrived || m_State == MovementState.CommandStopped || m_State == MovementState.Crossed) // 정지 상태에서 필요한 마지막 방향만 맞춥니다.
             { // 회전 대상은 캐릭터 루트이며 VR 카메라는 접근하지 않습니다.
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, m_ArrivalRotation, Mathf.Max(1f, PositiveOrZero(m_TurnSpeed)) * deltaTime); // 갑자기 최종 방향으로 뛰지 않도록 각속도를 제한합니다.
             } // 도착 상태에서는 위치를 더 이동하지 않습니다.
@@ -458,10 +486,10 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
             return Mathf.Max(0f, deltaTime - consumedTime); // 경계 통과 후 사용하지 않은 시간을 반환합니다.
         } // 걷기 루프와 마지막 한 걸음의 이동 구간을 구분합니다.
 
-        private void AdvanceStop(float deltaTime) // 마지막 지지발과 발 모으기를 유지하면서 정확한 도착 위치까지 감속합니다.
-        { // 클립에 사용한 전진 거리 곡선을 루트 이동에도 그대로 사용합니다.
-            float stopDistance = Mathf.Min(k_StopDistance, m_PathLength * 0.5f); // 보행에서 예약한 마지막 감속 거리와 일치시킵니다.
-            float speedRatio = PositiveOrZero(m_Speed) / m_StopSpeedSetting; // Inspector 속도 0에서는 마지막 걸음도 함께 멈춥니다.
+        private void AdvanceStop(float deltaTime) // 보행 클립과 무관하게 남은 거리를 감속 곡선으로 이동합니다.
+        { // 이번 프레임에 배정된 시간만큼 실제 도착에 가까워집니다.
+            float stopDistance = Mathf.Min(k_StopDistance, m_PathLength * 0.5f); // 짧은 경로에서도 마지막 감속이 경로 절반을 넘지 않게 합니다.
+            float speedRatio = PositiveOrZero(m_Speed) / m_StopSpeedSetting; // 현재 지정한 보행 속도에 맞춰 감속 진행도도 함께 조정합니다.
             m_StopProgress = Mathf.Min(1f, m_StopProgress + deltaTime * m_StopEntrySpeed * speedRatio / (2f * stopDistance)); // 기본 속도에서 약 0.48초에 걸쳐 마지막 19.2cm를 이동합니다.
             float easedDistance = stopDistance * (2f * m_StopProgress - m_StopProgress * m_StopProgress); // 시작 속도에서 0까지 선형 감속하는 이동 거리입니다.
             m_Distance = m_PathLength - stopDistance + easedDistance; // 마지막 발 디딤을 실제 도착점까지 맞춥니다. // 도착 지점을 넘거나 다시 뒤로 이동하지 않는 단조 증가 거리입니다.
