@@ -35,6 +35,9 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         [Min(.1f)] public float notebookScale = 1.12f;
         public Vector3 rescuerOffset = new Vector3(1.40f, 1.67f, -2.05f);
         [Min(.1f)] public float maximumReadabilityScale=1.45f;
+        [Header("Non-blocking dialogue")]
+        public bool compactDesktopDialogue=true;
+        [Range(.6f,1)] public float desktopCaptionScale=.82f;
 
         static readonly Color Ink = new Color(.28f,.19f,.14f);
         static readonly Color Paper = new Color(1,.965f,.86f);
@@ -65,6 +68,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         bool thoughtPlacementReady;
         Vector2 thoughtAnchor;
         bool worldPlacementReady;
+        bool desktopCaptionFollowing;
         Quaternion dialogueRotation;
         Vector3 dialogueScale;
         Vector3 dialoguePosition;
@@ -99,12 +103,11 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             Transitions?.Begin();
             var f = view.lesson.Flow;
             complete = f.Step == ElevatorStep.Complete;
-            screenOnly = !f.HasObjectPreview && (f.Step==ElevatorStep.Stopped&&f.CanObserve ||
-                f.SearchingIdentity || f.Step==ElevatorStep.DoorPosterPointing || f.Step==ElevatorStep.Unanswered ||
-                f.Step==ElevatorStep.Rescue&&view.lesson.scenario&&view.lesson.scenario.objectGuidedScene);
+            // A reading card stays available while the player selects the next object.
+            screenOnly = false;
             observed = "";
             baseThought = "";
-            if(f.SearchingIdentity&&!f.HasObjectPreview)
+            if(f.SearchingIdentity&&!f.HasObjectPreview&&f.Step!=ElevatorStep.CallIdentityGuide)
             {
                 // The call cinematic has finished; the player now finds the clue.
                 view.dialogueText.text = ElevatorDialogue.IdentitySearchHint(f.HintLevel);
@@ -136,9 +139,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 Transitions?.FadeContent(view.dialoguePanel);
                 Transitions?.FadeContent(speakerTab);
                 dialogueRun=view.lesson.RunVersion;dialogueSource=source;dialogueSpeaker=who;
-                bool explicitAction=f.SupportsObjectPreview||f.ReviewingIdentity||f.SearchingIdentity||f.AwaitingCallContinue||f.Step==ElevatorStep.Retry;
-                dialoguePages=explicitAction?new[]{source}:ElevatorDialogueText.Pages(view.dialogueText,source);dialoguePage=0;
-                revealStarted=Time.time;revealComplete=explicitAction||!Application.isPlaying||f.IsCinematic||f.Step==ElevatorStep.Call||f.Step==ElevatorStep.Unanswered;
+                // Show the whole short line immediately; reading never consumes a
+                // world-selection click or requires a separate page/close action.
+                dialoguePages=new[]{source};dialoguePage=0;
+                revealStarted=Time.time;revealComplete=true;
             }
             view.dialogueText.text=dialoguePages[dialoguePage];
             UpdateDialogueReveal();
@@ -165,8 +169,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             view.dialogueText.maxVisibleCharacters=revealComplete?int.MaxValue:count;
             if(dialogueReader)
             {
-                bool canRead=!view.lesson.CinematicBlocking&&!complete&&!screenOnly&&(!revealComplete||dialoguePage+1<dialoguePages.Length);
-                dialogueReader.interactable=canRead;dialogueReader.targetGraphic.raycastTarget=canRead;
+                dialogueReader.interactable=false;dialogueReader.targetGraphic.raycastTarget=false;
             }
             if(readingStatus)
             {
@@ -185,29 +188,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
 
         void PrepareDialogueReader()
         {
-            if(!dialogueReader)
-            {
-                var r=(RectTransform)new GameObject("DialogueReader",typeof(RectTransform)).transform;r.SetParent(view.dialoguePanel,false);
-                r.anchorMin=Vector2.zero;r.anchorMax=Vector2.one;r.offsetMin=r.offsetMax=Vector2.zero;
-                var image=r.gameObject.AddComponent<UnityEngine.UI.Image>();image.color=Color.clear;image.raycastTarget=true;
-                dialogueReader=r.gameObject.AddComponent<UnityEngine.UI.Button>();dialogueReader.targetGraphic=image;dialogueReader.transition=UnityEngine.UI.Selectable.Transition.None;
-                dialogueReader.onClick.AddListener(()=>TryReadDialogue());
-            }
-            if(focusWindow)
-            {
-                var filter=dialogueReader.GetComponent<ElevatorUIFocusRaycastFilter>();
-                if(!filter)filter=dialogueReader.gameObject.AddComponent<ElevatorUIFocusRaycastFilter>();
-                filter.window=focusWindow;
-            }
-            if(!readingStatus)
-            {
-                var r=(RectTransform)new GameObject("ReadingStatus",typeof(RectTransform)).transform;r.SetParent(view.dialoguePanel,false);
-                r.anchorMin=r.anchorMax=r.pivot=Vector2.one*.5f;
-                readingStatus=r.gameObject.AddComponent<TextMeshProUGUI>();readingStatus.font=view.font;readingStatus.color=Ink;readingStatus.alignment=TextAlignmentOptions.MidlineRight;
-            }
-            ElevatorTypography.Apply(readingStatus,ElevatorTypography.HintSize);
-            readingStatus.rectTransform.sizeDelta=new Vector2(view.dialoguePanel.rect.width-100,26);
-            readingStatus.rectTransform.anchoredPosition=new Vector2(0,-view.dialoguePanel.rect.height*.5f+16);
+            // Preserve any existing reader object, but remove its input surface.
+            // Actual choice buttons live outside the dialogue panel and stay active.
+            foreach(var graphic in view.dialoguePanel.GetComponentsInChildren<UnityEngine.UI.Graphic>(true))graphic.raycastTarget=false;
+            var reader=view.dialoguePanel.Find("DialogueReader");
+            if(reader){dialogueReader=reader.GetComponent<UnityEngine.UI.Button>();if(dialogueReader)dialogueReader.interactable=false;}
+            var status=view.dialoguePanel.Find("ReadingStatus");
+            if(status){readingStatus=status.GetComponent<TMP_Text>();status.gameObject.SetActive(false);}
             UpdateDialogueReveal();
         }
 
@@ -431,7 +418,32 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             var lesson=view.lesson;
             var f=lesson.Flow;
             var step=f!=null?f.Step:ElevatorStep.Lobby;
-            if(!worldPlacementReady||dialoguePlacedStep!=step||dialoguePlacedRun!=lesson.RunVersion)
+            bool desktopCaption=compactDesktopDialogue&&!XRSettings.isDeviceActive&&!complete;
+            bool followCaption=desktopCaption&&view.ChoiceButtons.Count==0;
+            bool placementChanged=dialoguePlacedStep!=step||dialoguePlacedRun!=lesson.RunVersion||desktopCaptionFollowing!=followCaption;
+            if(desktopCaption)
+            {
+                // Keep the entire reading/choice column below the centre reticle.
+                // Choices stay at their opening position so the centre reticle can
+                // reach them. Only passive captions follow the PC camera.
+                if(followCaption||!worldPlacementReady||placementChanged)
+                {
+                    var camera=view.playerCamera;
+                    float distance=Mathf.Clamp(readingDistance,1.2f,1.6f);
+                    float viewHeight=2*distance*Mathf.Tan(camera.fieldOfView*.5f*Mathf.Deg2Rad);
+                    float viewWidth=viewHeight*camera.aspect;
+                    float pixelHeight=2*columnHalfHeight/worldPixelSize;
+                    float pixelWidth=2*columnHalfWidth/worldPixelSize;
+                    float scale=Mathf.Min(viewHeight/720*desktopCaptionScale,
+                        Mathf.Min(viewHeight*.42f/Mathf.Max(1,pixelHeight),viewWidth*.45f/Mathf.Max(1,pixelWidth)));
+                    var center=new Vector3(.025f+pixelWidth*scale/(2*viewWidth),.065f+pixelHeight*scale/(2*viewHeight),distance);
+                    dialoguePosition=camera.ViewportToWorldPoint(center);
+                    dialogueRotation=camera.transform.rotation;dialogueScale=Vector3.one*scale;
+                    PlacedReadingDistance=Vector3.Distance(camera.transform.position,dialoguePosition);
+                    worldPlacementReady=true;dialoguePlacedStep=step;dialoguePlacedRun=lesson.RunVersion;
+                }
+            }
+            else if(!worldPlacementReady||placementChanged)
             {
                 // Readability takes priority: keep a near radial distance. Obstacles
                 // affect the opening position only, never push the card farther away.
@@ -439,7 +451,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 var eyes=camera.transform;
                 float tangent=Mathf.Max(.1f,Mathf.Tan(camera.fieldOfView*.5f*Mathf.Deg2Rad));
                 var face=eyes.InverseTransformPoint(lesson.friend.position+Vector3.up*1.04f);
-                var preferred=new Vector2(face.z>0&&face.x>=0?.28f:.72f,.53f);
+                var preferred=new Vector2(face.z>0&&face.x>=0?.24f:.76f,.34f);
                 ElevatorUIPlacement.Collect(lesson,protectedRegions);
                 float best=float.PositiveInfinity;
                 float distance=Mathf.Clamp(readingDistance,1.2f,1.6f);
@@ -473,7 +485,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             // Only eye POSITION changes its facing. Turning/rolling the head in place
             // cannot drag the card around, and no camera or player pose is written.
             var facing=dialoguePosition-view.playerCamera.transform.position;
-            if(facing.sqrMagnitude>.01f)dialogueRotation=Quaternion.LookRotation(facing,Vector3.up);
+            if(!followCaption&&facing.sqrMagnitude>.01f)dialogueRotation=Quaternion.LookRotation(facing,Vector3.up);
+            desktopCaptionFollowing=followCaption;
             transform.SetPositionAndRotation(dialoguePosition,dialogueRotation);
             transform.localScale=dialogueScale;
             if(placedStep!=step||placedRun!=lesson.RunVersion)
@@ -565,7 +578,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             var f=view.lesson.Flow;heading="";action="";
             if(f==null)return false;
             if(f.ReviewingIdentity){heading="건물 이름과 번호를 찾았어요";action="‘위치 알려 주기’를 선택해\n통화로 알려 주세요.";return true;}
-            if(f.AwaitingCallContinue){heading=f.UsedPhone?"119의 안내예요":"관리실의 안내예요";action=f.Step==ElevatorStep.CallIdentityGuide?"안내를 읽고\n‘찾아볼게요’를 선택하세요.":"안내를 읽고\n‘알겠어요’를 선택하세요.";return true;}
+            if(f.AwaitingCallContinue){heading=f.UsedPhone?"119의 안내예요":"관리실의 안내예요";action=f.Step==ElevatorStep.CallIdentityGuide?"안내를 보면서\n문 옆의 식별판을 선택하세요.":"문에서 떨어져\n안전하게 기다려 주세요.";return true;}
             switch(f.Step)
             {
                 case ElevatorStep.Stopped:

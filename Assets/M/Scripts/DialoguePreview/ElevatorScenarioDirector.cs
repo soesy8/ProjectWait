@@ -43,7 +43,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public bool IsPersistentSelectable(ElevatorClue clue)
         {
             var f=lesson.Flow;if(f==null)return false;
-            if(f.SearchingIdentity)return IsLocationClue(clue)||clue==ElevatorClue.Intercom;
+            if(f.SearchingIdentity||f.ReviewingIdentity)return IsLocationClue(clue)||clue==ElevatorClue.Intercom;
             if(f.SupportsObjectPreview)
                 return clue==ElevatorClue.Friend||clue==ElevatorClue.Notice||clue==ElevatorClue.Intercom||
                     clue==(f.Step==ElevatorStep.Unanswered?ElevatorClue.Phone:ElevatorClue.Identity);
@@ -62,7 +62,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         ElevatorClue? RequiredTarget()
         {
             var f=lesson.Flow;
-            if(f.IsCinematic||f.AwaitingCallContinue||f.CanChooseSafeWall)return null;
+            if(f.IsCinematic||f.AwaitingCallContinue&&!f.SearchingIdentity||f.CanChooseSafeWall)return null;
             switch(f.Step)
             {
                 case ElevatorStep.Lobby:return ElevatorClue.LobbyCall;
@@ -70,6 +70,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 case ElevatorStep.DoorPosterPointing:return ElevatorClue.Friend;
                 case ElevatorStep.Stopped:return ElevatorClue.Intercom;
                 case ElevatorStep.Unanswered:return ElevatorClue.Phone;
+                case ElevatorStep.CallIdentityGuide:return ElevatorClue.Identity;
                 case ElevatorStep.Call:return f.SearchingIdentity?(ElevatorClue?)ElevatorClue.Identity:null;
                 case ElevatorStep.Waiting:return ElevatorClue.Friend;
                 case ElevatorStep.Retry:return null;

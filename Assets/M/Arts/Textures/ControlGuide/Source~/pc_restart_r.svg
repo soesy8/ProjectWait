@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
-<title id="title">R로 다시 시작</title>
-<desc id="desc">R 키로 처음부터 다시 시작해요。R 키와 되돌아가는 화살표.</desc>
-<g stroke-linecap="round" stroke-linejoin="round">
-<path d="M216 101 C207 48 154 27 108 43 C85 51 67 67 58 88" fill="none" stroke="#297A70" stroke-width="11" /><polygon points="55,93 52,62 80,78" fill="#297A70" stroke="none" stroke-width="0"/><rect x="71" y="111" width="114" height="109" rx="13" fill="#E2CEAA" stroke="#473024" stroke-width="7.5"/><rect x="71" y="105" width="114" height="109" rx="13" fill="#FFF6DB" stroke="#473024" stroke-width="7.5"/><path d="M79 196 Q128.0 206 177 196 L177 204 Q128.0 215 79 204 Z" fill="#E2CEAA" stroke="none" stroke-width="0" /><path d="M88 116 L168 116" fill="none" stroke="#FFFBEF" stroke-width="4" /><g transform="translate(110.0 134.5) scale(1.7142857142857142)"><path d="M2 27 L2 1 L11 1 C23 1 23 15 11 15 L2 15 M11 15 L21 27" fill="none" stroke="#473024" stroke-width="3.4" /></g>
-</g>
-</svg>

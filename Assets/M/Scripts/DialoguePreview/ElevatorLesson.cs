@@ -137,6 +137,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if (clue == ElevatorClue.Intercom && Flow.Step == ElevatorStep.Stopped) { Intercom(); return; }
             if (clue == ElevatorClue.Phone && Flow.Step == ElevatorStep.Unanswered) { Phone(); return; }
             if (clue == ElevatorClue.Identity && Flow.SearchingIdentity) { FindIdentity(); return; }
+            if (clue == ElevatorClue.Identity && Flow.ReviewingIdentity) { Flow.CloseObjectPreview(); Sync(); return; }
             if (Flow.SupportsObjectPreview) { Flow.PreviewObject(clue); Sync(); return; }
             if(scenario&&scenario.objectGuidedScene&&scenario.HandleObjectAction(clue))return;
             if(clue==ElevatorClue.Notice&&Flow.AwaitingPoster){Flow.PointAtSafetyPoster();Sync();}
@@ -156,7 +157,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         // Each action below is separately guarded by its flow state.
         public bool CanInteract(ElevatorClue clue)
         {
-            if (Flow != null && (Flow.ReviewingIdentity || Flow.AwaitingCallContinue || Flow.Step == ElevatorStep.Retry)) return false;
+            // Reading a dialogue or an object description never locks world selection.
+            if (Flow != null && Flow.Step == ElevatorStep.Retry) return false;
             if (Flow != null && Flow.Step == ElevatorStep.Boarding)
             {
                 if ((clue == ElevatorClue.Ball || clue == ElevatorClue.Friend) && Flow.BallReceived) return false;

@@ -201,13 +201,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 case ElevatorStep.CallLiftQuestion:
                     objective="승강기 번호 확인하기";who=ElevatorDialogue.Caller(f.UsedPhone);line=ElevatorDialogue.LocationQuestion;break;
                 case ElevatorStep.CallIdentityGuide:
-                    objective="건물 이름과 번호 찾기";who=ElevatorDialogue.Caller(f.UsedPhone);line=ElevatorDialogue.IdentityGuide;Add("찾아볼게요",lesson.Continue);break;
+                    objective="건물 이름과 번호 찾기";who=ElevatorDialogue.Caller(f.UsedPhone);line=f.HintLevel>0?ElevatorDialogue.IdentitySearchHint(f.HintLevel):ElevatorDialogue.IdentityGuide;break;
                 case ElevatorStep.CallSafetyAdvice:
-                    objective="안전 안내 확인하기";Add("알겠어요",lesson.Continue);break;
+                    objective="문에서 떨어져 기다리기";break;
                 case ElevatorStep.Call:
                     who=ElevatorDialogue.Caller(f.UsedPhone);
                     if(f.SearchingIdentity){objective="건물 이름과 번호 찾기";who="위치 알리기";line=ElevatorDialogue.IdentitySearchHint(f.HintLevel);}
-                    else if(f.ReviewingIdentity){objective="위치 알리기";line=lesson.settings.building+"\n"+lesson.settings.liftId;who="엘리베이터 안내판";Add("위치 알려 주기",lesson.Report);Add("다시 살펴보기",lesson.ReinspectIdentity);}
+                    else if(f.ReviewingIdentity){objective="위치 알리기";line=lesson.settings.building+"\n"+lesson.settings.liftId;who="엘리베이터 안내판";Add("위치 알려 주기",lesson.Report);}
                     else{objective="안전 안내 확인하기";line=ElevatorDialogue.SafetyAdvice;Add("알겠어요",lesson.Advice);}break;
                 case ElevatorStep.DoorPosterPointing:
                     objective="친구와 이야기해 보세요.";who="친구와 함께 기다리기";
@@ -239,14 +239,15 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(f.HasObjectPreview)
             {
                 DescribeObjectPreview(f.PreviewClue.Value,out who,out line,out string actionLabel);
-                objective=f.CanConfirmObject?"친구에게 할 말":"살펴보기";
-                actions.Clear();labels.Clear();
+                objective=f.CanConfirmObject?"친구에게 할 말":f.ReviewingIdentity?"확인한 위치 알려 주기":"살펴보기";
+                // Other descriptions can replace the card without discarding the
+                // deliberate location-report action or requiring a close first.
+                if(!f.ReviewingIdentity){actions.Clear();labels.Clear();}
                 if(f.CanConfirmObject)
                 {
                     if(f.CanChooseSafeWall)Add(ElevatorDialogue.SafeReply,lesson.ChooseSafeWall);
                     Add(ElevatorDialogue.UnsafeReply,lesson.ChooseUnsafeWall);
                 }
-                Add(f.CanConfirmObject?"조금 더 살펴보기":"닫기",lesson.CloseObjectPreview);
             }
             subtitle.text=objective;normalLine=line;normalSpeaker=who;speaker.text=who;dialogueText.text=line;
             progress.text=(f.HelpRequested?"<color=#297A70>● 도움 요청</color>":"○ 도움 요청")+"   "+(f.LocationReported?"<color=#297A70>● 위치 전달</color>":"○ 위치 전달")+"   "+(f.Reassured?"<color=#297A70>● 함께 대기</color>":"○ 함께 대기");

@@ -1,0 +1,25 @@
+{
+  "purpose": "Installation baseline; original hashes retained, backup paths migrated only.",
+  "files": {
+    "Assets/M/Scene/Wait_Elevator.unity": {
+      "sha256": "cf0dc9ee26c3bc228a1704e538e9c8d69931572527eb623bccdc343a839c16bb",
+      "backup": "Assets/M/VRPreviewSupport~/Baseline~/Files/Assets/M/Scene/Wait_Elevator.unity"
+    },
+    "Assets/M/Scene/Wait_Elevator.unity.meta": {
+      "sha256": "999842eee833f520e841c3995519529ad88ce060b5c3db500ca3d66c8cf67f54",
+      "backup": "Assets/M/VRPreviewSupport~/Baseline~/Files/Assets/M/Scene/Wait_Elevator.unity.meta"
+    },
+    "Assets/XR/Settings/OpenXRPackageSettings.asset": {
+      "sha256": "02d6cd18c5ef773a27b03170c9ec6c8bfd1bdfd2179ad5cba907a7dd55b35a20",
+      "backup": "Assets/M/VRPreviewSupport~/Baseline~/Files/Assets/XR/Settings/OpenXRPackageSettings.asset"
+    },
+    "Packages/manifest.json": {
+      "sha256": "8ed3244610e2ad6d9e4fabaf366167db7374a5fd70a6bd3aa45dae60526312c1",
+      "backup": "Assets/M/VRPreviewSupport~/Baseline~/Files/Packages/manifest.json"
+    },
+    "Packages/packages-lock.json": {
+      "sha256": "c8a9c7282bd9ecae0231a91a42710f088dc7027a096a798abbe83a5d7e08b920",
+      "backup": "Assets/M/VRPreviewSupport~/Baseline~/Files/Packages/packages-lock.json"
+    }
+  }
+}

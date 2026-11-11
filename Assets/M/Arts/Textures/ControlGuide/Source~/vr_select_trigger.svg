@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
-<title id="title">검지 트리거로 선택</title>
-<desc id="desc">가리킨 뒤 검지 트리거를 한 번 눌러요。옆에서 본 컨트롤러의 상단 앞쪽 검지 트리거를 주황색으로 강조. 손잡이 그립은 강조하지 않음.</desc>
-<g stroke-linecap="round" stroke-linejoin="round">
-<path d="M80 78 C75 55 87 36 114 34 L147 34 C169 37 182 55 175 75 L160 99 L144 216 Q141 232 122 232 L104 232 Q88 229 90 211 L99 120 Q73 111 80 78 Z" fill="#FFF6DB" stroke="#473024" stroke-width="7.5" /><path d="M142 115 L130 217 Q127 225 113 225 L125 225 Q138 224 138 214 L153 110 Z" fill="#E2CEAA" stroke="none" stroke-width="0" /><path d="M95 156 Q122 168 151 156 L148 181 Q121 191 93 180 Z" fill="#C9E3C2" stroke="none" stroke-width="0" /><path d="M92 57 Q109 44 147 47" fill="none" stroke="#FFFBEF" stroke-width="6" /><path d="M92 80 Q119 95 153 78" fill="none" stroke="#58A99A" stroke-width="8" /><path d="M170 61 Q193 64 198 80 Q202 92 188 105 L174 107 L163 91 Z" fill="#FF8C2D" stroke="#473024" stroke-width="6" /><path d="M188 77 Q195 86 182 98 L176 97 Q187 85 183 75 Z" fill="#E87927" stroke="none" stroke-width="0" /><path d="M230 135 L208.04897915063566 115.88136893765042" fill="none" stroke="#297A70" stroke-width="8" /><polygon points="199,108 213.40831002823793,109.72806311521816 202.68964827303338,122.03467476008268" fill="#297A70" stroke="none" stroke-width="0"/><path d="M216 52 L228 42" fill="none" stroke="#297A70" stroke-width="6" /><path d="M224 76 L239 76" fill="none" stroke="#297A70" stroke-width="6" />
-</g>
-</svg>

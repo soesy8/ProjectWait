@@ -1,0 +1,42 @@
+{
+  "sceneHash": "9ddb568ab2ab16f2f889c2fbb8fe483455236a76912bd3a61c738fe4795620a7",
+  "previewRootMetaHash": "e0ac4170652ee03b0363ea9da1994763a63e1188c69fb4a5dced176c96d600b6",
+  "previewFiles": {
+    "Assets/M/VRPreview/Editor.meta": "60f80c9cdc5448798c836646fb27ed07cc4d932c9e1b4c53aa3a5ea735161566",
+    "Assets/M/VRPreview/README.md": "7278932b71e4622edde283fa8db591cf1875f112875d77754fa83a7566def7a0",
+    "Assets/M/VRPreview/README.md.meta": "d68947da04ee1ad4422726ee2c22f885c010d42086f1bb88c396a352161144db",
+    "Assets/M/VRPreview/Runtime.meta": "9afb2909562964065c0c120fe1f294a5d6e5121372c0e6d3de4bf94c661c051a",
+    "Assets/M/VRPreview/Editor/VRPreviewTools.cs": "cdacc9905093cdd28f89bb7b4a2df7a60f44bb908b7b28921d91d8bd54223c50",
+    "Assets/M/VRPreview/Editor/VRPreviewTools.cs.meta": "b7e2f4807ac2be0224e97573bea83d33bb85cfcd82056de1b7c48f1b5b106109",
+    "Assets/M/VRPreview/Runtime/VRPreviewFraming.cs": "fa516c69e2eb9e06618cb5100e66b5483ee413be9a40e2ab474d58d3e44db8d4",
+    "Assets/M/VRPreview/Runtime/VRPreviewFraming.cs.meta": "65d7882c33c9c375d253594aab1fd926085b17b5d43cdefc4bab88e0f0d6aae1",
+    "Assets/M/VRPreview/Runtime/VRPreviewInput.cs": "812caceb811ce11c6dc18b5efc3374b3eb80f03897536e1222777fcd1bb70809",
+    "Assets/M/VRPreview/Runtime/VRPreviewInput.cs.meta": "5207c017d0c52b4c778c16c1b754ef023e17901285f0161c97b936717ad90987",
+    "Assets/M/VRPreview/Runtime/VRPreviewReading.cs": "1d42aa1df2f42ac132cb95cb3f2494770c411c35335f414a06d96d66455306e0",
+    "Assets/M/VRPreview/Runtime/VRPreviewReading.cs.meta": "bfa8c85a46721ba8bcd35450a959ac7b875f1c073c815b0c3d3d13a4f465dac8",
+    "Assets/M/VRPreview/Runtime/VRPreviewScreenSpace.cs": "3cce294b2ec23bb4087d9f59022e8e9e4b922480595d9c77b86419e4352f7a6d",
+    "Assets/M/VRPreview/Runtime/VRPreviewScreenSpace.cs.meta": "da8843bef2238b895c68152740442035190f954d668073615d0db3c046d61a39",
+    "Assets/M/VRPreview/Runtime/VRPreviewStagePolicy.cs": "708e3841c11f48a9a71c0670881d369b266219e8a68ab4f2b3c7ecc15acd1465",
+    "Assets/M/VRPreview/Runtime/VRPreviewStagePolicy.cs.meta": "9bb7c3c579aa5462636b0fcd8c200889cee3551b55a4c0987febe5da52e42604",
+    "Assets/M/VRPreview/Runtime/VRPreviewStageUX.cs": "8f130ce428884234fb2e25b3788fdfbf41143f0dc86a59e6424c491853de6396",
+    "Assets/M/VRPreview/Runtime/VRPreviewStageUX.cs.meta": "1aaff336dee69b499ec6ad29b4ece00991c2edb199cf4821c0f0b12d2f4251e4",
+    "Assets/M/VRPreview/Runtime/VRPreviewTest.cs": "fcd95a46ce443673435932bfda26bd38a4fb0801fbe0e1d8ef280b49e56fddd6",
+    "Assets/M/VRPreview/Runtime/VRPreviewTest.cs.meta": "beeb3211131dee4be8eb188dc7db64b02801dbe3ba5447839e9ce77b98a5b3c0",
+    "Assets/M/VRPreview/Runtime/VRPreviewWorldPlacement.cs": "9dc203319027bd864eb10603c6b462755cda7d48534d5d6ee6f25949a749b3d4",
+    "Assets/M/VRPreview/Runtime/VRPreviewWorldPlacement.cs.meta": "78a1cd603e4a9ac198d62782c11eb59d95610aa40e1bc6479cb8b266cb5f11d1"
+  },
+  "guarded": {
+    "Packages/manifest.json": "c9f24cbd92c1aea10319d8847e8f30e667eedb566b08a83f2118144121aba065",
+    "Packages/packages-lock.json": "74b6df422ef1e688c79698b2819a0223d96195eb79c2ce348f57845c0b1090a8",
+    "Assets/XR/Settings/OpenXRPackageSettings.asset": "c1062a84c1a5d886c654e1fb96f00e193aff1b1fc5fd050c233d09b3dad39b83"
+  },
+  "createdXR": {
+    "Assets/XR/Loaders/MockHMDLoader.asset": "aeea09ec6f7eccf0847a4c0ae6ad3316c5706bf438f7b090bc800e2d303bb829",
+    "Assets/XR/Loaders/MockHMDLoader.asset.meta": "00bff1005448713bb7643ccdd6c786bcc45f9d3fee09d53b79cd1101e28de4cd",
+    "Assets/XR/Settings/MockHMDBuildSettings.asset": "42c136401b39bfeba3fea82c06cfbc17ca9f81223e5ec2f97aafb4a9c917750b",
+    "Assets/XR/Settings/MockHMDBuildSettings.asset.meta": "01c86e8d8957420741ee8ffe9473acd66179e67ea0e4b649172c9403f1bbe656"
+  },
+  "python": "E:\\HermesProfile\\installs\\736e3d39238cc444\\environments\\febe262adc4a4100b564ea842c99bf17\\venv\\Scripts\\python.exe",
+  "unityCli": "C:\\Users\\MBC\\AppData\\Local\\Unity\\bin\\unity.EXE",
+  "finalizerHash": "f5be0861d90ca594ea61793d401a0791fd25324b7ae9e4889cd59e784993faf9"
+}

@@ -1,10 +1,10 @@
-# 대화·알림 개선 테스트 씬
+# Wait_Elevator 메인 씬 — 대화·알림 개선
 
 ## 실행
 
-`Assets/M/Scene/Elevator_Dialogue_Preview_Test.unity`를 열고 Play를 누릅니다.
+`Assets/M/Scene/Wait_Elevator.unity`를 열고 Play를 누릅니다.
 
-메인 씬 `Elevator_Obsevation_Choice_Test.unity`와 빌드 등록은 바꾸지 않았습니다. 이 씬은 비교용이며 자동으로 빌드에 포함되지 않습니다.
+대사 개선 씬이 메인 씬으로 승격되었습니다. 원래 대사 테스트 씬의 GUID와 씬 본문을 유지한 채 이름만 변경했으며, 빌드 씬 목록에는 `Wait_Elevator` 하나만 활성화합니다. 이전 ObservationTrial 씬·전용 코드와 설정은 정리 대상입니다.
 
 ## 변경 내용
 
@@ -19,25 +19,24 @@
 - 완료 화면의 중복 표제를 줄이고, 세부 기록은 `함께한 일 보기`에서 확인합니다.
 - 최종 글자 영역을 기준으로 선택지 높이를 계산하고, 안전 안내의 어미가 한 줄에 따로 떨어지지 않도록 조정했습니다.
 
-## 격리 구조
+## 유지 구조
 
-- 전용 런타임: `Assets/M/Scripts/DialoguePreview/`
+- 메인 런타임: `Assets/M/Scripts/DialoguePreview/`
 - 네임스페이스: `ProjectWait.M.Elevator.DialoguePreview`
 - 전용 설정: `Assets/M/Scene/Elevator_Dialogue_Preview_Settings.asset`
 - 전용 친구 프리팹: `Assets/M/Prefabs/DialoguePreview/Wait_Friend_DialoguePreview.prefab`
 
-타입 참조가 결합되어 있는 런타임을 테스트 전용으로 복제했습니다. 앞으로 이 실험의 문구를 바꿀 때는 위 전용 경로를 사용합니다. 모델·재질·폰트·공통 렌더링 자산은 원본을 수정하지 않고 공유합니다. 친구 프리팹에서 상속되는 표정 컴포넌트도 전용 타입으로 연결했습니다.
+폴더·네임스페이스·설정·친구 프리팹 이름은 대사 테스트 당시의 식별자를 유지합니다. 앞으로 메인 씬의 문구를 바꿀 때는 위 런타임을 사용합니다. 모델·재질·폰트·공통 렌더링 자산과 친구 프리팹의 표정 컴포넌트 참조를 보존합니다.
 
-## 검증
+## 메인 씬 승격 검증
 
-`Assets/M/CodexTemp/DialoguePreviewTools~/Delivery/`에 최종 결과가 있습니다.
+현재 결과는 `Assets/M/CodexTemp/MainSceneTools~/`에 기록합니다. `rename.json`은 GUID·본문·메타 보존을, `cleanup-plan.json`과 `deleted.json`은 파일별 정리 범위를, `validation.json`과 `smoke.json`은 정리 후 씬 참조 및 실제 씬 실행 검사를 기록합니다.
 
-- C# 컴파일 오류·경고 0. Unity CLI와 설치된 Pipeline 명령 이름의 호환 경고는 별도입니다.
-- 9개 검증 묶음, 총 79개 확인 항목 통과. 선언된 항목 수와 실제 배열 길이를 대조했습니다.
-- 관리실 연결 및 무응답 후 119 모의 통화 경로, 잘못된 대답·재시도, 안전 대답, 구조·귀가, 메뉴·재시작을 실제 씬의 물체·UI 콜백으로 확인했습니다.
-- 원본 씬·설정·런타임·프리팹·메타·빌드 설정의 확인 대상 85개 파일은 SHA-256이 작업 전과 같습니다.
-- Missing Script 0, 원본 ObservationTrial 런타임 의존성 0, CodexTemp 런타임 의존성 0.
-- PC 실행 화면 6장을 캡처했고, 캡처 대상 텍스트에서 넘침 0을 확인했습니다.
-- 마지막 에디터 상태는 테스트 씬을 연 비플레이·저장 완료 상태입니다.
+- 씬 이름 변경과 빌드 등록은 실제 에디터 설정을 읽어 확인합니다.
+- 정리 후 컴파일·Missing Script·누락 참조·셰이더 오류·전역 설정 참조를 확인합니다.
+- 관리실 연결 및 무응답 후 119 모의 통화 경로, 구조·귀가, 메뉴·재시작을 실제 씬 물체·UI 콜백과 결정적 시간 진행으로 확인합니다.
+- 기존 모든 폴더·폴더 메타와 빌드 씬 목록 외의 프로젝트 설정을 보존했는지 해시·목록으로 확인합니다.
 
-검증은 에디터에서 결정적 시간 진행과 실제 콜백을 사용했습니다. VR 메뉴 상태는 논리 분기와 보정 정책으로 확인했으며, 실제 HMD 착용·양안 가독성·실기기 입력·플레이어 빌드·초심자 체감 속도는 확인하지 않았습니다.
+정리 후 C# 컴파일 오류·Missing Script·누락 참조·셰이더 오류·삭제 자산으로 향하는 GUID 참조는 모두 0입니다. 실제 Play Mode에서 결정적 시간 진행과 물체/UI 콜백으로 43개 확인 항목을 통과했고, 두 통화 경로 모두 1층 귀가·완료에 도달했습니다. PC 실행 캡처를 직접 확인했습니다. XR 오디오 기본 장치 폴백 경고 2건과 시선 추적 장치 없음 경고 1건은 별도로 남아 있습니다.
+
+실제 HMD 착용·양안 가독성·실기기 입력·플레이어 빌드·초심자 체감 속도·Mock HMD 시뮬레이터 연동은 확인하지 않았습니다. 메인 씬 등록은 에디터 메모리 설정뿐 아니라 디스크의 `ProjectSettings/EditorBuildSettings.asset`에서도 확인했습니다.

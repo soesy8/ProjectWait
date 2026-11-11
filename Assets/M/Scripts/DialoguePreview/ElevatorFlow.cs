@@ -36,7 +36,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public bool DoorRetry => Step == ElevatorStep.Retry && retryReturn == ElevatorStep.DoorPosterPointing;
         public float Elapsed { get; private set; }
         public bool AwaitingPoster => Step == ElevatorStep.PosterPointing || Step == ElevatorStep.DoorPosterPointing;
-        public bool SearchingIdentity => Step == ElevatorStep.Call && Phase == InteractionPhase.Investigation && SituationReported && !IdentityReviewOpen && !LocationReported;
+        public bool SearchingIdentity => (Step == ElevatorStep.CallIdentityGuide || Step == ElevatorStep.Call && Phase == InteractionPhase.Investigation) && SituationReported && !IdentityReviewOpen && !LocationReported;
         public bool ReviewingIdentity => Step == ElevatorStep.Call && IdentityReviewOpen && IdentityFound && !LocationReported;
         public bool AwaitingCallContinue => Step == ElevatorStep.CallIdentityGuide || Step == ElevatorStep.CallSafetyAdvice;
         public bool IsCallCutscene => Step == ElevatorStep.Connecting || Step == ElevatorStep.CallQuestion || Step == ElevatorStep.CallResponse || Step == ElevatorStep.CallLiftQuestion || Step == ElevatorStep.CallLocationResponse;
@@ -46,7 +46,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public bool IsOpening => Step == ElevatorStep.StartupFade || Step == ElevatorStep.GymDeparture;
         public bool IsCinematic => IsShotCutscene || IsCallCutscene || IsDoorSafetyCutscene || IsOpening || Step==ElevatorStep.WaitingFade || Step==ElevatorStep.Entering || Step==ElevatorStep.Exiting || Step==ElevatorStep.Travel || Step==ElevatorStep.Returning || Step==ElevatorStep.GoingHome || (Step==ElevatorStep.Stopped&&Phase==InteractionPhase.Dialogue) || (Step==ElevatorStep.Rescue&&!ReadyToExit);
         public bool CanObserve => Phase == InteractionPhase.Investigation || Step == ElevatorStep.Boarding || Step == ElevatorStep.Waiting || SearchingIdentity;
-        public bool SupportsObjectPreview => SearchingIdentity || Step == ElevatorStep.DoorPosterPointing || Step == ElevatorStep.Stopped && CanObserve || Step == ElevatorStep.Unanswered;
+        public bool SupportsObjectPreview => SearchingIdentity || ReviewingIdentity || Step == ElevatorStep.DoorPosterPointing || Step == ElevatorStep.Stopped && CanObserve || Step == ElevatorStep.Unanswered;
         public bool UsesObjectConfirmation => Step == ElevatorStep.DoorPosterPointing;
         public bool HasObjectPreview => SupportsObjectPreview && PreviewClue.HasValue;
         public bool CanConfirmObject => Step == ElevatorStep.DoorPosterPointing && PreviewClue == ElevatorClue.Friend;
@@ -281,13 +281,14 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                     if (Elapsed >= settings.callQuestionSeconds) Enter(ElevatorStep.CallIdentityGuide);
                     break;
                 case ElevatorStep.CallIdentityGuide:
-                    // Essential directions remain visible until the learner is ready.
+                    // Keep the directions visible while objects are already selectable.
                     break;
                 case ElevatorStep.CallLocationResponse:
                     if (Elapsed >= settings.locationReportSeconds) Enter(ElevatorStep.CallSafetyAdvice);
                     break;
                 case ElevatorStep.CallSafetyAdvice:
-                    // Reading is not a timed test. Continue resumes the short performance.
+                    // This is spoken guidance, not an acknowledgement checkpoint.
+                    if (Elapsed >= settings.safetyAdviceSeconds) Enter(ElevatorStep.DoorLean);
                     break;
                 case ElevatorStep.DoorLean:
                     if (Elapsed >= settings.doorLeanSeconds) Enter(ElevatorStep.DoorPosterPointing, InteractionPhase.Investigation);
