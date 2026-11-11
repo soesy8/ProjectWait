@@ -26,6 +26,7 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _OutlineWidth: 0
     - _Surface: 0
     - _Blend: 0
     - _SrcBlend: 1

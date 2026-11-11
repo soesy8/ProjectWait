@@ -930,6 +930,14 @@ PrefabInstance:
       propertyPath: m_CrossingEndPoint
       value:
       objectReference: {fileID: 70000011}
+    - target: {fileID: 13700000, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114600005, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
+      propertyPath: m_Renderer
+      value: 
+      objectReference: {fileID: 9800000003}
     m_RemovedComponents:
     - {fileID: 114600001, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
     - {fileID: 114600002, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
@@ -951,6 +959,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 603001, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4000000326}
+    - targetCorrespondingSourceObject: {fileID: 600011, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9800000002}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 600000, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
       insertIndex: -1
@@ -967,6 +978,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 600000, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9200001205}
+    - targetCorrespondingSourceObject: {fileID: 600000, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9800000004}
   m_SourcePrefab: {fileID: 100100000, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
 --- !u!1 &81000000
 GameObject:
@@ -4836,6 +4850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f283c61328541dbea50b79132e7f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationObservation
+  m_UseSharedHighlight: 1
   m_Interactable: {fileID: 4000000276}
   m_UI: {fileID: 4000000052}
   m_Thought: "계속 휴대전화를 보면서 걷고 있네."
@@ -4969,6 +4984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f283c61328541dbea50b79132e7f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationObservation
+  m_UseSharedHighlight: 1
   m_Interactable: {fileID: 4000000324}
   m_UI: {fileID: 4000000052}
   m_Thought: "화면에 정신이 팔려서 앞을 못 보고 있어."
@@ -6474,6 +6490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f283c61328541dbea50b79132e7f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationObservation
+  m_UseSharedHighlight: 1
   m_Interactable: {fileID: 4000000444}
   m_UI: {fileID: 4000000052}
   m_Thought: "앞에 전봇대가 있네."
@@ -6646,6 +6663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f283c61328541dbea50b79132e7f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationObservation
+  m_UseSharedHighlight: 1
   m_Interactable: {fileID: 4000000455}
   m_UI: {fileID: 4000000052}
   m_Thought: "친구가 저쪽으로 걸어가고 있어."
@@ -17891,6 +17909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f283c61328541dbea50b79132e7f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationObservation
+  m_UseSharedHighlight: 1
   m_Interactable: {fileID: 9000001058}
   m_InputSource: {fileID: 6000000001}
   m_UI: {fileID: 4000000052}
@@ -18086,6 +18105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f283c61328541dbea50b79132e7f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationObservation
+  m_UseSharedHighlight: 1
   m_Interactable: {fileID: 9000001135}
   m_InputSource: {fileID: 6000000001}
   m_UI: {fileID: 4000000052}
@@ -20221,6 +20241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f283c61328541dbea50b79132e7f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationObservation
+  m_UseSharedHighlight: 1
   m_Interactable: {fileID: 9000001239}
   m_InputSource: {fileID: 6000000001}
   m_UI: {fileID: 4000000052}
@@ -23480,6 +23501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f283c61328541dbea50b79132e7f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationObservation
+  m_UseSharedHighlight: 1
   m_Interactable: {fileID: 9100001020}
   m_InputSource: {fileID: 6000000001}
   m_UI: {fileID: 4000000052}
@@ -27836,7 +27858,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9300001005}
   m_Layer: 0
-  m_Name: 세 번째_건너편 차로 접근 시작
+  m_Name: 세 번째_플레이어 쪽 차로 접근 시작
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27851,7 +27873,7 @@ Transform:
   m_GameObject: {fileID: 9300001004}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.707106781, z: 0, w: 0.707106781}
-  m_LocalPosition: {x: 36, y: 0, z: 1.75}
+  m_LocalPosition: {x: -37.5, y: 0, z: -1.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27867,7 +27889,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9300001007}
   m_Layer: 0
-  m_Name: 세 번째_건너편 차로 끝
+  m_Name: 세 번째_플레이어 쪽 차로 끝
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27882,7 +27904,7 @@ Transform:
   m_GameObject: {fileID: 9300001006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.707106781, z: 0, w: 0.707106781}
-  m_LocalPosition: {x: -37.5, y: 0, z: 1.75}
+  m_LocalPosition: {x: 36, y: 0, z: -1.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27913,7 +27935,7 @@ Transform:
   m_GameObject: {fileID: 9300001008}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.707106781, z: 0, w: 0.707106781}
-  m_LocalPosition: {x: 30, y: 0, z: 1.75}
+  m_LocalPosition: {x: -13, y: 0, z: -1.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27944,7 +27966,7 @@ Transform:
   m_GameObject: {fileID: 9300001010}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.707106781, z: 0, w: 0.707106781}
-  m_LocalPosition: {x: 0, y: 0.016, z: 0.35}
+  m_LocalPosition: {x: 0, y: 0.016, z: -3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -37121,3 +37143,68 @@ AudioSource:
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 1
+--- !u!1001 &9800000000
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4000000009}
+    m_Modifications:
+    - target: {fileID: 1787880698875874939, guid: 2612432d60b0c5540b7cad97f4dd15e9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787880698875874939, guid: 2612432d60b0c5540b7cad97f4dd15e9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787880698875874939, guid: 2612432d60b0c5540b7cad97f4dd15e9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2612432d60b0c5540b7cad97f4dd15e9, type: 3}
+--- !u!1 &9800000001 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7278843621338957686, guid: 2612432d60b0c5540b7cad97f4dd15e9, type: 3}
+  m_PrefabInstance: {fileID: 9800000000}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9800000002 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1787880698875874939, guid: 2612432d60b0c5540b7cad97f4dd15e9, type: 3}
+  m_PrefabInstance: {fileID: 9800000000}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &9800000003 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 136198119880634306, guid: 2612432d60b0c5540b7cad97f4dd15e9, type: 3}
+  m_PrefabInstance: {fileID: 9800000000}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9800000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4000000047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c46781a25d04dfda881aa07ad34bd66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.CrosswalkFriendVisual
+  m_Frame: {fileID: 4000000009}
+  m_SourceSkin: {fileID: 9800000005}
+  m_Model: {fileID: 9800000002}
+  m_VisualSkin: {fileID: 9800000003}
+  m_Phone: {fileID: 4000000322}
+  m_HeadAttachments:
+  - {fileID: 4000000017}
+  - {fileID: 4000000022}
+--- !u!137 &9800000005 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13700000, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
+  m_PrefabInstance: {fileID: 80000000}
+  m_PrefabAsset: {fileID: 0}

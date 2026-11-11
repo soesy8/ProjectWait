@@ -26,13 +26,13 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
         [SerializeField, InspectorName("자동차 몸 Collider"), Tooltip("기존 차량 전체의 관찰 Collider입니다.")] private Collider m_CarBody; // 차의 앞과 뒤가 횡단보도에 닿거나 빠져나가는 순간을 계산합니다.
         [SerializeField, InspectorName("기존 보행 신호"), Tooltip("기존 파란 사람 표시와 타이머를 유지합니다.")] private PedestrianTrafficLight m_Signal; // 횡단 완료까지 파란 신호를 유지합니다.
         [SerializeField, InspectorName("파란 신호 응시점"), Tooltip("기존 파란 사람 표시의 Transform입니다.")] private Transform m_GreenSignalPoint; // 친구가 실제 신호를 바라봅니다.
-        [SerializeField, InspectorName("접근 차량 시작"), Tooltip("같은 도로의 건너편 차로 위 시작점입니다.")] private Transform m_CarEntry; // 화면 전환 중에만 기존 차량을 배치합니다.
-        [SerializeField, InspectorName("접근 차로 끝"), Tooltip("기존 도로 끝의 같은 높이 지점입니다.")] private Transform m_CarExit; // 차량의 접근 방향을 명확하게 정합니다.
-        [SerializeField, InspectorName("파란불 전환 위치"), Tooltip("다가오는 차가 이 위치를 지나면 보행 신호가 파란불로 바뀝니다.")] private Transform m_CarSignalChangePoint; // 차가 아직 접근 중인 시점에만 파란불을 켭니다.
+        [SerializeField, InspectorName("접근 차량 시작"), Tooltip("플레이어 쪽 첫 차로에서 왼쪽으로 접근하는 차량의 시작점입니다.")] private Transform m_CarEntry; // 두 번째 차량이 통과한 뒤 같은 통행 방향의 시작점에서 다음 접근을 준비합니다.
+        [SerializeField, InspectorName("접근 차로 끝"), Tooltip("플레이어 쪽 첫 차로에서 횡단보도 오른쪽 도로 끝에 놓는 지점입니다.")] private Transform m_CarExit; // 차량이 친구 바로 앞 차로를 왼쪽에서 오른쪽으로 통과하도록 방향을 정합니다.
+        [SerializeField, InspectorName("파란불 전환 위치"), Tooltip("친구가 인도에서 첫 차로 앞까지 내딛는 동안 차가 횡단보도에 도달하도록 정한 신호 전환 지점입니다.")] private Transform m_CarSignalChangePoint; // 먼 거리의 차량을 오래 보여 주지 않고 출발하려는 순간의 측면 접근에 신호를 맞춥니다.
         [SerializeField, Min(0.1f), InspectorName("통과 차량 속도(m/s)"), Tooltip("세 번째 상황에서 신호가 바뀐 뒤에도 차가 유지하는 접근 속도입니다.")] private float m_CarApproachSpeed = 8f; // 마지막 상황에만 일반 주행보다 빠른 통과 속도를 사용합니다.
         [SerializeField, Min(0.1f), InspectorName("횡단보도 반폭(m)"), Tooltip("친구가 건너는 선에서 차가 횡단보도를 완전히 빠져나갔다고 판단하는 거리입니다.")] private float m_CrosswalkHalfWidth = 1.9f; // 차량 뒤쪽까지 이 거리를 벗어나야 횡단할 수 있습니다.
         [SerializeField, InspectorName("횡단보도 중심선 기준"), Tooltip("전봇대 쪽 인도의 횡단 시작점입니다. 차량이 지나갔는지 판단할 때 이 지점의 차로 방향 좌표를 사용합니다.")] private Transform m_CurbPoint; // 앞뒤 범퍼 위치를 같은 횡단보도 기준으로 계산합니다.
-        [SerializeField, InspectorName("위험 선택 접근 제한점"), Tooltip("가까운 인도에서 출발한 친구가 건너편 차로에 닿기 전에 멈출 지점입니다.")] private Transform m_NearMissPoint; // 위험 선택의 실제 이동이 차량의 측면까지 들어가지 않게 합니다.
+        [SerializeField, InspectorName("위험 선택 접근 제한점"), Tooltip("친구가 인도에서 서둘러 내딛다가 플레이어 쪽 첫 차로의 차량 옆면에 닿기 전에 멈출 지점입니다.")] private Transform m_NearMissPoint; // 친구의 전진을 가까운 차로 앞에서 제한해 바로 옆으로 통과하는 차량과 겹치지 않게 합니다.
         [SerializeField, InspectorName("도로 왼쪽 확인점"), Tooltip("횡단 전 반대 방향을 확인할 도로 위 응시점입니다.")] private Transform m_CheckLeft; // 실제 주변을 살펴보는 고개 동작을 연결합니다.
         [SerializeField, InspectorName("도로 오른쪽 확인점"), Tooltip("횡단 전 접근 방향을 재확인할 도로 위 응시점입니다.")] private Transform m_CheckRight; // 신호만 보고 출발하지 않는 행동을 보여 줍니다.
         [SerializeField, Min(2f), InspectorName("위험 설명 표시 시간"), Tooltip("설명 후 같은 관찰로 복원합니다. 버튼으로 먼저 재시도할 수도 있습니다.")] private float m_ResultDuration = 4f; // 관찰·선택에는 제한 시간을 두지 않습니다.
@@ -70,7 +70,7 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
             float clearDeadline = Time.unscaledTime + m_Car.ScenarioTravelBudget; // 이전 주행이 중단되어도 도입이 무한 대기하지 않게 합니다.
             while (!m_Car.HasPassedCrosswalkForScenario && m_Car.isActiveAndEnabled && Time.unscaledTime < clearDeadline) yield return null; // 빨간불 동안 앞선 차가 횡단보도를 빠져나갈 시간을 줍니다.
             m_Second.HideCompletedResultForNextSituation(); // 친구의 이전 대사를 닫고 같은 화면에서 파란불에 집중하게 합니다.
-            if (!m_Car.PrepareGreenScenarioRoute(m_CarEntry, m_CarExit, m_CarSignalChangePoint, m_CarApproachSpeed)) // 통과한 차량 인스턴스를 먼 반대 차로의 다음 접근에 재사용합니다.
+            if (!m_Car.PrepareGreenScenarioRoute(m_CarEntry, m_CarExit, m_CarSignalChangePoint, m_CarApproachSpeed)) // 통과한 차량 인스턴스를 플레이어 쪽 첫 차로에서 왼쪽으로부터 접근하는 다음 차량에 재사용합니다.
             { // 경로 준비가 실패하면 대기 상태를 복원합니다.
                 Debug.LogError("파란불 상황의 접근 차량 경로를 준비하지 못했습니다.", this); // 출발과 신호 전환 위치를 확인할 수 있게 합니다.
                 enabled = false; yield break; // 친구와 플레이어는 앞선 대기 위치를 유지합니다.

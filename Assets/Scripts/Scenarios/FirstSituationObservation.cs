@@ -2,6 +2,8 @@
 using UnityEngine.XR.Interaction.Toolkit; // 기존 XR 조준·선택 이벤트를 수신합니다.
 using UnityEngine.XR.Interaction.Toolkit.Interactables; // 별도로 잡거나 이동하지 않는 관찰 대상을 사용합니다.
 using UnityEngine.XR.Interaction.Toolkit.Interactors; // 컨트롤러 레이와 새 선택 입력을 구분합니다.
+using System.Collections.Generic; // 기존 관찰 윤곽에서 공유 효과에 필요한 메시만 모읍니다.
+using ProjectWait.M.Elevator; // M 폴더의 실제 외곽선·후광 대상 컴포넌트를 사용합니다.
 
 namespace Y.Crosswalk // 각 상황의 단서를 동일한 입력 규칙의 독립적인 인스턴스로 관리합니다.
 { // 원본 물체의 색을 변경하지 않고 별도 실루엣 외곽선만 표시합니다.
@@ -13,6 +15,8 @@ namespace Y.Crosswalk // 각 상황의 단서를 동일한 입력 규칙의 독�
         [SerializeField, InspectorName("공유 생각 말풍선 UI"), Tooltip("두 상황이 함께 사용하는 기존 월드 공간 생각 말풍선 제어기입니다.")] private FirstSituationUI m_UI; // 새 말풍선을 만들지 않고 실제 씬 패널에 이 대상의 문구만 표시합니다.
         [SerializeField, TextArea(2, 4), InspectorName("선택했을 때 생각"), Tooltip("관찰 대상에 맞는 짧은 생각 문구입니다.")] private string m_Thought; // 정답을 미리 표시하지 않는 대상별 단서를 저장합니다.
         [SerializeField, InspectorName("관찰 강조 표시"), Tooltip("관찰할 수 있는 친구나 소품의 윤곽을 표시하는 기존 렌더러입니다.")] private Renderer[] m_Outlines; // 같은 조준 규칙으로 친구와 소품에 연결된 각자의 외곽선을 제어합니다.
+        [SerializeField, InspectorName("M 공유 강조 효과 사용"), Tooltip("켜면 기존 PC·VR 조준 상태를 M 공유 외곽선·후광 렌더러에 전달합니다.")] private bool m_UseSharedHighlight; // 이 씬에서 선택한 관찰 대상만 공유 효과로 표시합니다.
+        private ElevatorOutlineTarget m_SharedHighlight; // 기존 관찰 상태를 전달할 공유 효과 대상입니다.
         [SerializeField, ColorUsage(true), InspectorName("관찰 가능 색상"), Tooltip("관찰 단계에서 아직 조준하지 않은 단서의 외곽선에 사용하는 주황색입니다.")] private Color m_AvailableColor = new Color(1f, 0.43f, 0.12f, 0.85f); // 조사할 수 있는 대상을 조준하기 전에도 같은 표시로 알아볼 수 있게 합니다.
         [SerializeField, ColorUsage(false, true), InspectorName("조준 색상"), Tooltip("마우스나 VR 컨트롤러로 가리키는 동안만 단서의 강조 표시에 사용하는 파란색입니다.")] private Color m_Color = new Color(0.015f, 0.1f, 1.75f, 1f); // 씬에서 대상별로 지정한 기존 파란색을 조준에만 사용합니다.
         [SerializeField, Range(0.001f, 0.12f), InspectorName("테두리 두께(m)"), Tooltip("월드 길이로 확장하는 진한 외곽선의 두께입니다. 작은 휴대전화는 대상 크기에 맞는 값을 사용합니다.")] private float m_Width = 0.048f; // 기존 기본값의 네 배 두께로 클릭 가능한 윤곽을 분명하게 표시합니다.
@@ -33,8 +37,23 @@ namespace Y.Crosswalk // 각 상황의 단서를 동일한 입력 규칙의 독�
         { // Renderer나 UI 오브젝트를 런타임에 생성하지 않습니다.
             m_Properties = new MaterialPropertyBlock(); // 대상별 색상·두께의 전달 공간만 준비합니다.
             foreach (Renderer outline in m_Outlines) if (outline != null) outline.enabled = false; // 살아 있는 외곽선만 숨겨 씬 오브젝트의 해제 순서에 의존하지 않게 합니다.
+            if (m_UseSharedHighlight) PrepareSharedHighlight(); // 공유 효과가 연결된 씬에서는 실제 모델과 소품의 실루엣을 준비합니다.
             if (m_Interactable != null) m_Interactable.enabled = false; // 관찰 전 입력을 끄되 이미 해제된 상호작용에는 접근하지 않습니다.
         } // 원본 모델의 Renderer는 계속 표시합니다.
+
+        private void PrepareSharedHighlight() // 기존 조사 대상과 메시를 M 공유 강조 효과에 연결합니다.
+        { // 별도의 조준 판정이나 예제 입력 드라이버는 추가하지 않습니다.
+            List<ElevatorOutlineGeometry> geometry = new List<ElevatorOutlineGeometry>(); // 이 관찰 대상이 표시할 메시 목록만 준비합니다.
+            foreach (SkinnedMeshRenderer skin in GetComponentsInChildren<SkinnedMeshRenderer>(true)) if (skin.enabled && System.Array.IndexOf(m_Outlines, skin) < 0) geometry.Add(new ElevatorOutlineGeometry { sourceRenderer = skin }); // 친구는 현재 화면에 표시한 실제 스킨의 최종 변형을 사용합니다.
+            foreach (Renderer outline in m_Outlines) // 기존 소품 윤곽의 원본 메시와 배치를 재사용합니다.
+            { // 이전 외곽선 Renderer 자체는 계속 꺼 둡니다.
+                if (outline == null || outline is SkinnedMeshRenderer) continue; // 친구의 이전 복제 스킨은 새 모델과 겹쳐 그리지 않습니다.
+                MeshFilter filter = outline.GetComponent<MeshFilter>(); // 기존 소품 실루엣이 사용하던 메시를 읽습니다.
+                if (filter != null && filter.sharedMesh != null) geometry.Add(new ElevatorOutlineGeometry { mesh = filter.sharedMesh, anchor = filter.transform }); // 신호·전화·차량·횡단보도의 저장된 배치에 공유 효과를 적용합니다.
+            } // 관찰 대상의 Collider와 선택 이벤트는 그대로 유지합니다.
+            m_SharedHighlight = gameObject.AddComponent<ElevatorOutlineTarget>(); m_SharedHighlight.geometry = geometry.ToArray(); // 실제 M 렌더러가 읽는 강조 대상에 수집한 실루엣을 전달합니다.
+            m_SharedHighlight.colorTransitionDuration = m_FadeDuration; m_SharedHighlight.SetPresentation(false, false, false); // 시작 전 강조를 숨기고 기존 관찰 전환 시간을 사용합니다.
+        } // 강조 색과 픽셀 두께·후광은 M 효과의 기본 구성을 사용합니다.
 
         private void OnEnable() // 이 관찰 대상의 기존 XR 이벤트에 한 번만 연결합니다.
         { // 선택과 조준은 같은 대상의 등록 Collider를 사용합니다.
@@ -92,6 +111,12 @@ namespace Y.Crosswalk // 각 상황의 단서를 동일한 입력 규칙의 독�
             bool desktop = m_InputSource != null && m_InputSource.IsDesktopActive; // 현재 입력 방식 하나만 강조의 기준으로 사용합니다.
             bool hovered = m_Available && (desktop ? m_DesktopHovered : HasXRPointerHover()); // 현재 선택할 수 있고 실제로 가리키는 단서에만 조준 색을 적용합니다.
             m_Weight = Mathf.MoveTowards(m_Weight, m_Available ? 1f : 0f, Time.unscaledDeltaTime / Mathf.Max(0.05f, m_FadeDuration)); // 조준을 옮겨도 다른 단서의 표시가 사라지지 않고 관찰 단계가 닫힐 때만 함께 페이드합니다.
+            if (m_SharedHighlight != null) // 공유 강조를 선택한 대상은 같은 관찰·조준 상태로 M 효과만 갱신합니다.
+            { // 이전 복제 윤곽과 새 후광이 함께 나타나지 않게 합니다.
+                float alpha = Mathf.SmoothStep(0f, 1f, m_Weight); Color idle = m_SharedHighlight.idleColor, hover = m_SharedHighlight.hoverColor; idle.a = hover.a = alpha; // 기존 등장·퇴장 진행도를 공유 효과의 투명도에 반영합니다.
+                m_SharedHighlight.idleColor = idle; m_SharedHighlight.hoverColor = hover; m_SharedHighlight.SetPresentation(m_Weight > 0.001f, hovered, hovered); // 조사 가능 시 주황색, 실제 PC·VR 조준 시 파란색 외곽선과 후광을 표시합니다.
+                return; // 공유 효과를 표시할 때 이전 외곽선 Renderer를 다시 켜지 않습니다.
+            } // 공유 효과를 사용하지 않는 다른 씬은 기존 표시를 유지합니다.
             Color color = hovered ? m_Color : m_AvailableColor; // 조준을 벗어나는 즉시 파란색을 거두고 관찰 가능 색으로 되돌립니다.
             color.a *= Mathf.SmoothStep(0f, 1f, m_Weight); // 선택된 강조 색의 투명도에 기존 등장·퇴장 전환만 적용합니다.
             m_Properties.SetColor(k_Color, color); m_Properties.SetFloat(k_Width, m_Width); // 편집한 색상과 실제 두께를 전달합니다.
@@ -105,6 +130,7 @@ namespace Y.Crosswalk // 각 상황의 단서를 동일한 입력 규칙의 독�
                 m_Interactable.selectEntered.RemoveListener(Selected); // 이 컴포넌트가 등록한 선택 이벤트만 해제합니다.
             } // 상호작용의 해제 순서와 관계없이 나머지 정리를 계속합니다.
             m_Available = false; m_DesktopHovered = false; m_Weight = 0f; // 이전 입력 방식의 조준과 표시 상태를 남기지 않습니다.
+            if (m_SharedHighlight != null) m_SharedHighlight.SetPresentation(false, false, false); // 중단과 씬 종료에서 공유 외곽선·후광도 함께 숨깁니다.
             foreach (Renderer outline in m_Outlines) if (outline != null) outline.enabled = false; // 이미 파괴된 윤곽에는 접근하지 않고 남은 표시만 지웁니다.
         } // 원본 모델과 Collider는 제거하지 않습니다.
     } // 하나의 독립적인 관찰 단서를 마칩니다.

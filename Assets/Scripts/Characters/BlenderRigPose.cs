@@ -49,7 +49,7 @@ namespace Y.Crosswalk // 현재 횡단보도 캐릭터의 동작 연결 범위�
         public static void SetSurprise(Transform bone, GameObject legacyMouth, bool active) // 기존 위험 반응을 꺾인 눈과 둥근 입에 연결합니다.
         { // 기존 입 도형은 원본 표정 채널이 없는 구성에서만 화면에 나타납니다.
             BlenderRigPose rig = FindFace(bone); // 같은 친구의 얼굴 스킨을 찾습니다.
-            bool hasSurprise = rig != null && rig.m_Renderer.sharedMesh.GetBlendShapeIndex("Surprise") >= 0; // 원본 입 표정을 사용할 수 있는 경우를 구분합니다.
+            bool hasSurprise = rig != null && (rig.m_Renderer.sharedMesh.GetBlendShapeIndex("Surprise") >= 0 || rig.m_Renderer.sharedMesh.GetBlendShapeIndex("Surprised") >= 0); // 기존 모델과 M 공유 모델의 실제 놀람 표정 이름을 함께 지원합니다.
             if (legacyMouth != null && legacyMouth.activeSelf != (active && !hasSurprise)) legacyMouth.SetActive(active && !hasSurprise); // 같은 얼굴 위에 이전 입 도형과 원본 입이 겹치지 않게 합니다.
             if (rig != null) rig.m_Surprised = active; // 깜빡임이나 웃음보다 놀라는 순간의 표정을 우선합니다.
         } // 상황에서 정한 놀람 상태를 스킨에 전달합니다.
@@ -96,6 +96,8 @@ namespace Y.Crosswalk // 현재 횡단보도 캐릭터의 동작 연결 범위�
             SetWeight("SurpriseEyes", m_Surprised ? 1f : 0f); // 두 눈을 코 쪽을 향한 꺾인 선으로 모읍니다.
             SetWeight("SmileEyes", smiling ? 1f - blink : 0f); // 깜빡이는 짧은 순간을 제외하고 위로 휜 눈웃음을 유지합니다.
             SetWeight("Surprise", m_Surprised ? 1f : 0f); // 놀라는 동안 입을 둥글게 벌립니다.
+            SetWeight("Surprised", m_Surprised ? 1f : 0f); // M 공유 친구도 기존 사고·놀람 상태에 같은 순간 반응합니다.
+            SetWeight("Smile", smiling ? 0.75f : 0f); // M 공유 친구의 미소를 기존 성공·감사 대사에 연결합니다.
             SetWeight("Happy", smiling ? 1f - closed : 0f); // 웃는 대사의 열린 입과 대사 뒤 미소를 표현합니다.
             SetWeight("SmileClosed", smiling ? closed : 0f); // 웃으며 말할 때 입꼬리를 유지한 채 입을 다뭅니다.
             SetWeight("Worried", smiling ? 0f : closed); // 일반 대사에서는 기존 다문 입 키를 말 사이의 입 모양으로 사용합니다.
