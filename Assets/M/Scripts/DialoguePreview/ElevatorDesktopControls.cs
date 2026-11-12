@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit.UI;
+using ProjectWait.M.SceneTransition;
 
 namespace ProjectWait.M.Elevator.DialoguePreview
 {
@@ -153,6 +154,22 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             return true;
         }
         public string XRHeightStatus=>previousPresenceKnown&&!previousPresence?"헤드셋을 착용해 주세요.":XRCalibrationPending?"편한 자세로\n잠시 가만히 있어 주세요.":"눈높이를 맞췄어요.";
+        public void ApplyTransitionHeadPose(SceneTransitionHeadPose pose, Vector3 footprint)
+        {
+            if(!pose.IsValid||!targetCamera||!xrOrigin)return;
+            RefreshMode();
+            float floor=lesson&&lesson.presentation&&lesson.presentation.space&&lesson.presentation.space.sportsCentre?
+                lesson.presentation.space.sportsCentre.CurrentFloorHeight:movement?movement.FeetPosition.y:xrOrigin.position.y;
+            var controller=xrOrigin.GetComponent<CharacterController>();bool enabled=controller&&controller.enabled;
+            if(enabled)controller.enabled=false;
+            pose.Apply(xrOrigin,targetCamera.transform,floor,!IsDesktop,footprint);
+            eyeHeight=pose.EyeHeight;
+            if(IsDesktop){SetLookAngles(SceneTransitionHeadPose.Yaw(pose.EyeRotation),Mathf.DeltaAngle(0,pose.EyeRotation.eulerAngles.x));skipDelta=true;}
+            else heightCalibration.AcceptTransferredHeight();
+            if(movement)movement.CalibrateFeet(floor);
+            if(enabled)controller.enabled=true;
+            if(lesson&&lesson.view)lesson.view.Reanchor(targetCamera.transform.position);
+        }
         public void SetMouseLook(bool active)
         {
             bool value=active&&IsDesktop&&(!(lesson&&lesson.IsPaused)||ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy);

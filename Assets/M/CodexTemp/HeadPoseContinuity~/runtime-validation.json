@@ -1,0 +1,116 @@
+{
+  "checks": [
+    {
+      "name": "Real lobby portal started transition",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Looking away cannot activate destination",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Level head-height guide",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Visible forward instruction",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "PC entry height matches source head",
+      "passed": true,
+      "actual": 1.56999969
+    },
+    {
+      "name": "PC entry yaw/pitch matches source gaze",
+      "passed": true,
+      "actual": "(8.00, 28.35, 0.00)"
+    },
+    {
+      "name": "PC stored calibration height matches transfer",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Capsule feet stay on destination floor",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Following PC frames do not undo transferred gaze",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Authored opening walk preserves head height",
+      "passed": true,
+      "actual": 1.56999969
+    },
+    {
+      "name": "Reverse elevator-to-lobby load accepted",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Reverse head height preserved",
+      "passed": true,
+      "actual": 1.56999969
+    },
+    {
+      "name": "Reverse gaze preserved",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Lobby also reveals with droplets",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Gravity does not drop the returned eye height",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Returned capsule stays on the lobby ground",
+      "passed": true,
+      "actual": 0.0199999958
+    },
+    {
+      "name": "Lobby mouse yaw accumulator follows transferred gaze",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "No transition error",
+      "passed": true,
+      "actual": ""
+    },
+    {
+      "name": "No-load preview still starts",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "No-load preview preserves head height and gaze",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "No-load preview does not change scene",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Cancellation releases sphere effect and UI",
+      "passed": true,
+      "actual": null
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

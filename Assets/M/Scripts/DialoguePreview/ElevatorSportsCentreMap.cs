@@ -71,7 +71,9 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             if (!controls) controls=FindFirstObjectByType<ElevatorDesktopControls>();
             var movement=space.playerRig.GetComponent<ElevatorPlayerMovement>();
-            float offset=XRSettings.isDeviceActive ? (movement?-movement.FeetOffset:space.playerRig.position.y-lastFloor) : 0;
+            // Scene handoff can offset either rig to preserve the incoming eye height.
+            // Keep that feet offset during authored walks as well as XR teleports.
+            float offset=movement?-movement.FeetOffset:XRSettings.isDeviceActive?space.playerRig.position.y-lastFloor:0;
             var controller=space.playerRig.GetComponent<CharacterController>();
             bool enabledController=controller&&controller.enabled;
             if(enabledController)controller.enabled=false;

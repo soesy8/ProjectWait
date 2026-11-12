@@ -24,6 +24,8 @@ namespace ProjectWait.M.TitleScene
         public int TickedFrames { get; private set; }
         public string HoveredExperience => hovered ? hovered.experienceTitle : "";
         public CharacterController Controller { get; private set; }
+        public float FeetOffset { get; private set; }
+        public float FloorHeight => transform.position.y + FeetOffset;
         public string LastMessage { get; private set; } = "";
         TitlePortal hovered;
         Vector3 safeHead;
@@ -114,6 +116,27 @@ namespace ProjectWait.M.TitleScene
             transform.rotation = Quaternion.Euler(0, yaw, 0);
             if (viewCamera) viewCamera.transform.localRotation = Quaternion.Euler(pitch, 0, 0);
         }
+        public void ApplyTransitionHeadPose(SceneTransitionHeadPose pose, Vector3 footprint)
+        {
+            if (!pose.IsValid || !viewCamera) return;
+            float floor = FloorHeight;
+            bool enabledController = Controller && Controller.enabled;
+            if (enabledController) Controller.enabled = false;
+            pose.Apply(transform, viewCamera.transform, floor, IsVR, footprint);
+            eyeHeight = pose.EyeHeight;
+            FeetOffset = floor - transform.position.y;
+            if (Controller) Controller.center = new Vector3(0, Controller.height * .5f + FeetOffset, 0);
+            if (!IsVR)
+            {
+                // Keep the mouse accumulator in sync, or the next delta undoes the handoff.
+                yaw = SceneTransitionHeadPose.Yaw(pose.EyeRotation);
+                pitch = Mathf.DeltaAngle(0, pose.EyeRotation.eulerAngles.x);
+                transform.rotation = Quaternion.Euler(0, yaw, 0);
+                viewCamera.transform.localRotation = Quaternion.Euler(pitch, 0, 0);
+            }
+            verticalSpeed = 0; hasSafeHead = false; skipMouse = true;
+            if (enabledController) Controller.enabled = true;
+        }
         public void Move(Vector2 input, float seconds)
         {
             if (StorybookSceneTransition.IsBusy || !Controller || !Controller.enabled || !viewCamera || seconds <= 0) return;
@@ -129,7 +152,7 @@ namespace ProjectWait.M.TitleScene
         {
             var point = IsVR ? viewCamera.transform.position : transform.position;
             var correction = new Vector3(Mathf.Clamp(point.x, walkMin.x, walkMax.x) - point.x, 0, Mathf.Clamp(point.z, walkMin.y, walkMax.y) - point.z);
-            if (transform.position.y < -.15f) correction.y = -transform.position.y;
+            if (FloorHeight < -.15f) correction.y = -FloorHeight;
             if (correction.sqrMagnitude > .000001f)
             { Controller.enabled = false; transform.position += correction; Controller.enabled = true; }
         }
@@ -157,7 +180,7 @@ namespace ProjectWait.M.TitleScene
             safeHead = viewCamera.transform.position;
             hasSafeHead = true;
             var local = transform.InverseTransformPoint(safeHead);
-            Controller.center = new Vector3(local.x, Controller.height * .5f, local.z);
+            Controller.center = new Vector3(local.x, Controller.height * .5f + FeetOffset, local.z);
         }
         void UpdateInteraction()
         {

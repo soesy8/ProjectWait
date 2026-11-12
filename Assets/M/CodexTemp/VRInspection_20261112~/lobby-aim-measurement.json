@@ -1,0 +1,46 @@
+{
+  "rightControllerValid": true,
+  "gripPositionValid": true,
+  "gripRotationValid": true,
+  "aimPositionValid": true,
+  "aimRotationValid": true,
+  "gripAimRotationDifferenceDegrees": 61.0766869,
+  "forwardDifferenceDegrees": 60.99813,
+  "gripForward": [
+    0.02269487,
+    -0.939318657,
+    -0.3422946
+  ],
+  "aimForward": [
+    -0.428403527,
+    -0.723680139,
+    0.5410706
+  ],
+  "gripElevationDegrees": -69.93745,
+  "aimElevationDegrees": -46.35916,
+  "gripAimPositionDifference": 0.07629721,
+  "selectionRange": 3.0,
+  "panels": [
+    {
+      "experienceTitle": "엘리베이터",
+      "closestFromAim": 3.36158514,
+      "centreFromAim": 3.78376341,
+      "centreRayHit": "Tilted paper panel",
+      "centreRayDistance": 3.73987913
+    },
+    {
+      "experienceTitle": "정전",
+      "closestFromAim": 2.23810577,
+      "centreFromAim": 2.41042757,
+      "centreRayHit": "Tilted paper panel",
+      "centreRayDistance": 2.37215042
+    },
+    {
+      "experienceTitle": "횡단보도",
+      "closestFromAim": 2.2979,
+      "centreFromAim": 2.77157712,
+      "centreRayHit": "Tilted paper panel",
+      "centreRayDistance": 2.72366428
+    }
+  ]
+}

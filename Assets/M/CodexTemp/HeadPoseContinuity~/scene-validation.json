@@ -1,0 +1,66 @@
+{
+  "checks": [
+    {
+      "name": "Play Mode ended",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Original saved lobby restored",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Assets/M/Scene/Wait_Robby.unity no Missing Script",
+      "passed": true,
+      "actual": 0
+    },
+    {
+      "name": "Assets/M/Scene/Wait_Robby.unity no missing serialized reference",
+      "passed": true,
+      "actual": 0
+    },
+    {
+      "name": "Assets/M/Scene/Wait_Robby.unity no temporary runtime dependency",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Assets/M/Scene/Wait_Robby.unity default forward hold",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Assets/M/Scene/Wait_Elevator.unity no Missing Script",
+      "passed": true,
+      "actual": 0
+    },
+    {
+      "name": "Assets/M/Scene/Wait_Elevator.unity no missing serialized reference",
+      "passed": true,
+      "actual": 0
+    },
+    {
+      "name": "Assets/M/Scene/Wait_Elevator.unity no temporary runtime dependency",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Assets/M/Scene/Wait_Elevator.unity default forward hold",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "No scene was saved or dirtied",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "No script compilation error",
+      "passed": true,
+      "actual": null
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

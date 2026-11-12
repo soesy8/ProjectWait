@@ -1,0 +1,151 @@
+{
+  "checks": [
+    {
+      "name": "XR floor-relative eye height 0.72",
+      "passed": true,
+      "actual": 0.720000267
+    },
+    {
+      "name": "XR head footprint, not origin 0.72",
+      "passed": true,
+      "actual": "(-1.80, 8.64, -13.00)"
+    },
+    {
+      "name": "XR world gaze preserved 0.72",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR local tracked pose untouched 0.72",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR head rotation during loading remains live 0.72",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR physical head remains live 0.72",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR reverse scene handoff 0.72",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "PC yaw/pitch/height preserved 0.72",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR floor-relative eye height 1.35",
+      "passed": true,
+      "actual": 1.35000038
+    },
+    {
+      "name": "XR head footprint, not origin 1.35",
+      "passed": true,
+      "actual": "(-1.80, 9.27, -13.00)"
+    },
+    {
+      "name": "XR world gaze preserved 1.35",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR local tracked pose untouched 1.35",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR head rotation during loading remains live 1.35",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR physical head remains live 1.35",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR reverse scene handoff 1.35",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "PC yaw/pitch/height preserved 1.35",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR floor-relative eye height 1.82",
+      "passed": true,
+      "actual": 1.81999969
+    },
+    {
+      "name": "XR head footprint, not origin 1.82",
+      "passed": true,
+      "actual": "(-1.80, 9.74, -13.00)"
+    },
+    {
+      "name": "XR world gaze preserved 1.82",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR local tracked pose untouched 1.82",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR head rotation during loading remains live 1.82",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR physical head remains live 1.82",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "XR reverse scene handoff 1.82",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "PC yaw/pitch/height preserved 1.82",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Transferred height skips duplicate automatic calibration",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Headset removal still requests calibration",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Explicit recalibration still works",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Every Korean guidance glyph exists in the static font",
+      "passed": true,
+      "actual": null
+    },
+    {
+      "name": "Scripts compiled",
+      "passed": true,
+      "actual": null
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

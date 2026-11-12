@@ -14,6 +14,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             Pending=true;Calibrated=false;confirmed=confirm;StableSeconds=0;
         }
+        public void AcceptTransferredHeight()
+        {
+            Pending=false;Calibrated=true;confirmed=false;wasPresent=true;StableSeconds=0;
+        }
         public bool Observe(float height,bool tracked,bool? present,float delta)
         {
             if(present==false)

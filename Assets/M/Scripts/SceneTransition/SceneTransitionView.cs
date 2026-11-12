@@ -27,6 +27,9 @@ namespace ProjectWait.M.SceneTransition
         public float PanelLerpSpeed { get; set; } = 12;
         public float PanelDistance { get; set; } = 2;
         public float PanelWidth { get; set; } = 1.65f;
+        public const string FaceForwardHint = "정면을 보고 있어 주세요.";
+        public bool FacingForward => anchored && ViewCamera &&
+            Vector3.Angle(ViewCamera.transform.forward, anchorPosition - ViewCamera.transform.position) <= 15;
 
         RectTransform root, card;
         Image skyBridge;
@@ -35,9 +38,11 @@ namespace ProjectWait.M.SceneTransition
         TMP_FontAsset font;
         Canvas skyCanvas;
         RectTransform skyRoot;
+        RectTransform forwardHint, forwardArrow;
         Vector3 anchorPosition, lastEye;
         Quaternion anchorRotation, lastEyeRotation;
         bool anchored, hasLastEye;
+        bool showForwardHint;
         float panelTarget;
 
         public void Build(TMP_FontAsset textFont, Material overlayMaterial, Shader skyShader)
@@ -65,6 +70,18 @@ namespace ProjectWait.M.SceneTransition
             skyBridge = back.gameObject.AddComponent<Image>();
             skyBridge.material = skyMaterial;
             skyBridge.raycastTarget = true;
+            // Only this small recovery cue follows the head when the world card is out of view.
+            // Its arrow points back to the fixed, level target; the card itself never chases gaze.
+            forwardHint = Rect("Look forward recovery cue", skyRoot, new Vector2(620,64), new Vector2(0,-220));
+            Shape("Cue brown edge", forwardHint, new Vector2(620,64), Vector2.zero, 20, Ink);
+            Shape("Cue paper face", forwardHint, new Vector2(614,58), Vector2.zero, 18, Paper);
+            Text("Forward instruction", forwardHint, new Vector2(540,42), new Vector2(18,0), 26, Teal).text = FaceForwardHint;
+            forwardArrow = Rect("Direction back to world card", forwardHint, new Vector2(28,28), new Vector2(-276,0));
+            var upper = Shape("Arrow upper", forwardArrow, new Vector2(17,5), new Vector2(-2,5), 2, Teal);
+            upper.rectTransform.localRotation = Quaternion.Euler(0,0,-45);
+            var lower = Shape("Arrow lower", forwardArrow, new Vector2(17,5), new Vector2(-2,-5), 2, Teal);
+            lower.rectTransform.localRotation = Quaternion.Euler(0,0,45);
+            forwardHint.gameObject.SetActive(false);
             card = Rect("Story card", root, new Vector2(840, 368), Vector2.zero);
             CardGroup = card.gameObject.AddComponent<CanvasGroup>();
             Shape("Step shadow", card, new Vector2(850, 376), new Vector2(0, -12), 35, new Color(.10f, .08f, .06f, .35f));
@@ -77,7 +94,7 @@ namespace ProjectWait.M.SceneTransition
             ContextText.lineSpacing = 14;
             Shape("Short teal divider", card, new Vector2(52, 3), new Vector2(0, -55), 1.5f, new Color(.48f, .65f, .54f));
             StatusText = Text("Preparing next scene", card, new Vector2(650, 36), new Vector2(0, -86), 22, Teal);
-            StatusText.text = "다음 장면을 준비하고 있어요";
+            StatusText.text = FaceForwardHint;
             Dots = new RectTransform[3];
             for (int i = 0; i < 3; i++)
             {
@@ -95,7 +112,7 @@ namespace ProjectWait.M.SceneTransition
         {
             HeadingText.text = "다음 이야기  ·  " + title;
             ContextText.text = context;
-            StatusText.text = "다음 장면을 준비하고 있어요";
+            StatusText.text = FaceForwardHint;
         }
 
         public void BindCamera(Camera camera)
@@ -120,6 +137,8 @@ namespace ProjectWait.M.SceneTransition
             CardGroup.alpha = 0;
             Canvas.enabled = false;
         }
+
+        public void ShowForwardGuidance(bool show) { showForwardHint = show; }
 
         public void SetSky(Material sourceSky)
         {
@@ -162,9 +181,10 @@ namespace ProjectWait.M.SceneTransition
         {
             if (!ViewCamera) return;
             Vector3 forward = ViewCamera.transform.forward;
-            float pitch = Mathf.Asin(Mathf.Clamp(forward.y,-1,1)) * Mathf.Rad2Deg;
             float yaw = Mathf.Atan2(forward.x,forward.z) * Mathf.Rad2Deg;
-            anchorRotation = Quaternion.Euler(-Mathf.Clamp(pitch,-15,15),yaw,0);
+            // A level, head-height target invites looking forward, not carrying a downward
+            // portal-selection gaze (or the destination's serialized eye height) into the load.
+            anchorRotation = Quaternion.Euler(0,yaw,0);
             anchorPosition = ViewCamera.transform.position + anchorRotation * Vector3.forward * PanelDistance;
             anchored = true;
             transform.localScale = Vector3.one * (PanelWidth / 840);
@@ -192,6 +212,8 @@ namespace ProjectWait.M.SceneTransition
             SkyCoverAlpha = 0;
             CardGroup.alpha = 0;
             panelTarget = 0;
+            showForwardHint = false;
+            if (forwardHint) forwardHint.gameObject.SetActive(false);
             Canvas.enabled = false;
             if (skyCanvas) skyCanvas.enabled = false;
         }
@@ -213,6 +235,17 @@ namespace ProjectWait.M.SceneTransition
             float height = xr ? 1.55f : ViewCamera.orthographic ? ViewCamera.orthographicSize * 2 : 2 * distance * Mathf.Tan(ViewCamera.fieldOfView * .5f * Mathf.Deg2Rad);
             skyRoot.SetPositionAndRotation(ViewCamera.transform.position + ViewCamera.transform.forward * distance, ViewCamera.transform.rotation);
             skyRoot.localScale = Vector3.one * (height / 720);
+            if (forwardHint)
+            {
+                bool needsGuidance = showForwardHint && anchored && !FacingForward;
+                forwardHint.gameObject.SetActive(needsGuidance);
+                if (needsGuidance)
+                {
+                    Vector3 direction = ViewCamera.transform.InverseTransformDirection(anchorPosition - ViewCamera.transform.position);
+                    if (direction.z < 0 && Mathf.Abs(direction.x) < .01f) direction.x = 1;
+                    forwardArrow.localRotation = Quaternion.Euler(0,0,Mathf.Atan2(direction.y,direction.x)*Mathf.Rad2Deg);
+                }
+            }
             lastEye = ViewCamera.transform.position;
             lastEyeRotation = ViewCamera.transform.rotation;
             hasLastEye = true;

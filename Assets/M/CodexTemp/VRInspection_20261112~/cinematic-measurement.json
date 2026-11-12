@@ -1,0 +1,84 @@
+{
+  "step": "Proposal",
+  "elapsed": 0.387963057,
+  "amount": 1.0,
+  "fade": 0.0,
+  "panels": [
+    {
+      "name": "TopLetterbox",
+      "active": true,
+      "size": [
+        1300.0,
+        82.0
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": -0.318187267,
+          "maxX": 1.50512981,
+          "minY": 0.9037336,
+          "maxY": 1.017622
+        },
+        {
+          "eye": "Right",
+          "minX": -0.5051295,
+          "maxX": 1.31818557,
+          "minY": 0.903733134,
+          "maxY": 1.01762152
+        }
+      ]
+    },
+    {
+      "name": "BottomLetterbox",
+      "active": true,
+      "size": [
+        1300.0,
+        82.0
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": -0.318187,
+          "maxX": 1.50512946,
+          "minY": 0.01762107,
+          "maxY": 0.131509826
+        },
+        {
+          "eye": "Right",
+          "minX": -0.505129158,
+          "maxX": 1.31818533,
+          "minY": 0.0176215824,
+          "maxY": 0.131510228
+        }
+      ]
+    },
+    {
+      "name": "BottomLetterbox/CinematicSubtitle",
+      "active": true,
+      "size": [
+        1100.0,
+        82.0
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": -0.1803039,
+          "maxX": 1.367452,
+          "minY": 0.0160166733,
+          "maxY": 0.130271718
+        },
+        {
+          "eye": "Right",
+          "minX": -0.367452085,
+          "maxX": 1.18030226,
+          "minY": 0.0160171874,
+          "maxY": 0.13027212
+        }
+      ]
+    }
+  ],
+  "files": [
+    "D:/project/ProjectWait/Assets\\M/CodexTemp/VRInspection_20261112~\\cinematic_Proposal_22693_eye0.png",
+    "D:/project/ProjectWait/Assets\\M/CodexTemp/VRInspection_20261112~\\cinematic_Proposal_22693_eye1.png"
+  ]
+}

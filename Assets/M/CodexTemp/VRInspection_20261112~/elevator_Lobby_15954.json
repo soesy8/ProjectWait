@@ -1,0 +1,402 @@
+{
+  "step": "Lobby",
+  "elapsed": 31.247776,
+  "cinematic": false,
+  "letterboxAmount": 0.0,
+  "camera": {
+    "fieldOfView": 98.04016,
+    "aspect": 1.77777779,
+    "stereoEnabled": true,
+    "width": 1920,
+    "height": 1080
+  },
+  "eyeResolution": {
+    "eyeTextureWidth": 2080,
+    "eyeTextureHeight": 2096
+  },
+  "frusta": [
+    {
+      "eye": "Left",
+      "m00": 0.877215445,
+      "m02": -0.122784555,
+      "m11": 0.8686716,
+      "m12": -0.0352425165
+    },
+    {
+      "eye": "Right",
+      "m00": 0.877215445,
+      "m02": 0.122784555,
+      "m11": 0.8686716,
+      "m12": -0.0352425165
+    }
+  ],
+  "panels": [
+    {
+      "name": "TopLetterbox",
+      "active": false,
+      "alpha": 1.0,
+      "canvas": "CinematicLetterbox",
+      "mode": "WorldSpace",
+      "size": [
+        1300.0,
+        82.0
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": -0.318185836,
+          "maxX": 1.50512815,
+          "minY": 1.0176214,
+          "maxY": 1.1315105,
+          "minW": 0.45,
+          "rectVisibleFraction": 0.0,
+          "fullyInside": false
+        },
+        {
+          "eye": "Right",
+          "minX": -0.5051284,
+          "maxX": 1.31818557,
+          "minY": 1.0176214,
+          "maxY": 1.1315105,
+          "minW": 0.45,
+          "rectVisibleFraction": 0.0,
+          "fullyInside": false
+        }
+      ]
+    },
+    {
+      "name": "BottomLetterbox",
+      "active": false,
+      "alpha": 1.0,
+      "canvas": "CinematicLetterbox",
+      "mode": "WorldSpace",
+      "size": [
+        1300.0,
+        82.0
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": -0.318185866,
+          "maxX": 1.50512826,
+          "minY": -0.09626678,
+          "maxY": 0.01762225,
+          "minW": 0.449999928,
+          "rectVisibleFraction": 0.08486292,
+          "fullyInside": false
+        },
+        {
+          "eye": "Right",
+          "minX": -0.505128443,
+          "maxX": 1.31818569,
+          "minY": -0.09626678,
+          "maxY": 0.01762225,
+          "minW": 0.449999928,
+          "rectVisibleFraction": 0.08486292,
+          "fullyInside": false
+        }
+      ]
+    },
+    {
+      "name": "CinematicSubtitle",
+      "active": false,
+      "alpha": 1.0,
+      "canvas": "CinematicLetterbox",
+      "mode": "WorldSpace",
+      "size": [
+        1100.0,
+        82.0
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": -0.180302665,
+          "maxX": 1.36745083,
+          "minY": -0.09823647,
+          "maxY": 0.0160180815,
+          "minW": 0.448560953,
+          "rectVisibleFraction": 0.090580605,
+          "fullyInside": false
+        },
+        {
+          "eye": "Right",
+          "minX": -0.3674511,
+          "maxX": 1.18030238,
+          "minY": -0.09823647,
+          "maxY": 0.0160180815,
+          "minW": 0.448560953,
+          "rectVisibleFraction": 0.090580605,
+          "fullyInside": false
+        }
+      ]
+    },
+    {
+      "name": "Mission",
+      "active": false,
+      "alpha": 1.0,
+      "canvas": "Elevator_Screen_Thoughts",
+      "mode": "WorldSpace",
+      "size": [
+        430.0,
+        96.0
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": 0.836702049,
+          "maxX": 1.43979836,
+          "minY": 0.0509550348,
+          "maxY": 0.184288308,
+          "minW": 0.999999762,
+          "rectVisibleFraction": 0.270766,
+          "fullyInside": false
+        },
+        {
+          "eye": "Right",
+          "minX": 0.6850464,
+          "maxX": 1.28814268,
+          "minY": 0.0509550348,
+          "maxY": 0.184288308,
+          "minW": 0.999999762,
+          "rectVisibleFraction": 0.522227764,
+          "fullyInside": false
+        }
+      ]
+    },
+    {
+      "name": "Progress",
+      "active": false,
+      "alpha": 1.0,
+      "canvas": "Elevator_Screen_Thoughts",
+      "mode": "WorldSpace",
+      "size": [
+        428.29,
+        38.0
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": 0.839545131,
+          "maxX": 1.44120514,
+          "minY": 0.9321734,
+          "maxY": 0.9850359,
+          "minW": 0.9984009,
+          "rectVisibleFraction": 0.266686946,
+          "fullyInside": false
+        },
+        {
+          "eye": "Right",
+          "minX": 0.6878432,
+          "maxX": 1.2895031,
+          "minY": 0.9321734,
+          "maxY": 0.9850359,
+          "minW": 0.9984009,
+          "rectVisibleFraction": 0.518826,
+          "fullyInside": false
+        }
+      ]
+    },
+    {
+      "name": "Controls",
+      "active": false,
+      "alpha": 1.0,
+      "canvas": "Elevator_Screen_Thoughts",
+      "mode": "WorldSpace",
+      "size": [
+        1216.0,
+        34.96
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": -0.27826494,
+          "maxX": 1.42996669,
+          "minY": 0.03351424,
+          "maxY": 0.08214766,
+          "minW": 0.998400867,
+          "rectVisibleFraction": 0.5854007,
+          "fullyInside": false
+        },
+        {
+          "eye": "Right",
+          "minX": -0.429966867,
+          "maxX": 1.27826476,
+          "minY": 0.03351424,
+          "maxY": 0.08214766,
+          "minW": 0.998400867,
+          "rectVisibleFraction": 0.5854007,
+          "fullyInside": false
+        }
+      ]
+    },
+    {
+      "name": "Dialogue",
+      "active": true,
+      "alpha": 1.0,
+      "canvas": "Elevator_World_Dialogue",
+      "mode": "WorldSpace",
+      "size": [
+        580.0,
+        210.0
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": 0.5978218,
+          "maxX": 0.9839757,
+          "minY": -0.114807419,
+          "maxY": 0.25299716,
+          "minW": 1.16555583,
+          "rectVisibleFraction": 0.6878575,
+          "fullyInside": false
+        },
+        {
+          "eye": "Right",
+          "minX": 0.458681136,
+          "maxX": 0.8364209,
+          "minY": -0.114807419,
+          "maxY": 0.25299716,
+          "minW": 1.16555583,
+          "rectVisibleFraction": 0.6878575,
+          "fullyInside": false
+        }
+      ]
+    },
+    {
+      "name": "DialogueActions",
+      "active": false,
+      "alpha": 0.0,
+      "canvas": "Elevator_World_Dialogue",
+      "mode": "WorldSpace",
+      "size": [
+        580.0,
+        0.0
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": 0.592965245,
+          "maxX": 0.9846119,
+          "minY": -0.141624823,
+          "maxY": 0.130533889,
+          "minW": 1.14177394,
+          "rectVisibleFraction": 0.479624152,
+          "fullyInside": false
+        },
+        {
+          "eye": "Right",
+          "minX": 0.453601271,
+          "maxX": 0.8365411,
+          "minY": -0.141624823,
+          "maxY": 0.130533889,
+          "minW": 1.14177394,
+          "rectVisibleFraction": 0.479624152,
+          "fullyInside": false
+        }
+      ]
+    },
+    {
+      "name": "Speaker",
+      "active": true,
+      "alpha": 1.0,
+      "canvas": "Elevator_World_Dialogue",
+      "mode": "WorldSpace",
+      "size": [
+        132.0,
+        58.0
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": 0.6689217,
+          "maxX": 0.74136734,
+          "minY": 0.1846116,
+          "maxY": 0.247505918,
+          "minW": 1.716091,
+          "rectVisibleFraction": 1.0,
+          "fullyInside": true
+        },
+        {
+          "eye": "Right",
+          "minX": 0.5305527,
+          "maxX": 0.6023042,
+          "minY": 0.1846116,
+          "maxY": 0.247505918,
+          "minW": 1.716091,
+          "rectVisibleFraction": 1.0,
+          "fullyInside": true
+        }
+      ]
+    },
+    {
+      "name": "Thought",
+      "active": false,
+      "alpha": 0.0,
+      "canvas": "Elevator_Screen_Thoughts",
+      "mode": "WorldSpace",
+      "size": [
+        380.0,
+        219.230759
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": 0.9068295,
+          "maxX": 1.43979824,
+          "minY": 0.415378064,
+          "maxY": 0.7198652,
+          "minW": 0.9999999,
+          "rectVisibleFraction": 0.174814224,
+          "fullyInside": false
+        },
+        {
+          "eye": "Right",
+          "minX": 0.7551738,
+          "maxX": 1.28814256,
+          "minY": 0.415378064,
+          "maxY": 0.7198652,
+          "minW": 0.9999999,
+          "rectVisibleFraction": 0.4593631,
+          "fullyInside": false
+        }
+      ]
+    },
+    {
+      "name": "Instruction",
+      "active": true,
+      "alpha": 1.0,
+      "canvas": "VR_Instruction_ScreenSpace",
+      "mode": "ScreenSpaceCamera",
+      "size": [
+        320.0,
+        158.0
+      ],
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": 0.9932552,
+          "maxX": 1.43977749,
+          "minY": 0.7641566,
+          "maxY": 0.9828925,
+          "minW": 0.7517812,
+          "rectVisibleFraction": 0.0151051851,
+          "fullyInside": false
+        },
+        {
+          "eye": "Right",
+          "minX": 0.8320867,
+          "maxX": 1.27866161,
+          "minY": 0.7641566,
+          "maxY": 0.9828925,
+          "minW": 0.7517812,
+          "rectVisibleFraction": 0.37600255,
+          "fullyInside": false
+        }
+      ]
+    }
+  ],
+  "files": [
+    "D:/project/ProjectWait/Assets\\M/CodexTemp/VRInspection_20261112~\\elevator_Lobby_15954_eye0.png",
+    "D:/project/ProjectWait/Assets\\M/CodexTemp/VRInspection_20261112~\\elevator_Lobby_15954_eye1.png"
+  ]
+}

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using ProjectWait.M.TitleScene;
+using ProjectWait.M.Elevator.DialoguePreview;
+using UnityEngine.XR;
 
 namespace ProjectWait.M.SceneTransition
 {
@@ -30,6 +32,8 @@ namespace ProjectWait.M.SceneTransition
         [Min(.1f)] public float panelLerpSpeed = 12;
         [Min(.5f)] public float panelDistance = 2;
         [Min(.5f)] public float panelWidth = 1.65f;
+        [Tooltip("Look at the level story card briefly before activating the next scene.")]
+        [Min(0)] public float faceForwardSeconds = .4f;
         public bool revealOnStandaloneStart;
         [Header("F8 previews without leaving the lobby; K is unchanged")]
         public bool enablePreviewShortcut = true;
@@ -59,6 +63,12 @@ namespace ProjectWait.M.SceneTransition
         LobbyDissolveTest borrowedFade;
         LobbyDissolveTest arrivingFade, activeFade;
         bool standaloneArrival;
+        SceneTransitionHeadPose headPose;
+        bool hasHeadPose, arrivalPoseApplied;
+        float facingSeconds;
+        TitlePlazaPlayer arrivingPlayer;
+        ElevatorDesktopControls arrivingControls;
+        Vector3 arrivalFootprint;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatic() { Current = null; }
@@ -80,13 +90,17 @@ namespace ProjectWait.M.SceneTransition
             EnsureView();
             View.BeginPanel(); View.BindCamera(activeFade.viewCamera); View.SetSky(RenderSettings.skybox);
             View.SetContent(previewTitle,previewContext);
-            standaloneArrival = true; IsPreview = false; sceneReady = true;
+            standaloneArrival = true; IsPreview = false; sceneReady = arrivalPoseApplied = true;
             Elapsed = PhaseSeconds = 0; previousTick = Time.realtimeSinceStartupAsDouble;
             activationFrame = Time.frameCount; Phase = TransitionPhase.Activating;
             Present();
         }
 
-        void OnEnable() { SceneManager.sceneLoaded += SceneLoaded; }
+        void OnEnable()
+        {
+            SceneManager.sceneLoaded += SceneLoaded;
+            Application.onBeforeRender += ApplyArrivalHeadPose;
+        }
 
         void Update()
         {
@@ -100,6 +114,7 @@ namespace ProjectWait.M.SceneTransition
 
         void LateUpdate()
         {
+            ApplyArrivalHeadPose();
             if (IsBusy) { borrowedFade?.EnforceSceneHud(); arrivingFade?.EnforceSceneHud(); }
         }
 
@@ -158,6 +173,8 @@ namespace ProjectWait.M.SceneTransition
             destination = scenePath;
             IsPreview = string.IsNullOrEmpty(scenePath);
             standaloneArrival = false; arrivingFade = null;
+            hasHeadPose = arrivalPoseApplied = false; facingSeconds = 0;
+            arrivingPlayer = null; arrivingControls = null;
             completed = onFinished;
             failed = loadRequested = sceneReady = false;
             operation = null;
@@ -186,6 +203,7 @@ namespace ProjectWait.M.SceneTransition
                     { SetPhase(TransitionPhase.Holding); coveredFrame = Time.frameCount; }
                     break;
                 case TransitionPhase.Holding:
+                    facingSeconds = View.FacingForward ? facingSeconds + Mathf.Min(seconds,.1f) : 0;
                     // The world is already gone. Keep the original sky, then start loading behind it.
                     if (!IsPreview && !loadRequested && Time.frameCount > coveredFrame && PhaseSeconds >= .2f) StartLoading();
                     if (PhaseSeconds >= minimumHoldSeconds && (IsPreview || failed || operation != null && operation.progress >= .9f))
@@ -195,13 +213,14 @@ namespace ProjectWait.M.SceneTransition
                             if (!borrowedFade || !borrowedFade.RevealSceneTransition(fadeInSeconds)) { Finish(false); return; }
                             SetPhase(TransitionPhase.Revealing);
                         }
-                        else { SetPhase(TransitionPhase.Activating); operation.allowSceneActivation = true; }
+                        else if (facingSeconds >= faceForwardSeconds && CaptureHeadPose())
+                        { SetPhase(TransitionPhase.Activating); operation.allowSceneActivation = true; }
                     }
                     break;
                 case TransitionPhase.Activating:
-                    if (sceneReady && (operation == null || operation.isDone) && Time.frameCount >= activationFrame + 2 && View.ViewCamera && (!standaloneArrival || PhaseSeconds >= minimumHoldSeconds))
+                    if (sceneReady && arrivalPoseApplied && (operation == null || operation.isDone) && Time.frameCount >= activationFrame + 2 && View.ViewCamera && (!standaloneArrival || PhaseSeconds >= minimumHoldSeconds))
                     {
-                        if (activeFade && activeFade.useSceneMaterials)
+                        if (activeFade)
                         {
                             if (!activeFade.PrepareSceneArrival() || !activeFade.RevealSceneTransition(fadeInSeconds)) { LastError="Incoming droplet renderer could not prepare."; Finish(false); return; }
                             arrivingFade=activeFade;
@@ -260,6 +279,57 @@ namespace ProjectWait.M.SceneTransition
             sceneReady = true;
             activationFrame = Time.frameCount;
             View.BindCamera(Camera.main);
+            // Awake/presentation has placed the destination head at its authored spawn.
+            // Save that footprint before Start/tracking changes the local room-scale offset.
+            arrivalFootprint = View.ViewCamera ? View.ViewCamera.transform.position : Vector3.zero;
+            arrivingPlayer = View.ViewCamera ? View.ViewCamera.GetComponentInParent<TitlePlazaPlayer>() : null;
+            arrivingControls = FindControls(View.ViewCamera);
+            arrivalPoseApplied = !hasHeadPose;
+        }
+
+        static ElevatorDesktopControls FindControls(Camera camera)
+        {
+            if (!camera) return null;
+            foreach (var controls in FindObjectsByType<ElevatorDesktopControls>(FindObjectsSortMode.None))
+                if (controls.targetCamera == camera) return controls;
+            return null;
+        }
+
+        bool CaptureHeadPose()
+        {
+            var camera = View.ViewCamera;
+            if (!camera) return false;
+            var player = camera.GetComponentInParent<TitlePlazaPlayer>();
+            var controls = FindControls(camera);
+            if (player) headPose = new SceneTransitionHeadPose(camera.transform, player.FloorHeight, player.IsVR);
+            else if (controls && controls.movement)
+                headPose = new SceneTransitionHeadPose(camera.transform, controls.movement.FeetPosition.y, !controls.IsDesktop);
+            else return true; // Other scenes keep their authored camera; no stale transfer is reused.
+            hasHeadPose = headPose.IsValid;
+            return hasHeadPose;
+        }
+
+        [BeforeRenderOrder(200)]
+        void ApplyArrivalHeadPose()
+        {
+            if (Phase != TransitionPhase.Activating || !sceneReady || arrivalPoseApplied || !View || !View.ViewCamera) return;
+            // sceneLoaded precedes Start. Apply in LateUpdate/before-render, after rig setup
+            // and tracked-pose updates, while the sky still fully covers the destination.
+            bool trackedArrival = arrivingPlayer ? arrivingPlayer.IsVR : arrivingControls && !arrivingControls.IsDesktop;
+            if (trackedArrival)
+            {
+                var device = UnityEngine.XR.InputDevices.GetDeviceAtXRNode(XRNode.CenterEye);
+                if (!device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.isTracked, out bool tracked))
+                {
+                    device = UnityEngine.XR.InputDevices.GetDeviceAtXRNode(XRNode.Head);
+                    if (!device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.isTracked, out tracked)) return;
+                }
+                if (!tracked) return;
+            }
+            if (arrivingPlayer) arrivingPlayer.ApplyTransitionHeadPose(headPose, arrivalFootprint);
+            else if (arrivingControls) arrivingControls.ApplyTransitionHeadPose(headPose, arrivalFootprint);
+            View.BindCamera(View.ViewCamera);
+            arrivalPoseApplied = true;
         }
 
         void SetPhase(TransitionPhase phase) { Phase = phase; PhaseSeconds = 0; }
@@ -275,6 +345,7 @@ namespace ProjectWait.M.SceneTransition
                 cover = IsPreview || failed || arrivingFade ? 0 : 1 - Smooth(PhaseSeconds / Mathf.Max(.05f, arrivalSeconds));
                 panel = 0;
             }
+            View.ShowForwardGuidance(Phase == TransitionPhase.Holding && !IsPreview && !failed);
             View.Present(cover, panel, Elapsed);
             View.AdvancePanel(seconds);
         }
@@ -289,6 +360,7 @@ namespace ProjectWait.M.SceneTransition
             if (arrivingFade) arrivingFade.ReleaseSceneTransition();
             borrowedFade = null;
             arrivingFade = null;
+            hasHeadPose = false; arrivingPlayer = null; arrivingControls = null;
             operation = null;
             var callback = completed;
             completed = null;
@@ -298,6 +370,7 @@ namespace ProjectWait.M.SceneTransition
         void OnDisable()
         {
             SceneManager.sceneLoaded -= SceneLoaded;
+            Application.onBeforeRender -= ApplyArrivalHeadPose;
             // Unity cannot cancel an AsyncOperation; never strand its global loading queue at 0.9.
             if (operation != null && !operation.isDone) operation.allowSceneActivation = true;
             if (Phase != TransitionPhase.Idle) Finish(false);

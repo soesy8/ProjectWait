@@ -1,0 +1,115 @@
+{
+  "step": "DoorPosterWarning",
+  "phase": "Dialogue",
+  "elapsed": 0.4757324,
+  "panels": [
+    {
+      "name": "Mission",
+      "active": false,
+      "alpha": 0.00683832169,
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": 0.8367021,
+          "maxX": 1.43979824,
+          "minY": 0.0509549864,
+          "maxY": 0.249010444,
+          "visibleFraction": 0.27076596,
+          "minW": 1.00000012
+        },
+        {
+          "eye": "Right",
+          "minX": 0.6850465,
+          "maxX": 1.28814292,
+          "minY": 0.0509547442,
+          "maxY": 0.249010324,
+          "visibleFraction": 0.522227466,
+          "minW": 0.9999996
+        }
+      ]
+    },
+    {
+      "name": "Dialogue",
+      "active": true,
+      "alpha": 0.0,
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": 0.56060344,
+          "maxX": 1.11665845,
+          "minY": 0.0573361032,
+          "maxY": 0.41401422,
+          "visibleFraction": 0.7902034,
+          "minW": 0.8035042
+        },
+        {
+          "eye": "Right",
+          "minX": 0.416326,
+          "maxX": 0.957942545,
+          "minY": 0.05733584,
+          "maxY": 0.4140142,
+          "visibleFraction": 1.0,
+          "minW": 0.803503752
+        }
+      ]
+    },
+    {
+      "name": "DialogueActions",
+      "active": false,
+      "alpha": 0.0,
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": 0.4062002,
+          "maxX": 0.8531786,
+          "minY": 0.160144985,
+          "maxY": 0.39474687,
+          "visibleFraction": 1.0,
+          "minW": 1.07050264
+        },
+        {
+          "eye": "Right",
+          "minX": 0.2599183,
+          "maxX": 0.7034244,
+          "minY": 0.160144836,
+          "maxY": 0.3947468,
+          "visibleFraction": 1.0,
+          "minW": 1.07050216
+        }
+      ]
+    },
+    {
+      "name": "Thought",
+      "active": false,
+      "alpha": 0.0,
+      "eyes": [
+        {
+          "eye": "Left",
+          "minX": 0.9068294,
+          "maxX": 1.43979824,
+          "minY": 0.415377855,
+          "maxY": 0.719864964,
+          "visibleFraction": 0.174814329,
+          "minW": 1.00000012
+        },
+        {
+          "eye": "Right",
+          "minX": 0.7551738,
+          "maxX": 1.28814292,
+          "minY": 0.4153778,
+          "maxY": 0.719865,
+          "visibleFraction": 0.4593628,
+          "minW": 0.999999642
+        }
+      ]
+    }
+  ],
+  "commonEyesInMonoAtOneMetre": {
+    "xMin": 0.263727069,
+    "xMax": 0.736273766,
+    "yMin": -0.0176205635,
+    "yMax": 0.982381344,
+    "width": 0.4725467,
+    "height": 1.00000191
+  }
+}

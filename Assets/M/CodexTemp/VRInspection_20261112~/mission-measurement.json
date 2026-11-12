@@ -1,0 +1,19 @@
+{
+  "step": "Rescue",
+  "missionActive": true,
+  "text": "안전 확인이 끝났어요",
+  "eyes": [
+    {
+      "eye": "Left",
+      "minX": 0.8367015,
+      "maxX": 1.43979681,
+      "horizontalVisibleFraction": 0.2707673
+    },
+    {
+      "eye": "Right",
+      "minX": 0.685046256,
+      "maxX": 1.28814268,
+      "horizontalVisibleFraction": 0.5222278
+    }
+  ]
+}
