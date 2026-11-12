@@ -1013,6 +1013,8 @@ Transform:
   m_Children:
   - {fileID: 81000011}
   - {fileID: 81000021}
+  - {fileID: 98410001}
+  - {fileID: 98410011}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &81000010
@@ -1507,16 +1509,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 1, g: 0.96, b: 0.84, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1524,7 +1526,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &4000000058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1537,10 +1539,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!222 &4000000061
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1561,16 +1561,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 54bdaf7da85c4a8382c7b1a2da53964e, type: 2}
-  m_Color: {r: 0.84, g: 0.94, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 1482234622, guid: 3958d67121c3dbe469f4f0e23aa04619, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1578,7 +1578,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!222 &4000000065
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1603,20 +1603,20 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "친구와 함께 걷고 있어요"
+  m_text: "친구"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
-  m_fontSize: 43
-  m_fontSizeBase: 43
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1666,26 +1666,26 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "장면은 자동으로 진행됩니다.\n고개를 돌려 주변을 살펴보세요."
+  m_text: "학교 끝났다!\n우리 같이 집에 가자."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
-  m_fontSize: 31
-  m_fontSizeBase: 31
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1737,16 +1737,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.9, g: 0.96, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1754,7 +1754,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &4000000076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1767,10 +1767,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!222 &4000000079
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1835,15 +1833,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "친구는 무엇을 보고 있을까요?"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 42
   m_fontSizeBase: 42
@@ -1929,15 +1927,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "친구의 손과 시선, 발걸음을 살펴보세요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 29
   m_fontSizeBase: 29
@@ -1998,16 +1996,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 1, g: 0.97, b: 0.86, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 2087288547, guid: 8671361feca67d2458730c18c5810526, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2015,7 +2013,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &4000000098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2028,10 +2026,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!222 &4000000101
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2094,20 +2090,20 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "주변을 가리켜 살펴봐요.\n친구를 눌러 말을 걸어요."
+  m_text: "친구 손의 휴대전화를\n가리키고 눌러 주세요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2153,16 +2149,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 0.84, g: 0.93, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2170,7 +2166,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &4000000111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2193,8 +2189,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -2243,20 +2239,20 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "관찰 완료"
+  m_text: "다음  ▶"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
-  m_fontSize: 27
-  m_fontSizeBase: 27
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2314,15 +2310,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 1, g: 0.94, b: 0.98, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1243807991, guid: e26e274b1d586584899f9ed7046e9fae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2331,7 +2327,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &4000000122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2344,10 +2340,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!222 &4000000125
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2450,15 +2444,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "계속 휴대전화를 보면서 걷고 있네."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 36
   m_fontSizeBase: 36
@@ -2519,16 +2513,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 1, g: 0.97, b: 0.88, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2536,7 +2530,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &4000000140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2549,10 +2543,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!222 &4000000143
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2617,15 +2609,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "친구에게 어떻게 말할까요?"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 43
   m_fontSizeBase: 43
@@ -2680,15 +2672,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "친구가 휴대전화를 보며 걷고 있어요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 29
   m_fontSizeBase: 29
@@ -2737,16 +2729,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 0.81, g: 0.92, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2754,7 +2746,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &4000000157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2777,8 +2769,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -2841,15 +2833,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "앞 봐! 전봇대야!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 41
   m_fontSizeBase: 41
@@ -2898,16 +2890,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 1, g: 0.86, b: 0.92, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2915,7 +2907,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &4000000167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2938,8 +2930,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -3002,15 +2994,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "그냥 따라간다"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 41
   m_fontSizeBase: 41
@@ -3059,16 +3051,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 0.92, g: 0.92, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -140822457, guid: 1436e1733df5fc44d8fb3250e844674a, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3076,7 +3068,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &4000000177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3099,8 +3091,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -3163,15 +3155,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "다시 살펴보기"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 28
   m_fontSizeBase: 28
@@ -3232,16 +3224,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 1, g: 0.87, b: 0.74, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3249,7 +3241,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &4000000188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3262,10 +3254,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!222 &4000000191
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3368,15 +3358,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "앞을 보지 못했어요"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 42
   m_fontSizeBase: 42
@@ -3431,15 +3421,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "휴대전화만 보느라 앞에 있는 전봇대를 보지 못했어."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 37
   m_fontSizeBase: 37
@@ -3500,16 +3490,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.89, g: 0.94, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3517,7 +3507,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &4000000210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3530,10 +3520,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!222 &4000000213
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3596,17 +3584,17 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "부딪히기 전으로 돌아가서\n친구에게 다시 말을 걸어 보세요."
+  m_text: "휴대전화만 보면 앞의 위험을 놓칠 수 있어요.\n다시 해보기를 눌러 친구에게 알려 주세요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 30
   m_fontSizeBase: 30
@@ -3655,16 +3643,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 1, g: 0.94, b: 0.8, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -140822457, guid: 1436e1733df5fc44d8fb3250e844674a, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3672,7 +3660,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &4000000223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3695,8 +3683,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -3757,17 +3745,17 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "다시 살펴볼게요"
+  m_text: "읽었어요. 다시 해보기"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 33
   m_fontSizeBase: 33
@@ -3828,16 +3816,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.79, g: 0.96, b: 0.88, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3845,7 +3833,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &4000000234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3858,10 +3846,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!222 &4000000237
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3964,15 +3950,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "친구에게 위험을 알려 줬어요!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 43
   m_fontSizeBase: 43
@@ -4027,15 +4013,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "걸을 때는 휴대전화보다 앞을 살펴봐요.\n첫 번째 안전교육 상황을 마쳤어요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 35
   m_fontSizeBase: 35
@@ -4096,16 +4082,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.87, g: 1, b: 0.93, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4113,7 +4099,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &4000000256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4126,10 +4112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!222 &4000000259
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4232,15 +4216,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "와, 못 보고 있었어! 알려줘서 고마워!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 35
   m_fontSizeBase: 35
@@ -4295,7 +4279,7 @@ MonoBehaviour:
   m_Safe: {fileID: 4000000234}
   m_Thanks: {fileID: 4000000256}
   m_Retry: {fileID: 4000000210}
-  m_Font: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_Font: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_Texts:
   - {fileID: 7000000116}
   - {fileID: 7000000120}
@@ -4327,6 +4311,10 @@ MonoBehaviour:
   m_FadeColor: {r: 0.04, g: 0.05, b: 0.07, a: 1}
   m_InputSource: {fileID: 6000000001}
   m_TextOverlay: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
+  m_SubtitleBackground: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_PrimaryButton: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_SecondaryButton: {fileID: -140822457, guid: 1436e1733df5fc44d8fb3250e844674a, type: 3}
+  m_SpeechTail: {fileID: 9840000011}
   m_ProtectedObjects:
   - {fileID: 4000000275}
   - {fileID: 4000000323}
@@ -4344,6 +4332,11 @@ MonoBehaviour:
   m_PresentationAudio: {fileID: 9700000001}
   m_ObservationClip: {fileID: 8300000, guid: 8cc182272da04e87a3e035ad063581e1, type: 3}
   m_SuccessClip: {fileID: 8300000, guid: f6e0ed121f414cc288ca3ea8af10c17e, type: 3}
+  m_StorySpeaker: {fileID: 4000000066}
+  m_StoryText: {fileID: 4000000070}
+  m_StoryNextButton: {fileID: 4000000107}
+  m_StoryPortrait: {fileID: 9840000000}
+  m_TaskText: {fileID: 4000000106}
 --- !u!136 &4000000275 stripped
 CapsuleCollider:
   m_CorrespondingSourceObject: {fileID: 136600000, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
@@ -4864,7 +4857,6 @@ MonoBehaviour:
   m_SecondThought: "아직 빨간불인데 친구가 건너려 하고 있어."
   m_ThirdThought: "친구는 파란불만 보고 바로 건너려 해."
   m_PointerPriority: 0
-  m_StartsConversation: 1
 
 --- !u!4 &4000000322 stripped
 Transform:
@@ -10130,7 +10122,6 @@ MonoBehaviour:
   m_Pole: {fileID: 4000000020}
   m_ContactProbe: {fileID: 4000000019}
   m_CloseupCamera: {fileID: 4000000459}
-  m_CloseupDuration: 2.6
   m_Locomotion:
   - {fileID: 4000000010}
   - {fileID: 4000000011}
@@ -10154,13 +10145,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_IntroductionDuration: 2.4
+  m_DepartureFriendPoint: {fileID: 98410001}
+  m_DeparturePlayerPoint: {fileID: 98410011}
+  m_DeparturePhonePoint: {fileID: 81000011}
+  m_DepartureRouteEnd: {fileID: 81000021}
+  m_DepartureWalkSpeed: 1.1
   m_IntroductionLimit: {fileID: 7000000104}
   m_ObservationPlayerPoint: {fileID: 7000000106}
   m_WalkAudio: {fileID: 7000000001}
   m_WaitForStartScreen: 1
   m_DesktopInput: {fileID: 6000000001}
-
+  m_PhoneObservation: {fileID: 4000000329}
+  m_PoleObservation: {fileID: 4000000445}
+  m_FriendObservation: {fileID: 4000000319}
 --- !u!1 &4000000001
 GameObject:
   m_ObjectHideFlags: 0
@@ -10418,19 +10415,22 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4000000053}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -235, z: 0}
+  m_LocalPosition: {x: 0, y: -150, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4000000060}
   - {fileID: 4000000064}
   - {fileID: 4000000068}
+  - {fileID: 4000000108}
+  - {fileID: 9840000001}
+  - {fileID: 9840000011}
   m_Father: {fileID: 4000000049}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -235}
-  m_SizeDelta: {x: 880, y: 210}
+  m_AnchoredPosition: {x: 0, y: -150}
+  m_SizeDelta: {x: 840, y: 270}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4000000059
 GameObject:
@@ -10458,7 +10458,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4000000059}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -334.4, y: 94.5, z: -1}
+  m_LocalPosition: {x: -255, y: 145, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10466,8 +10466,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -334.4, y: 94.5}
-  m_SizeDelta: {x: 85, y: 58}
+  m_AnchoredPosition: {x: -255, y: 145}
+  m_SizeDelta: {x: 200, y: 62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4000000063
 GameObject:
@@ -10495,7 +10495,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4000000063}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 48, z: -1}
+  m_LocalPosition: {x: -255, y: 145, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10503,8 +10503,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 48}
-  m_SizeDelta: {x: 790, y: 72}
+  m_AnchoredPosition: {x: -255, y: 145}
+  m_SizeDelta: {x: 170, y: 44}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4000000067
 GameObject:
@@ -10532,7 +10532,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4000000067}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -35, z: -1}
+  m_LocalPosition: {x: 0, y: -5, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10540,8 +10540,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -35}
-  m_SizeDelta: {x: 790, y: 100}
+  m_AnchoredPosition: {x: 0, y: -5}
+  m_SizeDelta: {x: 750, y: 174}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4000000071
 GameObject:
@@ -10764,19 +10764,18 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4000000093}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -315, y: 125, z: 0}
+  m_LocalPosition: {x: -330, y: 130, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4000000100}
   - {fileID: 4000000104}
-  - {fileID: 4000000108}
   m_Father: {fileID: 4000000049}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -315, y: 125}
-  m_SizeDelta: {x: 585, y: 114}
+  m_AnchoredPosition: {x: -330, y: 130}
+  m_SizeDelta: {x: 500, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4000000099
 GameObject:
@@ -10841,7 +10840,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4000000103}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: -2, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10849,8 +10848,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 550, y: 77}
+  m_AnchoredPosition: {x: 0, y: -2}
+  m_SizeDelta: {x: 440, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4000000107
 GameObject:
@@ -10866,12 +10865,12 @@ GameObject:
   - component: {fileID: 4000000111}
   - component: {fileID: 4000000112}
   m_Layer: 5
-  m_Name: 관찰 완료 버튼
+  m_Name: 이야기 다음 버튼
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4000000108
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10880,17 +10879,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4000000107}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -48, z: -2}
+  m_LocalPosition: {x: 310, y: -178, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4000000114}
-  m_Father: {fileID: 4000000094}
+  m_Father: {fileID: 4000000054}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -48}
-  m_SizeDelta: {x: 340, y: 58}
+  m_AnchoredPosition: {x: 310, y: -178}
+  m_SizeDelta: {x: 220, y: 68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4000000113
 GameObject:
@@ -10918,7 +10917,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4000000113}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10926,8 +10925,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 332, y: 52}
+  m_AnchoredPosition: {x: 0, y: 1}
+  m_SizeDelta: {x: 205, y: 58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4000000117
 GameObject:
@@ -15542,14 +15541,14 @@ MonoBehaviour:
   - {fileID: 9000001136}
   - {fileID: 9000001240}
   - {fileID: 9100001021}
-  m_Guidance: {fileID: 4000000070}
   m_EyeHeight: 1.65
-  m_LookSensitivity: 0.12
+  m_LookSensitivity: 0.1
   m_SelectDistance: 30
   m_ThirdSituation: {fileID: 9300001003}
   m_DesktopObservationHUD: {fileID: 9601000001}
   m_DesktopAimMark: {fileID: 9601000010}
   m_DesktopModeHint: {fileID: 9601000023}
+  m_StoryUI: {fileID: 4000000052}
 --- !u!114 &6000000002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15635,15 +15634,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "친구와 함께 걷는 학교 앞 인도"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 42
   m_fontSizeBase: 42
@@ -15735,15 +15734,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "장면이 자동으로 진행돼요. 주변을 천천히 살펴보세요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 29
   m_fontSizeBase: 29
@@ -16507,16 +16506,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.9, g: 0.96, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -16524,7 +16523,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9000001021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16537,10 +16536,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9000001022
 GameObject:
   m_ObjectHideFlags: 0
@@ -16679,15 +16676,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "다시 함께 걸어요"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 42
   m_fontSizeBase: 42
@@ -16847,15 +16844,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "친구 1과 횡단보도로 가는 길이에요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 29
   m_fontSizeBase: 29
@@ -16958,16 +16955,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.87, g: 1, b: 0.93, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -16975,7 +16972,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9000001043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16988,10 +16985,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9000001044
 GameObject:
   m_ObjectHideFlags: 0
@@ -17205,15 +17200,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "야! 여기야!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 64
   m_fontSizeBase: 64
@@ -20313,7 +20308,6 @@ MonoBehaviour:
   - {fileID: 9200001198}
   - {fileID: 9200001202}
   m_CarClearance: 0.4
-  m_ResultDuration: 4
   m_Completed: 0
   m_OnCompleted:
     m_PersistentCalls:
@@ -20330,7 +20324,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-
+  m_SignalObservation: {fileID: 9000001136}
+  m_FriendObservation: {fileID: 4000000319}
 --- !u!1 &9100001001
 GameObject:
   m_ObjectHideFlags: 0
@@ -23627,16 +23622,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 1, g: 0.97, b: 0.88, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -23644,7 +23639,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9200001008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23657,10 +23652,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9200001009
 GameObject:
   m_ObjectHideFlags: 0
@@ -23799,15 +23792,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "지금 건너도 돼?"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 43
   m_fontSizeBase: 43
@@ -23899,15 +23892,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "친구가 횡단보도에 한 발을 내밀어요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 29
   m_fontSizeBase: 29
@@ -23996,16 +23989,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 0.81, g: 0.92, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -24013,7 +24006,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &9200001025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24036,8 +24029,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -24137,15 +24130,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "① 잠깐, 아직 빨간불이야."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 41
   m_fontSizeBase: 41
@@ -24234,16 +24227,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 1, g: 0.86, b: 0.92, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -24251,7 +24244,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &9200001035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24274,8 +24267,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -24375,15 +24368,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "② 그냥 건너가자!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 41
   m_fontSizeBase: 41
@@ -24472,16 +24465,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 0.92, g: 0.92, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -140822457, guid: 1436e1733df5fc44d8fb3250e844674a, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -24489,7 +24482,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &9200001045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24512,8 +24505,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -24613,15 +24606,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "다시 살펴볼래요"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 28
   m_fontSizeBase: 28
@@ -24725,16 +24718,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 1, g: 0.87, b: 0.74, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -24742,7 +24735,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9200001056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24755,10 +24748,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9200001057
 GameObject:
   m_ObjectHideFlags: 0
@@ -24972,15 +24963,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "빨간불에는 기다려요"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 42
   m_fontSizeBase: 42
@@ -25072,15 +25063,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "빨간불에 건너면 달려오는 차와 사고가 날 수 있어."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 37
   m_fontSizeBase: 37
@@ -25183,16 +25174,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.89, g: 0.94, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -25200,7 +25191,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9200001078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25213,10 +25204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9200001079
 GameObject:
   m_ObjectHideFlags: 0
@@ -25353,17 +25342,17 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "장면을 잠깐 되돌릴게요.\n다시 살펴보고 선택할 수 있어요."
+  m_text: "빨간불에는 인도에서 기다려야 해요.\n다시 해보기를 눌러 친구에게 알려 주세요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 30
   m_fontSizeBase: 30
@@ -25452,16 +25441,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 1, g: 0.94, b: 0.8, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -25469,7 +25458,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &9200001091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25492,8 +25481,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -25591,17 +25580,17 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "다시 관찰하기"
+  m_text: "읽었어요. 다시 해보기"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 33
   m_fontSizeBase: 33
@@ -25705,16 +25694,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.79, g: 0.96, b: 0.88, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -25722,7 +25711,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9200001102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25735,10 +25724,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9200001103
 GameObject:
   m_ObjectHideFlags: 0
@@ -25952,15 +25939,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "안전하게 기다렸어요!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 43
   m_fontSizeBase: 43
@@ -26052,15 +26039,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "빨간불에는 인도에서 기다려요.\n친구가 안전하게 멈췄어요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 35
   m_fontSizeBase: 35
@@ -26163,16 +26150,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.87, g: 1, b: 0.93, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -26180,7 +26167,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9200001124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26193,10 +26180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9200001125
 GameObject:
   m_ObjectHideFlags: 0
@@ -26410,15 +26395,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "아, 그러네. 여기서 기다리자."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 35
   m_fontSizeBase: 35
@@ -26521,16 +26506,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.87, g: 1, b: 0.93, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -26538,7 +26523,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9200001142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26551,10 +26536,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9200001143
 GameObject:
   m_ObjectHideFlags: 0
@@ -26768,15 +26751,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "잠깐, 아직 빨간불이야."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 35
   m_fontSizeBase: 35
@@ -28111,16 +28094,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 1, g: 0.97, b: 0.88, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -28128,7 +28111,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9300001021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28141,10 +28124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9300001022
 GameObject:
   m_ObjectHideFlags: 0
@@ -28283,15 +28264,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "파란불이다! 이제 건너갈까?"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 43
   m_fontSizeBase: 43
@@ -28383,15 +28364,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "파란불이 켜졌어요. 차는 멈췄을까요?"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 29
   m_fontSizeBase: 29
@@ -28480,16 +28461,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 0.81, g: 0.92, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -28497,7 +28478,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &9300001038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28520,8 +28501,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -28621,15 +28602,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "① 잠깐, 저 차부터 보내자."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 30
   m_fontSizeBase: 30
@@ -28718,16 +28699,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 1, g: 0.86, b: 0.92, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -28735,7 +28716,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &9300001048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28758,8 +28739,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -28859,15 +28840,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "② 파란불이야! 바로 건너가자!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 30
   m_fontSizeBase: 30
@@ -28956,16 +28937,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 0.92, g: 0.92, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -140822457, guid: 1436e1733df5fc44d8fb3250e844674a, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -28973,7 +28954,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &9300001058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28996,8 +28977,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -29097,15 +29078,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "다시 살펴볼래요"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 28
   m_fontSizeBase: 28
@@ -29209,16 +29190,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 1, g: 0.87, b: 0.74, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -29226,7 +29207,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9300001069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29239,10 +29220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9300001070
 GameObject:
   m_ObjectHideFlags: 0
@@ -29456,15 +29435,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "파란불도 주변을 확인해요"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 42
   m_fontSizeBase: 42
@@ -29556,15 +29535,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "파란불이어도 차가 그대로 지나갈 수 있어요.\n양쪽을 보고 안전할 때 건너요!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 37
   m_fontSizeBase: 37
@@ -29667,16 +29646,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.89, g: 0.94, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -29684,7 +29663,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9300001091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29697,10 +29676,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9300001092
 GameObject:
   m_ObjectHideFlags: 0
@@ -29837,17 +29814,17 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "차가 다가오던 순간으로 돌아가서\n친구에게 다시 말을 걸어 보세요."
+  m_text: "파란불에도 다가오는 차를 확인해야 해요.\n다시 해보기를 눌러 그 순간으로 돌아가요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 30
   m_fontSizeBase: 30
@@ -29936,16 +29913,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 1, g: 0.94, b: 0.8, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -29953,7 +29930,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &9300001104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29976,8 +29953,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -30075,17 +30052,17 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "다시 관찰하기"
+  m_text: "읽었어요. 다시 해보기"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 33
   m_fontSizeBase: 33
@@ -30190,16 +30167,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.79, g: 0.96, b: 0.88, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -30207,7 +30184,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9300001115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30220,10 +30197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9300001116
 GameObject:
   m_ObjectHideFlags: 0
@@ -30437,15 +30412,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "「잠깐!」 전체 체험 완료"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 43
   m_fontSizeBase: 43
@@ -30537,15 +30512,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "길을 건널 때는 신호뿐만 아니라\n주변 차량도 꼭 확인해요!\n\n• 걸을 때는 휴대전화를 보지 않기\n• 빨간불에는 건너지 않기\n• 파란불에도 다가오는 차가 없는지 확인하기"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 31
   m_fontSizeBase: 31
@@ -30648,16 +30623,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.87, g: 1, b: 0.93, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -30665,7 +30640,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9300001137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30678,10 +30653,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9300001138
 GameObject:
   m_ObjectHideFlags: 0
@@ -30895,15 +30868,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "차가 오는 줄 몰랐어! 알려줘서 고마워!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 30
   m_fontSizeBase: 30
@@ -31006,16 +30979,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.87, g: 1, b: 0.93, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -31023,7 +30996,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9300001155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31036,10 +31009,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9300001156
 GameObject:
   m_ObjectHideFlags: 0
@@ -31253,15 +31224,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "잠깐, 저 차부터 보내자."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 30
   m_fontSizeBase: 30
@@ -31365,15 +31336,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 1, g: 0.94, b: 0.98, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1243807991, guid: e26e274b1d586584899f9ed7046e9fae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -31382,7 +31353,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9300001173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31395,10 +31366,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9300001174
 GameObject:
   m_ObjectHideFlags: 0
@@ -31612,15 +31581,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "주변을 살펴보고 선택해 보세요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 36
   m_fontSizeBase: 36
@@ -31709,16 +31678,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 1, g: 0.94, b: 0.8, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -31726,7 +31695,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &9300001190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31749,8 +31718,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -31850,15 +31819,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "체험 마치기"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 35
   m_fontSizeBase: 35
@@ -31983,7 +31952,6 @@ MonoBehaviour:
   m_NearMissPoint: {fileID: 9300001011}
   m_CheckLeft: {fileID: 9300001013}
   m_CheckRight: {fileID: 9300001015}
-  m_ResultDuration: 4
   m_State: 0
   m_Completed: 0
   m_OnCompleted:
@@ -31992,6 +31960,9 @@ MonoBehaviour:
   m_OnFinished:
     m_PersistentCalls:
       m_Calls: []
+  m_CarObservation: {fileID: 9000001240}
+  m_FriendObservation: {fileID: 4000000319}
+  m_CrosswalkObservation: {fileID: 9100001021}
 --- !u!223 &9400001001
 Canvas:
   m_ObjectHideFlags: 0
@@ -32098,7 +32069,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9500001004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -32109,12 +32080,15 @@ RectTransform:
   - {fileID: 9500001057}
   - {fileID: 9500001077}
   - {fileID: 9500001081}
+  - {fileID: 9840000021}
+  - {fileID: 9840000031}
+  - {fileID: 9840000041}
   m_Father: {fileID: 4000000049}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1040, y: 680}
+  m_SizeDelta: {x: 840, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &9500001006
 CanvasGroup:
@@ -32148,16 +32122,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 1, g: 0.975, b: 0.9, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -32165,7 +32139,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9500001009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32178,10 +32152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9500001010
 GameObject:
   m_ObjectHideFlags: 0
@@ -32199,7 +32171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9500001011
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32274,7 +32246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9500001015
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32358,7 +32330,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9500001018}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 135, z: -1}
+  m_LocalPosition: {x: 0, y: 145, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -32366,8 +32338,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 135}
-  m_SizeDelta: {x: 940, y: 200}
+  m_AnchoredPosition: {x: 0, y: 145}
+  m_SizeDelta: {x: 700, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9500001020
 CanvasRenderer:
@@ -32393,20 +32365,20 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "잠깐!"
+  m_text: "오늘의 이야기"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.16, g: 0.48, b: 0.44, a: 1}
   m_enableVertexGradient: 0
-  m_fontSize: 128
-  m_fontSizeBase: 128
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -32458,7 +32430,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9500001022}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -35, z: -1}
+  m_LocalPosition: {x: 0, y: 35, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -32466,8 +32438,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -35}
-  m_SizeDelta: {x: 940, y: 105}
+  m_AnchoredPosition: {x: 0, y: 35}
+  m_SizeDelta: {x: 720, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9500001024
 CanvasRenderer:
@@ -32493,20 +32465,20 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "일상 속 안전을 지키는 작은 선택"
+  m_text: "친구와 집에 가는 길\n주변을 살피며 함께 걸어요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -32560,7 +32532,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9500001026}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -32579,7 +32551,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1120, y: 850}
+  m_SizeDelta: {x: 900, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &9500001028
 CanvasGroup:
@@ -32613,16 +32585,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.91, g: 0.97, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -32630,7 +32602,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9500001031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32643,10 +32615,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9500001032
 GameObject:
   m_ObjectHideFlags: 0
@@ -32664,7 +32634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9500001033
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32739,7 +32709,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9500001037
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32823,7 +32793,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9500001040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 330, z: -1}
+  m_LocalPosition: {x: 0, y: 205, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -32831,8 +32801,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 330}
-  m_SizeDelta: {x: 1000, y: 85}
+  m_AnchoredPosition: {x: 0, y: 205}
+  m_SizeDelta: {x: 780, y: 74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9500001042
 CanvasRenderer:
@@ -32858,20 +32828,20 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "이렇게 함께 살펴봐요!"
+  m_text: "클릭하며 이야기를 이어가요"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
-  m_fontSize: 52
-  m_fontSizeBase: 52
+  m_fontSize: 38
+  m_fontSizeBase: 38
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -32923,7 +32893,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9500001044}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 65, y: 165, z: -1}
+  m_LocalPosition: {x: 0, y: 135, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -32931,8 +32901,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 65, y: 165}
-  m_SizeDelta: {x: 875, y: 135}
+  m_AnchoredPosition: {x: 0, y: 135}
+  m_SizeDelta: {x: 760, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9500001046
 CanvasRenderer:
@@ -32958,20 +32928,20 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "주변을 자세히 살펴보고 위험한 상황을 찾아보세요!"
+  m_text: "친구의 말을 읽고, 안내하는 물체를 눌러요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
-  m_fontSize: 33
-  m_fontSizeBase: 33
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -33023,7 +32993,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9500001048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 65, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 5, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33031,8 +33001,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 65, y: 0}
-  m_SizeDelta: {x: 875, y: 135}
+  m_AnchoredPosition: {x: 0, y: 5}
+  m_SizeDelta: {x: 760, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9500001050
 CanvasRenderer:
@@ -33058,20 +33028,20 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "마우스로 둘러보고 중앙에 맞춰 클릭해요.\n단서는 조사하고, 친구를 눌러 말을 걸어요."
+  m_text: "대화창의 다음을 누르면 이야기가 이어져요.\n물체를 눌러 달라는 안내가 나오면\n직접 가리키고 눌러 주세요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
-  m_fontSize: 31
-  m_fontSizeBase: 31
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -33123,7 +33093,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9500001052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 65, y: -165, z: -1}
+  m_LocalPosition: {x: 0, y: -130, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33131,8 +33101,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 65, y: -165}
-  m_SizeDelta: {x: 875, y: 135}
+  m_AnchoredPosition: {x: 0, y: -130}
+  m_SizeDelta: {x: 760, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9500001054
 CanvasRenderer:
@@ -33158,20 +33128,20 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "상황을 살펴본 뒤 친구에게 어떤 행동을 알려줄지 선택해 보세요!"
+  m_text: "친구에게 할 말을 고르면\n그 결과를 함께 볼 수 있어요."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -33225,7 +33195,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9500001056}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -205, z: -1}
+  m_LocalPosition: {x: 0, y: -150, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -33234,8 +33204,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -205}
-  m_SizeDelta: {x: 550, y: 105}
+  m_AnchoredPosition: {x: 0, y: -150}
+  m_SizeDelta: {x: 350, y: 74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9500001058
 CanvasRenderer:
@@ -33257,16 +33227,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 0.79, g: 0.92, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -33274,7 +33244,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &9500001060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33297,8 +33267,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -33361,7 +33331,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9500001062}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33370,7 +33340,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 480, y: 70}
+  m_SizeDelta: {x: 330, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9500001064
 CanvasRenderer:
@@ -33396,20 +33366,20 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "시작하기"
+  m_text: "이야기 시작  ▶"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -33463,7 +33433,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9500001066}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -335, z: -1}
+  m_LocalPosition: {x: 0, y: -235, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -33472,8 +33442,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -335}
-  m_SizeDelta: {x: 550, y: 105}
+  m_AnchoredPosition: {x: 0, y: -235}
+  m_SizeDelta: {x: 350, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9500001068
 CanvasRenderer:
@@ -33495,16 +33465,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 1, g: 0.95, b: 0.75, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -33512,7 +33482,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &9500001070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33535,8 +33505,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -33599,7 +33569,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9500001072}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33608,7 +33578,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 480, y: 70}
+  m_SizeDelta: {x: 330, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9500001074
 CanvasRenderer:
@@ -33634,20 +33604,20 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
-  m_text: "알겠어!"
+  m_text: "알겠어!  ▶"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -33690,7 +33660,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9500001077
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33765,7 +33735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9500001081
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33838,7 +33808,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9500001085
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34709,7 +34679,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9500001131
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35352,7 +35322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9500001165
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35921,10 +35891,14 @@ MonoBehaviour:
   m_Viewer: {fileID: 6000000003}
   m_Title: {fileID: 9500001009}
   m_Instructions: {fileID: 9500001031}
-  m_Distance: 2.5
+  m_Distance: 2
   m_Car: {fileID: 40000001}
   m_Signal: {fileID: 30000001}
   m_State: 0
+  m_StoryDots:
+  - {fileID: 9840000021}
+  - {fileID: 9840000031}
+  - {fileID: 9840000041}
 --- !u!1 &9600001000
 GameObject:
   m_ObjectHideFlags: 0
@@ -36038,16 +36012,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c1bccad3c0d94db995356fca3f808671, type: 2}
-  m_Color: {r: 0.79, g: 0.96, b: 0.88, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -1253811518, guid: ebe03297cb8abba4bba7131ec76ca22b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -36055,7 +36029,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4
 --- !u!114 &9600001015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36068,10 +36042,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb499037ac5831bd2c458f7a7be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.FirstSituationPanel
-  m_Duration: 0.3
-  m_HiddenScale: 0.84
+  m_Duration: 0.18
   m_VisibleAlpha: 1
-  m_EntrancePop: 0.035
 --- !u!1 &9600001016
 GameObject:
   m_ObjectHideFlags: 0
@@ -36285,15 +36257,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "세 번째 상황 완료!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 49
   m_fontSizeBase: 49
@@ -36385,15 +36357,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "차가 완전히 지나가고 주변을 확인한 뒤\n친구와 함께 안전하게 건넜어요!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4279772218
+  m_fontColor: {r: 0.22745098, g: 0.14117648, b: 0.09411765, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 34
   m_fontSizeBase: 34
@@ -36482,16 +36454,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: dfa59998915d4a418d425ba247d13361, type: 2}
-  m_Color: {r: 1, g: 0.94, b: 0.8, a: 1}
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -36499,7 +36471,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 6
 --- !u!114 &9600001036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36522,8 +36494,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.91, g: 0.94, b: 0.97, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 0.94, a: 1}
+    m_PressedColor: {r: 0.9, g: 0.9, b: 0.84, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     m_ColorMultiplier: 1
@@ -36623,15 +36595,15 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "전체 마무리 보기"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283185966
-  m_fontColor: {r: 0.16, g: 0.27, b: 0.28, a: 1}
+    rgba: 4293392895
+  m_fontColor: {r: 1, g: 0.9764706, b: 0.90588236, a: 1}
   m_enableVertexGradient: 0
   m_fontSize: 38
   m_fontSizeBase: 38
@@ -36785,7 +36757,7 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "+"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -36885,7 +36857,7 @@ MonoBehaviour:
   m_Maskable: 1
   m_text: "중앙 조준 · 좌클릭: 단서 조사 / 친구에게 말 걸기"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9a6fc1ce2b2e5545a954c49e971aedd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 693e250e9fc014d46a64ef7eb19087b1, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 996f1f1235f240bca6a036c900e3410c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -37208,3 +37180,440 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 13700000, guid: 4750afde6b91062dd6d8d4ca25cba07d, type: 3}
   m_PrefabInstance: {fileID: 80000000}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &9840000000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9840000001}
+  - component: {fileID: 9840000002}
+  - component: {fileID: 9840000003}
+  m_Layer: 5
+  m_Name: M 친구 얼굴 배지
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &9840000001
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -365, y: 145, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4000000054}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -365, y: 145}
+  m_SizeDelta: {x: 90, y: 90}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &9840000002
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000000}
+  m_CullTransparentMesh: 1
+--- !u!114 &9840000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -1666863128, guid: fec9a01a404b88b45835fa6db4e35fad, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 4
+--- !u!1 &9840000010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9840000011}
+  - component: {fileID: 9840000012}
+  - component: {fileID: 9840000013}
+  m_Layer: 5
+  m_Name: M 이야기 말풍선 꼬리
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &9840000011
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000010}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -270, y: -149, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4000000054}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -270, y: -149}
+  m_SizeDelta: {x: 58, y: 48}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &9840000012
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000010}
+  m_CullTransparentMesh: 1
+--- !u!114 &9840000013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -1252900068, guid: f4b4add7792f07648b8bf095986e7456, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 4
+--- !u!1 &9840000020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9840000021}
+  - component: {fileID: 9840000022}
+  - component: {fileID: 9840000023}
+  m_Layer: 5
+  m_Name: M 시작 이야기 점 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &9840000021
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000020}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -32, y: -78, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9500001005}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -32, y: -78}
+  m_SizeDelta: {x: 18, y: 18}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &9840000022
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000020}
+  m_CullTransparentMesh: 1
+--- !u!114 &9840000023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 4
+--- !u!1 &9840000030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9840000031}
+  - component: {fileID: 9840000032}
+  - component: {fileID: 9840000033}
+  m_Layer: 5
+  m_Name: M 시작 이야기 점 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &9840000031
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000030}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -78, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9500001005}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -78}
+  m_SizeDelta: {x: 18, y: 18}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &9840000032
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000030}
+  m_CullTransparentMesh: 1
+--- !u!114 &9840000033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 4
+--- !u!1 &9840000040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9840000041}
+  - component: {fileID: 9840000042}
+  - component: {fileID: 9840000043}
+  m_Layer: 5
+  m_Name: M 시작 이야기 점 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &9840000041
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000040}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 32, y: -78, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9500001005}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 32, y: -78}
+  m_SizeDelta: {x: 18, y: 18}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &9840000042
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000040}
+  m_CullTransparentMesh: 1
+--- !u!114 &9840000043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9840000040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d1b8aa6cf7e30ed4eacd9d3e75dc078e, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -261376417, guid: 82e40529dec0e7b448f68522d752bff2, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 4
+--- !u!1 &98410000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 98410001}
+  m_Layer: 0
+  m_Name: 동행 이야기 친구 출발점
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &98410001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98410000}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.707106781, z: 0, w: 0.707106781}
+  m_LocalPosition: {x: -38, y: 0.15, z: -5.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 81000001}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &98410010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 98410011}
+  m_Layer: 0
+  m_Name: 동행 이야기 플레이어 출발점
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &98410011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98410010}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.9126926, z: 0, w: 0.4086467}
+  m_LocalPosition: {x: -39.4, y: 0.15, z: -4.35}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 81000001}
+  m_LocalEulerAnglesHint: {x: 0, y: 131.76, z: 0}

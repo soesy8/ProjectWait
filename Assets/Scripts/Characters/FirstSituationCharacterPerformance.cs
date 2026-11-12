@@ -65,6 +65,10 @@ namespace Y.Crosswalk // 첫 번째 상황의 캐릭터 연출을 기존 개인 
             if (m_Phone != null) m_Phone.SetScenarioPaused(frozen); // 먼저 해제된 휴대전화 컴포넌트에는 접근하지 않습니다.
         } // 헤드셋 추적과 XR 선택 입력에는 접근하지 않습니다.
 
+        public void SetPhoneInUse(bool inUse) // 동행 이야기에서 메시지가 오기 전후의 실제 휴대전화 자세를 전환합니다.
+        { // 기존 전화 연출의 해제 상태만 바꾸고 팔과 고개 보간은 해당 컴포넌트가 계속 담당합니다.
+            m_Phone.SetScenarioPhoneReleased(!inUse); // 평범한 동행에서는 앞을 보고 메시지 이후 보행에서만 화면을 내려다보게 합니다.
+        } // 사고와 안전 결과 및 체크포인트는 원래 전화 연출 경로를 그대로 사용합니다.
         public void CaptureCheckpoint() // 전화 사용 자세까지 적용된 프레임을 재시도의 기준으로 저장합니다.
         { // 상황 제어기의 LateUpdate에서 한 번 호출합니다.
             m_Movement.CaptureScenarioCheckpoint(); // 루트 경로 거리와 기존 걸음 상태를 저장합니다.

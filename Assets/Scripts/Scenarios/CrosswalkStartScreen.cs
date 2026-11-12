@@ -16,6 +16,7 @@ namespace Y.Crosswalk // 세 안전 상황 앞에 붙는 제목·조작 안내�
         [SerializeField, InspectorName("대기할 기존 자동차"), Tooltip("시작 전 주행만 보류하고 실제 시작 시 원래 상태를 복원합니다.")] private TrafficCarMovement m_Car; // 제목을 보는 동안 교통 연출이 먼저 진행되지 않게 합니다.
         [SerializeField, InspectorName("대기할 기존 신호"), Tooltip("표시를 끄지 않고 자동 신호 타이머만 보류합니다.")] private PedestrianTrafficLight m_Signal; // 전역 시간과 UI 애니메이션은 계속 갱신합니다.
         [SerializeField, InspectorName("현재 시작 화면 상태"), Tooltip("제목·안내 전환·첫 상황 진입을 구분합니다.")] private ScreenState m_State; // 버튼이 실제 화면 단계에서만 동작하게 합니다.
+        [SerializeField, InspectorName("이야기 시작 점 장식"), Tooltip("M의 시작 카드처럼 차례로 움직이는 세 개의 청록색 점입니다.")] private RectTransform[] m_StoryDots = System.Array.Empty<RectTransform>(); // 처음 이야기를 읽는 카드에 작은 움직임을 표시합니다.
         private bool m_BackgroundHeld, m_CarWasPaused, m_SignalWasPaused; // 시작 화면이 보류한 차량과 신호 상태만 복원합니다.
 
         private void Start() // 첫 번째 상황이 시작 대기 상태인지 확인한 뒤 제목을 표시합니다.
@@ -24,6 +25,18 @@ namespace Y.Crosswalk // 세 안전 상황 앞에 붙는 제목·조작 안내�
             if (!m_First.IsWaitingForStartScreen) { m_State = ScreenState.Running; return; } // 기존 진행 상태가 있으면 시작 화면에 개입하지 않습니다.
             HoldBackground(); PlaceScreen(); m_State = ScreenState.Title; m_Title.Show(true); // 기존 첫 장소의 배경 위에 편집 가능한 제목을 표시합니다.
         } // PC에서는 기존 입력 모듈이 실제 마우스 커서를 표시하고 버튼을 처리합니다.
+
+        private void Update() // 시작 카드가 열려 있을 때 M과 같은 세 점의 순차 움직임을 표시합니다.
+        { // 대사나 실제 상황의 시간에는 영향을 주지 않습니다.
+            if (m_State != ScreenState.Title) return; // 제목을 넘긴 뒤에는 시작 장식의 위치를 갱신하지 않습니다.
+            for (int i = 0; i < m_StoryDots.Length; ++i) // 세 점을 짧은 간격으로 차례로 뛰게 합니다.
+            { // 원본 M 시작 카드와 같은 시간 간격과 주기를 사용합니다.
+                float phase = Mathf.Repeat(Time.unscaledTime - i * 0.14f, 1.05f); // 점마다 시작 시각을 조금씩 늦춥니다.
+                float jump = phase < 0.38f ? Mathf.Sin(phase / 0.38f * Mathf.PI) : 0f; // 한 번 뛰고 다음 순서까지 쉬는 진행도입니다.
+                m_StoryDots[i].anchoredPosition = new Vector2((i - 1) * 32f, -78f + jump * 15f); // 시작 문구와 버튼 사이에서 위아래로만 움직입니다.
+                m_StoryDots[i].localScale = new Vector3(1f - jump * 0.07f, 1f + jump * 0.1f, 1f); // 떠오를 때 원본 M처럼 가볍게 늘어나는 움직임을 더합니다.
+            } // 시작하기 버튼과 제목의 위치는 그대로 사용합니다.
+        } // 다음 버튼을 누르면 실제 안내와 이야기로 넘어갑니다.
 
         private void PlaceScreen() // 제목을 열 때 한 번만 편안한 읽기 위치를 배치합니다.
         { // 사용자의 머리 방향이나 시야각은 변경하지 않습니다.

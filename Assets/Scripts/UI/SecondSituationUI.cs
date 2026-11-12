@@ -1,4 +1,6 @@
-﻿using UnityEngine; // 실제 씬의 파스텔 패널 배치와 표시를 제어합니다.
+using System.Collections.Generic; // 세 상황의 기존 행동 버튼을 PC 중앙 조준 입력에 연결합니다.
+using UnityEngine.UI; // M 원본의 버튼 그림과 색상 전환을 기존 버튼에 적용합니다.
+using UnityEngine; // 실제 씬의 파스텔 패널 배치와 표시를 제어합니다.
 using Unity.XR.CoreUtils; // PC 마무리 패널이 지면에 들어가지 않도록 기존 XR Origin의 바닥 높이만 읽습니다.
 
 namespace Y.Crosswalk // 기존 관찰 UI와 같은 월드 공간 입력 구성을 사용합니다.
@@ -36,6 +38,7 @@ namespace Y.Crosswalk // 기존 관찰 UI와 같은 월드 공간 입력 구성�
 
         private void Awake() // 이미 씬에 있는 패널만 준비합니다.
         { // 코드로 사각형·텍스트·버튼을 만들지 않습니다.
+            foreach (Button button in m_Anchor.GetComponentsInChildren<Button>(true)) m_SharedLayout.StyleButton(button, true); // 두 번째·세 번째 상황의 기존 버튼도 M의 글꼴·그림·색상으로 초기화합니다.
             m_OriginalAnchorScale = m_Anchor.localScale; m_Panels = new[] { m_Choice, m_Warning, m_Thanks, m_Safe, m_Unsafe, m_Retry, m_OverallSummary }; HideAll(); // 초기에는 선택 정답이나 결과를 미리 보여 주지 않습니다.
         } // 글꼴·배경·버튼 이미지 자산은 기존 리소스를 사용합니다.
 
@@ -45,6 +48,10 @@ namespace Y.Crosswalk // 기존 관찰 UI와 같은 월드 공간 입력 구성�
             foreach (FirstSituationPanel panel in m_Panels) if (panel != null) panel.Show(false); // 기존 CanvasGroup의 크기·투명도 퇴장 효과를 그대로 사용합니다.
         } // 숨긴 버튼은 기존 패널 코드가 즉시 입력을 해제합니다.
 
+        public void CollectButtons(List<Button> buttons) // 기존 두 상황의 실제 버튼만 중앙 조준 입력에 등록합니다.
+        { // 다른 씬이나 런타임 임시 UI를 전체 검색하지 않습니다.
+            buttons.AddRange(m_Anchor.GetComponentsInChildren<Button>(true)); // 숨겨진 재시도와 완료 버튼도 같은 참조를 미리 보관합니다.
+        } // 활성 여부는 클릭 순간의 실제 CanvasGroup과 Button 상태로 판단합니다.
         private void PlaceAnchor() // 화면 전환 시 한 번만 실제 월드 UI 위치를 정합니다.
         { // 사용자가 고개를 돌릴 때 패널이 계속 따라붙지 않게 합니다.
             bool desktop = m_InputSource != null && m_InputSource.IsDesktopActive; // 기존 실제 PC·VR 입력 상태를 사용합니다.
@@ -53,18 +60,18 @@ namespace Y.Crosswalk // 기존 관찰 UI와 같은 월드 공간 입력 구성�
             forward.Normalize(); m_Anchor.SetPositionAndRotation(m_Viewer.transform.position + forward * m_Distance - Vector3.up * 0.15f, desktop ? m_Viewer.transform.rotation : Quaternion.LookRotation(forward)); // 실제 UI만 배치하고 XR 추적은 유지합니다.
         } // 중요한 도로와 캐릭터를 계속 둘러볼 수 있습니다.
 
-        public void ShowChoice() { HideAll(); PlaceAnchor(); m_Choice.Show(true); } // 시간 제한 없이 두 행동과 다시 관찰하기를 표시합니다.
+        public void ShowChoice() { HideAll(); m_SharedLayout.PresentChoices(m_Choice, "나", FirstSituationUI.ReadPanelLine(m_Choice)); } // 신호·차량 판단도 첫 상황과 같은 M의 읽기·응답 배치에 연결합니다.
         public void ShowWarning(Vector3 friendHeadPosition) // 플레이어의 제지 대사를 중요 단서와 떨어진 말풍선으로 표시합니다.
         { // 기존 말풍선 배치가 친구와 접근 차량의 화면 영역을 피합니다.
             HideAll(); m_SharedLayout.ShowDialogue(m_Warning, friendHeadPosition); // 현재 상황의 경고 패널만 공유 배치에 전달합니다.
         } // 경고가 끝나면 같은 패널의 기존 퇴장 효과를 사용합니다.
-        public void ShowSafe() { HideAll(); if (m_OverallSummary != null) PlaceCompletionAnchor(); else PlaceAnchor(); m_Safe.Show(true); m_SharedLayout.PlaySuccessCue(); } // 두 번째와 세 번째의 실제 완료 패널에 공유 성공 광채와 차임을 맞춰 표시합니다.
-        public void ShowUnsafe() { HideAll(); PlaceAnchor(); m_Unsafe.Show(true); m_Retry.Show(true); } // 사고 원인과 빠른 재시도 버튼을 함께 표시합니다.
+        public void ShowSafe() { HideAll(); m_SharedLayout.PresentChoices(m_Safe, "친구", FirstSituationUI.ReadPanelLine(m_Safe), false); m_SharedLayout.PlaySuccessCue(); } // 세 번째 안전 횡단 완료도 같은 원본 읽기 프레임과 실제 완료 행동 버튼으로 표시합니다.
+        public void ShowUnsafe() { HideAll(); m_SharedLayout.PresentChoices(m_Retry, "잠깐!", FirstSituationUI.ReadPanelLine(m_Unsafe), false); } // 사고 이유를 읽고 실제 재시도 버튼만 고르는 M의 결과 표시를 사용합니다.
 
         public void ShowOverallSummary() // 세 번째 완료 화면의 다음 버튼으로 전체 체험 마무리를 표시합니다.
         { // 이전 두 상황의 안전 결과 패널은 바꾸지 않습니다.
             if (m_OverallSummary == null) return; // 전체 마무리를 소유하지 않는 두 번째 UI에는 개입하지 않습니다.
-            HideAll(); PlaceCompletionAnchor(); m_OverallSummary.Show(true); // 실제 전체 마무리 패널과 종료 버튼만 표시합니다.
+            HideAll(); m_SharedLayout.HideAll(); PlaceCompletionAnchor(); m_OverallSummary.Show(true); // 이전 읽기·응답을 닫고 원래 전체 안전 수칙과 종료 버튼을 M 글꼴·그림으로 표시합니다.
         } // 자동으로 사라지는 타이머는 사용하지 않습니다.
 
         private void PlaceCompletionAnchor() // PC에서 완료 화면이 수평 시야 밖에 나타나지 않게 실제 현재 시선에 맞춥니다.

@@ -18,7 +18,11 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
         [SerializeField, InspectorName("세 번째 생각 문구"), Tooltip("생각 말풍선 내부의 실제 TMP 텍스트입니다.")] private TMP_Text m_ThoughtText; // 클릭한 단서의 문구를 표시합니다.
         [SerializeField, InspectorName("기존 플레이어 카메라"), Tooltip("기존 XR Origin의 추적 카메라입니다. UI와 캐릭터 응시 기준으로만 사용합니다.")] private Camera m_Viewer; // 실제 카메라는 이동·회전·흔들지 않습니다.
         [SerializeField, InspectorName("기존 XR Origin"), Tooltip("안전한 선택 뒤 공통 친구와 함께 횡단할 플레이어 루트입니다.")] private XROrigin m_Origin; // 시점 방향을 바꾸지 않고 이동 위치를 갱신합니다.
-        [SerializeField, InspectorName("재사용 관찰 대상 네 개"), Tooltip("빨간불 때 조사한 공통 친구·신호·차량·횡단보도의 관찰 컴포넌트입니다.")] private FirstSituationObservation[] m_Observations; // 같은 단서가 파란불 상황에 맞는 생각 문구를 표시합니다.
+        [SerializeField, InspectorName("파란불 관찰 대상"), Tooltip("친구·신호·차량·횡단보도의 기존 관찰 인스턴스입니다.")] private FirstSituationObservation[] m_Observations; // 접근 차량과 횡단 시작 위치를 실제로 누를 수 있게 합니다.
+        [SerializeField, InspectorName("접근 자동차 클릭 대상"), Tooltip("파란불에도 접근하는 자동차의 관찰 컴포넌트입니다.")] private FirstSituationObservation m_CarObservation; // 움직이던 차를 확인하고 친구를 말릴 이유를 발견합니다.
+        [SerializeField, InspectorName("친구 클릭 대상"), Tooltip("빨간불 때부터 옆에서 기다린 친구의 관찰 컴포넌트입니다.")] private FirstSituationObservation m_FriendObservation; // 차를 확인한 뒤 친구에게 기다리자고 말합니다.
+        [SerializeField, InspectorName("횡단 시작 클릭 대상"), Tooltip("차량 통과 뒤 직접 눌러 함께 건너기 시작할 횡단보도 관찰 컴포넌트입니다.")] private FirstSituationObservation m_CrosswalkObservation; // 안전 확인 뒤 마지막 행동도 플레이어가 시작합니다.
+        private bool m_CarChecked; // 위험 선택 재시도에서는 앞서 확인한 자동차 설명을 유지합니다.
         [SerializeField, InspectorName("공통 친구 이동"), Tooltip("빨간불 때 옆에서 대기한 친구의 이동과 기존 횡단 애니메이션입니다.")] private FriendCharacterMovement m_Friend; // 두 번째 상황의 친구 위치와 대기 상태에서 계속 진행합니다.
         [SerializeField, InspectorName("공통 친구 관절 연출"), Tooltip("기존 신호 확인·놀람·뒷걸음·감사 표현을 같은 친구에 적용합니다.")] private SecondSituationCharacterPerformance m_Performance; // 관찰 정지 자세와 위험 결과를 재사용합니다.
         [SerializeField, InspectorName("공통 친구 발소리"), Tooltip("앞선 보행과 같은 친구의 걸음에 동기화됩니다.")] private FirstSituationWalkAudio m_WalkAudio; // 실제 횡단하는 동안에만 발소리를 재생합니다.
@@ -35,7 +39,6 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
         [SerializeField, InspectorName("위험 선택 접근 제한점"), Tooltip("친구가 인도에서 서둘러 내딛다가 플레이어 쪽 첫 차로의 차량 옆면에 닿기 전에 멈출 지점입니다.")] private Transform m_NearMissPoint; // 친구의 전진을 가까운 차로 앞에서 제한해 바로 옆으로 통과하는 차량과 겹치지 않게 합니다.
         [SerializeField, InspectorName("도로 왼쪽 확인점"), Tooltip("횡단 전 반대 방향을 확인할 도로 위 응시점입니다.")] private Transform m_CheckLeft; // 실제 주변을 살펴보는 고개 동작을 연결합니다.
         [SerializeField, InspectorName("도로 오른쪽 확인점"), Tooltip("횡단 전 접근 방향을 재확인할 도로 위 응시점입니다.")] private Transform m_CheckRight; // 신호만 보고 출발하지 않는 행동을 보여 줍니다.
-        [SerializeField, Min(2f), InspectorName("위험 설명 표시 시간"), Tooltip("설명 후 같은 관찰로 복원합니다. 버튼으로 먼저 재시도할 수도 있습니다.")] private float m_ResultDuration = 4f; // 관찰·선택에는 제한 시간을 두지 않습니다.
         [SerializeField, InspectorName("세 번째 진행 상태"), Tooltip("같은 장소의 신호 전환·관찰·선택·횡단·최종 완료를 구분합니다.")] private StageState m_State; // 현재 단계에 맞춰 자유 시점과 버튼 입력을 구분합니다.
         [SerializeField, InspectorName("세 번째 안전 완료"), Tooltip("차량이 지나간 뒤 친구와 반대편 인도에 도착해야 켜집니다.")] private bool m_Completed; // 실제 도착 전에는 마무리로 넘어가지 않습니다.
         [SerializeField, InspectorName("세 번째 완료 이벤트"), Tooltip("안전 횡단 뒤 기존 완료 화면을 표시할 때 한 번 호출합니다.")] private UnityEvent m_OnCompleted = new UnityEvent(); // 완료 후 다른 씬으로 연결할 기존 이벤트를 유지합니다.
@@ -67,6 +70,7 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
 
         private IEnumerator RunIntroduction() // 앞선 차가 지나가면 같은 장소에서 다음 차량과 파란불을 보여 줍니다.
         { // 친구나 플레이어의 위치를 바꾸는 장면 전환 없이 이어집니다.
+            m_SharedUI.ShowCinematicCaption("나", "아직 빨간불이니까 여기서 같이 기다리자."); // 빨간불에서 기다린 실제 결과를 다음 신호 전환 연출에 연결합니다.
             float clearDeadline = Time.unscaledTime + m_Car.ScenarioTravelBudget; // 이전 주행이 중단되어도 도입이 무한 대기하지 않게 합니다.
             while (!m_Car.HasPassedCrosswalkForScenario && m_Car.isActiveAndEnabled && Time.unscaledTime < clearDeadline) yield return null; // 빨간불 동안 앞선 차가 횡단보도를 빠져나갈 시간을 줍니다.
             m_Second.HideCompletedResultForNextSituation(); // 친구의 이전 대사를 닫고 같은 화면에서 파란불에 집중하게 합니다.
@@ -84,6 +88,7 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
                 enabled = false; yield break; // 다음 활성화 때 빨간불 대기부터 다시 시작할 수 있게 합니다.
             } // 차가 접근하는 순간에만 다음 관찰을 준비합니다.
             m_Signal.HoldGreenForScenario(); // 친구가 기다리던 자리에서 신호가 파란불로 바뀝니다.
+            m_SharedUI.ShowCinematicCaption("친구", "파란불이다! 이제 건너가도 될까?"); // 실제 신호가 바뀐 뒤 친구가 한 발을 내딛기 전에 자동 대사를 표시합니다.
             BlenderRigPose.PlayFace(m_Performance.HeadTarget, 0.6f); // 짧은 발화 동작을 기존 친구의 얼굴에 적용합니다.
             const float firstStepTime = 0.14f; // 짧은 첫 발만 보여 주고 차가 아직 접근 중일 때 관찰을 정지합니다.
             if (!m_Friend.TryBeginScenarioFirstStep(m_GreenSignalPoint, firstStepTime)) // 앞서 대기하던 상태에서 횡단하려는 첫 발을 시작합니다.
@@ -106,16 +111,30 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
         { // Collider와 실루엣 Renderer를 복제하지 않습니다.
             foreach (FirstSituationObservation target in m_Observations) if (target != null) target.SetAvailable(available, FirstSituationObservation.Context.GreenSignal); // 기존 조사 입력에 파란불 상황의 생각 문구를 연결합니다.
         } // 단서를 모두 조사했는지 세지 않습니다.
-        private void EnterObservation() // 도입과 실패 복원에서 같은 정지·관찰 상태로 진입합니다.
-        { // UI는 실제 씬의 패널만 표시합니다.
-            m_UI.HideAll(); m_RetryRequested = false; m_State = StageState.Observation; SetObservations(true); // 이전 결과 입력을 지우고 세 번째 단서만 엽니다.
-            m_SharedUI.PlaceInFront(m_Viewer.transform); m_SharedUI.ShowObservation(OpenFriendChoices, m_Thought, m_ThoughtText); // 접근하는 차량을 조사하거나 친구에게 곧바로 말을 걸 수 있게 합니다.
-            m_SharedUI.ShowFriendDialogue("파란불이다! 이제 건너갈까?", m_Performance.HeadPosition); // 재시도와 다시 둘러보기에서도 같은 질문을 표시하고 차를 조사하면 접근 단서를 보여 줍니다.
-        } // 관찰 시간 제한은 없습니다.
+        private void EnterObservation() // 파란불과 접근 차량을 같은 장면에서 직접 조사하게 합니다.
+        { // 이전 신호 상황에서 이어진 친구의 실제 첫 발 자세를 유지합니다.
+            m_UI.HideAll(); m_RetryRequested = false; m_State = StageState.Observation; SetObservations(true); // 실제 차량 위치와 친구 자세를 저장한 관찰 단계로 들어갑니다.
+            if (m_CarChecked) PromptFriend(); else PromptCar(); // 이미 본 차량 설명을 대사 클릭으로 다시 넘기게 하지 않습니다.
+        } // 대사를 읽는 중에도 물체 선택은 계속 열려 있습니다.
+
+        private void PromptCar() // 파란불이어도 접근하는 실제 자동차를 살펴보게 합니다.
+        { // 신호 변화의 대사와 차량 조사를 한 단계에 연결합니다.
+            m_SharedUI.ShowTask(m_CarObservation, "오른쪽에서 오는 자동차를 살펴보세요.", OnCarSelected, "친구", "파란불로 바뀌었다!\n그런데 오른쪽에서 차가 오네."); // 읽기 전용 대사와 실제 차량 클릭을 동시에 제공합니다.
+        } // 화면 아무 곳을 누르는 진행은 없습니다.
+
+        private void OnCarSelected() // 차량을 확인한 결과로 친구의 성급한 출발을 말릴 대화를 엽니다.
+        { // 차를 단지 클릭 횟수로 세지 않고 현재 위험을 확인한 상태로 기록합니다.
+            m_CarChecked = true; PromptFriend(); // 다음 문장을 넘기는 절차 없이 실제 경고 대화로 이어갑니다.
+        } // 다른 물체의 조사도 기존 활성 관찰 범위에서 유지합니다.
+
+        private void PromptFriend() // 아직 차가 지나지 않은 상황에서 친구에게 할 말을 선택하게 합니다.
+        { // 친구 클릭은 실제 행동을 제지하는 대화에서만 사용합니다.
+            m_SharedUI.ShowTask(m_FriendObservation, "친구에게 다가오는 차를 알려 주세요.", OpenFriendChoices, "나", "차가 아직 멈추지 않았어.\n친구에게 어떻게 말해 줄까?"); // 차량 조사 결과가 기다림이나 성급한 출발의 판단으로 이어집니다.
+        } // 선택의 결과는 실제 차량 통과 또는 위험 접근으로 보여 줍니다.
         private void OpenFriendChoices() // 친구를 눌렀을 때 차량을 기다릴지 바로 건널지 선택하게 합니다.
         { // 조사한 단서 수와 관계없이 친구에게 답할 수 있습니다.
             if (!IsObservationReady) return; // 이미 대화가 열렸거나 차량 결과가 진행 중이면 새 선택을 시작하지 않습니다.
-            m_State = StageState.Choice; SetObservations(false); m_SharedUI.HideAll(); m_UI.ShowChoice(); // 외곽선과 생각을 부드럽게 숨기고 실제 두 선택지를 표시합니다.
+            m_State = StageState.Choice; SetObservations(true); m_SharedUI.HideAll(); m_UI.ShowChoice(); // 외곽선과 생각을 부드럽게 숨기고 실제 두 선택지를 표시합니다.
         } // 자동으로 정답을 선택하지 않습니다.
         public void ReturnToObservation() { if (m_State == StageState.Choice) EnterObservation(); } // 선택을 확정하기 전에는 마우스로 다시 주변을 볼 수 있습니다.
         public void ChooseSafe() // 차량이 다 지나갈 때까지 기다리기 선택을 한 번만 수락합니다.
@@ -141,14 +160,18 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
             if (CarBumperProgress(true) < m_CrosswalkHalfWidth) { Debug.LogWarning("차량이 횡단보도를 완전히 빠져나가지 못해 관찰을 복원합니다.", this); yield return RestoreObservation(); yield break; } // 차량이 남아 있으면 누구도 횡단을 시작하지 않습니다.
             m_UI.HideAll(); // 경고가 횡단 장면을 가리지 않게 닫습니다.
             yield return m_Performance.LookAtTarget(m_CheckLeft, 0.4f); // 왼쪽 확인은 고개로 보여 주고 몸 전체가 제자리에서 도는 대기를 줄입니다.
-            yield return m_Performance.LookAtTarget(m_CheckRight, 0.4f); // 오른쪽도 확인한 뒤 바로 같은 친구의 횡단을 시작합니다.
+            yield return m_Performance.LookAtTarget(m_CheckRight, 0.4f); // 차가 지나간 다음 친구도 양쪽 도로를 확인합니다.
+            bool crossingRequested = false; m_CrosswalkObservation.SetAvailable(true, FirstSituationObservation.Context.GreenSignal); // 실제 차체가 모두 지나고 양쪽 확인이 끝난 뒤에만 횡단 시작 물체를 엽니다.
+            m_SharedUI.ShowTask(m_CrosswalkObservation, "안전해진 횡단보도로 건너세요.", () => crossingRequested = true, "친구", "이제 차가 다 지나갔네.\n양쪽도 확인했어. 같이 건너가자."); // 대사를 닫는 클릭 없이 실제 횡단보도 선택이 보행을 시작합니다.
+            while (!crossingRequested) yield return null; // 자동으로 건너지 않고 횡단보도 클릭을 기다립니다.
+            SetObservations(false); m_SharedUI.HideAll(); // 횡단을 시작하면 행동 안내와 남은 물체 입력을 정리합니다.
             m_Friend.SetScenarioApproachLimit(null); m_Friend.SetScenarioApproachSpeed(1.35f); // 위험 선택 제한점 없이 반대편 인도까지 걸어가게 합니다.
             Vector3 friendStart = m_Friend.transform.position; // 같은 쪽 인도에서 출발한 친구를 기준으로 플레이어 이동량을 계산합니다.
             if (CarBumperProgress(true) < m_CrosswalkHalfWidth || !m_Friend.TryBeginCrossing()) // 통과 상태와 횡단 경로가 유효한 경우에만 둘 다 이동합니다.
             { // 안전 조건이나 이동이 거절되면 마지막 관찰로 돌아갑니다.
                 Debug.LogError("차량 통과 확인 후 공통 친구의 안전 횡단을 시작하지 못했습니다.", this); yield return RestoreObservation(); yield break; // 결과가 시작되지 않은 상태에서 완료 처리하지 않습니다.
             } // 실제 횡단이 시작되면 발소리와 플레이어 이동을 함께 연결합니다.
-            m_State = StageState.Crossing; m_WalkAudio.SetActive(true); // 횡단 중에도 플레이어는 주위를 자유롭게 볼 수 있습니다.
+            m_State = StageState.Crossing; m_WalkAudio.SetActive(true); m_SharedUI.ShowCinematicCaption("나", "앞을 보면서 천천히 같이 건너자."); // 실제 친구와 플레이어의 횡단 위에 M 방식 자동 자막을 표시합니다. // 횡단 중에도 플레이어는 주위를 자유롭게 볼 수 있습니다.
             float crossingDeadline = Time.unscaledTime + m_Friend.ScenarioTravelBudget; // 횡단 경로가 중단된 경우 복원하기 위한 최대 대기 시간입니다.
             while (!m_Friend.HasCompletedCrossing && m_Friend.isActiveAndEnabled && Time.unscaledTime < crossingDeadline) // 친구 이동기가 반대편 인도에 도착했다고 기록할 때까지만 기다립니다.
             { // 같은 거리와 높이 변화를 적용해 플레이어가 친구 옆의 흰 줄을 따라 이동합니다.
@@ -159,9 +182,10 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
             m_Origin.Origin.transform.position = m_ReadyPlayerPosition + (m_Friend.transform.position - friendStart); // 감속한 마지막 이동까지 같은 인도에 도착한 플레이어 위치에 반영합니다.
             m_WalkAudio.Stop(); m_State = StageState.Arrival; // 같은 친구와 함께 도착했으므로 재회용 이동과 손짓을 거치지 않습니다.
             m_Friend.FaceScenarioTarget(m_Viewer.transform); // 도착한 친구가 옆의 플레이어를 자연스럽게 돌아봅니다.
-            m_UI.ShowThanks(m_Performance.HeadPosition); // 최종 결과 전에 친구의 감사 대사를 짧게 표시합니다.
             StartCoroutine(m_Performance.AcknowledgeWaiting()); // 감사 동작은 결과 진행과 나란히 재생합니다.
-            yield return new WaitForSecondsRealtime(1.1f); // 애니메이션 상태와 별개로 감사 대사를 읽을 시간만 확보합니다.
+            yield return m_SharedUI.PlayCaption("친구", "덕분에 안전하게 건넜어. 같이 살펴봐서 다행이야!", 3f); // 실제 반대편 인도에 도착한 뒤 친구의 감사 대사를 자동으로 보여 줍니다.
+            yield return m_SharedUI.PlayCaption("나", "집에 가는 길에는 앞을 보고, 신호가 바뀌어도 차를 꼭 확인하자.", 3.5f); // 마지막 정리도 화면 클릭 없이 완료 화면으로 이어집니다.
+            m_SharedUI.HideAll(); // 대사를 닫은 뒤 기존 마무리 화면으로 이어갑니다.
             m_Completed = true; m_State = StageState.Complete; m_UI.ShowSafe(); m_OnCompleted.Invoke(); // 도착으로 완료를 확정하고 기존 전체 마무리 버튼을 표시합니다.
         } // 이 흐름은 두 번째 친구의 재회 연출에 의존하지 않습니다.
 
@@ -178,8 +202,8 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
             if (m_Friend.ScenarioLimitRemaining > 0.12f || CarBumperProgress(false) < -m_CrosswalkHalfWidth) { Debug.LogWarning("차량 또는 친구의 접근이 끝나지 않아 관찰을 복원합니다.", this); yield return RestoreObservation(); yield break; } // 사고 연출 시작 조건을 못 채우면 같은 선택을 다시 할 수 있게 합니다.
             m_WalkAudio.Stop(); m_SharedUI.PlayDangerCue(); // 다가온 차를 뒤늦게 발견한 순간에 발소리를 멈추고 기존 위험 표시를 보여 줍니다.
             yield return m_Performance.PanicNearCar(); // 차량은 차로를 그대로 지나가고 친구는 기존 놀람 자세와 뒷걸음으로 물러납니다.
-            m_State = StageState.Retry; m_UI.ShowUnsafe(); float elapsed = 0f; // 그대로 지나간 차를 보고 파란불에도 주변을 확인해야 한다고 안내합니다.
-            while (elapsed < m_ResultDuration && !m_RetryRequested) { elapsed += Time.unscaledDeltaTime; yield return null; } // 설명 뒤 자동 복원하거나 버튼으로 먼저 재시도합니다.
+            m_State = StageState.Retry; m_UI.ShowUnsafe(); // 지나가는 차량을 본 뒤 원인 설명과 다시 해보기를 표시합니다.
+            while (!m_RetryRequested) yield return null; // 설명을 읽고 다시 해보기를 누르면 차가 접근하던 선택 장면으로 돌아갑니다.
             yield return RestoreObservation(); // 첫 두 상황이 아닌 세 번째 첫 발과 차량만 복원합니다.
         } // 카메라 진동·유혈·신체 훼손은 사용하지 않습니다.
 

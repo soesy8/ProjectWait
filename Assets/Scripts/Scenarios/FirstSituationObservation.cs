@@ -1,4 +1,4 @@
-﻿using UnityEngine; // 미리 배치한 외곽선 Renderer의 색상과 두께를 조절합니다.
+using UnityEngine; // 미리 배치한 외곽선 Renderer의 색상과 두께를 조절합니다.
 using UnityEngine.XR.Interaction.Toolkit; // 기존 XR 조준·선택 이벤트를 수신합니다.
 using UnityEngine.XR.Interaction.Toolkit.Interactables; // 별도로 잡거나 이동하지 않는 관찰 대상을 사용합니다.
 using UnityEngine.XR.Interaction.Toolkit.Interactors; // 컨트롤러 레이와 새 선택 입력을 구분합니다.
@@ -25,7 +25,6 @@ namespace Y.Crosswalk // 각 상황의 단서를 동일한 입력 규칙의 독�
         [SerializeField, TextArea(2, 4), InspectorName("파란불 상황의 생각"), Tooltip("파란불에서 같은 대상을 조사할 때 쓰는 문구입니다. 비워 두면 기본 생각을 사용합니다.")] private string m_ThirdThought; // 같은 친구·신호·차량을 새 위험에 맞게 설명합니다.
         [SerializeField, InspectorName("마우스 관찰 우선순위"), Tooltip("같은 친구의 신체와 소품 판정이 겹칠 때 높은 값을 우선합니다. 손의 전화만 10으로 설정합니다.")] private int m_PointerPriority; // 전봇대 상황에서는 몸보다 휴대전화 조사를 우선할 수 있습니다.
         public int PointerPriority => m_PointerPriority; // 기존 중앙 조준이 겹친 대상을 판정할 때 참조합니다.
-        [SerializeField, InspectorName("말을 걸 친구"), Tooltip("켜면 이 대상을 선택할 때 현재 상황의 대답이나 행동 선택지를 엽니다. 주변 단서는 조사 문구를 사용합니다.")] private bool m_StartsConversation; // 같은 친구의 몸에 등록한 Collider를 대화 진입점으로 사용합니다.
         private Context m_Context; // 현재 열린 관찰 상황에 따라 말풍선의 문구를 선택합니다.
         private MaterialPropertyBlock m_Properties; // 같은 재질을 공유해도 대상별 관찰 외곽선 표시를 따로 관리합니다.
         private bool m_Available; // 관찰 단계 밖에서는 단서 선택을 받지 않습니다.
@@ -76,8 +75,8 @@ namespace Y.Crosswalk // 각 상황의 단서를 동일한 입력 규칙의 독�
         public void SetDesktopHover(bool hovered) { m_DesktopHovered = m_Available && hovered; } // 마우스 진입·이탈을 기존 외곽선 페이드에 전달합니다.
         public bool Activate(Vector3 hitPosition) // 마우스와 XR이 같은 관찰 대상을 선택할 때 대화 또는 단서 조사를 실행합니다.
         { // 현재 상황에서 활성화된 Collider의 입력만 처리합니다.
-            if (!m_Available || !isActiveAndEnabled || m_UI == null) return false; // 관찰이 끝났거나 UI가 정리된 시점에는 입력을 사용하지 않습니다.
-            if (m_StartsConversation) return m_UI.BeginFriendConversation(); // 공통 친구를 누르면 바로 현재 상황의 행동 선택지를 엽니다.
+            if (!m_Available || !isActiveAndEnabled || m_UI == null) return false; // M처럼 짧은 설명을 읽는 중에도 세계 선택을 유지하고 실제 관찰 비활성 상태에서만 차단합니다.
+            if (m_UI.TryCompleteTask(this)) return true; // 휴대전화·전봇대·신호·차량·친구 중 지금 안내한 실제 물체를 누르면 다음 이야기를 엽니다.
             string thought = m_Context == Context.RedSignal ? m_SecondThought : m_Context == Context.GreenSignal ? m_ThirdThought : m_Thought; // 빨간불과 파란불에서 같은 대상의 상황별 생각을 읽습니다.
             if (string.IsNullOrWhiteSpace(thought)) thought = m_Thought; // 별도 문구가 없는 관찰 대상은 저장된 기본 생각을 그대로 표시합니다.
             if (!string.IsNullOrWhiteSpace(thought)) m_UI.ShowThought(thought, hitPosition, ObservationBounds(hitPosition)); // 휴대전화·전봇대·신호·차량을 조사하면 단서만 표시합니다.
@@ -114,7 +113,7 @@ namespace Y.Crosswalk // 각 상황의 단서를 동일한 입력 규칙의 독�
             if (m_SharedHighlight != null) // 공유 강조를 선택한 대상은 같은 관찰·조준 상태로 M 효과만 갱신합니다.
             { // 이전 복제 윤곽과 새 후광이 함께 나타나지 않게 합니다.
                 float alpha = Mathf.SmoothStep(0f, 1f, m_Weight); Color idle = m_SharedHighlight.idleColor, hover = m_SharedHighlight.hoverColor; idle.a = hover.a = alpha; // 기존 등장·퇴장 진행도를 공유 효과의 투명도에 반영합니다.
-                m_SharedHighlight.idleColor = idle; m_SharedHighlight.hoverColor = hover; m_SharedHighlight.SetPresentation(m_Weight > 0.001f, hovered, hovered); // 조사 가능 시 주황색, 실제 PC·VR 조준 시 파란색 외곽선과 후광을 표시합니다.
+                m_SharedHighlight.idleColor = idle; m_SharedHighlight.hoverColor = hover; m_SharedHighlight.SetPresentation(m_Weight > 0.001f, hovered, hovered || m_UI != null && m_UI.IsTaskTarget(this)); // 조준한 물체와 현재 클릭 안내 대상을 M의 강조로 표시합니다.
                 return; // 공유 효과를 표시할 때 이전 외곽선 Renderer를 다시 켜지 않습니다.
             } // 공유 효과를 사용하지 않는 다른 씬은 기존 표시를 유지합니다.
             Color color = hovered ? m_Color : m_AvailableColor; // 조준을 벗어나는 즉시 파란색을 거두고 관찰 가능 색으로 되돌립니다.

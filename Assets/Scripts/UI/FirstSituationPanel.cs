@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic; // 이미 씬에 있는 활성 패널의 화면 영역을 다른 말풍선 배치에서 함께 사용합니다.
+using System.Collections.Generic; // 이미 씬에 있는 활성 패널의 화면 영역을 다른 말풍선 배치에서 함께 사용합니다.
 using UnityEngine; // 월드 공간 UI의 크기와 투명도를 프레임에 맞춰 보간합니다.
 
 namespace Y.Crosswalk // 첫 번째 상황의 UI 표현을 개인 작업 영역에 둡니다.
@@ -6,9 +6,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 UI 표현을 개인 작업 영역�
     [RequireComponent(typeof(CanvasGroup))] // 자식 텍스트와 버튼의 투명도·선택 상태를 함께 제어합니다.
     public sealed class FirstSituationPanel : MonoBehaviour // 패널 생성 없이 기존 RectTransform의 등장과 퇴장만 담당합니다.
     { // 디자이너가 Inspector에서 전환을 조절할 수 있게 합니다.
-        [SerializeField, Min(0.05f), InspectorName("등장·퇴장 시간"), Tooltip("패널 투명도와 확대·축소를 전환하는 초 단위 시간입니다.")] private float m_Duration = 0.28f; // 순간적으로 UI가 튀어나오는 것을 줄입니다.
-        [SerializeField, Range(0.7f, 1f), InspectorName("숨김 크기 비율"), Tooltip("숨길 때 원래 RectTransform 크기에 곱할 비율입니다.")] private float m_HiddenScale = 0.84f; // 작은 종이 카드가 펼쳐지는 크기 차이를 분명하게 만듭니다.
-        [SerializeField, Range(0f, 0.06f), InspectorName("등장 탄성 강도"), Tooltip("전환 중 원래 크기를 살짝 넘었다가 정착하는 탄성의 세기입니다.")] private float m_EntrancePop = 0.035f; // 최종 UI 크기를 바꾸지 않고 등장과 퇴장의 리듬만 보강합니다.
+        [SerializeField, Min(0.05f), InspectorName("등장·퇴장 시간"), Tooltip("M 원본의 투명도 전환 시간입니다. 패널과 버튼의 위치·크기는 전환 중 바꾸지 않습니다.")] private float m_Duration = 0.18f; // 순간적으로 UI가 튀어나오는 것을 줄입니다.
         [SerializeField, Range(0f, 1f), InspectorName("표시 투명도"), Tooltip("완전히 등장했을 때 CanvasGroup에 적용할 알파입니다.")] private float m_VisibleAlpha = 1f; // 패널별 투명도를 직접 조절하게 합니다.
         public float TransitionDuration => Mathf.Max(0.05f, m_Duration); // 실제 Inspector에 설정한 퇴장 시간이 끝난 뒤 다음 화면으로 연결할 수 있게 합니다.
         private static readonly List<FirstSituationPanel> s_Panels = new List<FirstSituationPanel>(); // 실제 패널만 등록하며 임시 UI는 생성하지 않습니다.
@@ -40,7 +38,6 @@ namespace Y.Crosswalk // 첫 번째 상황의 UI 표현을 개인 작업 영역�
             if (visible && !m_Visible) // 새 화면의 글자가 이전 화면의 퇴장과 겹치지 않게 합니다.
             { // 함께 표시하도록 요청한 결과 설명과 재시도 패널은 서로 지연시키지 않습니다.
                 m_ShowAfter = Time.unscaledTime; // 기존 패널이 없으면 즉시 등장합니다.
-                foreach (FirstSituationPanel panel in s_Panels) if (panel != null && panel != this && !panel.m_Visible && panel.m_Progress > 0.01f) m_ShowAfter = Mathf.Max(m_ShowAfter, Time.unscaledTime + panel.m_Progress * panel.TransitionDuration); // 실제 남은 퇴장 시간만 기다립니다.
             } // 같은 말풍선의 문구 변경에는 다시 지연을 추가하지 않습니다.
             m_Visible = visible; // 다음 Update에서 목표 투명도와 크기로 보간합니다.
             if (!visible) { m_Group.interactable = false; m_Group.blocksRaycasts = false; } // 사라지는 선택지를 다시 누를 수 없게 합니다.
@@ -67,13 +64,10 @@ namespace Y.Crosswalk // 첫 번째 상황의 UI 표현을 개인 작업 영역�
 
         private void Update() // 상황 정지 중에도 UI 전환은 정상 속도로 동작합니다.
         { // 전역 시간 배율에 의존하지 않고 실제 경과 시간을 사용합니다.
-            m_Progress = Mathf.MoveTowards(m_Progress, m_Visible && Time.unscaledTime >= m_ShowAfter ? 1f : 0f, Time.unscaledDeltaTime / Mathf.Max(0.05f, m_Duration)); // 중간 방향 전환에도 깜빡임을 만들지 않습니다.
-            float eased = Mathf.SmoothStep(0f, 1f, m_Progress); // 확대와 투명도의 시작·끝을 부드럽게 만듭니다.
-            m_Group.alpha = eased * m_VisibleAlpha; // 자식 말풍선·문구·버튼을 함께 페이드합니다.
-            float unfold = 1f - Mathf.Pow(1f - m_Progress, 3f); // 초반에는 빠르게 펼치고 마지막에는 천천히 정착하는 크기 곡선입니다.
-            float bounce = Mathf.Sin(m_Progress * Mathf.PI) * m_EntrancePop; // 전환 양끝에서는 사라지는 작은 탄성으로 방향 전환도 연속적으로 연결합니다.
-            transform.localScale = m_OriginalScale * (m_LayoutScale * (Mathf.Lerp(m_HiddenScale, 1f, unfold) + bounce)); // 원래 배치와 최종 크기를 보존하면서 카드가 펼쳐지는 움직임을 만듭니다.
-            m_Group.interactable = m_Visible && m_Progress >= 0.95f; m_Group.blocksRaycasts = m_Group.interactable; // 등장 완료 후에만 버튼 입력을 허용합니다.
+            m_Progress = Mathf.Lerp(m_Progress, m_Visible && Time.unscaledTime >= m_ShowAfter ? 1f : 0f, 1f - Mathf.Exp(-Time.unscaledDeltaTime * 5f / Mathf.Max(0.01f, m_Duration))); // M의 지수 페이드 계산으로 투명도만 부드럽게 전환합니다.
+            m_Group.alpha = m_Progress * m_VisibleAlpha; // 자식 말풍선·문구·버튼을 함께 페이드합니다.
+            transform.localScale = m_OriginalScale * m_LayoutScale; // M 원본처럼 등장·선택 중에 UI를 확대하거나 튀어 오르게 하지 않습니다.
+            m_Group.interactable = m_Visible && m_Progress > 0.01f; m_Group.blocksRaycasts = m_Group.interactable; // 읽기 영역이 실제로 보이면 M처럼 응답 입력을 받고 퇴장 요청과 동시에 입력을 닫습니다.
         } // 숨겨진 패널은 Hierarchy에 그대로 남아 편집할 수 있습니다.
     } // 씬 패널의 표시 전환을 마칩니다.
 } // 다른 씬의 UI에는 자동으로 적용하지 않습니다.
