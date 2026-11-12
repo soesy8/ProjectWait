@@ -211,7 +211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &13015789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +226,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectWait.M.VRPreview.VRPreviewTest
   showHelp: 1
   showBothEyes: 0
+  worldReadingDistance: 1.35
+  worldReadingScale: 0.0014
+  showLetterbox: 0
+  letterboxHeight: 0.12
+  captionFontSize: 26
+  dialogueFontSize: 32
+  choiceFontSize: 30
 --- !u!4 &13015790
 Transform:
   m_ObjectHideFlags: 0
@@ -1265,6 +1272,66 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &84565388
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 84565390}
+  - component: {fileID: 84565389}
+  m_Layer: 0
+  m_Name: StorybookSceneTransition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &84565389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84565388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d5089607060c1140a5fafe9c8e320f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectWait.M.SceneTransition.StorybookSceneTransition
+  font: {fileID: 11400000, guid: 9ca5461e12f8f864cabedf21c03b1605, type: 2}
+  overlayMaterial: {fileID: 2100000, guid: 49ba57e5fcfd5844a98026aac1841ec6, type: 2}
+  skyBridgeShader: {fileID: 4800000, guid: 22050fd543497c842879cb8c0bebff17, type: 3}
+  lobbyFade: {fileID: 944516735}
+  fadeOutSeconds: 2.5
+  minimumHoldSeconds: 1.5
+  fadeInSeconds: 2.5
+  arrivalSeconds: 0.5
+  panelLerpSpeed: 12
+  panelDistance: 2
+  panelWidth: 1.65
+  revealOnStandaloneStart: 1
+  enablePreviewShortcut: 1
+  previewTitle: "\uC5D8\uB9AC\uBCA0\uC774\uD130"
+  previewContext: "\uCE5C\uAD6C\uC640 \uB18D\uAD6C\uB97C \uB9C8\uCE58\uACE0,\n\uC774\uC81C
+    \uC9D1\uC73C\uB85C \uB3CC\uC544\uAC00\uB294 \uAE38\uC774\uC5D0\uC694."
+--- !u!4 &84565390
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84565388}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &85235050
 GameObject:
   m_ObjectHideFlags: 0
@@ -21698,6 +21765,75 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 941100965}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &944516734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 944516736}
+  - component: {fileID: 944516735}
+  m_Layer: 0
+  m_Name: ElevatorSceneDroplets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &944516735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944516734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 154620f3f585d3b45a903991bde7db86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectWait.M.TitleScene.LobbyDissolveTest
+  viewCamera: {fileID: 484334168}
+  sourceMaterial: {fileID: 2100000, guid: 1a4682ee4179f19458f22e77dceae6d4, type: 2}
+  dissolveShader: {fileID: 4800000, guid: 04cf2ec562259e0479fb42f3a2ef27d4, type: 3}
+  targetRenderers: []
+  panels: []
+  useSceneMaterials: 1
+  propDissolveShader: {fileID: 4800000, guid: fc4d005e0e39abc40b13ca0da8cf825d, type: 3}
+  litDissolveShader: {fileID: 4800000, guid: 18c620677a9e7c14599f468381f4ebbd, type: 3}
+  sceneSampleDistance: 18
+  enableKShortcut: 0
+  fadeOutSeconds: 3
+  fadeInSeconds: 3
+  boundaryWidth: 3
+  dropletShader: {fileID: 4800000, guid: 00cc2fd4a57763144a4037ef8ef3c294, type: 3}
+  dropletSpacing: 0.36
+  dropletRadius: 0.43
+  maximumDroplets: 1800
+  playDropletPops: 1
+  dropletPopClip: {fileID: 8300000, guid: be6442043ed98d5499e665052e2d154c, type: 3}
+  popVolume: 0.28
+  popPitchRange: {x: 0.88, y: 1.18}
+  popIntervalRange: {x: 0.08, y: 0.15}
+  automaticDistanceRange: 1
+  distanceRange: {x: 0.5, y: 13}
+  maximumRangeSourceSize: 250
+--- !u!4 &944516736
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944516734}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &946186650
 GameObject:
   m_ObjectHideFlags: 0
@@ -50555,3 +50691,5 @@ SceneRoots:
   - {fileID: 1440521967}
   - {fileID: 137315004}
   - {fileID: 13015790}
+  - {fileID: 944516736}
+  - {fileID: 84565390}

@@ -68,5 +68,5 @@ MonoBehaviour:
   m_Name: M optimized silhouette
   m_EditorClassIdentifier: Assembly-CSharp::ProjectWait.M.Elevator.ElevatorOptimizedOutlineFeature
   m_Active: 1
-  maskShader: {fileID: 4800000, guid: 66aaa0d2513842b4b8705ad3dd6685ae, type: 3}
+  maskShader: {fileID: 4800000, guid: 168fb59a20a496745bb18e004277a28a, type: 3}
   distanceShader: {fileID: 4800000, guid: 14f1b85aaf894244f83a4e1c4bee3832, type: 3}

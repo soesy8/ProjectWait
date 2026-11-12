@@ -13,9 +13,11 @@ namespace ProjectWait.M.VRPreview
             var flow = lesson.Flow;
             if (flow == null || flow.IsCinematic) return Mode.Cinematic;
             if (flow.Step == ElevatorStep.Complete) return Mode.Complete;
-            if (flow.HasObjectPreview)
-                return flow.CanConfirmObject ? Mode.RequiredReading : Mode.Description;
-            if (flow.AwaitingCallContinue || flow.ReviewingIdentity || flow.Step == ElevatorStep.Retry)
+            // These cards stay readable while another world object replaces them.
+            // Choice buttons are still gated until rendered by VRPreviewReading.
+            if (flow.HasObjectPreview || flow.SearchingIdentity || flow.ReviewingIdentity)
+                return Mode.Description;
+            if (flow.AwaitingCallContinue || flow.Step == ElevatorStep.Retry)
                 return Mode.RequiredReading;
             if (lesson.scenario && lesson.scenario.objectGuidedScene)
             {

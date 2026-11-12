@@ -11,13 +11,14 @@ namespace ProjectWait.M.Elevator
   public Shader maskShader,distanceShader;
   Material maskMaterial,distanceMaterial;OutlinePass pass;
   public static int LastFrame{get;private set;}public static int LastTargetCount{get;private set;}
+  public static bool LastMaskFadeEnabled{get;private set;}public static float LastMaskFadeProgress{get;private set;}
 #if UNITY_EDITOR
   public static ElevatorOutlineTarget DebugTarget;public static bool DebugMask;
 #endif
   public override void Create()
   {
    CoreUtils.Destroy(maskMaterial);CoreUtils.Destroy(distanceMaterial);maskMaterial=distanceMaterial=null;pass=null;
-   if(!maskShader)maskShader=Shader.Find("ProjectWait/M/Outline Coverage");if(!distanceShader)distanceShader=Shader.Find("ProjectWait/M/Outline Distance");
+   if(!maskShader)maskShader=Shader.Find("ProjectWait/M/Scene Outline Coverage");if(!distanceShader)distanceShader=Shader.Find("ProjectWait/M/Outline Distance");
    if(!maskShader||!distanceShader)return;maskMaterial=CoreUtils.CreateEngineMaterial(maskShader);distanceMaterial=CoreUtils.CreateEngineMaterial(distanceShader);pass=new OutlinePass(maskMaterial,distanceMaterial);
   }
   public override void AddRenderPasses(ScriptableRenderer renderer,ref RenderingData renderingData)
@@ -81,6 +82,20 @@ namespace ProjectWait.M.Elevator
    {
     var cameraData=frameData.Get<UniversalCameraData>();if(cameraData.cameraType!=CameraType.Game||cameraData.renderType!=CameraRenderType.Base)return;
     var resources=frameData.Get<UniversalResourceData>();if(!resources.cameraDepthTexture.IsValid())return;
+    // Match the surface's world mask instead of switching every outline on at transition end.
+    // Keep the normal selection policy (target.Visible) separate from this rendering concern.
+    var transition=ProjectWait.M.SceneTransition.StorybookSceneTransition.Current;
+    var fade=transition?(transition.ArrivingFade?transition.ArrivingFade:transition.ActiveLobbyFade):null;
+    bool dissolving=fade&&fade.useSceneMaterials&&fade.State!=ProjectWait.M.TitleScene.LobbyDissolveTest.FadeState.Visible;
+    LastMaskFadeEnabled=dissolving;LastMaskFadeProgress=dissolving?(fade.State==ProjectWait.M.TitleScene.LobbyDissolveTest.FadeState.Hidden?1:fade.Progress):0;
+    maskMaterial.SetFloat("_DissolveEnabled",dissolving?1:0);
+    if(dissolving)
+    {
+     maskMaterial.SetFloat("_DissolveProgress",fade.State==ProjectWait.M.TitleScene.LobbyDissolveTest.FadeState.Hidden?1:fade.Progress);
+     maskMaterial.SetFloat("_DissolveReveal",fade.State==ProjectWait.M.TitleScene.LobbyDissolveTest.FadeState.FadingIn?1:0);
+     maskMaterial.SetVector("_DissolveOrigin",fade.TransitionOrigin);maskMaterial.SetVector("_DissolveRange",new Vector4(fade.ActiveDistanceRange.x,fade.ActiveDistanceRange.y,0,0));
+     maskMaterial.SetFloat("_DissolveCellSize",fade.ActualDropletSpacing);maskMaterial.SetFloat("_DissolveBandWidth",fade.boundaryWidth);
+    }
     blockIndex=0;targets.Clear();foreach(var t in ElevatorOutlineTarget.Active)if(t&&t.Visible&&t.geometry!=null&&t.geometry.Length>0)targets.Add(t);targets.Sort((a,b)=>a.Hovered.CompareTo(b.Hovered));
     var descriptor=resources.activeColorTexture.GetDescriptor(graph);int w=descriptor.width,h=descriptor.height;var fullSize=new Vector4(w,h,1f/w,1f/h);
     float widthScale=.5f*h*WorldUnitsPerWidthUnit;var camera=cameraData.camera;float projection=Mathf.Abs(camera.projectionMatrix.m11);

@@ -20,6 +20,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public bool LetterboxVisible => isActiveAndEnabled && Amount > .001f;
         public bool Blocking => lesson&&lesson.Flow!=null&&(lesson.Flow.IsCinematic||Amount>.015f);
         int run=-1;
+        bool enteredThroughStoryTransition;
         public void Build()
         {
             var canvas=GetComponent<Canvas>();if(!canvas)canvas=gameObject.AddComponent<Canvas>();canvas.renderMode=RenderMode.WorldSpace;canvas.worldCamera=playerCamera;canvas.sortingOrder=100;
@@ -42,7 +43,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(lesson&&lesson.IsPaused)return;
             if(seconds<0||float.IsNaN(seconds)||float.IsInfinity(seconds))return;
             if(!lesson||lesson.Flow==null)return;if(!top)Build();
-            if(run!=lesson.RunVersion){run=lesson.RunVersion;Amount=lesson.Flow.IsOpening?1:0;}
+            if(run!=lesson.RunVersion){run=lesson.RunVersion;Amount=lesson.Flow.IsOpening?1:0;enteredThroughStoryTransition=ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy;}
+            if(lesson.Flow.IsOpening&&ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy)enteredThroughStoryTransition=true;
             Amount=Mathf.MoveTowards(Amount,lesson.Flow.IsCinematic?1:0,seconds/.38f);
             Position();
             top.gameObject.SetActive(Amount>0);bottom.gameObject.SetActive(Amount>0);
@@ -68,11 +70,11 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 caption.text=ElevatorDialogue.Caption(speaker,line);
             }
             float alpha=0;
-            if(f.Step==ElevatorStep.StartupFade){caption.gameObject.SetActive(false);alpha=ElevatorOpeningSequence.FadeAlpha(f.Elapsed);}
+            if(f.Step==ElevatorStep.StartupFade){caption.gameObject.SetActive(false);alpha=enteredThroughStoryTransition?0:ElevatorOpeningSequence.FadeAlpha(f.Elapsed);}
             if(f.Step==ElevatorStep.GymDeparture)
             {
                 caption.text=ElevatorOpeningSequence.Caption(f.Elapsed);
-                float startupAlpha=ElevatorOpeningSequence.FadeAlpha(f.Elapsed);
+                float startupAlpha=enteredThroughStoryTransition?0:ElevatorOpeningSequence.FadeAlpha(f.Elapsed);
                 caption.color=new Color(1,1,1,1-startupAlpha);
                 alpha=Mathf.Max(startupAlpha,ElevatorOpeningSequence.ComfortFadeAlpha(f.Elapsed,XRSettings.isDeviceActive));
             }

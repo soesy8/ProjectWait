@@ -1,6 +1,15 @@
 ﻿Shader "ProjectWait/M/Vertex Palette Toon"
 {
- Properties { [MainColor] _BaseColor("Tint",Color)=(1,1,1,1) [Enum(UnityEngine.Rendering.CullMode)] _Cull("Surface culling",Float)=0 }
+ Properties {
+  [MainColor] _BaseColor("Tint",Color)=(1,1,1,1) [Enum(UnityEngine.Rendering.CullMode)] _Cull("Surface culling",Float)=0
+  [HideInInspector] _DissolveEnabled("Scene fade",Float)=0
+  [HideInInspector] _DissolveProgress("Progress",Float)=0
+  [HideInInspector] _DissolveReveal("Reveal",Float)=0
+  [HideInInspector] _DissolveOrigin("Origin",Vector)=(0,0,0,0)
+  [HideInInspector] _DissolveRange("Range",Vector)=(.5,13,0,0)
+  [HideInInspector] _DissolveCellSize("Spacing",Float)=.36
+  [HideInInspector] _DissolveBandWidth("Band",Float)=3
+ }
  SubShader
  {
   Tags {"RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" "Queue"="Geometry"}
@@ -8,8 +17,11 @@
   #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
   CBUFFER_START(UnityPerMaterial)
    half4 _BaseColor;
-   half _Cull;
-  CBUFFER_END
+    half _Cull;
+    float4 _DissolveOrigin,_DissolveRange;
+    float _DissolveEnabled,_DissolveProgress,_DissolveReveal,_DissolveCellSize,_DissolveBandWidth;
+   CBUFFER_END
+   #include "TitleScene/LobbyDissolveCommon.hlsl"
   struct A {float4 p:POSITION;float3 n:NORMAL;float4 color:COLOR;float4 style:TEXCOORD1;float4 shade:TEXCOORD2;float4 ink:TEXCOORD3;float2 bands:TEXCOORD4;UNITY_VERTEX_INPUT_INSTANCE_ID};
   struct V {float4 p:SV_POSITION;float3 world:TEXCOORD0;half3 normal:TEXCOORD1;half4 color:TEXCOORD2;float4 style:TEXCOORD3;half4 shade:TEXCOORD4;half4 ink:TEXCOORD5;float2 bands:TEXCOORD6;UNITY_VERTEX_OUTPUT_STEREO};
   V Vert(A i)
@@ -32,7 +44,8 @@
    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
    half4 Frag(V i, FRONT_FACE_TYPE front:FRONT_FACE_SEMANTIC):SV_Target
    {
-    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+     clip(LobbyDissolveSDF(i.world,i.normal));
     if(i.style.z>1.5&&!IS_FRONT_VFACE(front,true,false))discard;
     #if defined(_MAIN_LIGHT_SHADOWS_SCREEN)
     float4 sc=ComputeScreenPos(TransformWorldToHClip(i.world));
@@ -56,7 +69,7 @@
    #pragma fragment InkFrag
    #pragma multi_compile_instancing
    V InkVert(A i){V o=Vert(i);float d=max(.5,distance(GetCameraPositionWS(),o.world));float w=min(.035,i.style.x*d/(450*abs(UNITY_MATRIX_P._m11)));o.p=TransformWorldToHClip(o.world+normalize(o.normal)*w);return o;}
-   half4 InkFrag(V i):SV_Target{UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);clip(i.style.x-.001);return i.ink;}
+   half4 InkFrag(V i):SV_Target{UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);clip(LobbyDissolveSDF(i.world,i.normal));clip(i.style.x-.001);return i.ink;}
    ENDHLSL
   }
   Pass
@@ -86,7 +99,7 @@
     #endif
     return o;
    }
-   half4 DepthFrag(V i):SV_Target{return 0;}
+   half4 DepthFrag(V i):SV_Target{UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);clip(LobbyDissolveSDF(i.world,i.normal));return 0;}
    ENDHLSL
   }
   Pass
@@ -97,7 +110,7 @@
    #pragma vertex Vert
    #pragma fragment DepthFrag
    #pragma multi_compile_instancing
-   half4 DepthFrag(V i):SV_Target{return 0;}
+   half4 DepthFrag(V i):SV_Target{UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);clip(LobbyDissolveSDF(i.world,i.normal));return 0;}
    ENDHLSL
   }
  }

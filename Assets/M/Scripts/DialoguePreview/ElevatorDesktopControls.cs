@@ -81,7 +81,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             if(!lesson||lesson.Flow==null)return;
             RefreshMode();bool click=pendingClick;pendingClick=false;
-            if(lesson.IsPaused)
+            if(lesson.IsPaused&&!ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy)
             {
                 pendingChoice=-1;pendingRestart=pendingDeveloper=false;SetMouseLook(false);RefreshLaserVisibility();
                 if(IsDesktop){UpdateMenuPointer();if(click)SelectCenterTarget();}return;
@@ -155,7 +155,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public string XRHeightStatus=>previousPresenceKnown&&!previousPresence?"헤드셋을 착용해 주세요.":XRCalibrationPending?"편한 자세로\n잠시 가만히 있어 주세요.":"눈높이를 맞췄어요.";
         public void SetMouseLook(bool active)
         {
-            bool value=active&&IsDesktop&&!(lesson&&lesson.IsPaused);
+            bool value=active&&IsDesktop&&(!(lesson&&lesson.IsPaused)||ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy);
             if(value!=MouseLookActive)skipDelta=true;
             MouseLookActive=value;
             Cursor.lockState=value&&Application.isFocused?CursorLockMode.Locked:CursorLockMode.None;

@@ -34,6 +34,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public void Toggle(){if(IsPaused)Resume();else Pause();}
         public void Pause()
         {
+            if(ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy)return;
             if(IsPaused||!lesson||lesson.Flow==null||!canvas)return;
             priorTimeScale=Time.timeScale;priorAudioPause=AudioListener.pause;IsPaused=true;
             Time.timeScale=0;AudioListener.pause=true;

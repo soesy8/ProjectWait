@@ -11,6 +11,13 @@ Shader "ProjectWait/M/Elevator Storybook Toon"
         _OutlineColor ("Ink color", Color) = (0.19,0.12,0.09,1)
         _OutlineWidth ("Ink width (reference pixels)", Range(0,5)) = 1.6
         _EmissionStrength ("Unlit blend", Range(0,1)) = 0
+        [HideInInspector] _DissolveEnabled("Scene fade",Float)=0
+        [HideInInspector] _DissolveProgress("Progress",Float)=0
+        [HideInInspector] _DissolveReveal("Reveal",Float)=0
+        [HideInInspector] _DissolveOrigin("Origin",Vector)=(0,0,0,0)
+        [HideInInspector] _DissolveRange("Range",Vector)=(.5,13,0,0)
+        [HideInInspector] _DissolveCellSize("Spacing",Float)=.36
+        [HideInInspector] _DissolveBandWidth("Band",Float)=3
     }
     SubShader
     {
@@ -24,7 +31,10 @@ Shader "ProjectWait/M/Elevator Storybook Toon"
             half4 _OutlineColor;
             half _MidTone, _ShadowThreshold, _LightThreshold, _BandSoftness;
             half _OutlineWidth, _EmissionStrength;
+            float4 _DissolveOrigin,_DissolveRange;
+            float _DissolveEnabled,_DissolveProgress,_DissolveReveal,_DissolveCellSize,_DissolveBandWidth;
         CBUFFER_END
+        #include "TitleScene/LobbyDissolveCommon.hlsl"
         struct Attributes
         {
             float4 positionOS : POSITION;
@@ -66,6 +76,7 @@ Shader "ProjectWait/M/Elevator Storybook Toon"
             half4 ToonFragment(Varyings input) : SV_Target
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+                clip(LobbyDissolveSDF(input.positionWS,input.normalWS));
                 #if defined(_MAIN_LIGHT_SHADOWS_SCREEN)
                     float4 shadowCoord = ComputeScreenPos(TransformWorldToHClip(input.positionWS));
                 #else
@@ -110,6 +121,7 @@ Shader "ProjectWait/M/Elevator Storybook Toon"
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
                 clip(_OutlineWidth - 0.001);
+                clip(LobbyDissolveSDF(input.positionWS,input.normalWS));
                 return _OutlineColor;
             }
             ENDHLSL
@@ -144,7 +156,7 @@ Shader "ProjectWait/M/Elevator Storybook Toon"
                 #endif
                 return output;
             }
-            half4 DepthFragment(Varyings input) : SV_Target { return 0; }
+            half4 DepthFragment(Varyings input) : SV_Target { UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input); clip(LobbyDissolveSDF(input.positionWS,input.normalWS)); return 0; }
             ENDHLSL
         }
         Pass
@@ -157,7 +169,7 @@ Shader "ProjectWait/M/Elevator Storybook Toon"
             #pragma vertex ToonVertex
             #pragma fragment DepthFragment
             #pragma multi_compile_instancing
-            half4 DepthFragment(Varyings input) : SV_Target { return 0; }
+            half4 DepthFragment(Varyings input) : SV_Target { UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input); clip(LobbyDissolveSDF(input.positionWS,input.normalWS)); return 0; }
             ENDHLSL
         }
     }

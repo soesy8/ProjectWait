@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
+using ProjectWait.M.SceneTransition;
 
 namespace ProjectWait.M.TitleScene
 {
@@ -27,6 +28,7 @@ namespace ProjectWait.M.TitleScene
         TitlePortal hovered;
         Vector3 safeHead;
         bool hasSafeHead, oldTrigger, skipMouse = true, started;
+        bool transitionHudHidden, hintsBeforeTransition, rayBeforeTransition;
         float yaw, pitch, verticalSpeed, messageUntil, turnCooldown;
         readonly RaycastHit[] headHits = new RaycastHit[16];
         readonly List<XRInputSubsystem> inputSubsystems = new List<XRInputSubsystem>();
@@ -65,8 +67,10 @@ namespace ProjectWait.M.TitleScene
         {
             TickedFrames++;
             RefreshMode();
+            SetTransitionHudHidden(StorybookSceneTransition.IsBusy);
             var keyboard = Keyboard.current;
             if (!IsVR && keyboard != null && keyboard.escapeKey.wasPressedThisFrame) SetMouseLock(Cursor.lockState != CursorLockMode.Locked);
+            if (!IsVR && StorybookSceneTransition.IsBusy && Cursor.lockState != CursorLockMode.Locked && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) SetMouseLock(true);
             Vector2 input = Vector2.zero;
             if (IsVR)
             {
@@ -88,20 +92,31 @@ namespace ProjectWait.M.TitleScene
                 if (mouse != null)
                 {
                     var delta = mouse.delta.ReadValue();
-                    if (!skipMouse) { yaw += delta.x * lookSensitivity; pitch = Mathf.Clamp(pitch - delta.y * lookSensitivity, -55, 65); }
+                    if (!skipMouse) AddLookDelta(delta);
                     skipMouse = false;
-                    transform.rotation = Quaternion.Euler(0, yaw, 0);
-                    viewCamera.transform.localRotation = Quaternion.Euler(pitch, 0, 0);
                 }
+            }
+            if (StorybookSceneTransition.IsBusy)
+            {
+                if (hovered) { hovered.SetHovered(false); hovered = null; }
+                // Gaze, tracked head and snap turns above stay live. Only walking/selecting stop.
+                return;
             }
             Move(input, Time.deltaTime);
             UpdateInteraction();
             if (messageText && Time.unscaledTime > messageUntil && !string.IsNullOrEmpty(LastMessage))
             { LastMessage = ""; messageText.text = ""; }
         }
+        public void AddLookDelta(Vector2 delta)
+        {
+            yaw += delta.x * lookSensitivity;
+            pitch = Mathf.Clamp(pitch - delta.y * lookSensitivity, -55, 65);
+            transform.rotation = Quaternion.Euler(0, yaw, 0);
+            if (viewCamera) viewCamera.transform.localRotation = Quaternion.Euler(pitch, 0, 0);
+        }
         public void Move(Vector2 input, float seconds)
         {
-            if (!Controller || !Controller.enabled || !viewCamera || seconds <= 0) return;
+            if (StorybookSceneTransition.IsBusy || !Controller || !Controller.enabled || !viewCamera || seconds <= 0) return;
             input = Vector2.ClampMagnitude(input, 1);
             if (input.magnitude < .18f) input = Vector2.zero;
             var forward = Vector3.ProjectOnPlane(viewCamera.transform.forward, Vector3.up).normalized;
@@ -172,7 +187,24 @@ namespace ProjectWait.M.TitleScene
         { LastMessage = message; messageUntil = Time.unscaledTime + 3; if (messageText) messageText.text = message; }
         void SetMouseLock(bool value) { Cursor.lockState = value ? CursorLockMode.Locked : CursorLockMode.None; Cursor.visible = !value; skipMouse = true; }
         void OnApplicationFocus(bool focus) { skipMouse = true; }
+        void SetTransitionHudHidden(bool hidden)
+        {
+            if (hidden == transitionHudHidden) return;
+            transitionHudHidden = hidden;
+            if (hidden)
+            {
+                hintsBeforeTransition = desktopHints && desktopHints.enabled;
+                rayBeforeTransition = controllerRay && controllerRay.enabled;
+                if (desktopHints) desktopHints.enabled = false;
+                if (controllerRay) controllerRay.enabled = false;
+            }
+            else
+            {
+                if (desktopHints) desktopHints.enabled = hintsBeforeTransition;
+                if (controllerRay) controllerRay.enabled = rayBeforeTransition;
+            }
+        }
         void OnDisable()
-        { Application.onBeforeRender -= ApplyTrackedHead; if (hovered) hovered.SetHovered(false); SetMouseLock(false); }
+        { Application.onBeforeRender -= ApplyTrackedHead; SetTransitionHudHidden(false); if (hovered) hovered.SetHovered(false); SetMouseLock(false); }
     }
 }
