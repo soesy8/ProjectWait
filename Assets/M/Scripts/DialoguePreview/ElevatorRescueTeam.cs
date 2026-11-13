@@ -17,6 +17,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public Vector3 friendInLobby=new Vector3(-1.80f,0,-3.40f);
         [Min(1)] public float dialogueHeight=2.95f;
         public Vector3 DialogueAnchor {get;private set;}
+        // Authored meeting footprints are valid even before this frame's actor animation.
+        public Vector3 ExteriorDialogueFootprint(bool ground) => ground ? new Vector3(-.55f,0,-3.05f) :
+            new Vector3((firefighterInLobby.x+specialistInLobby.x)*.5f,0,
+                (friendInLobby.z+(firefighterInLobby.z+specialistInLobby.z)*.5f)*.5f);
         Actor firePose, specialistPose;
         CharacterController collisionPlayer;
         Collider fireCollider,specialistCollider;

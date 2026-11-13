@@ -35,6 +35,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             Vector3 friend = map ? map.friendLobby : space ? space.friendOutside : lesson.friend.position;
             Vector3 forward = map ? Vector3.back : Vector3.forward;
             var presentation = lesson.presentation;
+            var team = presentation ? presentation.rescueTeam : null;
             if (presentation && presentation.leftDoor && presentation.rightDoor)
             {
                 var direction = Vector3.ProjectOnPlane((presentation.leftDoor.position + presentation.rightDoor.position) * .5f - inside, Vector3.up);
@@ -50,21 +51,26 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             }
             else if (region == Region.Landing)
             {
-                reference = lobby; centre = lobby - forward * VRUIReadingLayout.Distance;
+                reference = lobby;
+                centre = team ? team.ExteriorDialogueFootprint(false) : new Vector3(-1.8f,0,-3.95f);
             }
             else if (region == Region.Ground || region == Region.Complete)
             {
                 reference = map ? (region == Region.Complete ? map.groundExit : map.groundLobby) : lobby;
                 centre = reference + forward * VRUIReadingLayout.Distance;
+                if(region == Region.Ground)centre = team ? team.ExteriorDialogueFootprint(true) : new Vector3(-.55f,0,-3.05f);
             }
-            else centre = inside + forward * (region == Region.Rescue ? 1.65f : VRUIReadingLayout.Distance)
+            // A slightly deeper rescue column leaves room above the characters
+            // for the raised card, speaker ribbon and next button without clipping.
+            else centre = inside + forward * (region == Region.Rescue ? 2.1f : VRUIReadingLayout.Distance)
                 - (region == Region.Rescue ? right * .35f : Vector3.zero);
 
             float eyeHeight = Mathf.Clamp(lesson.playerCamera.transform.position.y - reference.y, 1.0f, 1.85f);
-            centre.y = reference.y + eyeHeight + (region == Region.Rescue ? .28f : 0);
+            bool rescueDialogue = region == Region.Rescue || region == Region.Landing || region == Region.Ground;
+            centre.y = reference.y + eyeHeight + (rescueDialogue ? .50f : 0);
             // Normal cards use the authored viewing footprint. Rescue faces the actual
             // player once when it appears, and does not billboard on subsequent frames.
-            var viewer = region == Region.Rescue ? lesson.playerCamera.transform.position : reference + Vector3.up * eyeHeight;
+            var viewer = rescueDialogue ? lesson.playerCamera.transform.position : reference + Vector3.up * eyeHeight;
             var facing = centre - viewer;
             pose = new Pose(centre, Quaternion.LookRotation(facing.sqrMagnitude > .001f ? facing : forward, Vector3.up));
             poses.Add(region, pose);

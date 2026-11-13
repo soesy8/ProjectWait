@@ -51,9 +51,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         ElevatorStep placedStep = (ElevatorStep)(-1);
         int placedRun = -1;
         CanvasGroup worldGroup, hudGroup;
-        const float HudFadeSeconds=.5f;
+        const float HudFadeSeconds=.5f, StatusFadeSeconds=1f;
         float hudOpacity=1,hudFadeStart=1,hudFadeGoal=1,hudFadeElapsed=HudFadeSeconds;
         int hudVisibilityRun=-1;
+        CanvasGroup statusGroup;
+        float statusOpacity,statusFadeStart,statusFadeGoal,statusFadeElapsed=StatusFadeSeconds;
+        bool statusWanted;
+        int statusVisibilityRun=-1;
         float layoutAspect=-1;
         int layoutWidth,layoutHeight;
         Vector2 layoutHudSize;
@@ -67,8 +71,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         readonly System.Collections.Generic.List<Rect> readingObstacles = new System.Collections.Generic.List<Rect>();
         bool thoughtPlacementReady;
         Vector2 thoughtAnchor;
-        bool worldPlacementReady;
-        bool desktopCaptionFollowing;
         bool layoutXR, stereoReady;
         Rect hudReadingArea;
         int subtitleLayoutVersion=-1;
@@ -79,7 +81,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         readonly System.Collections.Generic.List<UnityEngine.UI.Graphic> readingGraphics = new System.Collections.Generic.List<UnityEngine.UI.Graphic>();
         readonly System.Collections.Generic.List<Vector3> readingGeometryCorners = new System.Collections.Generic.List<Vector3>();
         Bounds readingBounds;
-        readonly VRDialogueWorldAnchors worldAnchors = new VRDialogueWorldAnchors();
+        readonly ElevatorSpeechAnchor speechAnchor = new ElevatorSpeechAnchor();
+        ElevatorPlayerSpeechPanel playerSpeech;
+        public bool IsPlayerSpeaking=>!complete&&speaker&&speaker.text=="나"&&view&&view.dialogueText&&!string.IsNullOrEmpty(view.dialogueText.text);
+        public ElevatorCinematicOverlay CinematicOverlay=>Overlay;
+        public Transform SpeechSource => speechAnchor.Source;
+        public Vector3 SpeechSourcePoint => speechAnchor.SourcePoint;
         public bool StereoPlacementFits { get; private set; }
         Quaternion dialogueRotation;
         Vector3 dialogueScale;
@@ -90,8 +97,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public Rect PlacementViewportRect { get; private set; }
         public float PlacementWeightedOverlap { get; private set; }
         public Rect HudViewportRect { get; private set; }
-        ElevatorStep dialoguePlacedStep=(ElevatorStep)(-1);
-        int dialoguePlacedRun=-1;
         public int DialoguePage => dialoguePage;
         public int DialoguePageCount => dialoguePages.Length;
         public bool DialogueFullyRevealed => revealComplete;
@@ -125,7 +130,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 view.dialogueText.text = ElevatorDialogue.IdentitySearchHint(f.HintLevel);
             }
             speaker.text = who;
-            SetPanelVisible(view.dialoguePanel,!screenOnly);
             view.actionPanel.SetParent(complete ? rightPage : view.transform, false);
             view.actionPanel.localScale = Vector3.one;
             if(complete)
@@ -147,7 +151,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             bool changed=dialogueRun!=view.lesson.RunVersion||dialogueSource!=source||dialogueSpeaker!=who;
             if(changed)
             {
-                worldPlacementReady=false;
                 Transitions?.FadeContent(view.dialoguePanel);
                 Transitions?.FadeContent(speakerTab);
                 dialogueRun=view.lesson.RunVersion;dialogueSource=source;dialogueSpeaker=who;
@@ -156,7 +159,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 dialoguePages=new[]{source};dialoguePage=0;
                 revealStarted=Time.time;revealComplete=true;
             }
-            view.dialogueText.text=dialoguePages[dialoguePage];
+            view.dialogueText.text=ElevatorSpeechAnchor.VisibleLine(view.lesson,who,dialoguePages[dialoguePage]);
+            SetPanelVisible(view.dialoguePanel,!complete&&!screenOnly&&!string.IsNullOrEmpty(view.dialogueText.text));
             UpdateDialogueReveal();
             UpdateThought();
             Layout();
@@ -257,8 +261,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public void Restore()
         {
             historyPage = 0; placedRun = -1; observed = baseThought = "";dialogueRun=-1;dialogueSource=null;
-            thoughtPlacementReady=worldPlacementReady=false;
-            worldAnchors.Reset();
+            thoughtPlacementReady=false;
+            speechAnchor.Reset();
             if(focusWindow)focusWindow.ResetWindow();
             if(storybook)storybook.HighlightHistory(-1);
             if(notebook)notebook.gameObject.SetActive(false);
@@ -290,8 +294,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             if(!view || !hud || !view.playerCamera)return;
             Transitions?.Begin();
-            if(layoutXR!=xr||!xr&&(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height))
-                worldPlacementReady=false;
             var root = (RectTransform)view.transform;
             root.sizeDelta = new Vector2(660,620);
             root.localScale = Vector3.one * (xr?VRUIReadingLayout.Distance/VRUIReadingLayout.PointsPerRadian*StereoUISafeArea.VisualScale:worldPixelSize);
@@ -387,12 +389,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(progressBackdrop)progressBackdrop.localScale=Vector3.one*visual;
             if(controlsBackdrop)controlsBackdrop.localScale=Vector3.one*visual;
             bool status=DescribeStatus(out var heading,out var action);
-            bool show=!view.lesson.Flow.IsCinematic&&status&&!complete&&(screenOnly||!DialogueOnScreen());
-            // Keep the outgoing status intact until the cinematic fade has finished.
-            // Never activate a new status just because the dialogue hides for a cutscene.
-            bool keepStatus=KeepOutgoingHudStatus();
-            mission.gameObject.SetActive(show||keepStatus);
-            if(!keepStatus){statusHeading=heading;statusAction=action;}
+            bool show=status&&!complete&&!LookingAtDialogue();
+            SetStatusVisibility(show);
+            // Keep the outgoing words until their own one-second fade finishes.
+            if(status||statusOpacity<=0){statusHeading=heading;statusAction=action;}
             view.title.text=statusHeading;view.subtitle.text=statusAction;
             ElevatorTypography.Apply(view.title,ElevatorTypography.HeadingSize);
             ElevatorTypography.Apply(view.subtitle,ElevatorTypography.ObjectiveSize);
@@ -447,86 +447,26 @@ namespace ProjectWait.M.Elevator.DialoguePreview
 
         void PositionWorld()
         {
+            if(IsPlayerSpeaking){EnsurePlayerSpeech().Refresh(XRSettings.isDeviceActive);return;}
+            if(playerSpeech)playerSpeech.Hide();
             var lesson=view.lesson;
             var f=lesson.Flow;
             var step=f!=null?f.Step:ElevatorStep.Lobby;
-            bool desktopCaption=compactDesktopDialogue&&!XRSettings.isDeviceActive&&!complete;
-            bool followCaption=desktopCaption&&view.ChoiceButtons.Count==0;
-            bool placementChanged=dialoguePlacedStep!=step||dialoguePlacedRun!=lesson.RunVersion||desktopCaptionFollowing!=followCaption;
-            if(desktopCaption)
-            {
-                // Keep the entire reading/choice column below the centre reticle.
-                // Choices stay at their opening position so the centre reticle can
-                // reach them. Only passive captions follow the PC camera.
-                if(followCaption||!worldPlacementReady||placementChanged)
-                {
-                    var camera=view.playerCamera;
-                    float distance=Mathf.Clamp(readingDistance,1.2f,1.6f);
-                    float viewHeight=2*distance*Mathf.Tan(camera.fieldOfView*.5f*Mathf.Deg2Rad);
-                    float viewWidth=viewHeight*camera.aspect;
-                    float pixelHeight=2*columnHalfHeight/worldPixelSize;
-                    float pixelWidth=2*columnHalfWidth/worldPixelSize;
-                    float scale=Mathf.Min(viewHeight/720*desktopCaptionScale,
-                        Mathf.Min(viewHeight*.42f/Mathf.Max(1,pixelHeight),viewWidth*.45f/Mathf.Max(1,pixelWidth)));
-                    var center=new Vector3(.025f+pixelWidth*scale/(2*viewWidth),.065f+pixelHeight*scale/(2*viewHeight),distance);
-                    dialoguePosition=camera.ViewportToWorldPoint(center);
-                    dialogueRotation=camera.transform.rotation;dialogueScale=Vector3.one*scale;
-                    PlacedReadingDistance=Vector3.Distance(camera.transform.position,dialoguePosition);
-                    worldPlacementReady=true;dialoguePlacedStep=step;dialoguePlacedRun=lesson.RunVersion;
-                }
-            }
-            else if(XRSettings.isDeviceActive)
+            if(XRSettings.isDeviceActive)
             {
                 stereoReady=StereoUISafeArea.TryCapture(view.playerCamera,out var frame);
-                if(!stereoReady){worldPlacementReady=false;return;}
-                if(!worldPlacementReady||placementChanged)PlaceStereoDialogue(frame,step);
+                if(!stereoReady)return;
+                PlaceStereoDialogue(frame,step);
             }
-            else if(!worldPlacementReady||placementChanged)
+            else
             {
-                // Readability takes priority: keep a near radial distance. Obstacles
-                // affect the opening position only, never push the card farther away.
-                var camera=view.playerCamera;
-                var eyes=camera.transform;
-                float tangent=Mathf.Max(.1f,Mathf.Tan(camera.fieldOfView*.5f*Mathf.Deg2Rad));
-                var face=eyes.InverseTransformPoint(lesson.friend.position+Vector3.up*1.04f);
-                var preferred=new Vector2(face.z>0&&face.x>=0?.24f:.76f,.34f);
-                ElevatorUIPlacement.Collect(lesson,protectedRegions);
-                float best=float.PositiveInfinity;
-                float distance=Mathf.Clamp(readingDistance,1.2f,1.6f);
-                dialoguePosition=eyes.position+eyes.forward*distance;
-                dialogueRotation=Quaternion.LookRotation(eyes.forward,Vector3.up);
-                for(int x=0;x<=10;x++)for(int y=0;y<=8;y++)
-                {
-                    var center=new Vector2(Mathf.Lerp(.12f,.88f,x/10f),Mathf.Lerp(.12f,.88f,y/8f));
-                    var direction=(eyes.forward+eyes.right*((center.x-.5f)*2*tangent*camera.aspect)+eyes.up*((center.y-.5f)*2*tangent)).normalized;
-                    var position=eyes.position+direction*distance;
-                    var rotation=Quaternion.LookRotation(direction,Vector3.up);
-                    Vector2 min=Vector2.one*float.MaxValue,max=Vector2.one*float.MinValue;
-                    for(int i=0;i<4;i++)
-                    {
-                        var corner=position+rotation*new Vector3((i&1)==0?-columnHalfWidth:columnHalfWidth,(i&2)==0?-columnHalfHeight:columnHalfHeight,0);
-                        var p=camera.WorldToViewportPoint(corner);min=Vector2.Min(min,p);max=Vector2.Max(max,p);
-                    }
-                    var rect=Rect.MinMaxRect(min.x,min.y,max.x,max.y);
-                    if(min.x<.025f||max.x>.975f||min.y<.025f||max.y>.975f)continue;
-                    float collision=0;
-                    foreach(var area in protectedRegions)collision+=ElevatorUIPlacement.Overlap(rect,area.rect)*area.weight;
-                    float score=collision*10000+Vector2.SqrMagnitude(center-preferred)*.01f;
-                    if(score>=best)continue;
-                    best=score;PlacementWeightedOverlap=collision;PlacementViewportRect=rect;
-                    dialoguePosition=position;dialogueRotation=rotation;
-                }
-                PlacedReadingDistance=Vector3.Distance(eyes.position,dialoguePosition);
-                dialogueScale=Vector3.one*worldPixelSize;
-                worldPlacementReady=true;dialoguePlacedStep=step;dialoguePlacedRun=lesson.RunVersion;
+                var anchor=speechAnchor.Get(lesson,speaker.text,readingBounds,worldPixelSize);
+                dialoguePosition=anchor.position;dialogueRotation=anchor.rotation;dialogueScale=Vector3.one*worldPixelSize;
+                PlacedReadingDistance=Vector3.Distance(view.playerCamera.transform.position,dialoguePosition);
             }
-            // Only eye POSITION changes its facing. Turning/rolling the head in place
-            // cannot drag the card around, and no camera or player pose is written.
-            var facing=dialoguePosition-view.playerCamera.transform.position;
-            if(!followCaption&&!XRSettings.isDeviceActive&&facing.sqrMagnitude>.01f)dialogueRotation=Quaternion.LookRotation(facing,Vector3.up);
-            desktopCaptionFollowing=followCaption;
             transform.SetPositionAndRotation(dialoguePosition,dialogueRotation);
             transform.localScale=dialogueScale;
+            if(storybook)storybook.PointSpeechTail(speechAnchor.SourcePoint);
             if(placedStep!=step||placedRun!=lesson.RunVersion)
             {
                 // Place the book once when the stage changes; subsequent gaze changes do not move it.
@@ -543,6 +483,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             }
         }
 
+        ElevatorPlayerSpeechPanel EnsurePlayerSpeech()
+        {
+            if(playerSpeech)return playerSpeech;
+            var go=new GameObject("Player speech screen panel",typeof(RectTransform));go.transform.SetParent(view.lesson.transform,false);
+            playerSpeech=go.AddComponent<ElevatorPlayerSpeechPanel>();playerSpeech.Initialize(this);return playerSpeech;
+        }
+
         public void SetCinematicVisibility() => SetCinematicVisibility(XRSettings.isDeviceActive);
 
         public void SetCinematicVisibility(bool vr)
@@ -554,13 +501,20 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(!hudGroup)hudGroup=hud.gameObject.AddComponent<CanvasGroup>();
             // Dialogue remains spatial during story beats; transitions use the existing comfort fade.
             var f=view.lesson.Flow;
-            bool transition=f.IsOpening||f.Step==ElevatorStep.WaitingFade||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome;
             bool paused=view.lesson.IsPaused;
             bool invalidStereo=vr&&!stereoReady;
-            // Rescue now owns a fixed world card. Cutscene dialogue alone uses the letterbox.
-            // Looking away must never hide, defer, or relocate an anchored card.
+            bool covered=ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy||!view.lesson.SpawnReady||f.Step==ElevatorStep.StartupFade||Overlay&&Overlay.FadeAlpha>.01f;
+            bool content=complete||!string.IsNullOrEmpty(view.dialogueText.text)||view.ChoiceButtons.Count>0;
+            // All spoken lines, including cutscenes, use the source-anchored bubble.
+            // The letterbox and full-screen comfort fade remain separate owners.
             DialogueDeferredForSubtitle=false;
-            worldGroup.alpha=invalidStereo||transition||paused||f.IsShotCutscene||f.IsCallCutscene||f.IsDoorSafetyCutscene?0:1;worldGroup.interactable=!invalidStereo&&!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
+            worldGroup.alpha=invalidStereo||covered||paused||!content?0:1;worldGroup.interactable=!invalidStereo&&!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
+            if(IsPlayerSpeaking)
+            {
+                worldGroup.alpha=0;worldGroup.interactable=worldGroup.blocksRaycasts=false;
+                EnsurePlayerSpeech().Refresh(vr);
+            }
+            else if(playerSpeech)playerSpeech.Hide();
             float goal=f.IsCinematic?0:1;
             if(hudVisibilityRun!=view.lesson.RunVersion||!Application.isPlaying)
             {
@@ -572,11 +526,43 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 hudFadeStart=hudOpacity;hudFadeGoal=goal;hudFadeElapsed=0;
             }
             hudGroup.alpha=paused?0:hudOpacity;hudGroup.interactable=false;hudGroup.blocksRaycasts=false;
+            if(statusGroup)statusGroup.alpha=paused?0:statusOpacity;
             if(notebook)notebook.gameObject.SetActive(complete&&!paused);
         }
 
-        bool KeepOutgoingHudStatus()=>view.lesson.Flow.IsCinematic&&hudOpacity>0&&mission.gameObject.activeSelf;
         bool ShowInitialControls()=>!complete&&!view.lesson.IsPaused&&view.lesson.Flow.Step==ElevatorStep.Lobby&&view.lesson.Flow.Elapsed<12;
+
+        void SetStatusVisibility(bool visible)
+        {
+            if(!statusGroup)statusGroup=mission.GetComponent<CanvasGroup>();
+            if(!statusGroup)statusGroup=mission.gameObject.AddComponent<CanvasGroup>();
+            statusGroup.interactable=false;statusGroup.blocksRaycasts=false;
+            // Other HUD hints still fade during cinematics. The goal's visibility
+            // is independently owned by actual dialogue gaze, not that parent fade.
+            // Canvas disabling for scene transitions and explicit pause still apply.
+            statusGroup.ignoreParentGroups=true;
+            if(statusVisibilityRun!=view.lesson.RunVersion)
+            {
+                statusVisibilityRun=view.lesson.RunVersion;
+                statusOpacity=statusFadeStart=statusFadeGoal=0;statusWanted=false;statusFadeElapsed=StatusFadeSeconds;
+            }
+            if(statusWanted!=visible)
+            {
+                statusWanted=visible;statusFadeStart=statusOpacity;statusFadeGoal=visible?1:0;statusFadeElapsed=0;
+            }
+            if(visible||statusOpacity>0)mission.gameObject.SetActive(true);
+            else mission.gameObject.SetActive(false);
+            statusGroup.alpha=statusOpacity;
+        }
+
+        void AdvanceStatusVisibility(float seconds)
+        {
+            if(!statusGroup)return;
+            statusFadeElapsed=Mathf.Min(StatusFadeSeconds,statusFadeElapsed+seconds);
+            statusOpacity=Mathf.Lerp(statusFadeStart,statusFadeGoal,Mathf.SmoothStep(0,1,statusFadeElapsed/StatusFadeSeconds));
+            statusGroup.alpha=statusOpacity;
+            if(!statusWanted&&statusFadeElapsed>=StatusFadeSeconds)mission.gameObject.SetActive(false);
+        }
 
         public void AdvanceHudVisibility(float seconds)
         {
@@ -586,11 +572,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             float t=Mathf.SmoothStep(0,1,hudFadeElapsed/HudFadeSeconds);
             hudOpacity=Mathf.Lerp(hudFadeStart,hudFadeGoal,t);
             hudGroup.alpha=hudOpacity;
+            AdvanceStatusVisibility(seconds);
         }
 
         public void Tick()
         {
             Transitions?.Begin();
+            RefreshSpeechClock();
             bool xr=XRSettings.isDeviceActive;
             bool projectionChanged=false;
             int subtitleVersion=Overlay?Overlay.SubtitleLayoutVersion:0;
@@ -600,15 +588,15 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             {
                 stereoReady=StereoUISafeArea.TryCapture(view.playerCamera,out var frame);
                 if(stereoReady)projectionChanged=stereoLayout.Update(view.playerCamera,frame);
-                else{stereoLayout.Reset();worldPlacementReady=false;}
+                else stereoLayout.Reset();
             }
-            if(projectionChanged||subtitleChanged||layoutXR!=xr){worldPlacementReady=thoughtPlacementReady=false;}
+            if(projectionChanged||subtitleChanged||layoutXR!=xr)thoughtPlacementReady=false;
             // CanvasScaler may resize after the screen/camera change was observed.
             // Reflow against the actual canvas once its new size has been applied.
             if(projectionChanged||subtitleChanged||layoutXR!=xr||!xr&&(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height||layoutHudSize!=((RectTransform)hud.transform).rect.size))Layout();
             else PositionWorld();
-            bool wantsStatus=!view.lesson.Flow.IsCinematic&&DescribeStatus(out _,out _)&&!complete&&(screenOnly||!DialogueOnScreen())||KeepOutgoingHudStatus();
-            if(mission.gameObject.activeSelf!=wantsStatus||controls.gameObject.activeSelf!=ShowInitialControls())LayoutHud();
+            bool wantsStatus=DescribeStatus(out _,out _)&&!complete&&!LookingAtDialogue();
+            if(statusWanted!=wantsStatus||statusVisibilityRun!=view.lesson.RunVersion||controls.gameObject.activeSelf!=ShowInitialControls())LayoutHud();
             PositionHud();AdvanceHudVisibility(Time.unscaledDeltaTime);
             ElevatorThoughtHeaderPolicy.Hide(view.thoughtPanel);
             if(view.lesson.Flow!=null&&!view.lesson.IsPaused)UpdateDialogueReveal();
@@ -617,22 +605,21 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(focusWindow)focusWindow.Advance(view.lesson.IsPaused?0:Time.unscaledDeltaTime);
         }
 
-        bool DialogueOnScreen()
+        bool LookingAtDialogue()
         {
-            var f=view.lesson.Flow;
-            if(screenOnly||!view.dialoguePanel.gameObject.activeInHierarchy||f.IsShotCutscene||f.IsCallCutscene||f.IsDoorSafetyCutscene||f.Step==ElevatorStep.WaitingFade||f.Step==ElevatorStep.Exiting)return false;
-            if(XRSettings.isDeviceActive)
-            {
-                if(!StereoUISafeArea.TryCapture(view.playerCamera,out var frame)||!StereoRectVisible(view.dialoguePanel,frame)||!StereoRectVisible(speakerTab,frame))return false;
-                foreach(var button in view.ChoiceButtons)if(button&&button.IsActive()&&!StereoRectVisible((RectTransform)button.transform,frame))return false;
-                return true;
-            }
-            if(!ScreenRect(view.dialoguePanel,out var rect))return false;
-            var screen=new Rect(0,0,Screen.width,Screen.height);
-            if(Overlap(rect,screen)<rect.width*rect.height*.8f)return false;
-            foreach(var button in view.ChoiceButtons)
-                if(button&&(!ScreenRect((RectTransform)button.transform,out var action)||Overlap(action,screen)<action.width*action.height*.8f))return false;
-            return true;
+            if(IsPlayerSpeaking)return playerSpeech&&playerSpeech.LookingAtPanel();
+            if(screenOnly||!view.dialoguePanel.gameObject.activeInHierarchy||string.IsNullOrEmpty(view.dialogueText.text))return false;
+            if(worldGroup&&worldGroup.alpha<=.01f)return false;
+            var canvas=GetComponent<Canvas>();if(canvas&&!canvas.enabled)return false;
+            var panel=view.dialoguePanel;var group=panel.GetComponent<CanvasGroup>();
+            if(group&&group.alpha<=.01f)return false;
+            // Head-forward is the viewing criterion, not "somewhere in either eye".
+            // Speaker ribbons, choices, hand rays and other panels never hide the goal.
+            var camera=view.playerCamera;var eye=camera.transform;
+            var ray=new Ray(eye.position,eye.forward);
+            return new Plane(panel.forward,panel.position).Raycast(ray,out var distance)&&
+                distance>=camera.nearClipPlane&&distance<=camera.farClipPlane&&
+                panel.rect.Contains((Vector2)panel.InverseTransformPoint(ray.GetPoint(distance)));
         }
 
         bool DescribeStatus(out string heading,out string action)
@@ -643,6 +630,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(f.AwaitingCallContinue){heading=f.UsedPhone?"119의 안내예요":"관리실의 안내예요";action=f.Step==ElevatorStep.CallIdentityGuide?"안내를 보면서\n문 옆의 식별판을 선택하세요.":"문에서 떨어져\n안전하게 기다려 주세요.";return true;}
             switch(f.Step)
             {
+                case ElevatorStep.PosterPointing:
+                    heading="친구가 뛰려고 해요";action="주변의 안전 안내를\n살펴보세요.";return true;
+                case ElevatorStep.Connecting:
+                    heading="비상통화 연결 중";action="관리실에 연결하고 있어요.\n잠시만 기다려 주세요.";return true;
                 case ElevatorStep.Stopped:
                     heading="엘리베이터가 멈췄어요";action=ElevatorDialogue.HelpHint(f.HintLevel);return f.CanObserve;
                 case ElevatorStep.Unanswered:
@@ -741,6 +732,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             hud.enabled=true;
             var statusArea=hudReadingArea;
             if(Overlay&&Overlay.TryGetSubtitleLocalRect(root,out var subtitle))statusArea=VRUIReadingLayout.Above(statusArea,subtitle);
+            if(playerSpeech&&playerSpeech.TryGetExclusion(root,out var playerRegion))statusArea=VRUIReadingLayout.Above(statusArea,playerRegion);
             mission.localScale=Vector3.one*StereoUISafeArea.VisualScale;
             StatusFits=VRUIReadingLayout.Place(mission,root,statusArea,VRUIReadingLayout.StatusYaw,VRUIReadingLayout.StatusPitch,out _)&&
                 VRUIReadingLayout.Project(frame,mission,out var projected,true);
@@ -750,6 +742,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(progressBackdrop)VRUIReadingLayout.Place(progressBackdrop,root,hudReadingArea,-16,20,out _);
             var controlsArea=hudReadingArea;
             if(Overlay&&Overlay.TryGetSubtitleLocalRect(root,out subtitle))controlsArea=VRUIReadingLayout.Above(controlsArea,subtitle);
+            if(playerSpeech&&playerSpeech.TryGetExclusion(root,out playerRegion))controlsArea=VRUIReadingLayout.Above(controlsArea,playerRegion);
             if(controls)VRUIReadingLayout.Place(controls.rectTransform,root,controlsArea,0,-20,out _);
             if(controlsBackdrop)VRUIReadingLayout.Place(controlsBackdrop,root,controlsArea,0,-20,out _);
             return StatusFits;
@@ -765,7 +758,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
 
         void MeasureReadingBounds()
         {
-            var previous=readingBounds;
             readingGeometryCorners.Clear();
             bool found=false;
             MeasureReadingPanel(view.dialoguePanel,ref found);
@@ -774,8 +766,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(!found)readingBounds=new Bounds(Vector3.zero,new Vector3(columnHalfWidth*2/worldPixelSize,columnHalfHeight*2/worldPixelSize,0));
             // Include border extrusion/shadows as well as the actual name, portrait and choice rectangles.
             readingBounds.Expand(new Vector3(24,24,0));
-            if((previous.center-readingBounds.center).sqrMagnitude>.25f||(previous.size-readingBounds.size).sqrMagnitude>.25f)
-                worldPlacementReady=false;
         }
 
         void MeasureReadingPanel(RectTransform panel,ref bool found)
@@ -798,7 +788,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         void PlaceStereoDialogue(StereoUISafeArea.Frame frame,ElevatorStep step)
         {
             float scale=VRUIReadingLayout.Distance/VRUIReadingLayout.PointsPerRadian*StereoUISafeArea.VisualScale;
-            var anchor=worldAnchors.Get(view.lesson,step);
+            var anchor=speechAnchor.Get(view.lesson,speaker.text,readingBounds,scale);
             dialoguePosition=anchor.position;dialogueRotation=anchor.rotation;dialogueScale=Vector3.one*scale;
             var half=(Vector2)readingBounds.extents*scale;
             var centre=anchor.position+anchor.rotation*(readingBounds.center*scale);
@@ -807,7 +797,15 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             StereoPlacementFits=ProjectStereoReading(frame,centre,anchor.rotation,scale,StereoUISafeArea.Margin,out rect)&&StereoPlacementFits;
             PlacementViewportRect=rect;PlacementWeightedOverlap=0;
             PlacedReadingDistance=Vector3.Distance(view.playerCamera.transform.position,centre);
-            worldPlacementReady=true;dialoguePlacedStep=step;dialoguePlacedRun=view.lesson.RunVersion;
+        }
+
+        void RefreshSpeechClock()
+        {
+            if(dialogueSource==null||view.lesson.IsPaused)return;
+            string line=ElevatorSpeechAnchor.VisibleLine(view.lesson,dialogueSpeaker,dialogueSource);
+            if(view.dialogueText.text==line)return;
+            view.dialogueText.text=line;view.dialogueText.maxVisibleCharacters=int.MaxValue;
+            SetPanelVisible(view.dialoguePanel,!complete&&!screenOnly&&!string.IsNullOrEmpty(line));
         }
 
         void PlaceStereoThought()

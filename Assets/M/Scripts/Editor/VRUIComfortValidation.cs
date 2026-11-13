@@ -22,7 +22,7 @@ namespace ProjectWait.M.EditorTools
         static readonly List<Object> temporary=new List<Object>();
         static readonly List<string> report=new List<string>();
         static TMP_FontAsset font;
-        static float worstGuideElevation,lowestCaptionElevation,widestGuideFraction,widestStatusFraction,questGuideFraction,questStatusFraction;
+        static float worstGuideElevation,widestGuideFraction,widestStatusFraction,questGuideFraction,questStatusFraction;
         static int captionCases,guideCases,worldCases,statusCases,anchorCases;
         static readonly string[] Captions={
             ElevatorDialogue.Caption("친구",ElevatorDialogue.ShotStory),
@@ -53,7 +53,7 @@ namespace ProjectWait.M.EditorTools
         {
             if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Run outside Play Mode.");
             Directory.CreateDirectory(Output);report.Clear();captionCases=guideCases=worldCases=statusCases=anchorCases=0;
-            worstGuideElevation=widestGuideFraction=widestStatusFraction=questGuideFraction=questStatusFraction=0;lowestCaptionElevation=0;
+            worstGuideElevation=widestGuideFraction=widestStatusFraction=questGuideFraction=questStatusFraction=0;
             var settingsField=typeof(TMP_Settings).GetField("s_Instance",BindingFlags.NonPublic|BindingFlags.Static);
             var originalSettings=TMP_Settings.instance;
             var isolatedSettings=originalSettings?Object.Instantiate(originalSettings):ScriptableObject.CreateInstance<TMP_Settings>();
@@ -72,19 +72,24 @@ namespace ProjectWait.M.EditorTools
                     .Where(f=>f.FieldType==typeof(string)&&f.IsLiteral).Select(f=>(string)f.GetRawConstantValue()))+
                     "소방 구조대원승강기 담당자친구와 함께 기다리기엘리베이터 안내판1층 선택 · 공 받기내려가는 버튼가리킨 뒤검지 트리거를눌러 주세요순서는 자유예요레이로 가리키고눈높이이동메뉴잠시멈춤";
                 Need(font.TryAddCharacters(all,out var missing),"Missing font glyphs: "+missing);
-                Check("Recorded/canted/narrow/asymmetric eyes: actual subtitle text and bounds",CaptionLayouts);
-                Check("Symmetrical half-height bars and animated subtitle containment",CaptionBandAnimation);
+                Check("Letterbox geometry preserved / no legacy text across 125 inputs",CaptionLayouts);
+                Check("Symmetrical 200-point bars / animation / no subtitle ownership",CaptionBandAnimation);
                 Check("Actual VR tutorial reflow / angular position / width",GuideLayouts);
-                Check("Actual status reflow / measured subtitle separation",StatusLayouts);
-                Check("Actual dialogue + choices / world-fixed pose across subtitle and gaze changes",WorldLayouts);
-                Check("Authored friend / door / rescue / landing / ground anchors",AnchoredRegions);
+                Check("Actual status reflow without obsolete subtitle exclusion",StatusLayouts);
+                Check("Source bubble text + choices / legacy caption cannot duplicate or move it",WorldLayouts);
+                Check("Friend / intercom / phone / both rescuers: source following, not gaze following",AnchoredRegions);
                 Check("Rescue world-card ownership, ready-to-exit and PC policy",RescueOwnership);
                 Check("VR scale independent of monitor FOV; PC layout retained",Modes);
                 Check("Floor/device spawn, tracked readiness and authored facing reset",SpawnPlacement);
                 Check("Turned lobby PC arrival resets heading / preserves height / gates startup",ArrivalReset);
-                Check("Stereo geometry cache invalidation and subtitle measurement reuse",CachedLayouts);
-                report.Add($"COUNTS: {captionCases} subtitle, {guideCases} tutorial, {statusCases} status, {worldCases} dialogue/choice layouts; {anchorCases} authored-region anchor checks.");
-                report.Add($"MEASURED: guide max text-centre elevation={worstGuideElevation:F2}deg; lowest subtitle centre={lowestCaptionElevation:F2}deg; Quest guide/common width={questGuideFraction:P1}; Quest status/common width={questStatusFraction:P1}; worst tested guide/status width={widestGuideFraction:P1}/{widestStatusFraction:P1}.");
+                Check("Stereo geometry cache invalidation",CachedLayouts);
+                Check("Goal uses dialogue-only gaze and reversible one-second fade",GoalGazeFade);
+                Check("Player departure shifts exactly 0.2s, including XR comfort fade",DepartureDelay);
+                Check("Legacy region helper retained for older callers",RescueMeetingAnchors);
+                Check("Cinematic speech visible in source bubbles / narration and timed expiry",SpeechOwnership);
+                Check("Bubble tail points at its source without intercepting input",SpeechTailDirections);
+                report.Add($"COUNTS: {captionCases} legacy-caption suppression, {guideCases} tutorial, {statusCases} status, {worldCases} dialogue/choice layouts; {anchorCases} actor/emitter anchor checks.");
+                report.Add($"MEASURED: guide max text-centre elevation={worstGuideElevation:F2}deg; Quest guide/common width={questGuideFraction:P1}; Quest status/common width={questStatusFraction:P1}; worst tested guide/status width={widestGuideFraction:P1}/{widestStatusFraction:P1}.");
                 report.Add("NOT TESTED: headset optics/distortion, user comfort, raster screenshots, or full story playback. Geometry uses recorded Quest frusta and actual runtime UI/TMP text layout.");
             }
             finally
@@ -192,7 +197,10 @@ namespace ProjectWait.M.EditorTools
                 spatial.notebookCaption=Text("Book caption",spatial.notebook,27);spatial.notebookDetail=Text("Book detail",spatial.notebook,27);
                 spatial.completionRows=Array.Empty<RectTransform>();spatial.completionMarks=Array.Empty<TMP_Text>();
                 overlay=Rect("comfort overlay").gameObject.AddComponent<ElevatorCinematicOverlay>();overlay.playerCamera=camera;overlay.lesson=lesson;overlay.font=font;overlay.Build();Set(overlay,"Amount",1f);
-                caption=Field<TMP_Text>(overlay,"caption");caption.gameObject.SetActive(true);
+                Need(overlay.GetComponentsInChildren<TMP_Text>(true).Length==0,"New letterbox still creates a text object");
+                // Simulate an older serialized scene caption; production Build creates no text.
+                caption=Text("CinematicSubtitle",overlay.transform.Find("BottomLetterbox"),28);
+                typeof(ElevatorCinematicOverlay).GetField("caption",BindingFlags.NonPublic|BindingFlags.Instance).SetValue(overlay,caption);
                 lesson.presentation=Go("presentation").AddComponent<ElevatorStoryPresentation>();lesson.presentation.space=Go("space").AddComponent<ElevatorSpacePresentation>();lesson.presentation.space.overlay=overlay;
                 var storybook=view.gameObject.AddComponent<ElevatorStorybookUI>();storybook.view=view;spatial.storybook=storybook;
                 var sprite=Sprite.Create(Texture2D.whiteTexture,new Rect(0,0,1,1),Vector2.one*.5f);temporary.Add(sprite);
@@ -201,15 +209,8 @@ namespace ProjectWait.M.EditorTools
             public void Caption(string text,StereoUISafeArea.Frame frame)
             {
                 caption.text=text;caption.gameObject.SetActive(true);
-                if(overlay.LayoutVR(frame))return;
-                var background=overlay.transform.Find("BottomLetterbox/SubtitleReadabilityBackdrop") as RectTransform;
-                string detail="";
-                foreach(var panel in new[]{caption.rectTransform,background})
-                {
-                    detail+="; "+panel.name+" local="+VRUIReadingLayout.LocalRect(panel,overlay.transform);
-                    for(int eye=0;eye<2;eye++)detail+=" eye"+eye+"="+EyeRect(frame,panel,eye);
-                }
-                throw new Exception("Subtitle layout failed: "+text+"; rect="+caption.rectTransform.sizeDelta+detail);
+                Need(overlay.LayoutVR(frame),"Letterbox layout failed");
+                Need(!caption.gameObject.activeSelf&&!caption.enabled&&caption.text=="","Legacy letterbox text was revived");
             }
             public void Choice(string text)
             {
@@ -225,28 +226,21 @@ namespace ProjectWait.M.EditorTools
                 var f=new Fixture();var frame=Frame(f.camera,variant);
                 foreach(var text in Captions)
                 {
-                    f.Caption(text,frame);Fits(frame,f.caption.rectTransform,f.camera.transform,false);TextFits(f.caption);
-                    var background=f.overlay.transform.Find("BottomLetterbox/SubtitleReadabilityBackdrop") as RectTransform;
-                    Fits(frame,background,f.camera.transform,false);
-                    var bandRect=VRUIReadingLayout.LocalRect(f.overlay.transform.Find("BottomLetterbox") as RectTransform,f.overlay.transform);
-                    var textRect=VRUIReadingLayout.LocalRect(background,f.overlay.transform);
-                    Need(textRect.yMin>=bandRect.yMin-.1f&&textRect.yMax<=bandRect.yMax+.1f,"Cutscene text escaped the lower letterbox");
-                    // Halving the lower band moves its inner edge below the old -28deg
-                    // preference. Validate against the native bottom strip, not that old centre.
-                    float angle=Elevation(f.camera.transform,f.caption.rectTransform);lowestCaptionElevation=Mathf.Min(lowestCaptionElevation,angle);Need(angle>=-45&&angle<=-20,"Subtitle outside the lower reading strip: "+angle);
+                    f.Caption(text,frame);
+                    Need(!f.overlay.HasVisibleSubtitle&&!f.overlay.TryGetSubtitleViewport(frame,out _)&&!f.overlay.TryGetSubtitleLocalRect(f.overlay.transform,out _),"Letterbox still owns a subtitle area");
                     Need(Mathf.Abs(f.camera.transform.InverseTransformPoint(f.overlay.transform.position).z-VRUIReadingLayout.Distance)<.0001f,"Subtitle plane depth changed");
                     int version=f.overlay.SubtitleLayoutVersion;f.overlay.LayoutVR(frame);Need(version==f.overlay.SubtitleLayoutVersion,"Unchanged subtitle invalidates world placement every frame");
                     captionCases++;
                 }
                 var bottom=f.overlay.transform.Find("BottomLetterbox") as RectTransform;VRUIReadingLayout.Project(frame,bottom,out var bar);
                 // Vertically asymmetric eyes require a union band; the lower eye necessarily sees that offset too.
-                Need(bar.xMin<0&&bar.xMax>1&&bar.yMin<0&&bar.yMax>.16f&&bar.yMax<.27f,"Half-height bottom band coverage changed");
+                Need(bar.xMin<0&&bar.xMax>1&&bar.yMin<0&&bar.yMax>.27f&&bar.yMax<.38f,"200-point bottom band coverage changed");
                 frame.EyeRect(f.overlay.transform,0,out var left);frame.EyeRect(f.overlay.transform,1,out var right);
                 frame.Plane(f.overlay.transform,out _,out var coverage);
                 frame.EyeVerticalRange(f.overlay.transform,0,out var lv);frame.EyeVerticalRange(f.overlay.transform,1,out var rv);
-                float expected=Mathf.Max(lv.x,rv.x)-(coverage.yMin-coverage.height*.02f)+Mathf.Min(lv.y-lv.x,rv.y-rv.x)*123/720;
-                expected=Mathf.Max(expected,coverage.yMax+coverage.height*.02f-Mathf.Min(lv.y,rv.y)+Mathf.Min(lv.y-lv.x,rv.y-rv.x)*123/720);
-                Need(Mathf.Abs(bottom.rect.height-expected)<.05f,"VR band is not 123 reference points");
+                float expected=Mathf.Max(lv.x,rv.x)-(coverage.yMin-coverage.height*.02f)+Mathf.Min(lv.y-lv.x,rv.y-rv.x)*200/720;
+                expected=Mathf.Max(expected,coverage.yMax+coverage.height*.02f-Mathf.Min(lv.y,rv.y)+Mathf.Min(lv.y-lv.x,rv.y-rv.x)*200/720);
+                Need(VRUIReadingLayout.LetterboxHeight==200&&Mathf.Abs(bottom.rect.height-expected)<.05f,"VR band is not 200 reference points");
                 var top=f.overlay.transform.Find("TopLetterbox") as RectTransform;
                 Need(top.gameObject.activeSelf&&Mathf.Abs(top.rect.height-bottom.rect.height)<.05f,"VR top and bottom bars differ");Clean();
             }
@@ -286,11 +280,7 @@ namespace ProjectWait.M.EditorTools
                     var bottom=f.overlay.transform.Find("BottomLetterbox") as RectTransform;
                     Need(top.gameObject.activeSelf==(amount>0)&&bottom.gameObject.activeSelf==(amount>0),"Bar activation is asymmetric");
                     Need(Mathf.Abs(top.rect.height-bottom.rect.height)<.05f,"Animation bar heights differ");
-                    if(!fits){Need(!f.caption.enabled,"A subtitle escaped the band during slide-in");continue;}
-                    var band=VRUIReadingLayout.LocalRect(f.overlay.transform.Find("BottomLetterbox") as RectTransform,f.overlay.transform);
-                    var background=VRUIReadingLayout.LocalRect(f.overlay.transform.Find("BottomLetterbox/SubtitleReadabilityBackdrop") as RectTransform,f.overlay.transform);
-                    Need(background.yMin>=band.yMin-.1f&&background.yMax<=band.yMax+.1f,"Animated subtitle escaped the black band");
-                    Fits(frame,f.caption.rectTransform,f.camera.transform,false);
+                    Need(fits&&!f.caption.enabled&&!f.caption.gameObject.activeSelf&&!f.overlay.HasVisibleSubtitle,"Animation revived subtitle text");
                 }
                 Clean();
             }
@@ -314,9 +304,7 @@ namespace ProjectWait.M.EditorTools
         {
             f.spatial.mission.gameObject.SetActive(false);f.spatial.LayoutVRHud(frame);f.spatial.LayoutHud(true);Need(f.spatial.LayoutVRHud(frame),"Status did not fit above subtitle");
             Fits(frame,f.spatial.mission,f.camera.transform);TextFits(f.view.title);TextFits(f.view.subtitle);
-            var background=f.overlay.transform.Find("BottomLetterbox/SubtitleReadabilityBackdrop") as RectTransform;
-            // Compare left with left and right with right, not two unions from different vertical eye offsets.
-            for(int eye=0;eye<2;eye++)Need(ElevatorUIPlacement.Overlap(EyeRect(frame,f.spatial.mission,eye),EyeRect(frame,background,eye))<.000001f,"Status overlaps subtitle in eye "+eye);
+            Need(!f.overlay.TryGetSubtitleLocalRect(f.spatial.hud.transform,out _),"Removed subtitle is reserving HUD space");
             frame.Plane(f.spatial.hud.transform,out var common,out _);float width=VRUIReadingLayout.LocalRect(f.spatial.mission,f.spatial.hud.transform).width/common.width;
             widestStatusFraction=Mathf.Max(widestStatusFraction,width);if(variant==0)questStatusFraction=Mathf.Max(questStatusFraction,width);statusCases++;
         }
@@ -331,7 +319,7 @@ namespace ProjectWait.M.EditorTools
                 Vector3 firstPosition=default;Quaternion firstRotation=default;
                 foreach(bool subtitles in new[]{false,true})
                 {
-                    f.spatial.speaker.text=subtitles?"친구와 함께 기다리기":"엘리베이터 안내판";
+                    f.spatial.speaker.text="친구";
                     f.caption.gameObject.SetActive(subtitles);f.caption.text=ElevatorDialogue.Caption("승강기 담당자",ElevatorDialogue.RescueChecking);f.overlay.LayoutVR(frame);
                     f.spatial.LayoutVRHud(frame);f.spatial.Layout(true);Call(f.spatial,"PlaceStereoDialogue",frame,ElevatorStep.DoorPosterPointing);
                     var position=Field<Vector3>(f.spatial,"dialoguePosition");var rotation=Field<Quaternion>(f.spatial,"dialogueRotation");var scale=Field<Vector3>(f.spatial,"dialogueScale");
@@ -351,8 +339,8 @@ namespace ProjectWait.M.EditorTools
                     foreach(var button in f.view.ChoiceButtons){Fits(frame,(RectTransform)button.transform,f.camera.transform);TextFits(button.GetComponentInChildren<TMP_Text>());}
                     var stamp=new StereoUISafeArea.LayoutStamp();stamp.Update(f.camera,frame);f.camera.transform.rotation=Quaternion.Euler(12,25,6);var moved=Frame(f.camera,variant);
                     Need(!stamp.Update(f.camera,moved),"Head turn triggered reanchor");Need(f.view.transform.position==position&&f.view.transform.rotation==rotation,"Head turn moved world card");
-                    Call(f.spatial,"PlaceStereoDialogue",moved,ElevatorStep.Call);
-                    Need(Field<Vector3>(f.spatial,"dialoguePosition")==position&&Field<Quaternion>(f.spatial,"dialogueRotation")==rotation,"Cabin phase/gaze change moved its fixed card");
+                    Call(f.spatial,"PlaceStereoDialogue",moved,ElevatorStep.DoorPosterPointing);
+                    Need(Field<Vector3>(f.spatial,"dialoguePosition")==position&&Field<Quaternion>(f.spatial,"dialogueRotation")==rotation,"Head turn moved the source bubble");
                     f.camera.transform.rotation=Quaternion.identity;worldCases++;
                 }
                 Clean();
@@ -360,7 +348,7 @@ namespace ProjectWait.M.EditorTools
         }
         static void RescueOwnership()
         {
-            var f=new Fixture();var frame=Frame(f.camera,0);f.spatial.LayoutVRHud(frame);Set(f.lesson.Flow,"Step",ElevatorStep.Rescue);Set(f.lesson.Flow,"ReadyToExit",false);
+            var f=new Fixture();var frame=Frame(f.camera,0);f.spatial.LayoutVRHud(frame);Set(f.lesson.Flow,"Step",ElevatorStep.Rescue);Set(f.lesson.Flow,"ReadyToExit",false);f.view.dialogueText.text=ElevatorDialogue.RescueChecking;
             f.spatial.SetCinematicVisibility(true);Need(f.view.GetComponent<CanvasGroup>().alpha==1,"VR rescue world dialogue hidden");
             Need(!ElevatorCinematicOverlay.UsesRescueSubtitle(true,ElevatorStep.Rescue,false),"VR rescue subtitle duplicates the world card");
             f.spatial.SetCinematicVisibility(false);Need(f.view.GetComponent<CanvasGroup>().alpha==1,"PC rescue policy changed");
@@ -369,35 +357,37 @@ namespace ProjectWait.M.EditorTools
         }
         static void AnchoredRegions()
         {
-            for(int variant=0;variant<5;variant++)foreach(var step in new[]{ElevatorStep.Lobby,ElevatorStep.DoorPosterPointing,ElevatorStep.Rescue,ElevatorStep.ReturnLobby,ElevatorStep.GroundFloor})
+            for(int variant=0;variant<5;variant++)for(int role=0;role<5;role++)
             {
                 var f=new Fixture();var map=Go("authored map").AddComponent<ElevatorSportsCentreMap>();
                 map.space=f.lesson.presentation.space;map.space.sportsCentre=map;
-                Set(f.lesson.Flow,"Step",step);
-                bool before=step==ElevatorStep.Lobby,landing=step==ElevatorStep.ReturnLobby,ground=step==ElevatorStep.GroundFloor;
-                Vector3 footprint=before||landing?map.lobby:ground?map.groundLobby:map.inside;
-                f.camera.transform.SetPositionAndRotation(footprint+Vector3.up*1.3f,Quaternion.Euler(0,before||landing?0:180,0));
+                var team=Go("speaker team").AddComponent<ElevatorRescueTeam>();f.lesson.presentation.rescueTeam=team;
+                team.firefighter=Go("firefighter").transform;team.firefighter.position=new Vector3(-.6f,0,2.8f);Go("head",false,team.firefighter).transform.localPosition=Vector3.up*1.5f;
+                team.specialist=Go("specialist").transform;team.specialist.position=new Vector3(.6f,0,2.8f);Go("head",false,team.specialist).transform.localPosition=Vector3.up*1.5f;
+                var phone=Go("phone",false,f.lesson.transform).AddComponent<ElevatorObservation>();phone.clue=ElevatorClue.Phone;phone.transform.position=new Vector3(-.6f,1.1f,2.2f);
+                map.sideIntercom=Go("intercom").transform;map.sideIntercom.position=new Vector3(-.6f,1.1f,2.2f);
+                Set(f.lesson.Flow,"Step",role>=3?ElevatorStep.Rescue:role>=1?ElevatorStep.CallQuestion:ElevatorStep.Lobby);Set(f.lesson.Flow,"UsedPhone",role==2);
+                f.lesson.friend.position=new Vector3(-.7f,0,2.4f);
+                f.spatial.speaker.text=new[]{"친구","관리실","119 · 모의 통화","소방 구조대원","승강기 담당자"}[role];
+                Transform target=role==0?f.lesson.friend:role==1?map.sideIntercom:role==2?phone.transform:role==3?team.firefighter:team.specialist;
                 var frame=Frame(f.camera,variant);f.view.dialogueText.text=ElevatorDialogue.FriendQuestion;f.Choice(ElevatorDialogue.SafeReply);
-                f.spatial.LayoutVRHud(frame);f.spatial.Layout(true);Call(f.spatial,"PlaceStereoDialogue",frame,step);
+                f.spatial.LayoutVRHud(frame);f.spatial.Layout(true);Call(f.spatial,"PlaceStereoDialogue",frame,f.lesson.Flow.Step);
                 var position=Field<Vector3>(f.spatial,"dialoguePosition");var rotation=Field<Quaternion>(f.spatial,"dialogueRotation");
                 f.view.transform.SetPositionAndRotation(position,rotation);f.view.transform.localScale=Field<Vector3>(f.spatial,"dialogueScale");
-                Need(f.spatial.StereoPlacementFits,"Authored region clipped: "+step+" eye variant "+variant);
-                var local=f.camera.transform.InverseTransformPoint(position);
-                Need(local.z>1,"Anchor is behind the authored viewing footprint: "+step);
-                if(step==ElevatorStep.Rescue)Need(local.x<-.2f&&local.y>.2f,"Rescue is not upper-left/front");
-                if(step==ElevatorStep.DoorPosterPointing)Need(Mathf.Abs(local.x)<.01f,"Cabin dialogue is not in front of the door");
+                Need(f.spatial.SpeechSource==target,"Wrong speaker/emitter: "+f.spatial.speaker.text);
+                Need(f.spatial.StereoPlacementFits,"Source bubble clipped: role="+role+" variant="+variant+" position="+position);
                 Need(Vector3.Dot(rotation*Vector3.forward,(position-f.camera.transform.position).normalized)>.98f,"Anchor does not face the player");
                 f.view.thought.text=ElevatorDialogue.FriendQuestion;f.view.thoughtPanel.gameObject.SetActive(true);f.spatial.LayoutHud(true);
                 Need(f.view.thoughtPanel.parent==f.view.transform,"Object description still belongs to the head-following HUD");
                 var thoughtPosition=f.view.thoughtPanel.position;var thoughtRotation=f.view.thoughtPanel.rotation;
-                f.camera.transform.position+=new Vector3(.35f,.12f,-.2f);f.camera.transform.rotation=Quaternion.Euler(15,85,8);
-                var moved=Frame(f.camera,variant);Call(f.spatial,"PlaceStereoDialogue",moved,step);
-                Need(Field<Vector3>(f.spatial,"dialoguePosition")==position&&Field<Quaternion>(f.spatial,"dialogueRotation")==rotation,"World card followed head translation/rotation: "+step);
+                f.camera.transform.rotation=Quaternion.Euler(15,85,8);
+                var moved=Frame(f.camera,variant);Call(f.spatial,"PlaceStereoDialogue",moved,f.lesson.Flow.Step);
+                Need(Field<Vector3>(f.spatial,"dialoguePosition")==position&&Field<Quaternion>(f.spatial,"dialogueRotation")==rotation,"Bubble followed head rotation");
                 f.spatial.LayoutVRHud(moved);
                 Need(Vector3.Distance(thoughtPosition,f.view.thoughtPanel.position)<.0001f&&Quaternion.Angle(thoughtRotation,f.view.thoughtPanel.rotation)<.01f,"Object description followed the moving HUD");
-                f.view.dialogueText.text=ElevatorDialogue.RescueChecking;f.Choice(ElevatorDialogue.UnsafeReply);f.spatial.Layout(true);Call(f.spatial,"PlaceStereoDialogue",moved,step);
-                Need(Field<Vector3>(f.spatial,"dialoguePosition")==position&&Field<Quaternion>(f.spatial,"dialogueRotation")==rotation,"Text/choice reflow moved the fixed region anchor");
-                f.spatial.SetCinematicVisibility(true);Need(f.view.GetComponent<CanvasGroup>().alpha==1,"Looking away hid the fixed card: "+step);
+                var delta=new Vector3(.2f,0,.1f);target.position+=delta;Call(f.spatial,"PlaceStereoDialogue",moved,f.lesson.Flow.Step);
+                Need(Vector3.Distance(Field<Vector3>(f.spatial,"dialoguePosition"),position+delta)<.0001f,"Bubble did not follow speaker translation");
+                f.spatial.SetCinematicVisibility(true);Need(f.view.GetComponent<CanvasGroup>().alpha==1,"Looking away hid the source bubble");
                 anchorCases++;Clean();
             }
         }
@@ -408,7 +398,7 @@ namespace ProjectWait.M.EditorTools
             f.camera.fieldOfView=60;f.camera.aspect=16f/9;Call(f.overlay,"Position");
             var top=f.overlay.transform.Find("TopLetterbox") as RectTransform;var bottom=f.overlay.transform.Find("BottomLetterbox") as RectTransform;
             Need(top.gameObject.activeSelf&&top.rect.height==82&&bottom.rect.height==82&&Mathf.Abs(top.rect.width-1300)<.01f,"PC bars changed");
-            Need(f.caption.transform.localScale==Vector3.one&&Mathf.Abs(f.caption.rectTransform.rect.width-1100)<.01f,"PC subtitle changed");
+            Need(!f.caption.enabled&&!f.caption.gameObject.activeSelf&&f.caption.text=="","PC legacy subtitle reappeared");
             var guide=Go("mode guide").AddComponent<ElevatorTutorialPreview>();guide.lesson=f.lesson;guide.font=font;Call(guide,"BuildViews");Set(guide,"Step",ElevatorTutorialPreview.GuideStep.BoardingActions);
             guide.SetContent(true,true);guide.LayoutVR(frame);guide.SetContent(true,false);
             Need(guide.InstructionPanel.sizeDelta==new Vector2(400,158),"PC guide dimensions changed");
@@ -444,10 +434,8 @@ namespace ProjectWait.M.EditorTools
         static void CachedLayouts()
         {
             var f=new Fixture();var frame=Frame(f.camera,0);f.Caption(Captions[0],frame);
-            int measured=Field<int>(f.overlay,"captionMeasurements");
             for(int i=0;i<60;i++)f.overlay.LayoutVR(frame);
-            Need(Field<int>(f.overlay,"captionMeasurements")==measured,"Unchanged subtitle measured every render callback");
-            f.Caption(Captions[16],frame);Need(Field<int>(f.overlay,"captionMeasurements")==measured+1,"New subtitle did not invalidate text measurement");
+            Need(!f.overlay.HasVisibleSubtitle,"Repeated layout revived subtitles");
             var cache=new StereoUISafeArea.PlaneCache();
             for(int variant=0;variant<5;variant++)foreach(float scale in new[]{1f,.9f,1.1f})
             {
@@ -498,6 +486,151 @@ namespace ProjectWait.M.EditorTools
                 controls.enabled=false;Need(f.lesson.SpawnReady,"Disabled controls stalled the deferred preview pose owner");
             }
             finally{Call(controls,"OnDisable");}
+        }
+
+        static void GoalGazeFade()
+        {
+            var f=new Fixture();Set(f.lesson.Flow,"Step",ElevatorStep.DoorPosterPointing);
+            f.view.dialogueText.text=ElevatorDialogue.FriendQuestion;
+            f.view.transform.SetPositionAndRotation(f.camera.transform.position+Vector3.forward*2,Quaternion.identity);
+            f.view.transform.localScale=Vector3.one*.002f;
+            f.view.dialoguePanel.sizeDelta=new Vector2(600,220);f.view.dialoguePanel.anchoredPosition=Vector2.zero;
+            f.spatial.speakerTab.anchoredPosition=new Vector2(0,190);
+            f.Choice("계속");f.view.ChoiceButtons[0].transform.position=f.view.dialoguePanel.position+Vector3.down*.5f;
+            Need((bool)Call(f.spatial,"LookingAtDialogue"),"Looking directly at the dialogue did not hide the goal");
+            f.camera.transform.rotation=Quaternion.Euler(0,18,0);
+            Need(VRUIReadingLayout.Project(Frame(f.camera,0),f.view.dialoguePanel,out _,true),"Side-visible dialogue fixture is not in both eyes");
+            Need(!(bool)Call(f.spatial,"LookingAtDialogue"),"A merely visible dialogue hid the goal");
+            f.spatial.LayoutHud(false);var group=f.spatial.mission.GetComponent<CanvasGroup>();
+            Need(group&&group.alpha==0&&f.spatial.mission.gameObject.activeSelf,"New goal did not start transparent");
+            f.spatial.AdvanceHudVisibility(.5f);Need(Mathf.Abs(group.alpha-.5f)<.001f,"Goal fade-in did not take one second");
+            f.spatial.AdvanceHudVisibility(.5f);Need(group.alpha==1,"Goal did not finish appearing after one second");
+            f.camera.transform.rotation=Quaternion.identity;f.spatial.LayoutHud(false);
+            Need(group.alpha==1&&f.spatial.mission.gameObject.activeSelf,"Goal disappeared abruptly");
+            f.spatial.AdvanceHudVisibility(.5f);Need(Mathf.Abs(group.alpha-.5f)<.001f,"Goal fade-out did not take one second");
+            f.spatial.AdvanceHudVisibility(.49f);Need(f.spatial.mission.gameObject.activeSelf,"Goal was disabled before its fade completed");
+            f.spatial.AdvanceHudVisibility(.01f);Need(group.alpha<.0001f&&!f.spatial.mission.gameObject.activeSelf,"Goal did not finish disappearing");
+            f.camera.transform.LookAt(f.spatial.speakerTab.position);
+            Need(!(bool)Call(f.spatial,"LookingAtDialogue"),"Speaker ribbon alone hid the goal");
+            f.camera.transform.LookAt(f.view.ChoiceButtons[0].transform.position);
+            Need(!(bool)Call(f.spatial,"LookingAtDialogue"),"Choice alone hid the goal");
+            f.camera.transform.rotation=Quaternion.Euler(0,18,0);f.spatial.LayoutHud(false);f.spatial.AdvanceHudVisibility(1);
+            f.camera.transform.rotation=Quaternion.identity;f.spatial.LayoutHud(false);f.spatial.AdvanceHudVisibility(.3f);
+            float partial=group.alpha;f.camera.transform.rotation=Quaternion.Euler(0,18,0);f.spatial.LayoutHud(false);
+            Need(Mathf.Abs(group.alpha-partial)<.0001f,"Reversing gaze jumped the opacity");
+            f.spatial.AdvanceHudVisibility(1);Need(group.alpha==1,"Reversed fade did not return to full visibility");
+            f.camera.transform.rotation=Quaternion.identity;f.view.dialoguePanel.gameObject.SetActive(false);
+            Need(!(bool)Call(f.spatial,"LookingAtDialogue"),"Inactive dialogue hid the goal");
+            f.view.dialoguePanel.gameObject.SetActive(true);var dialogueGroup=f.view.dialoguePanel.gameObject.AddComponent<CanvasGroup>();dialogueGroup.alpha=0;
+            Need(!(bool)Call(f.spatial,"LookingAtDialogue"),"Transparent dialogue hid the goal");
+            Set(f.lesson.Flow,"Step",ElevatorStep.Rescue);Set(f.lesson.Flow,"ReadyToExit",false);
+            f.spatial.LayoutHud(false);f.spatial.AdvanceHudVisibility(1);
+            Need(group.ignoreParentGroups&&group.alpha==1&&Field<bool>(f.spatial,"statusWanted"),"Cinematic HUD fade hid an available goal without dialogue gaze");
+        }
+
+        static void DepartureDelay()
+        {
+            var start=new Vector3(0,7.92f,-13);var threshold=new Vector3(0,7.92f,-4.2f);var end=new Vector3(-1.8f,7.92f,-1.8f);
+            Need(Mathf.Abs(ElevatorOpeningSequence.PlayerWalkBegins-.6f)<.0001f&&Mathf.Abs(ElevatorOpeningSequence.TeleportAt-4.4f)<.0001f,"Departure delay is not 0.2 seconds");
+            for(int i=0;i<=80;i++)
+            {
+                float t=i*.1f;
+                var current=ElevatorOpeningSequence.WalkPath(start,threshold,end,t,ElevatorOpeningSequence.PlayerWalkBegins,ElevatorOpeningSequence.PlayerWalkFinishes);
+                var delayed=ElevatorOpeningSequence.WalkPath(start,threshold,end,t-.2f,.4f,7.1f);
+                Need(Vector3.Distance(current,delayed)<.0001f,"Player walk was sped up instead of delayed");
+                float yaw=ElevatorOpeningSequence.ViewYaw(start,threshold,end,t,ElevatorOpeningSequence.PlayerWalkBegins,ElevatorOpeningSequence.PlayerWalkFinishes,false);
+                float oldYaw=ElevatorOpeningSequence.ViewYaw(start,threshold,end,t-.2f,.4f,7.1f,false);
+                Need(Mathf.Abs(Mathf.DeltaAngle(yaw,oldYaw))<.001f,"PC view turn is out of sync with delayed walking");
+            }
+            Need(ElevatorOpeningSequence.WalkPath(start,threshold,end,.5f,ElevatorOpeningSequence.PlayerWalkBegins,ElevatorOpeningSequence.PlayerWalkFinishes)==start,"Player moved before delayed departure");
+            Need(ElevatorOpeningSequence.WalkPath(start,threshold,end,.5f,0,6.7f)!=start,"Friend departure was delayed too");
+            Need(ElevatorOpeningSequence.ComfortFadeAlpha(4.4f,true)==1&&ElevatorOpeningSequence.ComfortFadeAlpha(4.4f,false)==0,"XR teleport fade is not aligned with delayed teleport");
+        }
+
+        static void RescueMeetingAnchors()
+        {
+            var f=new Fixture();var map=Go("rescue map").AddComponent<ElevatorSportsCentreMap>();map.space=f.lesson.presentation.space;map.space.sportsCentre=map;
+            var team=Go("rescue positions").AddComponent<ElevatorRescueTeam>();f.lesson.presentation.rescueTeam=team;
+            var anchors=new VRDialogueWorldAnchors();
+            foreach(var step in new[]{ElevatorStep.Rescue,ElevatorStep.ReturnLobby,ElevatorStep.GroundFloor})
+            {
+                Set(f.lesson.Flow,"Step",step);var feet=step==ElevatorStep.Rescue?map.inside:step==ElevatorStep.ReturnLobby?map.lobby:map.groundLobby;
+                f.camera.transform.SetPositionAndRotation(feet+Vector3.up*1.3f,Quaternion.Euler(0,180,0));
+                var pose=anchors.Get(f.lesson,step);
+                Need(Mathf.Abs(pose.position.y-feet.y-1.8f)<.001f,"Rescue dialogue was not raised by 0.22m");
+                Need(f.camera.transform.InverseTransformPoint(pose.position).z>1,"Exterior rescue dialogue is behind the player");
+                if(step!=ElevatorStep.Rescue)
+                {
+                    var meeting=team.ExteriorDialogueFootprint(step==ElevatorStep.GroundFloor);
+                    Need(Mathf.Abs(pose.position.x-meeting.x)<.001f&&Mathf.Abs(pose.position.z-meeting.z)<.001f,"Exterior dialogue is not above the friend between rescuers");
+                }
+                f.camera.transform.rotation=Quaternion.Euler(12,40,3);Need(anchors.Get(f.lesson,step).position==pose.position,"Rescue card follows head turns");
+            }
+        }
+
+        static void SpeechOwnership()
+        {
+            var f=new Fixture();var frame=Frame(f.camera,0);
+            foreach(var step in new[]{ElevatorStep.GymDeparture,ElevatorStep.Proposal,ElevatorStep.Jump,ElevatorStep.Stopped,
+                ElevatorStep.CallQuestion,ElevatorStep.CallResponse,ElevatorStep.CallLiftQuestion,ElevatorStep.CallLocationResponse,
+                ElevatorStep.CallSafetyAdvice,ElevatorStep.DoorLean,ElevatorStep.DoorPosterWarning,ElevatorStep.SafeWallMove,
+                ElevatorStep.SafeWallWaiting,ElevatorStep.Rescue,ElevatorStep.ReturnLobby,ElevatorStep.GroundFloor})
+            {
+                Set(f.lesson.Flow,"Step",step);Set(f.lesson.Flow,"Elapsed",0f);Set(f.lesson.Flow,"Phase",InteractionPhase.Dialogue);
+                string who=step==ElevatorStep.CallResponse||step==ElevatorStep.CallLocationResponse||step==ElevatorStep.DoorPosterWarning?"나":
+                    step==ElevatorStep.CallQuestion||step==ElevatorStep.CallLiftQuestion||step==ElevatorStep.CallSafetyAdvice?"관리실":
+                    step==ElevatorStep.Rescue||step==ElevatorStep.ReturnLobby?"소방 구조대원":"친구";
+                f.view.dialogueText.text=ElevatorDialogue.FriendQuestion;f.spatial.Present(who,ElevatorDialogue.FriendQuestion,"");
+                f.spatial.LayoutVRHud(frame);f.spatial.SetCinematicVisibility(true);
+                Need(f.view.dialoguePanel.gameObject.activeSelf&&f.view.GetComponent<CanvasGroup>().alpha==1,"Cinematic speech was hidden: "+step);
+                Need(f.view.dialogueText.text==ElevatorDialogue.FriendQuestion,"Spoken content was dropped: "+step);
+                if(f.lesson.Flow.IsCinematic)Need(!f.view.GetComponent<CanvasGroup>().interactable,"Cinematic speech unlocked actions");
+            }
+            Set(f.lesson.Flow,"Step",ElevatorStep.GymDeparture);Set(f.lesson.Flow,"Elapsed",5.1f);
+            Call(f.spatial,"RefreshSpeechClock");
+            Need(f.view.dialogueText.text==""&&!f.view.dialoguePanel.gameObject.activeSelf,"Opening speech did not expire at its original time");
+            Set(f.lesson.Flow,"Step",ElevatorStep.Jump);Set(f.lesson.Flow,"Elapsed",f.lesson.settings.friendReplySeconds+.01f);
+            Need(ElevatorSpeechAnchor.VisibleLine(f.lesson,"친구",ElevatorDialogue.ShotGesture)=="","Jump speech did not expire");
+            Set(f.lesson.Flow,"Step",ElevatorStep.Returning);f.view.dialogueText.text="계단으로 1층에 내려가요.";
+            f.spatial.Present("안내",f.view.dialogueText.text,"");f.spatial.SetCinematicVisibility(false);
+            Need(f.view.dialogueText.text==""&&f.view.GetComponent<CanvasGroup>().alpha==0,"Narration returned as letterbox dialogue");
+            foreach(var guidedStep in new[]{ElevatorStep.PosterPointing,ElevatorStep.Connecting})
+            {
+                Set(f.lesson.Flow,"Step",guidedStep);
+                var description=new object[]{null,null};
+                Need((bool)Call(f.spatial,"DescribeStatus",description)&&!string.IsNullOrEmpty((string)description[1]),"Removing captions also removed essential guidance: "+guidedStep);
+            }
+            var rig=Go("player speech source").transform;f.lesson.presentation.space.playerRig=rig;f.camera.transform.SetParent(rig,true);
+            Set(f.lesson.Flow,"Step",ElevatorStep.CallResponse);Set(f.lesson.Flow,"Elapsed",0f);
+            var anchor=new ElevatorSpeechAnchor();var bounds=new Bounds(Vector3.zero,new Vector3(580,300,0));
+            var first=anchor.Get(f.lesson,"나",bounds,.0018f);
+            Need(anchor.CurrentVoice==ElevatorSpeechAnchor.Voice.Player&&anchor.Source==rig,"First-person speech has no player source");
+            f.camera.transform.rotation=Quaternion.Euler(15,70,0);var turned=anchor.Get(f.lesson,"나",bounds,.0018f);
+            Need(first.position==turned.position&&Quaternion.Angle(first.rotation,turned.rotation)<.01f,"First-person bubble follows the head");
+            var delta=new Vector3(.3f,0,.1f);rig.position+=delta;
+            Need(Vector3.Distance(anchor.Get(f.lesson,"나",bounds,.0018f).position,first.position+delta)<.0001f,"First-person bubble did not follow the player object");
+            var plate=Go("identity source",false,f.lesson.transform).AddComponent<ElevatorObservation>();plate.clue=ElevatorClue.Identity;plate.transform.position=new Vector3(.6f,1.1f,2);
+            anchor.Reset();Set(f.lesson.Flow,"Step",ElevatorStep.DoorPosterPointing);Set(f.lesson.Flow,"PreviewClue",(ElevatorClue?)ElevatorClue.Identity);
+            anchor.Get(f.lesson,"엘리베이터 안내판",bounds,.0018f);
+            Need(anchor.CurrentVoice==ElevatorSpeechAnchor.Voice.Object&&anchor.Source==plate.transform,"Observed object's bubble has the wrong source");
+            Set(f.lesson.Flow,"PreviewClue",null);
+            Set(f.lesson.Flow,"Step",ElevatorStep.Complete);f.view.dialogueText.text=ElevatorDialogue.Complete;
+            f.spatial.Present("친구",ElevatorDialogue.Complete,"");f.spatial.SetCinematicVisibility(false);
+            Need(f.spatial.notebook.gameObject.activeSelf&&f.view.GetComponent<CanvasGroup>().alpha==1&&!f.view.dialoguePanel.gameObject.activeSelf,"Speech migration hid the completion notebook");
+        }
+
+        static void SpeechTailDirections()
+        {
+            var f=new Fixture();f.view.dialogueText.text=ElevatorDialogue.FriendQuestion;f.spatial.LayoutVRHud(Frame(f.camera,0));f.spatial.Layout(true);
+            var panel=f.view.dialoguePanel;var tail=panel.Find("SpeechTail") as RectTransform;
+            Need(tail&&tail.GetComponent<Image>()&&!tail.GetComponent<Image>().raycastTarget,"Speech tail blocks selection input");
+            var points=new[]{Vector3.left*1000,Vector3.right*1000,Vector3.up*1000,Vector3.down*1000};
+            var angles=new[]{-90f,90f,180f,0f};
+            for(int i=0;i<points.Length;i++)
+            {
+                f.spatial.storybook.PointSpeechTail(panel.TransformPoint(points[i]));
+                Need(Mathf.Abs(Mathf.DeltaAngle(tail.localEulerAngles.z,angles[i]))<.01f,"Bubble tail does not point towards source side "+i);
+            }
         }
     }
 }

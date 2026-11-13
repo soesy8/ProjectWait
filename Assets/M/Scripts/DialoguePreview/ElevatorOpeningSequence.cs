@@ -9,7 +9,9 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public const float FadeHold = .3f, FadeSeconds = 1.5f;
         public const float FadeDuration = FadeHold + FadeSeconds;
         public const float DepartureSeconds = Duration;
-        public const float TeleportAt = 4.2f;
+        public const float PlayerDepartureDelay = .2f;
+        public const float PlayerWalkBegins = .4f + PlayerDepartureDelay, PlayerWalkFinishes = 7.1f + PlayerDepartureDelay;
+        public const float TeleportAt = 4.2f + PlayerDepartureDelay;
         public const string FriendLine = "오늘 농구 재밌었지? 이제 집에 가자!";
         public const string DepartureLine = "체육센터 3층 로비";
 

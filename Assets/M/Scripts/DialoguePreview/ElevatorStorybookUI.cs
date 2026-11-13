@@ -15,6 +15,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public GameObject thoughtBubblePrefab;
         public Material worldMaterial;
         RectTransform thoughtBubble;
+        RectTransform speechTailRect;
         TMP_Text bubbleThought, bubbleHeading;
         static readonly Color Ink = new Color32(58, 36, 24, 255);
         static readonly Color Paper = new Color32(255, 249, 231, 255);
@@ -182,6 +183,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if (portrait) portrait.gameObject.SetActive(friend);
             var tail = Decoration(panel, "SpeechTail", speechTail, new Vector2(72, 42), new Vector2(-panel.rect.width * .21f, -panel.rect.height * .5f - 12));
             if (tail) tail.transform.SetSiblingIndex(0);
+            if(tail)speechTailRect=tail.rectTransform;
             view.dialogueText.rectTransform.sizeDelta = new Vector2(panel.rect.width - 104, panel.rect.height - 80);
             view.dialogueText.rectTransform.anchoredPosition = new Vector2(0, 0);
             var paper = panel.Find("ReadingPaper") as RectTransform;
@@ -210,6 +212,24 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             }
             spatial.speakerTab.SetAsLastSibling();
             if (portrait) portrait.transform.SetAsLastSibling();
+        }
+
+        public void PointSpeechTail(Vector3 source)
+        {
+            if(!speechTailRect||!view||!view.dialoguePanel)return;
+            var panel=view.dialoguePanel;var local=panel.InverseTransformPoint(source);
+            float x=local.x/Mathf.Max(1,panel.rect.width*.5f),y=local.y/Mathf.Max(1,panel.rect.height*.5f);
+            bool horizontal=Mathf.Abs(x)>Mathf.Abs(y);
+            if(horizontal)
+            {
+                speechTailRect.anchoredPosition=new Vector2(Mathf.Sign(x)*(panel.rect.width*.5f+10),Mathf.Clamp(local.y,-panel.rect.height*.30f,panel.rect.height*.30f));
+                speechTailRect.localRotation=Quaternion.Euler(0,0,x>0?90:-90);
+            }
+            else
+            {
+                speechTailRect.anchoredPosition=new Vector2(Mathf.Clamp(local.x,-panel.rect.width*.35f,panel.rect.width*.35f),Mathf.Sign(y)*(panel.rect.height*.5f+10));
+                speechTailRect.localRotation=Quaternion.Euler(0,0,y>0?180:0);
+            }
         }
 
         public void LayoutThought(bool observation)

@@ -149,8 +149,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 else
                 {
                     var threshold=new Vector3(0,ThirdFloorHeight,-4.2f);
-                    MoveRig(ElevatorOpeningSequence.WalkPath(gymStart,threshold,lobby,t,.4f,7.1f));
-                    ApplyOpeningView(ElevatorOpeningSequence.ViewYaw(gymStart,threshold,lobby,t,.4f,7.1f,false));
+                    MoveRig(ElevatorOpeningSequence.WalkPath(gymStart,threshold,lobby,t,ElevatorOpeningSequence.PlayerWalkBegins,ElevatorOpeningSequence.PlayerWalkFinishes));
+                    ApplyOpeningView(ElevatorOpeningSequence.ViewYaw(gymStart,threshold,lobby,t,ElevatorOpeningSequence.PlayerWalkBegins,ElevatorOpeningSequence.PlayerWalkFinishes,false));
                 }
             }
             else if(f.Step==ElevatorStep.Entering)

@@ -11,7 +11,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public const float HorizontalLimit = 38, VerticalLimit = 26;
         public const float GuideWidth = 340, StatusWidth = 340, CaptionWidth = 1000;
         public const float GuideYaw = 21, GuidePitch = 14, StatusYaw = 20, StatusPitch = -10, CaptionPitch = -28;
-        public const float LetterboxHeight = 123;
+        public const float LetterboxHeight = 200;
         public const float Separation = 16;
 
         public static Vector2 AnglePoint(float yaw, float pitch) =>

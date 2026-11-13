@@ -1,14 +1,19 @@
-PASS: Recorded/canted/narrow/asymmetric eyes: actual subtitle text and bounds
-PASS: Symmetrical half-height bars and animated subtitle containment
+PASS: Letterbox geometry preserved / no legacy text across 125 inputs
+PASS: Symmetrical 200-point bars / animation / no subtitle ownership
 PASS: Actual VR tutorial reflow / angular position / width
-PASS: Actual status reflow / measured subtitle separation
-PASS: Actual dialogue + choices / world-fixed pose across subtitle and gaze changes
-PASS: Authored friend / door / rescue / landing / ground anchors
+PASS: Actual status reflow without obsolete subtitle exclusion
+PASS: Source bubble text + choices / legacy caption cannot duplicate or move it
+PASS: Friend / intercom / phone / both rescuers: source following, not gaze following
 PASS: Rescue world-card ownership, ready-to-exit and PC policy
 PASS: VR scale independent of monitor FOV; PC layout retained
 PASS: Floor/device spawn, tracked readiness and authored facing reset
 PASS: Turned lobby PC arrival resets heading / preserves height / gates startup
-PASS: Stereo geometry cache invalidation and subtitle measurement reuse
-COUNTS: 125 subtitle, 40 tutorial, 65 status, 10 dialogue/choice layouts; 25 authored-region anchor checks.
-MEASURED: guide max text-centre elevation=17.76deg; lowest subtitle centre=-41.54deg; Quest guide/common width=26.0 %; Quest status/common width=26.0 %; worst tested guide/status width=36.8 %/36.8 %.
+PASS: Stereo geometry cache invalidation
+PASS: Goal uses dialogue-only gaze and reversible one-second fade
+PASS: Player departure shifts exactly 0.2s, including XR comfort fade
+PASS: Legacy region helper retained for older callers
+PASS: Cinematic speech visible in source bubbles / narration and timed expiry
+PASS: Bubble tail points at its source without intercepting input
+COUNTS: 125 legacy-caption suppression, 40 tutorial, 65 status, 10 dialogue/choice layouts; 25 actor/emitter anchor checks.
+MEASURED: guide max text-centre elevation=17.76deg; Quest guide/common width=26.0 %; Quest status/common width=26.0 %; worst tested guide/status width=36.8 %/36.8 %.
 NOT TESTED: headset optics/distortion, user comfort, raster screenshots, or full story playback. Geometry uses recorded Quest frusta and actual runtime UI/TMP text layout.

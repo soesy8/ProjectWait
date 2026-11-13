@@ -19,7 +19,7 @@ if($EditorTests){
 }else{
     $name=if($Plugin){'VRComfortRuntime.dll'}else{'Assembly-CSharp.dll'}
     $lines+='-out:"'+(Join-Path $output $name)+'"'
-    foreach($name in @('StereoUISafeArea.cs','VRUIReadingLayout.cs','VRDialogueWorldAnchors.cs','ElevatorSpawnPlacement.cs')){
+    foreach($name in @('StereoUISafeArea.cs','VRUIReadingLayout.cs','VRDialogueWorldAnchors.cs','ElevatorSpawnPlacement.cs','ElevatorSpeechAnchor.cs','ElevatorPlayerSpeechPanel.cs')){
         if(!($lines -match [regex]::Escape($name))){$lines+='"Assets/M/Scripts/DialoguePreview/'+$name+'"'}
     }
     foreach($name in @('TitleControllerPose.cs')){
