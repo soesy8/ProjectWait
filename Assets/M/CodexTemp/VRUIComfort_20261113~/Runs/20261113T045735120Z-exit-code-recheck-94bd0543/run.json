@@ -1,0 +1,10 @@
+{
+    "startedUtc":  "2026-11-13T04:57:35.1200110Z",
+    "finishedUtc":  "2026-11-13T04:57:47.6331908Z",
+    "unityExitCode":  0,
+    "passed":  true,
+    "runtimeSHA256":  "BC4D8706EF4D31DB90B2CFE8EF59382CBF560C788593A1AA274815F8EAD93409",
+    "testSHA256":  "0A19C207EF4242812830BA6E4978A4110105660007736B2331B173D779E38EEA",
+    "log":  "D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\VRUIComfort_20261113~\\Runs\\20261113T045735120Z-exit-code-recheck-94bd0543\\harness-editor.log",
+    "result":  "D:\\project\\ProjectWait\\Assets\\M\\CodexTemp\\VRUIComfort_20261113~\\Runs\\20261113T045735120Z-exit-code-recheck-94bd0543\\validation.txt"
+}

@@ -45,6 +45,13 @@
 
 결과: `Assets/M/CodexTemp/VRUIComfort_20261113~/validation.txt`, `VRImprovement_20261113~/harness-validation.txt`, `VRIntegration_20261113~/scene-contracts.txt`.
 
+### 지연된 실패 알림 후 종료 코드 재확인
+
+- 이전 백그라운드 실행의 종료 코드 `1` 알림이 작업 완료 후 도착했다. 기존 스크립트는 공용 결과 파일을 재사용하므로, 이후 실행이 해당 파일을 덮으면 이전 종료 코드와 새 PASS 목록이 함께 표시될 수 있었다. 이전 실행의 원본 로그는 이미 덮였으므로 소급 성공 처리하지 않는다.
+- 검증 스크립트에 실행별 고유 로그/결과/소스·DLL 해시/종료 코드 기록과 동시 실행 방지 mutex를 추가했다. 게임 구현은 이 후속 확인에서 변경하지 않았다.
+- 2026-11-13 04:57:35–04:57:47 UTC 독립 재실행: **11개 그룹 통과, Unity 종료 코드 0, 셸 종료 정상**. Unity 로그에도 `Application will terminate with return code 0`이 기록됐다.
+- 보존 기록: `Assets/M/CodexTemp/VRUIComfort_20261113~/Runs/20261113T045735120Z-exit-code-recheck-94bd0543/run.json` 및 같은 폴더의 `harness-editor.log`, `validation.txt`.
+
 ### 미검증/다음 기기 확인
 
 - 실제 Quest Link로 이번 변경을 실행하지 않았다. HMD 착용/Link 준비를 확인한 뒤 실행해야 한다.
