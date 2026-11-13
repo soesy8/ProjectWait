@@ -1,0 +1,6 @@
+PASS: Elevator scene differs only in saved Camera Offset Y and initial eye Y; gym spawn, floor coordinates and deferred test objects are preserved.
+PASS: Deferred preview/test/developer binding and story-flow/dialogue implementations are unchanged.
+PASS: Both goal-card gaze/visibility policy expressions remain unchanged.
+PASS: Left prefab: all 12 objects / 9 meshes, materials, local transforms and references match elevator; no behavior/collision dependencies.
+PASS: Right prefab: all 12 objects / 9 meshes, materials, local transforms and references match elevator; no behavior/collision dependencies.
+PASS: Lobby references the two M-owned controller prefabs with fresh unique GUIDs.

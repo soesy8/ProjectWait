@@ -1,0 +1,39 @@
+2026-11-13T12:36:00.5335082+09:00
+XR active=True device=OpenXR Display appFocus=True update=BeforeRender
+DEVICE /MetaAimHand layout=MetaAimHand usages=LeftHand added=True enabled=True
+ isTracked=0
+ trackingState=0
+ devicePosition=(0.00, 0.00, 0.00)
+ deviceRotation=(0.00000, 0.00000, 0.00000, 0.00000)
+DEVICE /MetaAimHand1 layout=MetaAimHand usages=RightHand added=True enabled=True
+ isTracked=0
+ trackingState=0
+ devicePosition=(0.00, 0.00, 0.00)
+ deviceRotation=(0.00000, 0.00000, 0.00000, 0.00000)
+DEVICE /HeadTrackingOpenXR layout=XRInputV1::OpenXR::HeadTrackingOpenXR usages= added=True enabled=True
+ isTracked=1
+ trackingState=3
+ devicePosition=(0.08, 1.25, -0.08)
+ deviceRotation=(0.00966, 0.00410, -0.01201, 0.99987)
+DEVICE /OculusTouchControllerOpenXR layout=XRInputV1::Oculus::OculusTouchControllerOpenXR usages=LeftHand added=True enabled=True
+ pointer=/OculusTouchControllerOpenXR/pointer tracked=False flags=Position, Rotation, Velocity, AngularVelocity p=(-0.02, 1.00, 0.35) q=(0.02210, -0.05821, 0.08292, -0.99461)
+ pointer child tracked=0.003921569 pressed=False flags=15 format=BIT  bits=8
+ isTracked=1
+ trackingState=15
+ devicePosition=(-0.03, 0.97, 0.28)
+ deviceRotation=(0.52276, -0.01319, 0.01612, -0.85222)
+ pointerPosition=(-0.02, 1.00, 0.35)
+ pointerRotation=(0.02210, -0.05821, 0.08292, -0.99461)
+ triggerPressed=0
+ trigger=0
+DEVICE /OculusTouchControllerOpenXR1 layout=XRInputV1::Oculus::OculusTouchControllerOpenXR usages=RightHand added=True enabled=True
+ pointer=/OculusTouchControllerOpenXR1/pointer tracked=False flags=Position, Rotation, Velocity, AngularVelocity p=(0.22, 1.00, 0.32) q=(0.00670, -0.06906, 0.02877, 0.99718)
+ pointer child tracked=0.003921569 pressed=False flags=15 format=BIT  bits=8
+ isTracked=1
+ trackingState=15
+ devicePosition=(0.22, 0.97, 0.25)
+ deviceRotation=(-0.49467, 0.00552, -0.03373, 0.86841)
+ pointerPosition=(0.22, 1.00, 0.32)
+ pointerRotation=(0.00670, -0.06906, 0.02877, 0.99718)
+ triggerPressed=0
+ trigger=0

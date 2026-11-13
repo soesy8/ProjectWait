@@ -20,6 +20,22 @@ namespace ProjectWait.M.Elevator.DialoguePreview
 
         public static bool Project(Camera camera, Bounds bounds, out Rect rect)
         {
+            if(UnityEngine.XR.XRSettings.isDeviceActive)
+            {
+                rect=default;
+                if(!StereoUISafeArea.TryCapture(camera,out var frame))return false;
+                Vector2 stereoMin=Vector2.one*float.MaxValue,stereoMax=Vector2.one*float.MinValue;
+                int count=0;
+                for(int i=0;i<8;i++)for(int eye=0;eye<2;eye++)
+                {
+                    var corner=bounds.center+Vector3.Scale(bounds.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));
+                    if(!frame.Project(corner,eye,out var p))continue;
+                    stereoMin=Vector2.Min(stereoMin,p);stereoMax=Vector2.Max(stereoMax,p);count++;
+                }
+                if(count==0||stereoMax.x<0||stereoMin.x>1||stereoMax.y<0||stereoMin.y>1)return false;
+                rect=Rect.MinMaxRect(stereoMin.x-.012f,stereoMin.y-.012f,stereoMax.x+.012f,stereoMax.y+.012f);
+                return true;
+            }
             Vector2 min=Vector2.one*float.MaxValue,max=Vector2.one*float.MinValue;
             int visible=0;
             for(int i=0;i<8;i++)

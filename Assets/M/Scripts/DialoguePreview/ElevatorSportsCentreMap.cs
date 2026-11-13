@@ -87,6 +87,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             horizontal.y=0;space.playerRig.position-=horizontal;
             if(enabledController)controller.enabled=true;
             if(movement)movement.ResetVerticalMotion();
+            if(resetHeading&&controls)controls.RequestAuthoredSpawn(p,heading);
             Lesson.view.Reanchor(Lesson.playerCamera.transform.position);
         }
         public void Apply()

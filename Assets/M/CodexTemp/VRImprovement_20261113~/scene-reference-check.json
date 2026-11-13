@@ -1,0 +1,54 @@
+{
+    "globalTypographyDialogueFlowAndElevatorScene":  "unchanged",
+    "note":  "Static YAML/GUID checks only; not a runtime scene or headset test.",
+    "checks":  [
+                   {
+                       "fileID":  "50331621",
+                       "component":  "TitlePlazaPlayer",
+                       "scene":  "Wait_Robby",
+                       "references":  "resolved"
+                   },
+                   {
+                       "fileID":  "973428238",
+                       "component":  "TitlePortal",
+                       "scene":  "Wait_Robby",
+                       "references":  "resolved"
+                   },
+                   {
+                       "fileID":  "715927618",
+                       "component":  "TitlePortal",
+                       "scene":  "Wait_Robby",
+                       "references":  "resolved"
+                   },
+                   {
+                       "fileID":  "975704801",
+                       "component":  "TitlePortal",
+                       "scene":  "Wait_Robby",
+                       "references":  "resolved"
+                   },
+                   {
+                       "fileID":  "451732873",
+                       "component":  "ElevatorView",
+                       "scene":  "Wait_Elevator",
+                       "references":  "resolved"
+                   },
+                   {
+                       "fileID":  "451732879",
+                       "component":  "ElevatorSpatialUI",
+                       "scene":  "Wait_Elevator",
+                       "references":  "resolved"
+                   },
+                   {
+                       "fileID":  "26820788",
+                       "component":  "ElevatorCinematicOverlay",
+                       "scene":  "Wait_Elevator",
+                       "references":  "resolved"
+                   },
+                   {
+                       "fileID":  "137315003",
+                       "component":  "ElevatorTutorialPreview",
+                       "scene":  "Wait_Elevator",
+                       "references":  "resolved"
+                   }
+               ]
+}

@@ -14,12 +14,13 @@ namespace ProjectWait.M.TitleScene
         public TMP_Text messageText;
         public Canvas desktopHints;
         public LineRenderer controllerRay;
+        public GameObject leftControllerVisual,rightControllerVisual;
         public Vector2 walkMin = new Vector2(-4.8f, -2.9f);
         public Vector2 walkMax = new Vector2(4.8f, .9f);
         public float eyeHeight = 1.35f;
         public float speed = 1.65f;
         public float lookSensitivity = .105f;
-        public float interactionDistance = 3f;
+        public float interactionDistance = 8f;
         public bool IsVR { get; private set; }
         public int TickedFrames { get; private set; }
         public string HoveredExperience => hovered ? hovered.experienceTitle : "";
@@ -29,17 +30,29 @@ namespace ProjectWait.M.TitleScene
         public string LastMessage { get; private set; } = "";
         TitlePortal hovered;
         Vector3 safeHead;
-        bool hasSafeHead, oldTrigger, skipMouse = true, started;
+        bool hasSafeHead, oldTrigger, skipMouse = true, modeConfigured;
         bool transitionHudHidden, hintsBeforeTransition, rayBeforeTransition;
         float yaw, pitch, verticalSpeed, messageUntil, turnCooldown;
         readonly RaycastHit[] headHits = new RaycastHit[16];
         readonly List<XRInputSubsystem> inputSubsystems = new List<XRInputSubsystem>();
+        InputAction aimPose, selectTrigger;
+        bool hadValidAim;
+        TitleLobbyControllerVisuals controllerVisuals;
 
         void Awake() { Controller = GetComponent<CharacterController>(); }
-        void OnEnable() { Application.onBeforeRender += ApplyTrackedHead; }
+        void OnEnable()
+        {
+            Application.onBeforeRender += ApplyTrackedHead;
+            // OpenXR's pointer pose is /input/aim/pose, not /input/grip/pose.
+            aimPose = new InputAction("LobbyRightAim", InputActionType.Value, "<XRController>{RightHand}/pointer", expectedControlType: "Pose");
+            selectTrigger = new InputAction("LobbySelect", InputActionType.Button, "<XRController>{RightHand}/triggerPressed");
+            selectTrigger.AddBinding("<XRController>{RightHand}/trigger");
+            aimPose.Enable(); selectTrigger.Enable();
+            hadValidAim = oldTrigger = false;
+            modeConfigured = false;
+        }
         void Start()
         {
-            started = true;
             yaw = transform.eulerAngles.y;
             RefreshMode();
             if (!IsVR) SetMouseLock(true);
@@ -47,9 +60,13 @@ namespace ProjectWait.M.TitleScene
         void RefreshMode()
         {
             bool vr = XRSettings.isDeviceActive && (XRSettings.loadedDeviceName ?? "").IndexOf("mock", System.StringComparison.OrdinalIgnoreCase) < 0;
-            if (started && vr == IsVR && viewCamera.stereoTargetEye == (vr ? StereoTargetEyeMask.Both : StereoTargetEyeMask.None)) return;
+            if (modeConfigured && vr == IsVR) return;
+            modeConfigured = true;
             IsVR = vr;
-            viewCamera.stereoTargetEye = vr ? StereoTargetEyeMask.Both : StereoTargetEyeMask.None;
+            hadValidAim = oldTrigger = false;
+            // URP owns stereo rendering. Its legacy camera property is not a reliable mode latch.
+            if (UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline == null)
+                viewCamera.stereoTargetEye = vr ? StereoTargetEyeMask.Both : StereoTargetEyeMask.None;
             if (desktopHints) desktopHints.gameObject.SetActive(!vr);
             if (controllerRay) controllerRay.gameObject.SetActive(vr);
             if (!vr)
@@ -59,11 +76,13 @@ namespace ProjectWait.M.TitleScene
             }
             else
             {
+                if (controllerVisuals == null) controllerVisuals = new TitleLobbyControllerVisuals(transform,controllerRay,leftControllerVisual,rightControllerVisual,aimPose);
                 SetMouseLock(false);
                 SubsystemManager.GetSubsystems(inputSubsystems);
                 foreach (var subsystem in inputSubsystems) if (subsystem.running) subsystem.TrySetTrackingOriginMode(TrackingOriginModeFlags.Floor);
             }
             hasSafeHead = false;
+            controllerVisuals?.Update(vr && !transitionHudHidden);
         }
         void Update()
         {
@@ -101,6 +120,8 @@ namespace ProjectWait.M.TitleScene
             if (StorybookSceneTransition.IsBusy)
             {
                 if (hovered) { hovered.SetHovered(false); hovered = null; }
+                hadValidAim = false;
+                oldTrigger = selectTrigger != null && selectTrigger.IsPressed();
                 // Gaze, tracked head and snap turns above stay live. Only walking/selecting stop.
                 return;
             }
@@ -159,6 +180,7 @@ namespace ProjectWait.M.TitleScene
         void ApplyTrackedHead()
         {
             if (!IsVR || !viewCamera) return;
+            controllerVisuals?.Update(!transitionHudHidden);
             var head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
             if (head.TryGetFeatureValue(UnityEngine.XR.CommonUsages.devicePosition, out Vector3 p))
             { if (p.y < .4f) p.y += eyeHeight; viewCamera.transform.localPosition = p; }
@@ -188,23 +210,41 @@ namespace ProjectWait.M.TitleScene
             bool pressed = false;
             if (IsVR)
             {
-                var right = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
-                if (right.TryGetFeatureValue(UnityEngine.XR.CommonUsages.devicePosition, out Vector3 p) && right.TryGetFeatureValue(UnityEngine.XR.CommonUsages.deviceRotation, out Quaternion r))
-                    ray = new Ray(transform.TransformPoint(p), transform.TransformDirection(r * Vector3.forward));
-                right.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out bool trigger);
-                pressed = trigger && !oldTrigger; oldTrigger = trigger;
+                bool trigger = selectTrigger != null && selectTrigger.IsPressed();
+                bool valid = TryGetAimRay(out ray);
+                if (controllerRay) controllerRay.enabled = valid && !transitionHudHidden;
+                if (!valid)
+                {
+                    controllerVisuals?.ShowPointer(default, false, false);
+                    if (hovered) hovered.SetHovered(false);
+                    hovered = null; hadValidAim = false; oldTrigger = trigger;
+                    return; // Never fall back to the head/grip or keep a stale hover.
+                }
+                pressed = hadValidAim && trigger && !oldTrigger;
+                hadValidAim = true; oldTrigger = trigger;
             }
             else if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
             {
                 if (Cursor.lockState != CursorLockMode.Locked) SetMouseLock(true); else pressed = true;
             }
-            TitlePortal target = null;
-            var end = ray.GetPoint(interactionDistance);
-            if (Physics.Raycast(ray, out var hit, interactionDistance, ~0, QueryTriggerInteraction.Ignore))
-            { target = hit.collider.GetComponentInParent<TitlePortal>(); end = hit.point; }
+            var target = TraceInteraction(ray, out var end);
             if (target != hovered) { if (hovered) hovered.SetHovered(false); hovered = target; if (hovered) hovered.SetHovered(true); }
             if (controllerRay && IsVR) { controllerRay.SetPosition(0, ray.origin); controllerRay.SetPosition(1, end); }
+            if (IsVR) controllerVisuals?.ShowPointer(end, true, target != null);
             if (pressed && hovered) hovered.Activate();
+        }
+        public TitlePortal TraceInteraction(Ray ray, out Vector3 end)
+        {
+            end = ray.GetPoint(interactionDistance);
+            if (!Physics.Raycast(ray, out var hit, interactionDistance, ~0, QueryTriggerInteraction.Ignore)) return null;
+            end = hit.point;
+            return hit.collider.GetComponentInParent<TitlePortal>();
+        }
+        public bool TryGetAimRay(out Ray ray)
+        {
+            ray = default;
+            if(!TitleControllerPose.TryRead(aimPose,out var p,out var q))return false;
+            ray=new Ray(transform.TransformPoint(p),transform.TransformDirection(q*Vector3.forward));return true;
         }
         public void ShowMessage(string message)
         { LastMessage = message; messageUntil = Time.unscaledTime + 3; if (messageText) messageText.text = message; }
@@ -220,6 +260,7 @@ namespace ProjectWait.M.TitleScene
                 rayBeforeTransition = controllerRay && controllerRay.enabled;
                 if (desktopHints) desktopHints.enabled = false;
                 if (controllerRay) controllerRay.enabled = false;
+                controllerVisuals?.Update(false);
             }
             else
             {
@@ -228,6 +269,13 @@ namespace ProjectWait.M.TitleScene
             }
         }
         void OnDisable()
-        { Application.onBeforeRender -= ApplyTrackedHead; SetTransitionHudHidden(false); if (hovered) hovered.SetHovered(false); SetMouseLock(false); }
+        {
+            Application.onBeforeRender -= ApplyTrackedHead;
+            aimPose?.Dispose(); selectTrigger?.Dispose(); aimPose = selectTrigger = null;
+            controllerVisuals?.Dispose(); controllerVisuals = null; modeConfigured = false;
+            hadValidAim = oldTrigger = false;
+            SetTransitionHudHidden(false); if (controllerRay) controllerRay.enabled = false;
+            if (hovered) hovered.SetHovered(false); hovered = null; SetMouseLock(false);
+        }
     }
 }

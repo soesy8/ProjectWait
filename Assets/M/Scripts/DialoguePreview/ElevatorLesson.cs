@@ -27,15 +27,18 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public string Thought { get; private set; } = "";
         public int Floor { get; private set; } = 3;
         public int RunVersion { get; private set; }
-        public bool CinematicBlocking => ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy||IsPaused||Flow!=null&&Flow.IsCinematic||presentation&&presentation.space&&presentation.space.overlay&&presentation.space.overlay.Blocking;
+        public bool CinematicBlocking => !SpawnReady||ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy||IsPaused||Flow!=null&&Flow.IsCinematic||presentation&&presentation.space&&presentation.space.overlay&&presentation.space.overlay.Blocking;
         Vector3 friendHome;
         int renderedRevision = -1;
         bool previousMoving;
         GameObject cabin;
         ElevatorClue? activeClue;
+        ElevatorDesktopControls controls;
+        public bool SpawnReady=>!controls||controls.SpawnReady;
 
         void Awake()
         {
+            controls=FindFirstObjectByType<ElevatorDesktopControls>();
             friendHome = presentation&&presentation.space?presentation.space.friendInside:friend.localPosition;
             cabin = transform.Find("Cabin").gameObject;
             Flow = new ElevatorFlow(settings, presentation && presentation.space && presentation.space.sportsCentre) { NoResponse = simulateNoResponse };
@@ -51,7 +54,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         void Update() { Advance(Time.unscaledDeltaTime); }
         public void Advance(float delta)
         {
-            if(IsPaused||Flow==null||delta>0&&ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy)return;
+            if(IsPaused||Flow==null||delta>0&&(!SpawnReady||ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy))return;
             Flow.NoResponse = simulateNoResponse;
             var previousStep=Flow.Step;var previousPhase=Flow.Phase;
             int previousRevision=Flow.Revision,previousHint=Flow.HintLevel;

@@ -1,0 +1,5 @@
+# Keep tools and text results, not the isolated Unity project's generated data.
+/Harness/
+/editor-api/
+/player-api/
+/editor-tests/

@@ -90,6 +90,7 @@ namespace ProjectWait.M.SceneTransition
             EnsureView();
             View.BeginPanel(); View.BindCamera(activeFade.viewCamera); View.SetSky(RenderSettings.skybox);
             View.SetContent(previewTitle,previewContext);
+            arrivingControls=FindControls(View.ViewCamera);
             standaloneArrival = true; IsPreview = false; sceneReady = arrivalPoseApplied = true;
             Elapsed = PhaseSeconds = 0; previousTick = Time.realtimeSinceStartupAsDouble;
             activationFrame = Time.frameCount; Phase = TransitionPhase.Activating;
@@ -218,7 +219,7 @@ namespace ProjectWait.M.SceneTransition
                     }
                     break;
                 case TransitionPhase.Activating:
-                    if (sceneReady && arrivalPoseApplied && (operation == null || operation.isDone) && Time.frameCount >= activationFrame + 2 && View.ViewCamera && (!standaloneArrival || PhaseSeconds >= minimumHoldSeconds))
+                    if (sceneReady && arrivalPoseApplied && (!arrivingControls || arrivingControls.SpawnReady) && (operation == null || operation.isDone) && Time.frameCount >= activationFrame + 2 && View.ViewCamera && (!standaloneArrival || PhaseSeconds >= minimumHoldSeconds))
                     {
                         if (activeFade)
                         {
@@ -279,11 +280,11 @@ namespace ProjectWait.M.SceneTransition
             sceneReady = true;
             activationFrame = Time.frameCount;
             View.BindCamera(Camera.main);
-            // Awake/presentation has placed the destination head at its authored spawn.
-            // Save that footprint before Start/tracking changes the local room-scale offset.
-            arrivalFootprint = View.ViewCamera ? View.ViewCamera.transform.position : Vector3.zero;
             arrivingPlayer = View.ViewCamera ? View.ViewCamera.GetComponentInParent<TitlePlazaPlayer>() : null;
             arrivingControls = FindControls(View.ViewCamera);
+            // Use the authored feet, never an uninitialized tracked eye's saved offset.
+            arrivalFootprint = arrivingControls&&arrivingControls.movement?arrivingControls.movement.FeetPosition:
+                View.ViewCamera?View.ViewCamera.transform.position:Vector3.zero;
             arrivalPoseApplied = !hasHeadPose;
         }
 
@@ -327,7 +328,7 @@ namespace ProjectWait.M.SceneTransition
                 if (!tracked) return;
             }
             if (arrivingPlayer) arrivingPlayer.ApplyTransitionHeadPose(headPose, arrivalFootprint);
-            else if (arrivingControls) arrivingControls.ApplyTransitionHeadPose(headPose, arrivalFootprint);
+            else if (arrivingControls&&!arrivingControls.TryApplyTransitionHeadPose(headPose, arrivalFootprint)) return;
             View.BindCamera(View.ViewCamera);
             arrivalPoseApplied = true;
         }

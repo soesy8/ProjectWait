@@ -163,7 +163,9 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             feedback.Configure(button, image.rectTransform, label ? label.rectTransform : null);
         }
 
-        public void LayoutWorld()
+        public void LayoutWorld() => LayoutWorld(UnityEngine.XR.XRSettings.isDeviceActive);
+
+        public void LayoutWorld(bool vr)
         {
             if (!view || !view.spatial || !dialogueFrame) return;
             var spatial = view.spatial;
@@ -171,7 +173,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             bool friend = spatial.speaker.text == "친구";
             bool call = spatial.speaker.text.Contains("관리실") || spatial.speaker.text.Contains("119");
             var tag = Artwork(spatial.speakerTab, call ? thoughtRibbon : speakerRibbon, false);
-            float tagWidth = Mathf.Clamp(spatial.speaker.GetPreferredValues().x + 54, 132, 292);
+            float tagWidth = Mathf.Clamp(spatial.speaker.GetPreferredValues().x + 54, 132, vr?panel.rect.width-60:292);
             spatial.speakerTab.sizeDelta = new Vector2(tagWidth, 58);
             spatial.speakerTab.anchoredPosition = new Vector2(-panel.rect.width * .5f + (friend ? 88 : 30) + tagWidth * .5f, panel.rect.height * .5f - 1);
             spatial.speaker.rectTransform.sizeDelta = new Vector2(tagWidth - 42, 46);
@@ -218,6 +220,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             var panel = view.thoughtPanel;
             var spatial = view.spatial;
             float width = observation ? 320 : 360;
+            if(UnityEngine.XR.XRSettings.isDeviceActive)width=Mathf.Min(width,VRUIReadingLayout.StatusWidth);
             float textWidth = width * (observation ? .76f : .68f);
             Readable(view.thought, Ink, ElevatorTypography.ThoughtSize, true);
             float body = Mathf.Max(56, view.thought.GetPreferredValues(view.thought.text, textWidth, 0).y + 10);

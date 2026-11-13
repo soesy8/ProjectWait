@@ -1,0 +1,19 @@
+UTC: 2026-11-13T04:42:56.7184862Z
+  safe=(x:-610.56, y:-630.74, width:1221.12, height:1261.48), coverage=(x:-743.04, y:-720.00, width:1486.08, height:1440.00), scale=0.9
+PASS: Symmetric binocular safe area
+  safe=(x:-498.24, y:-613.59, width:996.48, height:1227.19), coverage=(x:-855.36, y:-720.00, width:1710.72, height:1440.00), scale=0.9
+PASS: Asymmetric binocular safe area
+  safe=(x:-494.07, y:-591.53, width:988.14, height:1183.06), coverage=(x:-777.74, y:-783.04, width:1555.47, height:1566.07), scale=0.9
+PASS: Canted-eye conservative safe area
+  recorded frusta at 0.45m: safe=(x:-247.70, y:-319.67, width:495.41, height:613.97), UI scale=0.9
+  recorded frusta at 0.75m: safe=(x:-256.60, y:-321.25, width:513.20, height:617.12), UI scale=0.9
+  recorded frusta at 1.00m: safe=(x:-259.94, y:-321.81, width:519.87, height:618.25), UI scale=0.9
+PASS: Recorded Quest frusta / guide / status / black-band coverage
+PASS: Tilted/behind/near/far rejection
+  aim diagnostic: enabled=True, added=True, controls=1, active=/M_LobbyAimValidation/pointer, phase=Started, direct tracked=True, direct state=Position, Rotation, action tracked=True, action state=Position, Rotation, q=(0.15211, 0.23057, -0.03652, 0.96040), update=Dynamic
+  pose layout: parent=64, tracked=64:0:BIT , child tracked=1, flags=68
+  PASS: controller Aim/model basis, local axis correction, mirrored right hand, tracking loss/recovery and transition hiding
+PASS: Aim binding / tracking-loss / held-trigger recovery
+PASS: 8m range / nearest obstruction / ray endpoint
+HARNESS: production safe-area/lobby source; scene-transition collaborators are inert test doubles. Scene wiring and desktop overlay are not exercised here.
+NOT TESTED: native headset rendering, lens distortion, Korean readability/comfort, full story playthrough.

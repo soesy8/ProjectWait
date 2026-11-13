@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.XR;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit.UI;
 using ProjectWait.M.SceneTransition;
+using Unity.XR.CoreUtils;
 
 namespace ProjectWait.M.Elevator.DialoguePreview
 {
@@ -38,6 +39,15 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         readonly List<XRInputSubsystem> inputSubsystems=new List<XRInputSubsystem>();
         readonly List<XRInputSubsystem> currentSubsystems=new List<XRInputSubsystem>();
         bool calibrationMenuShown;
+        XROrigin originComponent;
+        CharacterController capsule;
+        Vector3 spawnFootprint;
+        float spawnHeading;
+        int spawnFrame;
+        bool spawnPending;
+        // A disabled controls component does not own pose setup (e.g. the existing
+        // opt-in preview adapter). Do not stall that separate owner's lesson.
+        public bool SpawnReady=>!isActiveAndEnabled||!spawnPending;
         bool previousPresenceKnown,previousPresence;
         public bool XRHeightReady=>IsDesktop||heightCalibration.Calibrated;
         public bool XRCalibrationPending=>!IsDesktop&&heightCalibration.Pending;
@@ -48,6 +58,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         static readonly Color Idle=new Color(.85f,.94f,1),Target=new Color(.35f,.86f,1),OutOfRange=new Color(1,.70f,.28f);
         void OnEnable()
         {
+            Application.onBeforeRender+=CompleteAuthoredSpawn;
             tint=new MaterialPropertyBlock();if(laserDot)dotRenderer=laserDot.GetComponent<Renderer>();
             uiModule=FindFirstObjectByType<XRUIInputModule>();
             choices=new InputAction[4];
@@ -75,7 +86,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 SetScriptedHeading(lesson.presentation&&lesson.presentation.space?lesson.presentation.space.DefaultHeading:0);
                 SetMouseLook(true);
             }
-            else{SetMouseLook(false);RequestXRHeightCalibration(false);}
+            else{SetMouseLook(false);RequestXRHeightCalibration(false);spawnPending=true;spawnFrame=Time.frameCount;}
+            if(desktop&&spawnPending){spawnPending=false;SetScriptedHeading(spawnHeading);}
             RefreshLaserVisibility();
         }
         void Update()
@@ -121,6 +133,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         void LateUpdate()
         {
             if(IsDesktop)return;
+            CompleteAuthoredSpawn();
+            if(spawnPending||StorybookSceneTransition.IsBusy)return;
             var device=UnityEngine.XR.InputDevices.GetDeviceAtXRNode(XRNode.CenterEye);
             bool tracked=device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.isTracked,out bool value)&&value;
             bool known=device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.userPresence,out bool present);
@@ -154,21 +168,74 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             return true;
         }
         public string XRHeightStatus=>previousPresenceKnown&&!previousPresence?"헤드셋을 착용해 주세요.":XRCalibrationPending?"편한 자세로\n잠시 가만히 있어 주세요.":"눈높이를 맞췄어요.";
-        public void ApplyTransitionHeadPose(SceneTransitionHeadPose pose, Vector3 footprint)
+        public void RequestAuthoredSpawn(Vector3 footprint,float heading)
         {
-            if(!pose.IsValid||!targetCamera||!xrOrigin)return;
+            spawnFootprint=footprint;spawnHeading=heading;spawnFrame=Time.frameCount;
+            spawnPending=XRSettings.isDeviceActive;
+            if(!spawnPending&&initialized)SetScriptedHeading(heading);
+        }
+        bool TrackingReady(out bool floorTracking)
+        {
+            floorTracking=false;
+            if(!initialized||Time.frameCount<=spawnFrame||!targetCamera||!xrOrigin)return false;
+            if(!originComponent)originComponent=xrOrigin.GetComponent<XROrigin>();
+            if(!originComponent)return false;
+            var mode=originComponent.CurrentTrackingOriginMode;
+            floorTracking=mode==TrackingOriginModeFlags.Floor;
+            if(!floorTracking&&mode!=TrackingOriginModeFlags.Device)return false;
+            var device=UnityEngine.XR.InputDevices.GetDeviceAtXRNode(XRNode.CenterEye);
+            if(!device.isValid)device=UnityEngine.XR.InputDevices.GetDeviceAtXRNode(XRNode.Head);
+            if(!device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.isTracked,out bool tracked)||!tracked)return false;
+            const InputTrackingState required=InputTrackingState.Position|InputTrackingState.Rotation;
+            if(!device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.trackingState,out var state)||(state&required)!=required)return false;
+            // Native tracking can become valid before the pose driver has consumed it.
+            return device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.devicePosition,out var position)&&
+                device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.deviceRotation,out var rotation)&&
+                Vector3.Distance(targetCamera.transform.localPosition,position)<.05f&&
+                Quaternion.Angle(targetCamera.transform.localRotation,rotation)<3;
+        }
+        [BeforeRenderOrder(150)]
+        void CompleteAuthoredSpawn()
+        {
+            if(!spawnPending||!TrackingReady(out bool floorTracking))return;
+            ApplyTrackedSpawn(spawnFootprint,spawnHeading,floorTracking,eyeHeight);
+        }
+        bool ApplyTrackedSpawn(Vector3 footprint,float heading,bool floorTracking,float desiredHeight)
+        {
+            if(!capsule)capsule=xrOrigin.GetComponent<CharacterController>();
+            bool enabled=capsule&&capsule.enabled;if(enabled)capsule.enabled=false;
+            bool applied=ElevatorSpawnPlacement.TryApply(xrOrigin,targetCamera.transform,footprint,heading,true,true,floorTracking,desiredHeight,out var height);
+            if(applied)
+            {
+                eyeHeight=height;spawnPending=false;heightCalibration.AcceptTransferredHeight();
+                if(movement)movement.CalibrateFeet(footprint.y);
+            }
+            if(enabled)capsule.enabled=true;
+            if(applied&&lesson&&lesson.view)lesson.view.Reanchor(targetCamera.transform.position);
+            return applied;
+        }
+        public bool TryApplyTransitionHeadPose(SceneTransitionHeadPose pose,Vector3 footprint)
+        {
+            if(!pose.IsValid||!targetCamera||!xrOrigin)return false;
             RefreshMode();
+            float heading=lesson&&lesson.presentation&&lesson.presentation.space?lesson.presentation.space.DefaultHeading:0;
             float floor=lesson&&lesson.presentation&&lesson.presentation.space&&lesson.presentation.space.sportsCentre?
                 lesson.presentation.space.sportsCentre.CurrentFloorHeight:movement?movement.FeetPosition.y:xrOrigin.position.y;
+            footprint.y=floor;
+            if(!IsDesktop)
+                return TrackingReady(out bool floorTracking)&&ApplyTrackedSpawn(footprint,heading,floorTracking,pose.EyeHeight);
             var controller=xrOrigin.GetComponent<CharacterController>();bool enabled=controller&&controller.enabled;
             if(enabled)controller.enabled=false;
-            pose.Apply(xrOrigin,targetCamera.transform,floor,!IsDesktop,footprint);
-            eyeHeight=pose.EyeHeight;
-            if(IsDesktop){SetLookAngles(SceneTransitionHeadPose.Yaw(pose.EyeRotation),Mathf.DeltaAngle(0,pose.EyeRotation.eulerAngles.x));skipDelta=true;}
-            else heightCalibration.AcceptTransferredHeight();
+            xrOrigin.position+=new Vector3(footprint.x,floor+pose.EyeHeight,footprint.z)-targetCamera.transform.position;
+            eyeHeight=pose.EyeHeight;SetScriptedHeading(heading);spawnPending=false;
             if(movement)movement.CalibrateFeet(floor);
             if(enabled)controller.enabled=true;
             if(lesson&&lesson.view)lesson.view.Reanchor(targetCamera.transform.position);
+            return true;
+        }
+        public void ApplyTransitionHeadPose(SceneTransitionHeadPose pose, Vector3 footprint)
+        {
+            TryApplyTransitionHeadPose(pose,footprint);
         }
         public void SetMouseLook(bool active)
         {
@@ -264,6 +331,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         }
         void OnDisable()
         {
+            Application.onBeforeRender-=CompleteAuthoredSpawn;
             foreach(var subsystem in inputSubsystems)if(subsystem!=null)subsystem.trackingOriginUpdated-=TrackingOriginChanged;
             inputSubsystems.Clear();heightCalibration.Request();
             ClearTarget();if(choices!=null)foreach(var a in choices)a.Dispose();restartAction?.Dispose();developerAction?.Dispose();clickAction?.Dispose();

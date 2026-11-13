@@ -52,6 +52,9 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         TMP_Text title, instruction, markerLabel;
         ElevatorVRSelectGraphic inputIcon;
         bool contentXR;
+        bool stereoReady;
+        string vrTitle,vrInstruction;
+        public bool InstructionFits { get; private set; }
         Material textMaterial;
         int run = -1;
         bool placed;
@@ -65,6 +68,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
 
         void OnEnable()
         {
+            Application.onBeforeRender += PositionInstruction;
             Step = DisplayedStep = GuideStep.None;
             Target = null;
             Revealed = placed = false;
@@ -138,7 +142,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             float t = Mathf.SmoothStep(0, 1, fadeElapsed / Mathf.Max(.01f, fadeDuration));
             instructionGroup.alpha = Mathf.Lerp(fadeStart, fadeGoal, t);
             if (fadeElapsed >= fadeDuration) instructionGroup.alpha = fadeGoal;
-            instructionCanvas.enabled = InstructionAlpha > 0 || fadeGoal > 0;
+            instructionCanvas.enabled = (!XRSettings.isDeviceActive || stereoReady) && (InstructionAlpha > 0 || fadeGoal > 0);
         }
 
         void FadeTo(float goal)
@@ -178,11 +182,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             return collider ? collider.bounds.center : observation.transform.position;
         }
 
-        void SetContent(bool expanded)
+        void SetContent(bool expanded) => SetContent(expanded,XRSettings.isDeviceActive);
+
+        public void SetContent(bool expanded,bool vr)
         {
             DisplayedStep = Step;
             Expanded = expanded;
-            contentXR = XRSettings.isDeviceActive;
+            contentXR = vr;
             bool combined = Step == GuideStep.BoardingActions;
             title.text = combined ? "1층 선택 · 공 받기" : Step == GuideStep.CallLift ? "내려가는 버튼" : Step == GuideStep.ChooseFloor ? "1층 버튼" : "공 받기";
             string controls = contentXR ? "가리킨 뒤\n" + selectButtonName + "를\n눌러 주세요" : "화면 가운데에\n맞추고 클릭하세요";
@@ -194,6 +200,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             title.rectTransform.anchoredPosition = new Vector2(34, expanded ? 54 : 23);
             instruction.rectTransform.anchoredPosition = new Vector2(34, expanded ? -18 : -20);
             instruction.rectTransform.sizeDelta = new Vector2(combined ? 296 : 216, expanded ? 100 : 38);
+            if(contentXR)LayoutVRContent();
         }
 
         void UpdateMarker()
@@ -202,7 +209,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if (!placed) PlaceBesideTarget();
             marker.position = AnchorPosition(Target) + anchorOffset;
             FaceEyes();
-            markerCanvas.enabled = TargetInView() && TargetUnobstructed();
+            markerCanvas.enabled = (!XRSettings.isDeviceActive || stereoReady) && TargetInView() && TargetUnobstructed();
         }
 
         void PlaceBesideTarget()
@@ -212,6 +219,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             float distance = Vector3.Distance(anchor, camera.transform.position);
             float unit = 2 * distance * Mathf.Tan(camera.fieldOfView * .5f * Mathf.Deg2Rad) / 720 * visualScale;
             unit = Mathf.Min(unit, markerMaximumWorldWidth / MarkerWidth);
+            if (XRSettings.isDeviceActive) unit *= StereoUISafeArea.VisualScale;
             marker.localScale = Vector3.one * unit;
             var right = Vector3.ProjectOnPlane(camera.transform.right, Vector3.up).normalized;
             var towardEyes = (camera.transform.position - anchor).normalized * .07f;
@@ -226,7 +234,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             var spatial = lesson.view.spatial;
             if (spatial && lesson.view.dialoguePanel.gameObject.activeInHierarchy && lesson.view.GetComponent<CanvasGroup>().alpha > .1f)
                 obstacles.Add(Project(lesson.view.dialoguePanel));
-            if (spatial && spatial.mission.gameObject.activeInHierarchy) obstacles.Add(spatial.HudViewportRect);
+            if (spatial && spatial.mission.gameObject.activeInHierarchy) obstacles.Add(XRSettings.isDeviceActive?Project(spatial.mission):spatial.HudViewportRect);
             float best = float.PositiveInfinity;
             Vector3 bestOffset = offsets[0] + towardEyes;
             foreach (var offset in offsets)
@@ -248,6 +256,16 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             rect.GetWorldCorners(corners);
             Vector2 min = Vector2.one * float.MaxValue, max = Vector2.one * float.MinValue;
+            if(XRSettings.isDeviceActive)
+            {
+                if(!StereoUISafeArea.TryCapture(lesson.playerCamera,out var frame))return new Rect(-10,-10,0,0);
+                foreach(var corner in corners)for(int eye=0;eye<2;eye++)
+                {
+                    if(!frame.Project(corner,eye,out var p))return new Rect(-10,-10,0,0);
+                    min=Vector2.Min(min,p);max=Vector2.Max(max,p);
+                }
+                return Rect.MinMaxRect(min.x,min.y,max.x,max.y);
+            }
             foreach (var corner in corners)
             {
                 var p = lesson.playerCamera.WorldToViewportPoint(corner);
@@ -267,6 +285,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
 
         bool TargetInView()
         {
+            if(XRSettings.isDeviceActive)
+            {
+                if(!StereoUISafeArea.TryCapture(lesson.playerCamera,out var frame))return false;
+                marker.GetWorldCorners(corners);
+                foreach(var corner in corners)if(!frame.Contains(corner,.02f,.02f))return false;
+                return true;
+            }
             var p = lesson.playerCamera.WorldToViewportPoint(AnchorPosition(Target));
             return p.z > 0 && p.x > -.02f && p.x < 1.02f && p.y > -.02f && p.y < 1.02f;
         }
@@ -287,15 +312,62 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if (markerCanvas) markerCanvas.enabled = false;
         }
 
-        void OnDisable() { HideImmediately(); }
+        void OnDisable() { Application.onBeforeRender -= PositionInstruction; HideImmediately(); }
 
         void RefreshScreenMode()
         {
-            // Overlay is independent of desktop camera projection; Camera mode reaches XR eyes.
-            var mode = XRSettings.isDeviceActive ? RenderMode.ScreenSpaceCamera : RenderMode.ScreenSpaceOverlay;
+            var mode = XRSettings.isDeviceActive ? RenderMode.WorldSpace : RenderMode.ScreenSpaceOverlay;
             if (instructionCanvas.renderMode != mode) instructionCanvas.renderMode = mode;
             instructionCanvas.worldCamera = lesson.playerCamera;
             if (inputIcon) inputIcon.SetInputMode(XRSettings.isDeviceActive);
+            PositionInstruction();
+        }
+
+        void PositionInstruction()
+        {
+            if (!instructionCanvas || !instructionPanel || !lesson || !lesson.playerCamera) return;
+            bool xr = XRSettings.isDeviceActive;
+            instructionPanel.localScale = Vector3.one * (xr ? StereoUISafeArea.VisualScale : 1);
+            if (!xr) { instructionPanel.anchoredPosition = new Vector2(-24,-24); return; }
+            var camera = lesson.playerCamera;
+            var root = (RectTransform)instructionCanvas.transform;
+            VRUIReadingLayout.SetPlane(root,camera.transform);
+            if(!StereoUISafeArea.TryCapture(camera,out var frame)){stereoReady=false;instructionCanvas.enabled=false;return;}
+            LayoutVR(frame);
+        }
+
+        // Data-driven checks call this with the captured native eye matrices, without a live HMD.
+        public bool LayoutVR(StereoUISafeArea.Frame frame)
+        {
+            if(!instructionCanvas||!instructionPanel||!lesson||!lesson.playerCamera)return false;
+            var root=(RectTransform)instructionCanvas.transform;
+            VRUIReadingLayout.SetPlane(root,lesson.playerCamera.transform);
+            instructionPanel.localScale=Vector3.one*StereoUISafeArea.VisualScale;
+            if(vrTitle!=title.text||vrInstruction!=instruction.text)LayoutVRContent();
+            stereoReady=VRUIReadingLayout.Area(frame,root,out var area,out _);
+            InstructionFits=stereoReady&&VRUIReadingLayout.Place(instructionPanel,root,area,VRUIReadingLayout.GuideYaw,VRUIReadingLayout.GuidePitch,out _)&&
+                VRUIReadingLayout.Project(frame,instructionPanel,out _,true);
+            if(!InstructionFits){instructionCanvas.enabled=false;return false;}
+            instructionCanvas.enabled = InstructionAlpha > 0 || fadeGoal > 0;
+            return true;
+        }
+
+        void LayoutVRContent()
+        {
+            if(!instructionPanel||!title||!instruction||!inputIcon)return;
+            vrTitle=title.text;vrInstruction=instruction.text;
+            const float width=VRUIReadingLayout.GuideWidth;
+            const float textWidth=width-104;
+            // Reflow the title and instructions independently; preserve type size instead of fitting by shrink.
+            float titleHeight=Mathf.Max(34,title.GetPreferredValues(title.text,textWidth,0).y+4);
+            float bodyHeight=Mathf.Max(34,instruction.GetPreferredValues(instruction.text,textWidth,0).y+6);
+            float height=titleHeight+bodyHeight+36;
+            instructionPanel.sizeDelta=new Vector2(width,height);
+            ((RectTransform)inputIcon.transform.parent).anchoredPosition=new Vector2(-width*.5f+38,0);
+            title.rectTransform.sizeDelta=new Vector2(textWidth,titleHeight);
+            title.rectTransform.anchoredPosition=new Vector2(38,height*.5f-14-titleHeight*.5f);
+            instruction.rectTransform.sizeDelta=new Vector2(textWidth,bodyHeight);
+            instruction.rectTransform.anchoredPosition=new Vector2(38,-height*.5f+14+bodyHeight*.5f);
         }
 
         void BuildViews()

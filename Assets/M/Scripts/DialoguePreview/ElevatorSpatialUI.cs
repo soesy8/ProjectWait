@@ -6,7 +6,7 @@ using DwtD.TestScene;
 
 namespace ProjectWait.M.Elevator.DialoguePreview
 {
-    // World dialogue keeps its position, but faces the player's eye position.
+    // VR dialogue keeps its placement pose; PC captions retain their existing following behaviour.
     [RequireComponent(typeof(CanvasGroup))]
     public sealed class ElevatorSpatialUI : MonoBehaviour
     {
@@ -69,6 +69,18 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         Vector2 thoughtAnchor;
         bool worldPlacementReady;
         bool desktopCaptionFollowing;
+        bool layoutXR, stereoReady;
+        Rect hudReadingArea;
+        int subtitleLayoutVersion=-1;
+        public bool StatusFits { get; private set; }
+        public bool DialogueDeferredForSubtitle { get; private set; }
+        ElevatorCinematicOverlay Overlay => view&&view.lesson&&view.lesson.presentation&&view.lesson.presentation.space?view.lesson.presentation.space.overlay:null;
+        StereoUISafeArea.LayoutStamp stereoLayout;
+        readonly System.Collections.Generic.List<UnityEngine.UI.Graphic> readingGraphics = new System.Collections.Generic.List<UnityEngine.UI.Graphic>();
+        readonly System.Collections.Generic.List<Vector3> readingGeometryCorners = new System.Collections.Generic.List<Vector3>();
+        Bounds readingBounds;
+        readonly VRDialogueWorldAnchors worldAnchors = new VRDialogueWorldAnchors();
+        public bool StereoPlacementFits { get; private set; }
         Quaternion dialogueRotation;
         Vector3 dialogueScale;
         Vector3 dialoguePosition;
@@ -217,6 +229,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if (observed == value){ElevatorThoughtHeaderPolicy.Hide(view.thoughtPanel);return;}
             Transitions?.Begin();
             observed = value;
+            thoughtPlacementReady=false;
             if(!string.IsNullOrEmpty(value)||!string.IsNullOrEmpty(baseThought))Transitions?.FadeContent(view.thoughtPanel);
             UpdateThought();
             LayoutHud();
@@ -245,6 +258,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             historyPage = 0; placedRun = -1; observed = baseThought = "";dialogueRun=-1;dialogueSource=null;
             thoughtPlacementReady=worldPlacementReady=false;
+            worldAnchors.Reset();
             if(focusWindow)focusWindow.ResetWindow();
             if(storybook)storybook.HighlightHistory(-1);
             if(notebook)notebook.gameObject.SetActive(false);
@@ -269,15 +283,18 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             Transitions?.End();
         }
 
-        public void Layout()
+        public void Layout() => Layout(XRSettings.isDeviceActive);
+
+        // Explicit mode also permits recorded-frustum layout checks without starting an XR provider.
+        public void Layout(bool xr)
         {
             if(!view || !hud || !view.playerCamera)return;
             Transitions?.Begin();
-            if(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height)
+            if(layoutXR!=xr||!xr&&(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height))
                 worldPlacementReady=false;
             var root = (RectTransform)view.transform;
             root.sizeDelta = new Vector2(660,620);
-            root.localScale = Vector3.one * worldPixelSize;
+            root.localScale = Vector3.one * (xr?VRUIReadingLayout.Distance/VRUIReadingLayout.PointsPerRadian*StereoUISafeArea.VisualScale:worldPixelSize);
             const float width = ElevatorDialogueText.PanelWidth;
             view.dialogueText.fontSize=view.lesson.Flow!=null&&view.lesson.Flow.ReviewingIdentity?34:ElevatorDialogueText.BodySize;view.dialogueText.lineSpacing=9;view.dialogueText.alignment=TextAlignmentOptions.MidlineLeft;
             float body = Mathf.Max(102, view.dialogueText.GetPreferredValues(view.dialogueText.text,ElevatorDialogueText.TextWidth,0).y+12);
@@ -316,7 +333,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             }
             if(!complete)view.actionPanel.sizeDelta=new Vector2(width,Mathf.Max(0,buttonY-12));
             view.actionPanel.anchoredPosition=complete?new Vector2(0,-216):new Vector2(0,-height*.5f-24);
-            if(storybook)storybook.LayoutWorld();
+            if(storybook)storybook.LayoutWorld(xr);
             PrepareDialogueReader();
             // Rotate the whole reading column around its centre, not around the body
             // card, so billboarding never swings the buttons around the player.
@@ -331,18 +348,23 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 var actions=view.actionPanel.anchoredPosition;actions.y-=centre;view.actionPanel.anchoredPosition=actions;
             }
             if(focusWindow)focusWindow.Refresh();
-            LayoutHud();
+            if(xr)MeasureReadingBounds();
+            LayoutHud(xr);
             PositionWorld();
+            layoutXR=xr;
             layoutAspect=view.playerCamera.aspect;layoutWidth=Screen.width;layoutHeight=Screen.height;
             Transitions?.End();
         }
 
-        void LayoutHud()
+        void LayoutHud() => LayoutHud(XRSettings.isDeviceActive);
+
+        public void LayoutHud(bool xr)
         {
             bool descriptionsOnly = view.lesson.scenario;
             hud.gameObject.SetActive(true);
             var camera = view.playerCamera;
-            bool xr = XRSettings.isDeviceActive;
+            if(xr)thoughtPlacementReady=false;
+            hud.enabled=!xr||stereoReady;
             hud.renderMode = xr ? RenderMode.WorldSpace : RenderMode.ScreenSpaceOverlay;
             hud.worldCamera = camera;
             hud.planeDistance = .4f;
@@ -350,12 +372,20 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             scaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1280,720); scaler.matchWidthOrHeight = 1;
             var hudRect = (RectTransform)hud.transform;
-            float width = xr ? 720*camera.aspect : hudRect.rect.width;
+            float width = hudRect.rect.width;
             if(xr)
             {
-                var hr = (RectTransform)hud.transform; hr.sizeDelta=new Vector2(width,720);
                 PositionHud();
+                width=hudRect.rect.width;
             }
+            float visual=xr?StereoUISafeArea.VisualScale:1;
+            mission.localScale=progress.rectTransform.localScale=controls.rectTransform.localScale=Vector3.one*visual;
+            var thoughtParent=xr?view.transform:hud.transform;
+            if(view.thoughtPanel.parent!=thoughtParent)
+            {view.thoughtPanel.SetParent(thoughtParent,false);view.thoughtPanel.localPosition=Vector3.zero;view.thoughtPanel.localRotation=Quaternion.identity;}
+            view.thoughtPanel.localScale=Vector3.one*(xr?1:visual);
+            if(progressBackdrop)progressBackdrop.localScale=Vector3.one*visual;
+            if(controlsBackdrop)controlsBackdrop.localScale=Vector3.one*visual;
             bool status=DescribeStatus(out var heading,out var action);
             bool show=!view.lesson.Flow.IsCinematic&&status&&!complete&&(screenOnly||!DialogueOnScreen());
             // Keep the outgoing status intact until the cinematic fade has finished.
@@ -366,18 +396,19 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             view.title.text=statusHeading;view.subtitle.text=statusAction;
             ElevatorTypography.Apply(view.title,ElevatorTypography.HeadingSize);
             ElevatorTypography.Apply(view.subtitle,ElevatorTypography.ObjectiveSize);
-            float missionWidth=Mathf.Min(430,width-48);
+            float missionWidth=Mathf.Min(xr?VRUIReadingLayout.StatusWidth:430,width-48);
             float objectiveHeight=Mathf.Max(38,view.subtitle.GetPreferredValues(view.subtitle.text,missionWidth-40,0).y+8);
-            mission.sizeDelta=new Vector2(missionWidth,objectiveHeight+58);
+            float headingHeight=xr?Mathf.Max(30,view.title.GetPreferredValues(view.title.text,missionWidth-40,0).y+4):30;
+            mission.sizeDelta=new Vector2(missionWidth,objectiveHeight+(xr?headingHeight+30:58));
             // Keep the screen-space status fixed even when targets, text or gaze change.
             mission.anchorMin=mission.anchorMax=mission.pivot=new Vector2(1,0);
             mission.anchoredPosition=new Vector2(-24,24);
             var hudSize=new Vector2(Mathf.Max(1,width),Mathf.Max(1,hudRect.rect.height));
-            var size=mission.sizeDelta/hudSize;
+            var size=mission.sizeDelta*visual/hudSize;
             var lowerRight=new Vector2(1,0)+mission.anchoredPosition/hudSize;
             HudViewportRect=new Rect(lowerRight-new Vector2(size.x,0),size);
-            view.title.rectTransform.sizeDelta=new Vector2(mission.rect.width-40,30);view.title.rectTransform.anchoredPosition=new Vector2(0,mission.rect.height*.5f-24);
-            view.subtitle.rectTransform.sizeDelta=new Vector2(mission.rect.width-40,objectiveHeight);view.subtitle.rectTransform.anchoredPosition=new Vector2(0,-19);
+            view.title.rectTransform.sizeDelta=new Vector2(mission.rect.width-40,headingHeight);view.title.rectTransform.anchoredPosition=new Vector2(0,mission.rect.height*.5f-(xr?14+headingHeight*.5f:24));
+            view.subtitle.rectTransform.sizeDelta=new Vector2(mission.rect.width-40,objectiveHeight);view.subtitle.rectTransform.anchoredPosition=new Vector2(0,xr?-mission.rect.height*.5f+14+objectiveHeight*.5f:-19);
             progress.rectTransform.anchorMin=progress.rectTransform.anchorMax=progress.rectTransform.pivot=new Vector2(1,1);
             ElevatorTypography.Apply(progress,ElevatorTypography.HintSize);
             float progressWidth=progress.GetPreferredValues(progress.text,float.PositiveInfinity,float.PositiveInfinity).x+20;
@@ -387,12 +418,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             controls.rectTransform.anchorMin=controls.rectTransform.anchorMax=new Vector2(.5f,0);
             ElevatorTypography.Apply(controls,ElevatorTypography.ControlsSize);
             controls.text=xr?"왼손 스틱으로 이동 · 메뉴 버튼으로 잠시 멈춤":width<850?"WASD 이동 · 마우스로 둘러보기\n가운데에 맞추고 클릭 · Esc 메뉴":"WASD 이동  ·  마우스로 둘러보기  ·  가운데에 맞추고 클릭  ·  Esc 메뉴";
-            float controlsWidth=Mathf.Max(120,width-64);
+            float controlsWidth=Mathf.Max(120,xr?Mathf.Min(520,width-64):width-64);
             float controlsHeight=Mathf.Max(32,controls.GetPreferredValues(controls.text,controlsWidth,0).y+6);
             controls.rectTransform.anchoredPosition=new Vector2(0,12+controlsHeight*.5f);controls.rectTransform.sizeDelta=new Vector2(controlsWidth,controlsHeight);
             controls.gameObject.SetActive(ShowInitialControls());
             if(controlsBackdrop){controlsBackdrop.anchorMin=controlsBackdrop.anchorMax=new Vector2(.5f,0);controlsBackdrop.pivot=new Vector2(.5f,0);controlsBackdrop.anchoredPosition=new Vector2(0,6);controlsBackdrop.sizeDelta=new Vector2(Mathf.Min(controlsWidth+20,controls.GetPreferredValues().x+32),controlsHeight+12);controlsBackdrop.gameObject.SetActive(controls.gameObject.activeSelf);}
-            float thoughtWidth=Mathf.Min(380,width-48);
+            float thoughtWidth=Mathf.Min(xr?VRUIReadingLayout.StatusWidth:380,width-48);
             float bodyWidth=thoughtWidth*.72f;
             float bodyHeight=Mathf.Max(56,view.thought.GetPreferredValues(view.thought.text,bodyWidth,0).y);
             float thoughtHeight=Mathf.Max(200,(bodyHeight+58)/.70f);
@@ -409,7 +440,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             view.thought.rectTransform.sizeDelta=new Vector2(bodyWidth,bodyHeight);view.thought.rectTransform.anchoredPosition=new Vector2(0,-16);
             if(storybook)storybook.LayoutThought(!string.IsNullOrEmpty(observed));
             ElevatorThoughtHeaderPolicy.Hide(view.thoughtPanel);
-            PlaceThoughtOutsideDialogue();
+            if(xr)PositionHud();
+            PlaceThoughtOutsideDialogue(xr);
             layoutHudSize=hudRect.rect.size;
         }
 
@@ -442,6 +474,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                     PlacedReadingDistance=Vector3.Distance(camera.transform.position,dialoguePosition);
                     worldPlacementReady=true;dialoguePlacedStep=step;dialoguePlacedRun=lesson.RunVersion;
                 }
+            }
+            else if(XRSettings.isDeviceActive)
+            {
+                stereoReady=StereoUISafeArea.TryCapture(view.playerCamera,out var frame);
+                if(!stereoReady){worldPlacementReady=false;return;}
+                if(!worldPlacementReady||placementChanged)PlaceStereoDialogue(frame,step);
             }
             else if(!worldPlacementReady||placementChanged)
             {
@@ -485,7 +523,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             // Only eye POSITION changes its facing. Turning/rolling the head in place
             // cannot drag the card around, and no camera or player pose is written.
             var facing=dialoguePosition-view.playerCamera.transform.position;
-            if(!followCaption&&facing.sqrMagnitude>.01f)dialogueRotation=Quaternion.LookRotation(facing,Vector3.up);
+            if(!followCaption&&!XRSettings.isDeviceActive&&facing.sqrMagnitude>.01f)dialogueRotation=Quaternion.LookRotation(facing,Vector3.up);
             desktopCaptionFollowing=followCaption;
             transform.SetPositionAndRotation(dialoguePosition,dialogueRotation);
             transform.localScale=dialogueScale;
@@ -505,7 +543,9 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             }
         }
 
-        public void SetCinematicVisibility()
+        public void SetCinematicVisibility() => SetCinematicVisibility(XRSettings.isDeviceActive);
+
+        public void SetCinematicVisibility(bool vr)
         {
             if(!view.lesson||view.lesson.Flow==null)return;
             if(!worldGroup)worldGroup=GetComponent<CanvasGroup>();
@@ -516,7 +556,11 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             var f=view.lesson.Flow;
             bool transition=f.IsOpening||f.Step==ElevatorStep.WaitingFade||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome;
             bool paused=view.lesson.IsPaused;
-            worldGroup.alpha=transition||paused||f.IsShotCutscene||f.IsCallCutscene||f.IsDoorSafetyCutscene?0:1;worldGroup.interactable=!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
+            bool invalidStereo=vr&&!stereoReady;
+            // Rescue now owns a fixed world card. Cutscene dialogue alone uses the letterbox.
+            // Looking away must never hide, defer, or relocate an anchored card.
+            DialogueDeferredForSubtitle=false;
+            worldGroup.alpha=invalidStereo||transition||paused||f.IsShotCutscene||f.IsCallCutscene||f.IsDoorSafetyCutscene?0:1;worldGroup.interactable=!invalidStereo&&!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
             float goal=f.IsCinematic?0:1;
             if(hudVisibilityRun!=view.lesson.RunVersion||!Application.isPlaying)
             {
@@ -547,9 +591,21 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public void Tick()
         {
             Transitions?.Begin();
+            bool xr=XRSettings.isDeviceActive;
+            bool projectionChanged=false;
+            int subtitleVersion=Overlay?Overlay.SubtitleLayoutVersion:0;
+            bool subtitleChanged=xr&&subtitleVersion!=subtitleLayoutVersion;
+            subtitleLayoutVersion=subtitleVersion;
+            if(xr)
+            {
+                stereoReady=StereoUISafeArea.TryCapture(view.playerCamera,out var frame);
+                if(stereoReady)projectionChanged=stereoLayout.Update(view.playerCamera,frame);
+                else{stereoLayout.Reset();worldPlacementReady=false;}
+            }
+            if(projectionChanged||subtitleChanged||layoutXR!=xr){worldPlacementReady=thoughtPlacementReady=false;}
             // CanvasScaler may resize after the screen/camera change was observed.
             // Reflow against the actual canvas once its new size has been applied.
-            if(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height||layoutHudSize!=((RectTransform)hud.transform).rect.size)Layout();
+            if(projectionChanged||subtitleChanged||layoutXR!=xr||!xr&&(Mathf.Abs(layoutAspect-view.playerCamera.aspect)>.001f||layoutWidth!=Screen.width||layoutHeight!=Screen.height||layoutHudSize!=((RectTransform)hud.transform).rect.size))Layout();
             else PositionWorld();
             bool wantsStatus=!view.lesson.Flow.IsCinematic&&DescribeStatus(out _,out _)&&!complete&&(screenOnly||!DialogueOnScreen())||KeepOutgoingHudStatus();
             if(mission.gameObject.activeSelf!=wantsStatus||controls.gameObject.activeSelf!=ShowInitialControls())LayoutHud();
@@ -565,6 +621,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             var f=view.lesson.Flow;
             if(screenOnly||!view.dialoguePanel.gameObject.activeInHierarchy||f.IsShotCutscene||f.IsCallCutscene||f.IsDoorSafetyCutscene||f.Step==ElevatorStep.WaitingFade||f.Step==ElevatorStep.Exiting)return false;
+            if(XRSettings.isDeviceActive)
+            {
+                if(!StereoUISafeArea.TryCapture(view.playerCamera,out var frame)||!StereoRectVisible(view.dialoguePanel,frame)||!StereoRectVisible(speakerTab,frame))return false;
+                foreach(var button in view.ChoiceButtons)if(button&&button.IsActive()&&!StereoRectVisible((RectTransform)button.transform,frame))return false;
+                return true;
+            }
             if(!ScreenRect(view.dialoguePanel,out var rect))return false;
             var screen=new Rect(0,0,Screen.width,Screen.height);
             if(Overlap(rect,screen)<rect.width*rect.height*.8f)return false;
@@ -617,9 +679,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             bounds=Rect.MinMaxRect(min.x,min.y,max.x,max.y);return true;
         }
         static float Overlap(Rect a,Rect b)=>Mathf.Max(0,Mathf.Min(a.xMax,b.xMax)-Mathf.Max(a.xMin,b.xMin))*Mathf.Max(0,Mathf.Min(a.yMax,b.yMax)-Mathf.Max(a.yMin,b.yMin));
-        void PlaceThoughtOutsideDialogue()
+        void PlaceThoughtOutsideDialogue(bool xr)
         {
             if(!hud||!view.thoughtPanel.gameObject.activeInHierarchy||thoughtPlacementReady)return;
+            if(xr){PlaceStereoThought();return;}
             readingObstacles.Clear();
             if(view.dialoguePanel.gameObject.activeInHierarchy&&ScreenRect(view.dialoguePanel,out var dialogue))readingObstacles.Add(dialogue);
             if(view.actionPanel.gameObject.activeInHierarchy)foreach(var button in view.ChoiceButtons)
@@ -662,9 +725,133 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             if(!XRSettings.isDeviceActive||!hud||!view||!view.playerCamera)return;
             var camera=view.playerCamera;
-            const float distance=1;
-            hud.transform.SetPositionAndRotation(camera.transform.position+camera.transform.forward*distance,camera.transform.rotation);
-            hud.transform.localScale=Vector3.one*(2*distance*Mathf.Tan(camera.fieldOfView*.5f*Mathf.Deg2Rad)/720);
+            VRUIReadingLayout.SetPlane(hud.transform,camera.transform);
+            if(!StereoUISafeArea.TryCapture(camera,out var frame))
+            {hud.enabled=false;return;}
+            LayoutVRHud(frame);
+        }
+
+        public bool LayoutVRHud(StereoUISafeArea.Frame frame)
+        {
+            if(!hud||!view||!view.playerCamera)return false;
+            VRUIReadingLayout.SetPlane(hud.transform,view.playerCamera.transform);
+            var root=(RectTransform)hud.transform;
+            if(!VRUIReadingLayout.Area(frame,root,out hudReadingArea,out _)){hud.enabled=false;StatusFits=false;return false;}
+            stereoReady=true;
+            hud.enabled=true;
+            var statusArea=hudReadingArea;
+            if(Overlay&&Overlay.TryGetSubtitleLocalRect(root,out var subtitle))statusArea=VRUIReadingLayout.Above(statusArea,subtitle);
+            mission.localScale=Vector3.one*StereoUISafeArea.VisualScale;
+            StatusFits=VRUIReadingLayout.Place(mission,root,statusArea,VRUIReadingLayout.StatusYaw,VRUIReadingLayout.StatusPitch,out _)&&
+                VRUIReadingLayout.Project(frame,mission,out var projected,true);
+            if(!StatusFits)VRUIReadingLayout.Place(mission,root,hudReadingArea,0,0,out _);
+            if(VRUIReadingLayout.Project(frame,mission,out projected))HudViewportRect=projected;
+            if(progress)VRUIReadingLayout.Place(progress.rectTransform,root,hudReadingArea,-16,20,out _);
+            if(progressBackdrop)VRUIReadingLayout.Place(progressBackdrop,root,hudReadingArea,-16,20,out _);
+            var controlsArea=hudReadingArea;
+            if(Overlay&&Overlay.TryGetSubtitleLocalRect(root,out subtitle))controlsArea=VRUIReadingLayout.Above(controlsArea,subtitle);
+            if(controls)VRUIReadingLayout.Place(controls.rectTransform,root,controlsArea,0,-20,out _);
+            if(controlsBackdrop)VRUIReadingLayout.Place(controlsBackdrop,root,controlsArea,0,-20,out _);
+            return StatusFits;
+        }
+
+        bool StereoRectVisible(RectTransform rect,StereoUISafeArea.Frame frame)
+        {
+            if(!rect)return false;
+            rect.GetWorldCorners(projectionCorners);
+            foreach(var point in projectionCorners)if(!frame.Contains(point,0,0))return false;
+            return true;
+        }
+
+        void MeasureReadingBounds()
+        {
+            var previous=readingBounds;
+            readingGeometryCorners.Clear();
+            bool found=false;
+            MeasureReadingPanel(view.dialoguePanel,ref found);
+            MeasureReadingPanel(speakerTab,ref found);
+            if(view.ChoiceButtons.Count>0)MeasureReadingPanel(view.actionPanel,ref found);
+            if(!found)readingBounds=new Bounds(Vector3.zero,new Vector3(columnHalfWidth*2/worldPixelSize,columnHalfHeight*2/worldPixelSize,0));
+            // Include border extrusion/shadows as well as the actual name, portrait and choice rectangles.
+            readingBounds.Expand(new Vector3(24,24,0));
+            if((previous.center-readingBounds.center).sqrMagnitude>.25f||(previous.size-readingBounds.size).sqrMagnitude>.25f)
+                worldPlacementReady=false;
+        }
+
+        void MeasureReadingPanel(RectTransform panel,ref bool found)
+        {
+            if(!panel)return;
+            readingGraphics.Clear();panel.GetComponentsInChildren(false,readingGraphics);
+            foreach(var graphic in readingGraphics)
+            {
+                if(!graphic.enabled||graphic.name=="TransitionText"||graphic.name.StartsWith("Retiring_"))continue;
+                graphic.rectTransform.GetWorldCorners(projectionCorners);
+                foreach(var point in projectionCorners)
+                {
+                    var local=transform.InverseTransformPoint(point);
+                    readingGeometryCorners.Add(local);
+                    if(found)readingBounds.Encapsulate(local);else{readingBounds=new Bounds(local,Vector3.zero);found=true;}
+                }
+            }
+        }
+
+        void PlaceStereoDialogue(StereoUISafeArea.Frame frame,ElevatorStep step)
+        {
+            float scale=VRUIReadingLayout.Distance/VRUIReadingLayout.PointsPerRadian*StereoUISafeArea.VisualScale;
+            var anchor=worldAnchors.Get(view.lesson,step);
+            dialoguePosition=anchor.position;dialogueRotation=anchor.rotation;dialogueScale=Vector3.one*scale;
+            var half=(Vector2)readingBounds.extents*scale;
+            var centre=anchor.position+anchor.rotation*(readingBounds.center*scale);
+            // Visibility is a diagnostic only; it cannot move a scene-anchored UI towards the head.
+            StereoPlacementFits=frame.ProjectQuad(centre,anchor.rotation,half,out var rect);
+            StereoPlacementFits=ProjectStereoReading(frame,centre,anchor.rotation,scale,StereoUISafeArea.Margin,out rect)&&StereoPlacementFits;
+            PlacementViewportRect=rect;PlacementWeightedOverlap=0;
+            PlacedReadingDistance=Vector3.Distance(view.playerCamera.transform.position,centre);
+            worldPlacementReady=true;dialoguePlacedStep=step;dialoguePlacedRun=view.lesson.RunVersion;
+        }
+
+        void PlaceStereoThought()
+        {
+            var panel=view.thoughtPanel;
+            panel.anchorMin=panel.anchorMax=panel.pivot=Vector2.one*.5f;
+            float unit=VRUIReadingLayout.Distance/VRUIReadingLayout.PointsPerRadian*StereoUISafeArea.VisualScale;
+            panel.localPosition=new Vector3(-.95f,.12f,.30f)/unit;panel.localRotation=Quaternion.identity;
+            thoughtPlacementReady=true;
+        }
+
+        bool ProjectStereoReading(StereoUISafeArea.Frame frame,Vector3 center,Quaternion rotation,float scale,float lower,out Rect bounds)
+        {
+            Vector2 min=Vector2.one*float.MaxValue,max=Vector2.one*float.MinValue;
+            foreach(var local in readingGeometryCorners)
+            {
+                var world=center+rotation*((local-readingBounds.center)*scale);
+                if(!frame.Contains(world,StereoUISafeArea.Margin,lower)||!VRUIReadingLayout.Comfortable(view.playerCamera.transform,world)){bounds=default;return false;}
+                for(int eye=0;eye<2;eye++)
+                {
+                    if(!frame.Project(world,eye,out var p)){bounds=default;return false;}
+                    min=Vector2.Min(min,p);max=Vector2.Max(max,p);
+                }
+            }
+            bounds=Rect.MinMaxRect(min.x,min.y,max.x,max.y);return readingGeometryCorners.Count>0;
+        }
+
+        void AddStereoGuideRegion(StereoUISafeArea.Frame frame)
+        {
+            var guide=view.lesson.GetComponentInChildren<ElevatorTutorialPreview>(true);
+            if(guide&&guide.IsVisible&&guide.InstructionPanel&&ProjectStereoRect(guide.InstructionPanel,frame,out var rect))
+                protectedRegions.Add(new ElevatorUIPlacement.Region(rect,120,"Guide"));
+        }
+
+        bool ProjectStereoRect(RectTransform rect,StereoUISafeArea.Frame frame,out Rect bounds)
+        {
+            rect.GetWorldCorners(projectionCorners);
+            Vector2 min=Vector2.one*float.MaxValue,max=Vector2.one*float.MinValue;
+            foreach(var point in projectionCorners)for(int eye=0;eye<2;eye++)
+            {
+                if(!frame.Project(point,eye,out var p)){bounds=default;return false;}
+                min=Vector2.Min(min,p);max=Vector2.Max(max,p);
+            }
+            bounds=Rect.MinMaxRect(min.x,min.y,max.x,max.y);return true;
         }
     }
 }

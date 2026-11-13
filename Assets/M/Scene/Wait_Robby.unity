@@ -648,12 +648,14 @@ MonoBehaviour:
   messageText: {fileID: 633159931}
   desktopHints: {fileID: 373454947}
   controllerRay: {fileID: 383036954}
+  leftControllerVisual: {fileID: 758605767, guid: b69a5ed3925b47dca383ef95924da5bd, type: 3}
+  rightControllerVisual: {fileID: 1131101900, guid: ef654e43cc8e4d328cc2f5e40eae6651, type: 3}
   walkMin: {x: -4.8, y: -2.9}
   walkMax: {x: 4.8, y: 0.9}
   eyeHeight: 1.35
   speed: 1.65
   lookSensitivity: 0.105
-  interactionDistance: 3
+  interactionDistance: 8
 --- !u!143 &50331622
 CharacterController:
   m_ObjectHideFlags: 0
