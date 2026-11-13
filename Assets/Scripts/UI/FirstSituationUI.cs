@@ -76,7 +76,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
         private TMP_Text m_CaptionText; // 연출 자막은 조사 카드의 본문과 분리하여 자동 장면 진행 중에만 표시합니다.
         private Material m_RuntimeTextOverlay; // M 글꼴의 실제 아틀라스를 복사하고 원본의 4201 표시 순서를 적용합니다.
         private FirstSituationPanel m_ActionPanel; // 세 상황에서 현재 표시하는 실제 행동 버튼 패널을 기억합니다.
-        private bool m_ReadingPlaced, m_ReadingHadActions; // 수동 선택지는 열린 위치에 고정하고 설명만 있을 때 시야를 따라갑니다.
+        private bool m_ReadingPlaced, m_ReadingHadActions; // VR의 최초 배치와 선택지 유무 변경을 구분하고 PC는 화면 기준 배치를 사용합니다.
         private Vector3 m_ObservationLocalPosition; // VR과 숨김 상태에서 되돌릴 안내창의 씬 배치입니다.
         private Quaternion m_ObservationLocalRotation; // PC용 배치가 끝나면 기존 월드 UI의 방향을 복원합니다.
         private bool m_ObservationInViewport; // PC에서 조작 안내를 화면 가장자리로 옮긴 경우만 복원합니다.
@@ -168,11 +168,11 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             float actionHeight = actions ? ((RectTransform)m_ActionPanel.transform).rect.height : 0f; float top = height * 0.5f + 48f; float bottom = -height * 0.5f - (actions ? 24f + actionHeight : 34f) - 16f; float centre = (top + bottom) * 0.5f; float pixelHeight = top - bottom; float pixelWidth = width + 48f; // M처럼 전체 읽기·선택 열의 중심을 기준으로 배치합니다.
             panel.anchoredPosition = new Vector2(0f, -centre); if (actions) ((RectTransform)m_ActionPanel.transform).anchoredPosition = new Vector2(0f, -height * 0.5f - 24f - centre); // 설명 아래에 실제 선택 버튼만 세로로 연결합니다.
             bool desktop = m_InputSource != null && m_InputSource.IsDesktopActive; float distance = 1.4f; float viewHeight = 2f * distance * Mathf.Tan(m_Viewer.fieldOfView * 0.5f * Mathf.Deg2Rad); float viewWidth = viewHeight * m_Viewer.aspect; // M의 읽기 거리 상한과 화면 비율을 그대로 사용합니다.
-            float scale = desktop ? Mathf.Min(viewHeight / 720f * 0.82f, Mathf.Min(viewHeight * 0.42f / pixelHeight, viewWidth * 0.45f / pixelWidth)) : 0.002f; // 원본 데스크톱 설명이 차지하는 가로 45%·세로 42% 한계를 적용합니다.
-            if (!m_ReadingPlaced || desktop && !actions || actions != m_ReadingHadActions) // PC의 읽기 자막만 시야를 따르고 VR 설명과 선택지는 원본처럼 열린 위치를 유지합니다.
+            float scale = desktop ? Mathf.Min(viewHeight / 720f * 0.82f, Mathf.Min(viewHeight * (actions ? 0.58f : 0.34f) / pixelHeight, viewWidth * 0.52f / pixelWidth)) : 0.002f; // PC 선택지는 읽고 누를 크기를 확보하고 조사 설명은 화면 아래의 작은 영역을 사용합니다.
+            if (desktop || !m_ReadingPlaced || actions != m_ReadingHadActions) // PC는 같은 화면 위치를 유지하고 VR의 기존 최초 배치 조건은 보존합니다.
             { // M 씬의 readingDistance 1.4와 worldPixelSize 0.002를 실제 적용 지점에서 사용합니다.
                 Vector3 position; Quaternion rotation; // 현재 표시할 읽기 열의 월드 배치를 계산합니다.
-                if (desktop) { position = m_Viewer.ViewportToWorldPoint(new Vector3(0.025f + pixelWidth * scale / (2f * viewWidth), 0.065f + pixelHeight * scale / (2f * viewHeight), distance)); rotation = m_Viewer.transform.rotation; } // M의 PC 읽기 열을 화면 왼쪽 아래에 배치합니다.
+                if (desktop) { position = m_Viewer.ViewportToWorldPoint(new Vector3(0.5f, 0.10f + pixelHeight * scale / (2f * viewHeight), distance)); rotation = m_Viewer.transform.rotation; } // PC의 설명과 선택지를 화면 아래 중앙에 두고 아래쪽 여백을 일정하게 유지합니다.
                 else // VR에서는 M처럼 얼굴과 중요한 단서가 보이는 영역을 피하는 위치를 고릅니다.
                 { // 새 설명을 열 때만 후보를 평가하고 플레이어의 고개를 따라 패널을 끌고 다니지 않습니다.
                     m_ProtectedWorldAreas.Clear(); foreach (Collider item in m_ProtectedObjects) if (item != null && item.enabled && item.gameObject.activeInHierarchy) { Rect area = ProjectBounds(item.bounds); if (area.width > 0f && area.height > 0f) m_ProtectedWorldAreas.Add(area); } // 기존 씬의 친구·전화·신호등 영역만 보호합니다.
@@ -184,7 +184,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
                         if (min.x < 0.025f || max.x > 0.975f || min.y < 0.025f || max.y > 0.975f) continue; Rect region = Rect.MinMaxRect(min.x, min.y, max.x, max.y); float overlap = 0f; foreach (Rect area in m_ProtectedWorldAreas) overlap += OverlapArea(region, area); float score = overlap * 10000f + Vector2.SqrMagnitude(center - preferred) * 0.01f; if (score >= best) continue; best = score; position = candidate; rotation = facing; // M과 같이 물체를 가리지 않는 후보를 우선하고 가까운 선호 위치를 선택합니다.
                     } // 선택한 위치는 다음 설명이나 응답 전환 전까지 유지합니다.
                 } // 카메라 추적이나 루트 회전은 변경하지 않습니다.
-                m_ReadingColumn.SetPositionAndRotation(position, rotation); m_ReadingColumn.localScale = Vector3.one * (scale / m_Anchor.lossyScale.x); m_ReadingPlaced = true; // 계산한 M 읽기 배치를 현재 열에 한 번 적용합니다.
+                m_ReadingColumn.SetPositionAndRotation(position, rotation); m_ReadingColumn.localScale = Vector3.one * (scale / m_Anchor.lossyScale.x); m_ReadingPlaced = true; // 표시와 실제 버튼 판정에 같은 배치를 적용하며 PC 선택 중에는 커서로 직접 누르게 합니다.
             } // 같은 선택지 위에서 시선만 바뀌어도 버튼 위치는 움직이지 않습니다.
             m_ReadingHadActions = actions; // 설명과 응답 사이 전환에서만 선택지의 기준 위치를 갱신합니다.
         } // 실제 카메라 회전이나 친구의 경로에는 관여하지 않습니다.
