@@ -1,6 +1,9 @@
 using System.Collections; // 클로즈업·충돌·복원을 중복 없이 순서대로 진행합니다.
 using Unity.XR.CoreUtils; // 기존 XR Origin에서 추적 카메라와 플레이어 위치를 읽습니다.
 using UnityEngine; // 상황 상태·실제 접촉·씬에 저장된 연출 자산을 제어합니다.
+using UnityEngine.XR.Interaction.Toolkit.Interactors; // 기존 양손 레이로 길 건너 집을 선택할 수 있게 합니다.
+using UnityEngine.XR.Interaction.Toolkit.Interactors.Casters; // 기존 Near-Far 선택 거리만 반대편 집까지 확보합니다.
+using UnityEngine.XR.Interaction.Toolkit.Interactors.Visuals; // 표시되는 레이 길이도 실제 집 선택 거리와 맞춥니다.
 using UnityEngine.Events; // 추후 진행 기능이 완료 상태에 연결할 수 있는 빈 이벤트를 제공합니다.
 
 namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업 영역에서 제어합니다.
@@ -15,7 +18,9 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
         [SerializeField, InspectorName("첫 번째 상황 UI"), Tooltip("씬에 미리 배치한 월드 공간 UI입니다.")] private FirstSituationUI m_UI; // 상태에 맞는 실제 패널만 표시합니다.
         [SerializeField, InspectorName("동행 이야기 친구 출발점"), Tooltip("전봇대에서 떨어진 인도에서 친구가 플레이어를 바라보며 첫 대사를 시작할 위치입니다.")] private Transform m_DepartureFriendPoint; // 위험 관찰 위치에서 바로 시작하지 않고 함께 집에 가는 장면을 먼저 만듭니다.
         [SerializeField, InspectorName("동행 이야기 플레이어 출발점"), Tooltip("제목 화면부터 사용하는 인도의 플레이어 위치와 PC 최초 바라보기 방향입니다.")] private Transform m_DeparturePlayerPoint; // 친구와 마주 선 같은 장면에서 인사와 출발 클릭을 진행합니다.
-        [SerializeField, InspectorName("메시지 도착 지점"), Tooltip("두 번째 동행 보행을 마치고 친구가 메시지 도착을 알리는 인도 지점입니다.")] private Transform m_DeparturePhonePoint; // 휴대전화를 보기 전까지 친구가 앞을 보며 함께 걷게 합니다.
+        [SerializeField, InspectorName("휴대전화 알림 도착 지점"), Tooltip("집을 확인한 뒤 함께 걸어가다가 휴대전화 알림을 들을 기존 인도 지점입니다.")] private Transform m_DeparturePausePoint; // 위험 관찰 이전에 실제 물체를 보고 이동할 이유를 이야기로 연결합니다.
+        [SerializeField, InspectorName("길 건너 집 클릭 대상"), Tooltip("너희 집이 어디지라는 질문에 실제로 선택할 반대편 기존 건물입니다.")] private FirstSituationObservation m_HomeObservation; // 집 선택이 끝난 뒤에만 친구의 확인 대사와 동행을 진행합니다.
+        [SerializeField, InspectorName("휴대전화 알림음"), Tooltip("집을 확인하고 함께 걷다가 휴대전화가 도착했음을 알리는 짧은 띠링 소리입니다.")] private AudioClip m_PhoneNotification; // 알림을 들은 뒤 실제 휴대전화를 누르는 순서를 연결합니다.
         [SerializeField, InspectorName("전봇대 방향 보행 목적지"), Tooltip("기존 친구의 전봇대 너머 경로 끝입니다. 관찰 한계 앞에서 멈추되 위험 선택 시 같은 길로 이어갑니다.")] private Transform m_DepartureRouteEnd; // 관찰 체크포인트에서도 보행 상태와 전봇대를 향한 실제 경로를 유지합니다.
         [SerializeField, Range(0.8f, 1.6f), InspectorName("이야기 동행 속도"), Tooltip("인사 후 같은 인도를 함께 걸으며 대화할 때의 초당 이동 거리입니다.")] private float m_DepartureWalkSpeed = 1.1f; // 기존 보행 애니메이션과 경로 제어기에 동행 속도만 전달합니다.
         [SerializeField, InspectorName("친구의 관찰 전 대기 한계"), Tooltip("친구가 휴대전화를 보며 걸을 때 전봇대에 닿기 전에 관찰을 시작할 인도 지점입니다.")] private Transform m_IntroductionLimit; // 선택 전에 전봇대에 자동으로 도달하지 않게 합니다.
@@ -87,24 +92,32 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
             m_UI.Transition(false); StartCoroutine(RunIntroduction()); // 실제 친구와 인도에서 대화하고 이동하는 도입을 시작합니다.
         } // 별도 RenderTexture 화면이나 클로즈업 패널을 열지 않습니다.
 
-        private IEnumerator RunIntroduction() // M의 도입처럼 실제 동행 보행과 대사를 자동 연출로 이어갑니다.
-        { // 대사 넘기기와 출발용 친구 클릭은 진행 조건으로 사용하지 않습니다.
-            m_Performance.Freeze(false); m_Movement.SetScenarioApproachSpeed(m_DepartureWalkSpeed); // 제목 화면의 대기 정지를 풀고 기존 걷기 기능을 준비합니다.
-            if (!m_Movement.TryBeginScenarioDetour(m_DepartureRouteEnd)) { Debug.LogError("동행 도입의 실제 보행 경로를 시작하지 못했습니다.", this); yield break; } // 실제 경로가 시작되지 않았으면 위험 관찰로 건너뛰지 않습니다.
-            m_Movement.SetScenarioApproachLimit(m_IntroductionLimit); m_WalkAudio.SetActive(true); // 경로 초기화 뒤 전봇대 앞 안전 한계를 지정합니다.
-            Vector3 start = m_Movement.transform.position, previous = start; float messageDistance = Vector3.Distance(start, m_DeparturePhonePoint.position); int dialogue = 0; // 실제 걸은 거리에 맞춰 대사와 휴대전화 행동을 연결합니다.
-            m_UI.ShowCinematicCaption("친구", "학교 끝났다! 오늘 재미있었지? 이제 같이 집에 가자."); // M의 자동 도입 자막처럼 함께 걷는 목적을 먼저 보여 줍니다.
-            while (m_Movement.IsScenarioDetouring && m_Movement.ScenarioLimitRemaining > 0.03f) // 같은 인도를 계속 걸어 전봇대 앞 관찰 위치까지 도착합니다.
-            { // 카메라를 돌리거나 친구를 진행 버튼으로 클릭하게 하지 않습니다.
-                Vector3 current = m_Movement.transform.position; m_Origin.Origin.transform.position += current - previous; previous = current; float walked = Vector3.Distance(start, current); // 실제 친구 보행만큼 플레이어 루트도 옆에서 함께 이동합니다.
-                if (dialogue < 2 && walked >= messageDistance) { dialogue = 2; m_Performance.SetPhoneInUse(true); m_UI.ShowCinematicCaption("친구", "어, 메시지가 왔네. 잠깐만 이것만 볼게."); } // 메시지가 도착한 지점에서 처음으로 고개와 팔을 휴대전화 사용 자세로 전환합니다.
-                else if (dialogue == 0 && walked >= messageDistance * 0.48f) { dialogue = 1; m_UI.ShowCinematicCaption("나", "좋아. 앞에 있는 횡단보도 쪽으로 가자."); } // 평범한 동행 대사를 보행 중 자동으로 이어갑니다.
-                yield return null; // 기존 이동·애니메이션·머리 추적을 계속 갱신합니다.
-            } // 휴대전화를 보며 걷던 상태를 유지한 채 위험 관찰로 전환합니다.
-            m_Origin.Origin.transform.position += m_Movement.transform.position - previous; m_WalkAudio.Stop(); m_UI.HideAll(); m_QueueFreeze = true; // 마지막 이동량을 반영하고 최종 전화 자세의 체크포인트를 요청합니다.
-            while (m_QueueFreeze) yield return null; // 기존 LateUpdate에서 실제 보행 경로와 전화 관절을 함께 저장합니다.
-            EnterObservation(); // 바로 같은 자리의 휴대전화·전봇대·친구를 실제로 조사합니다.
-        } // 이후 사고·안전 결과는 기존 물리적 행동 연출을 재사용합니다.
+        private IEnumerator FollowIntroductionWalk(Transform limit) // 집을 확인한 뒤 걷는 구간과 휴대전화를 보며 걷는 구간을 실제 보행에 연결합니다.
+        { // 대사가 바뀌는 것을 이동으로 대신하지 않고 기존 경로를 따라 움직입니다.
+            m_Movement.SetScenarioApproachLimit(limit); m_Performance.Freeze(false); m_WalkAudio.SetActive(true); Vector3 previous = m_Movement.transform.position; // 이번 구간의 실제 한계와 동행 위치 기준을 준비합니다.
+            while (m_Movement.IsScenarioDetouring && m_Movement.ScenarioLimitRemaining > 0.03f) // 지정한 인도 구간이 끝날 때까지 실제 보행을 이어갑니다.
+            { // 플레이어는 주변을 둘러보면서 친구 옆에서 함께 이동합니다.
+                Vector3 current = m_Movement.transform.position; m_Origin.Origin.transform.position += current - previous; previous = current; yield return null; // 친구가 걸은 실제 거리만 플레이어 루트에 적용하고 시선은 바꾸지 않습니다.
+            } // 마지막 프레임의 이동도 빠뜨리지 않습니다.
+            m_Origin.Origin.transform.position += m_Movement.transform.position - previous; m_WalkAudio.Stop(); // 실제 도착 지점에서 친구와 플레이어가 함께 멈춥니다.
+        } // 다음 물체 선택이나 결과 연출은 도입 순서가 결정합니다.
+
+        private IEnumerator RunIntroduction() // 집 찾기·확인 대사·동행·알림·전화 확인·부주의한 보행을 순서대로 연결합니다.
+        { // 시작 버튼이나 대사 넘김 버튼은 추가하지 않습니다.
+            m_UI.BeginOpeningFade(); m_Performance.SetPhoneInUse(false); yield return new WaitForSecondsRealtime(0.3f); m_UI.Transition(false, 1.5f); // 자동으로 화면이 밝아지며 휴대전화를 보지 않는 평범한 하굣길부터 시작합니다.
+            yield return m_UI.PlayCaption("친구", "학교 끝났다! 오늘 재미있었지? 같이 집에 가자.", 2.8f); // 질문에 앞서 친구와 함께 집으로 가는 상황을 보여 줍니다.
+            foreach (NearFarInteractor interactor in m_Origin.GetComponentsInChildren<NearFarInteractor>(true)) { if (interactor.TryGetComponent(out CurveInteractionCaster caster)) caster.castDistance = Mathf.Max(caster.castDistance, 30f); foreach (CurveVisualController visual in interactor.GetComponentsInChildren<CurveVisualController>(true)) visual.maxVisualCurveDistance = Mathf.Max(visual.maxVisualCurveDistance, 30f); } // 기존 컨트롤러 레이로도 약 25m 떨어진 반대편 집을 실제로 선택할 수 있게 합니다.
+            m_HomeObservation.CopyHighlightStyleFrom(m_PhoneObservation); m_HomeObservation.SetAvailable(true); bool homeSelected = false; m_UI.ShowTask(m_HomeObservation, "집", () => homeSelected = true, "친구", "집이 어디지?"); // 질문은 요청한 문장만 표시하고 선택할 집에는 휴대전화의 실제 강조 설정을 그대로 적용합니다.
+            while (!homeSelected) yield return null; m_HomeObservation.SetAvailable(false); // 실제 집을 선택하기 전에는 다음 대사나 보행으로 넘어가지 않습니다.
+            yield return m_UI.PlayCaption("친구", "그래, 맞아. 가자.", 2.2f); m_Movement.SetScenarioApproachSpeed(m_DepartureWalkSpeed); // 집을 확인한 반응을 먼저 보여 준 뒤 실제 걷기를 준비합니다.
+            if (!m_Movement.TryBeginScenarioDetour(m_DepartureRouteEnd)) { Debug.LogError("집을 확인한 뒤 동행 보행을 시작하지 못했습니다.", this); yield break; } // 실제 경로가 시작되지 않으면 알림이나 위험 장면으로 건너뛰지 않습니다.
+            m_UI.HideAll(); yield return FollowIntroductionWalk(m_DeparturePausePoint); // 확인 대사를 마치면 추가 걷기 대사 없이 실제 동행 보행을 진행한 뒤 휴대전화 알림으로 이어집니다.
+            m_Movement.SetScenarioPaused(true); m_TransitionAudio.PlayOneShot(m_PhoneNotification, 0.85f); m_PhoneObservation.SetAvailable(true); bool phoneSelected = false; // 걸음을 멈춘 자리에서 띠링 소리를 들려 주고 실제 전화 선택을 엽니다.
+            m_UI.ShowTask(m_PhoneObservation, "휴대전화", () => phoneSelected = true, "친구", "어? 메시지가 왔네.\n휴대전화 좀 확인할까?"); // 알림 다음에 손에 든 휴대전화를 직접 누르게 합니다.
+            while (!phoneSelected) yield return null; m_PhoneChecked = true; m_PhoneObservation.SetAvailable(false); m_Performance.SetPhoneInUse(true); // 전화를 누른 결과로만 팔과 고개가 화면을 보는 자세로 바뀝니다.
+            m_UI.ShowCinematicCaption("친구", "메시지만 잠깐 보고 갈게."); yield return FollowIntroductionWalk(m_IntroductionLimit); // 확인한 휴대전화를 계속 보며 걷는 실제 행동을 보여 줍니다.
+            m_UI.HideAll(); m_QueueFreeze = true; while (m_QueueFreeze) yield return null; EnterObservation(); // 전봇대에 닿기 전에 기존 체크포인트와 위험 관찰로 이어갑니다.
+        } // 이후 경고·우회·사고·재시도의 기존 연결은 유지합니다.
         private void PlaceObservationPlayer() // 기존 불투명 전환 동안 원래 인도의 관찰 위치에 XR Origin 루트만 배치합니다.
         { // 플레이어의 방향과 카메라의 로컬 머리 자세는 변경하지 않습니다.
             m_Origin.Origin.transform.position = m_ObservationPlayerPoint.position; m_DesktopInput.SetScenarioView(m_ObservationPlayerPoint); // 암전 중 PC 관찰 방향도 배치 지점에 맞추며 VR 추적은 유지합니다. // 친구를 앞에 배치하기 위해 플레이어를 앞쪽으로 이동시키지 않습니다.
@@ -178,7 +191,7 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
 
         private void PromptPole() // 휴대전화 설명을 읽으며 실제 친구의 진행 방향을 조사하게 합니다.
         { // 설명의 결과가 다음 물체를 살펴볼 이유가 됩니다.
-            m_UI.ShowTask(m_PoleObservation, "친구 앞의 길을 살펴보세요.", OnPoleSelected, "나", "휴대전화만 보느라 앞을 못 보고 있어.\n친구가 가는 길에 뭐가 있지?"); // 전봇대를 선택하면 그 위험을 확인한 대화로 이어집니다.
+            m_UI.ShowTask(m_PoleObservation, "친구 앞의 길을 살펴보세요.", OnPoleSelected, "", "휴대전화만 보느라 앞을 못 보고 있어.\n친구가 가는 길에 뭐가 있지?"); // 전봇대를 선택하면 그 위험을 확인한 대화로 이어집니다.
         } // 친구를 반복해서 누르는 진행 조건을 넣지 않습니다.
 
         private void OnPoleSelected() // 실제 전봇대를 발견한 뒤 친구에게 경고할 수 있게 합니다.
@@ -188,7 +201,7 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
 
         private void PromptFriend() // 위험을 발견했을 때 한 번의 실제 말 걸기로 응답 선택지를 엽니다.
         { // M의 친구 조사와 응답 선택처럼 현재 행동에 대한 대답만 고릅니다.
-            m_UI.ShowTask(m_FriendObservation, "친구에게 앞의 위험을 알려 주세요.", OpenFriendChoices, "나", "바로 앞에 전봇대가 있어!\n친구에게 어떻게 말해 줄까?"); // 친구 클릭은 출발이나 장면 넘기기가 아니라 실제 경고 대화에만 사용합니다.
+            m_UI.ShowTask(m_FriendObservation, "친구에게 앞의 위험을 알려 주세요.", OpenFriendChoices, "", "바로 앞에 전봇대가 있어!\n친구에게 어떻게 말해 줄까?"); // 친구 클릭은 출발이나 장면 넘기기가 아니라 실제 경고 대화에만 사용합니다.
         } // 이후 선택의 결과는 친구의 실제 움직임으로 보여 줍니다.
         private void OpenFriendChoices() { if (m_State != SituationState.Observation) return; m_State = SituationState.Choice; SetObservation(true); m_UI.ShowChoice(); } // 전화에 집중한 친구에게 무엇을 말할지 제시하고 단서 입력을 닫습니다.
         public void ResumeObservation() { if (m_State == SituationState.Choice) EnterObservation(); } // 선택 전 다시 주변을 살펴볼 수 있게 합니다.
@@ -227,8 +240,7 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
             }); // 감사 동작이 끝나기 전에는 완료 설명으로 넘어가지 않습니다.
             m_WalkAudio.Stop(); // 우회 구간이 취소된 경우에도 보행 소리가 남지 않게 합니다.
             if (!m_Performance.HasCompletedSafeAvoidance) { yield return RestoreResultObservation(); yield break; } // 우회 실패도 위치를 드러내며 순간 복원하지 않습니다. // 중단된 경로나 연출을 완료로 기록하지 않습니다.
-            yield return m_UI.PlayCaption("친구", "와, 앞을 못 보고 있었어! 알려 줘서 고마워.", 2.8f); // 실제 전봇대 우회가 끝난 뒤 친구가 자동으로 응답합니다.
-            yield return m_UI.PlayCaption("친구", "휴대전화는 넣어 둘게. 이제 앞을 보면서 걷자.", 2.8f); // 대사 넘김 없이 다음 동행 보행으로 이어갑니다.
+            yield return m_UI.PlayCaption("친구", "고마워. 휴대폰 넣을게.", 2.4f); // 전봇대를 피한 뒤 감사와 휴대전화 정리는 한 번의 짧은 대사로 마칩니다.
             m_UI.HideAll(); m_Completed = true; m_State = SituationState.Complete; m_UI.PlaySuccessCue(); // 마지막 다음 클릭 뒤 전봇대 회피를 완료하고 동행으로 연결합니다.
             SetLocomotionPaused(false); // 첫 상황이 보류한 이동 설정을 복원한 뒤 다음 도입이 필요한 보류 상태를 직접 인계받게 합니다.
             m_OnCompleted.Invoke(); // 실제 씬에 연결된 두 번째 상황 도입을 한 번만 시작합니다.

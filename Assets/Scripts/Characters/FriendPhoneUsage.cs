@@ -62,10 +62,24 @@ namespace Y.Crosswalk // 학교 앞 횡단보도의 친구 연출을 개인 작�
         public void CaptureScenarioCheckpoint() { m_CheckpointPoseWeight = m_PoseWeight; m_CheckpointTapTime = m_TapTime; } // 실제 관찰 자세와 같은 가중치·엄지 동작 진행도를 저장합니다.
         public void RestoreScenarioCheckpoint() { m_ScenarioPhoneReleased = false; m_PoseWeight = m_CheckpointPoseWeight; m_TapTime = m_CheckpointTapTime; m_HasAppliedPose = false; } // 취소·재시도 시 안전 우회의 전화 해제 상태를 제거합니다.
 
-        public void SetScenarioPaused(bool paused) // 첫 번째 상황에서만 이 친구의 휴대전화 자세 계산을 개별 정지합니다.
-        { // 자세 가중치를 지우거나 소품을 분리하지 않아 같은 보행 자세로 재개할 수 있습니다.
-            m_ScenarioPaused = paused; // 다음 LateUpdate부터 관찰 또는 사고 연출의 자세 소유권을 존중합니다.
-        } // 다른 친구의 휴대전화 상태에는 영향을 주지 않습니다.
+        public void SetScenarioPaused(bool paused) // 정지한 전화 자세와 다시 평가할 애니메이션 자세의 경계를 관리합니다.
+        { // 이동 재개 직후 이전 전화 기울임을 새 기준 자세로 다시 읽지 않게 합니다.
+            if (m_ScenarioPaused && !paused && m_HasAppliedPose) // 관찰 중 유지하던 전화 자세를 다시 움직이는 순간입니다.
+            { // Animator가 같은 프레임에 아직 새 자세를 평가하지 않은 경우도 처리합니다.
+                RestoreAnimatedRotations(); m_HasAppliedPose = false; // 전화 연출 전의 기준 회전으로 돌려놓은 뒤 다음 LateUpdate에서 한 번만 자세를 적용합니다.
+            } // 정지 요청에서는 현재 보이는 전화 자세를 그대로 유지합니다.
+            m_ScenarioPaused = paused; // 관찰·사고에서 전화 자세를 유지할지는 기존 상황 제어기의 요청을 따릅니다.
+        } // 루트 이동과 캐릭터의 보행 방향은 변경하지 않습니다.
+
+        private void RestoreAnimatedRotations() // 전화 사용을 더하기 전에 저장한 여섯 관절의 기준 회전을 복원합니다.
+        { // 보행이 멈춰 Animator 평가가 꺼진 동안 같은 기울임이 누적되지 않게 합니다.
+            m_UpperChest.localRotation = m_AnimatedUpperChest; // 지난 프레임의 앞으로 숙임을 제거해 가슴이 계속 돌아가지 않게 합니다.
+            m_Neck.localRotation = m_AnimatedNeck; // 이미 적용한 목 기울임을 다음 프레임의 기준으로 다시 사용하지 않습니다.
+            m_Head.localRotation = m_AnimatedHead; // 휴대전화를 향한 머리 회전도 원래 애니메이션 자세에서 계산합니다.
+            m_LeftUpperArm.localRotation = m_AnimatedUpperArm; // 팔 들기를 중첩하지 않고 같은 기준에서 부드럽게 보간합니다.
+            m_LeftLowerArm.localRotation = m_AnimatedLowerArm; // 팔꿈치의 이전 보간 결과가 새 출발 자세로 섞이지 않게 합니다.
+            m_LeftHand.localRotation = m_AnimatedHand; // 휴대전화를 든 손목도 한 번의 자세 적용만 받게 합니다.
+        } // 다른 관절과 모델·이동 루트에는 대입하지 않습니다.
         private float m_PoseWeight; // 휴대전화 자세가 적용되는 정도를 0에서 1 사이로 유지합니다.
         private bool m_HasAppliedPose; // 비활성화할 때 직접 적용한 관절 자세를 되돌릴 필요가 있는지 보관합니다.
         private Quaternion m_AnimatedUpperChest; // 이번 프레임 Animator가 만든 상체 자세를 보관합니다.
@@ -89,6 +103,7 @@ namespace Y.Crosswalk // 학교 앞 횡단보도의 친구 연출을 개인 작�
         private void LateUpdate() // Animator가 걷기·정지·대기 자세를 평가한 뒤 상체에만 휴대전화 자세를 조합합니다.
         { // 기존 발 디딤·루트 이동·오른팔 응답은 그대로 유지합니다.
             if (m_ScenarioPaused) return; // 정지된 전화 사용 자세를 유지하고 사고 중에는 별도 관절 연출에 제어를 맡깁니다.
+            if (m_Movement.IsScenarioPaused && m_HasAppliedPose) RestoreAnimatedRotations(); // 도입에서 Animator만 정지한 동안은 이전 전화 자세를 먼저 제거하고 같은 기준 자세에 이번 기울임을 한 번만 적용합니다.
             float targetWeight = !m_ScenarioPhoneReleased && (m_Movement.IsApproaching || (m_UsePhoneWhileWaiting && m_Movement.IsWaitingForWalk)) ? 1f : 0f; // 위험 보행에는 기존 전화 자세를 유지하고 경고 뒤 우회에서는 앞을 보며 걷습니다.
             m_PoseWeight = Mathf.MoveTowards(m_PoseWeight, targetWeight, Time.deltaTime / Mathf.Max(0.1f, m_PoseTransitionTime)); // 반복 신호에 반응을 재시작하지 않고 현재 자세에서 목표로 이어 갑니다.
             if (m_PoseWeight <= 0f) // 시작 대기와 정지 후 전환이 끝난 상태에서는 Animator가 관절을 전담합니다.

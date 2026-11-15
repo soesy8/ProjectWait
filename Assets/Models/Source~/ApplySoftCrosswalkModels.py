@@ -456,6 +456,7 @@ def apply_environment_models(background_only=False):  # 배경 배치만 수정�
     for identifier, name, height in ground_parts:  # 현재 원본에 필요한 기존 마당과 지면만 연결합니다.
         position, _, scale = world_matrix(transforms, identifier).decompose()  # 원래 지면의 중심과 범위입니다.
         position.y += abs(scale.y) * .5 - height  # 원래 게임의 표면 높이에 원본 지면을 놓습니다.
+        if identifier == 100251: position.z += 1.6  # 5m 앞마당 모듈 두 줄이 인도까지 1.6m 겹치지 않도록 기존 인도 바깥 경계에 맞춥니다.
         add_surface_tiles(assembly, bpy.data.objects[name], position, abs(scale.x), abs(scale.z))  # 원본 지면의 형태를 유지하며 필요한 구간만 반복합니다.
     stripe_root = bpy.data.objects['CrosswalkStripes']  # 블렌더 원본의 횡단보도 모듈입니다.
     stripe = next(obj for obj in descendants(stripe_root) if obj.type == 'MESH')  # 원본 흰 줄 하나의 실제 메시입니다.

@@ -7,6 +7,12 @@ namespace Y.Crosswalk // 횡단보도 개인 작업 영역의 차량 기능을 �
     public sealed class TrafficCarMovement : MonoBehaviour // 기존 직선 반복 주행에 보행 신호에 따른 정지와 재출발을 적용합니다.
     { // 이동 설정과 경로 계산에 필요한 상태만 보관합니다.
         private const float k_MinimumPathLength = 0.001f; // 시작점과 종료점이 사실상 같을 때 방향 계산과 나머지 연산을 막습니다.
+        [SerializeField, InspectorName("차체 도장 렌더러"), Tooltip("유리와 바퀴를 보존하고 차체 도장 재질만 바꿀 실제 차량 메시 렌더러입니다.")] private Renderer m_BodyPaintRenderer; // 같은 모델을 재사용해도 새 차량의 차체 색을 구분할 렌더러를 연결합니다.
+        [SerializeField, Min(0), InspectorName("차체 도장 재질 번호"), Tooltip("차량 메시에서 Coral 차체 도장이 사용하는 재질 슬롯입니다.")] private int m_BodyPaintMaterialIndex = 5; // 다른 부품의 색을 바꾸지 않도록 차체 도장 슬롯만 지정합니다.
+        [SerializeField, InspectorName("차량별 차체 색상"), Tooltip("도로에 새 차량이 들어올 때 순서대로 사용하는 분홍·파랑·노랑·민트 도장 색입니다.")] private Color[] m_BodyPaintColors = { new Color(0.94f, 0.38f, 0.39f, 1f), new Color(0.27f, 0.55f, 0.84f, 1f), new Color(0.95f, 0.72f, 0.24f, 1f), new Color(0.28f, 0.68f, 0.51f, 1f) }; // 등장 차량마다 차체 색을 달리해 같은 분홍 차가 반복해서 나타나지 않게 합니다.
+        private int m_BodyPaintVariant = -1, m_BeforeGreenPaintVariant; // 현재 차량과 세 번째 상황에 들어가기 전 차량의 도장 순서를 각각 보관합니다.
+        private MaterialPropertyBlock m_BodyPaintProperties; // 공유 재질을 복제하거나 건물에 쓰는 같은 색 재질을 수정하지 않고 차체만 바꿉니다.
+        private static readonly int k_BodyBaseColor = Shader.PropertyToID("_BaseColor"); // 기존 차량 셰이더의 선형 색상 벡터를 지정할 속성 식별자입니다.
 
         [Header("직선 주행 경로")] // 현재 도로에 맞출 시작점과 종료점 설정을 묶습니다.
         [SerializeField, InspectorName("시작 위치(월드 좌표)")] // 부모 오브젝트의 위치와 관계없는 실제 도로 위 출발 좌표를 지정합니다.
@@ -47,6 +53,19 @@ namespace Y.Crosswalk // 횡단보도 개인 작업 영역의 차량 기능을 �
         [Tooltip("CarCrosswalkClearPoint를 연결합니다. 현재 씬의 차량 중심 X=4.25m에서 뒤범퍼도 흰색 줄무늬 구간을 벗어나므로 이 지점 이후 친구가 출발할 수 있습니다.")] // 차량 중심만 중앙선을 지났다고 출발하지 않도록 배치 기준을 안내합니다.
         private Transform m_CrosswalkClearPoint; // 기존 차량 크기와 횡단보도 폭을 기준으로 씬에 배치한 완전 통과 위치입니다.
 
+        private void AdvanceBodyPaint() // 도로에 들어오는 다음 차량을 이전 차량과 다른 차체 색으로 구분합니다.
+        { // 같은 차량의 제동과 재시도 중에는 도장 순서를 바꾸지 않습니다.
+            if (m_BodyPaintColors == null || m_BodyPaintColors.Length == 0) return; // 실제 차체 색상이 연결되지 않은 차량은 기존 재질을 유지합니다.
+            m_BodyPaintVariant = (m_BodyPaintVariant + 1) % m_BodyPaintColors.Length; ApplyBodyPaint(); // 새 차량이 진입하는 시점에만 다음 도장을 적용합니다.
+        } // 현재 차량이 달리거나 멈추는 동안 색이 바뀌지 않게 합니다.
+        private void ApplyBodyPaint() // 차체 도장 슬롯에만 현재 차량의 색상 벡터를 적용합니다.
+        { // 유리·전조등·바퀴·범퍼에 연결된 다른 슬롯은 그대로 둡니다.
+            if (m_BodyPaintRenderer == null || m_BodyPaintColors == null || m_BodyPaintColors.Length == 0 || m_BodyPaintMaterialIndex < 0 || m_BodyPaintMaterialIndex >= m_BodyPaintRenderer.sharedMaterials.Length) return; // 실제 렌더러와 도장 슬롯이 있는 차량에만 색을 적용합니다.
+            if (m_BodyPaintProperties == null) m_BodyPaintProperties = new MaterialPropertyBlock(); // 차량에 적용하는 기존 재질 속성을 보존할 블록을 준비합니다.
+            m_BodyPaintRenderer.GetPropertyBlock(m_BodyPaintProperties, m_BodyPaintMaterialIndex); Color color = m_BodyPaintColors[Mathf.Clamp(m_BodyPaintVariant, 0, m_BodyPaintColors.Length - 1)]; // 현재 도장 슬롯의 속성과 이번 차량의 색을 읽습니다.
+            m_BodyPaintProperties.SetVector(k_BodyBaseColor, new Vector4(color.r, color.g, color.b, color.a)); m_BodyPaintRenderer.SetPropertyBlock(m_BodyPaintProperties, m_BodyPaintMaterialIndex); // 선형 색상 벡터를 사용해 기존 카툰 명암과 함께 차체 색만 출력합니다.
+        } // 공유 원본 재질이나 다른 차량의 도장은 변경하지 않습니다.
+
         private Vector3 m_PathStart; // 활성화 시 확정한 출발 좌표를 보관하여 주행 중 경로가 부분적으로 변경되지 않게 합니다.
         private Vector3 m_PathDirection; // 시작점에서 종료점으로 향하는 단위 방향을 한 번 계산하여 재사용합니다.
         private double m_PathLength; // 반복 구간의 길이를 배정밀도로 보관하여 이동 거리 나머지를 계산합니다.
@@ -76,7 +95,7 @@ namespace Y.Crosswalk // 횡단보도 개인 작업 영역의 차량 기능을 �
         public bool HasPassedCrosswalkForScenario => m_CrosswalkClearPoint != null && m_HasPassedStopPoint && m_TravelledDistance >= Vector3.Dot(m_CrosswalkClearPoint.position - m_PathStart, m_PathDirection); // 두 번째 상황의 차량 뒤쪽까지 횡단 구역을 빠져나간 사실을 제공합니다.
         public bool HasReachedGreenSignalChangePoint => m_GreenRoutePrepared && m_TravelledDistance >= m_GreenSignalChangeDistance; // 차가 다가오는 동안에만 세 번째 보행 신호를 전환하게 합니다.
 
-        public bool PrepareGreenScenarioRoute(Transform entry, Transform exit, Transform signalChangePoint, float approachSpeed) // 세 번째 차량이 같은 차로를 일정한 속도로 한 번 통과하도록 준비합니다.
+        public bool PrepareGreenScenarioRoute(Transform entry, Transform exit, Transform signalChangePoint, float approachSpeed, bool startAtSignalChangePoint = false) // 신호 클릭 직후 상황을 시작할 때는 기존 경로의 접근 준비 지점에서 다음 차량을 대기시킵니다.
         { // 첫 번째·두 번째 주행 설정과 차량 인스턴스를 보존합니다.
             if (m_GreenRoutePrepared || !isActiveAndEnabled || entry == null || exit == null || signalChangePoint == null || !IsFinite(approachSpeed) || approachSpeed <= 0f) return false; // 연결된 차로와 양수 속도가 있을 때만 세 번째 통과를 준비합니다.
             Vector3 path = exit.position - entry.position; float length = path.magnitude; // 기존 도로 위 세 번째 차로의 길이를 구합니다.
@@ -84,11 +103,12 @@ namespace Y.Crosswalk // 횡단보도 개인 작업 영역의 차량 기능을 �
             Vector3 direction = path / length; float signalChangeDistance = Vector3.Dot(signalChangePoint.position - entry.position, direction); // 차로를 따라 신호가 바뀔 위치를 구합니다.
             if (signalChangeDistance <= 0f || signalChangeDistance >= length) return false; // 실제로 달리는 경로 안에서만 보행 신호를 바꿉니다.
             m_BeforeGreenPathStart = m_PathStart; m_BeforeGreenDirection = m_PathDirection; m_BeforeGreenPosition = transform.position; m_BeforeGreenRotation = transform.rotation; // 실제 기존 배치와 방향을 저장합니다.
+            m_BeforeGreenPaintVariant = m_BodyPaintVariant; // 이전 차량으로 상황을 복원할 때 차체 도장도 같은 차량의 색으로 돌립니다.
             m_BeforeGreenLength = m_PathLength; m_BeforeGreenDistance = m_TravelledDistance; m_BeforeGreenSpeed = m_CurrentSpeed; // 앞선 상황의 주행 상태를 복원할 수 있게 저장합니다.
             m_BeforeGreenPassed = m_HasPassedStopPoint; m_BeforeGreenPaused = m_ScenarioPaused; m_GreenRoutePrepared = true; // 세 번째 상황만 경로를 소유하고 있음을 기록합니다.
-            m_PathStart = entry.position; m_PathDirection = direction; m_PathLength = length; m_GreenSignalChangeDistance = signalChangeDistance; m_TravelledDistance = 0d; // 기존 정지선과 별도로 세 번째 차로와 신호 전환 위치를 저장합니다.
+            m_PathStart = entry.position; m_PathDirection = direction; m_PathLength = length; m_GreenSignalChangeDistance = signalChangeDistance; m_TravelledDistance = startAtSignalChangePoint ? signalChangeDistance : 0d; // 클릭 즉시 신호와 첫 발을 시작할 수 있도록 요청한 경우에만 접근 준비 위치를 사용합니다.
             m_CurrentSpeed = approachSpeed; m_HasPassedStopPoint = false; m_ScenarioPaused = true; m_NearMissRunning = false; m_EmergencyBraking = false; m_KeepApproachSpeed = false; m_ScenarioPlaybackRate = 1f; // 재개할 때 바로 지정한 접근 속도로 진행하도록 준비합니다.
-            transform.SetPositionAndRotation(entry.position, Quaternion.LookRotation(direction)); // 기존 차체를 올바른 통행 방향으로 같은 도로에 배치합니다.
+            transform.SetPositionAndRotation(m_PathStart + m_PathDirection * (float)m_TravelledDistance, Quaternion.LookRotation(direction)); AdvanceBodyPaint(); // 다음 차량을 준비한 접근 위치에 놓고 이전 차량과 다른 차체 색을 적용합니다.
             return true; // 암전이 걷힌 뒤 같은 속도로 횡단보도를 통과할 준비가 끝났습니다.
         } // XR Origin과 도로·횡단보도는 이동하지 않습니다.
 
@@ -98,7 +118,7 @@ namespace Y.Crosswalk // 횡단보도 개인 작업 영역의 차량 기능을 �
             m_PathStart = m_BeforeGreenPathStart; m_PathDirection = m_BeforeGreenDirection; m_PathLength = m_BeforeGreenLength; // 앞선 상황이 사용하던 차로를 되돌립니다.
             m_TravelledDistance = m_BeforeGreenDistance; m_CurrentSpeed = m_BeforeGreenSpeed; m_HasPassedStopPoint = m_BeforeGreenPassed; m_ScenarioPaused = m_BeforeGreenPaused; // 원래 이동 상태를 복원합니다.
             m_NearMissRunning = false; m_EmergencyBraking = false; m_KeepApproachSpeed = false; m_ScenarioPlaybackRate = 1f; m_GreenRoutePrepared = false; m_HasCheckpoint = false; // 세 번째 통과와 그 관찰 체크포인트를 종료합니다.
-            transform.SetPositionAndRotation(m_BeforeGreenPosition, m_BeforeGreenRotation); // 실제 차량 배치도 저장한 같은 상태로 돌립니다.
+            transform.SetPositionAndRotation(m_BeforeGreenPosition, m_BeforeGreenRotation); m_BodyPaintVariant = m_BeforeGreenPaintVariant; ApplyBodyPaint(); // 이전 주행 위치와 함께 이전 차량의 도장 색도 복원합니다.
         } // 이전 상황의 완료 기록은 변경하지 않습니다.
 
         public void CaptureScenarioCheckpoint() // 빨간불 관찰을 시작한 순간의 실제 주행 상태를 저장합니다.
@@ -125,7 +145,7 @@ namespace Y.Crosswalk // 횡단보도 개인 작업 영역의 차량 기능을 �
             m_NearMissStopDistance = Vector3.Dot(crossingPoint - m_PathStart, m_PathDirection) - separation; // 차량 중심의 정지 위치를 기존 누적 거리 단위로 환산합니다.
             double remaining = m_NearMissStopDistance - m_TravelledDistance; // 현재 관찰 위치에서 움직일 수 있는 거리를 구합니다.
             if (remaining <= 1.5d || m_NearMissStopDistance >= m_PathLength) return false; // 정지 여유가 없는 배치를 순간 이동으로 보정하거나 친구를 관통하게 두지 않습니다.
-            m_NearMissSpeed = Mathf.Clamp((float)(remaining - 1.1d) / Mathf.Max(1f, arrivalTime - 0.35f), 0.4f, Mathf.Max(0.4f, m_Speed)); // 친구의 실제 보행 시간에 맞춰 기존 차로에서 접근하고 마지막 구간은 급정거에 남깁니다.
+            m_NearMissSpeed = Mathf.Clamp((float)remaining / Mathf.Max(0.25f, arrivalTime - 0.4f), 0.4f, Mathf.Max(0.4f, m_GreenRoutePrepared ? Mathf.Max(m_CurrentSpeed, m_Speed) : m_Speed)); // 친구가 차선에 도착하는 시간에서 실제 급정거 시간을 빼 접근 속도를 정하고 통과 차량의 빠른 속도도 유지할 수 있게 합니다.
             m_KeepApproachSpeed = preserveSpeed; if (!preserveSpeed) m_CurrentSpeed = m_NearMissSpeed; m_NearMissRunning = true; m_EmergencyBraking = false; m_ScenarioPlaybackRate = 1f; // 정지된 장면에서 결과 전용 접근 속도를 확정합니다.
             return true; // 위치나 회전을 바꾸지 않고 다음 주행 프레임부터 접근할 수 있게 합니다.
         } // 일반 신호에 따른 차량 정지와 반복 주행은 별도 기존 경로를 유지합니다.
@@ -161,6 +181,7 @@ namespace Y.Crosswalk // 횡단보도 개인 작업 영역의 차량 기능을 �
             m_HasPassedStopPoint = m_TravelledDistance > m_StopDistance; // 배치한 위치가 실제 정지점을 지났는지 같은 기준으로 기록합니다.
             m_CurrentSpeed = IsFinite(m_Speed) && m_Speed > 0f ? m_Speed : 0f; // 빨간 보행 신호에서 기존 설정 속도로 주행을 이어갑니다.
             transform.position = m_PathStart + m_PathDirection * (float)m_TravelledDistance; // 차량 Transform과 다음 프레임의 거리 계산이 같은 위치에서 시작하게 합니다.
+            AdvanceBodyPaint(); // 새 상황의 도로 시작점에 들어온 차량을 앞서 지나간 차량과 다른 색으로 구분합니다.
         } // 기존 신호 제동과 반복 주행은 그대로 사용합니다.
 
         public bool IsClearForFriendCrossing => !gameObject.activeInHierarchy || !m_HasPassedStopPoint || (m_CrosswalkClearPoint != null && m_TravelledDistance >= Vector3.Dot(m_CrosswalkClearPoint.position - m_PathStart, m_PathDirection)); // 정지점 앞에서 진입을 막을 수 있거나 차량 뒤쪽까지 완전히 통과한 경우에만 친구의 출발을 허용합니다.
@@ -177,6 +198,7 @@ namespace Y.Crosswalk // 횡단보도 개인 작업 영역의 차량 기능을 �
             m_CurrentSpeed = IsFinite(m_Speed) && m_Speed > 0f ? m_Speed : 0f; // 씬 시작 시 기존 기본 주행 속도를 유지하고 비정상 속도는 0으로 취급합니다.
             m_HasPassedStopPoint = false; // 출발점으로 돌아온 차량은 이번 회차의 신호를 다시 따라야 합니다.
             transform.SetPositionAndRotation(m_PathStart, Quaternion.LookRotation(m_PathDirection, Vector3.up)); // 모델의 로컬 +Z 앞면을 실제 경로 방향에 맞추고 도로 위에 놓습니다.
+            m_BodyPaintVariant = -1; AdvanceBodyPaint(); // 씬을 시작하거나 차량을 다시 켤 때 첫 도장부터 같은 순서로 적용합니다.
         } // 주행 중에는 경로 방향을 다시 돌리지 않도록 최초 회전을 확정합니다.
 
         private void LateUpdate() // 신호등의 Update가 현재 프레임의 신호를 적용한 다음 차량 이동을 판단합니다.
@@ -186,6 +208,7 @@ namespace Y.Crosswalk // 횡단보도 개인 작업 영역의 차량 기능을 �
             if (deltaTime <= 0f) // 일시정지 상태에서는 속도와 위치를 함께 유지합니다.
                 return; // 정지된 시간에 가감속 계산을 수행하지 않습니다.
 
+            if (m_NearMissRunning) { AdvanceScenarioNearMiss(deltaTime); return; } // 위험 선택에서는 준비된 통과 경로보다 같은 차선의 급정거가 실제 이동을 우선 제어합니다.
             if (m_GreenRoutePrepared) // 세 번째에 연출되는 차량은 보행 신호가 바뀐 뒤에도 같은 속도로 통과합니다.
             { // 관찰로 정지했다 재개해도 저장한 접근 속도와 위치에서 이어집니다.
                 m_TravelledDistance = Math.Min(m_PathLength, m_TravelledDistance + m_CurrentSpeed * deltaTime); // 한 번 지나간 차량이 횡단 중 반대편 시작점에 다시 나타나지 않게 합니다.
@@ -193,11 +216,12 @@ namespace Y.Crosswalk // 횡단보도 개인 작업 영역의 차량 기능을 �
                 if (m_TravelledDistance >= m_PathLength) m_ScenarioPaused = true; // 통과를 끝낸 차량은 차로 끝에서 계산을 멈춥니다.
                 return; // 이 차량에만 앞선 상황의 신호 정지나 급제동을 적용하지 않습니다.
             } // 세 번째 경로를 해제하면 기존 신호 주행으로 돌아갑니다.
-            if (m_NearMissRunning) { AdvanceScenarioNearMiss(deltaTime); return; } // 위험 선택 동안만 같은 차량의 경로 소유권을 급정거 분기에 넘깁니다.
             double step = CalculateMovementStep(deltaTime, MustStopForPedestrians()); // 현재 신호를 판단한 뒤 가감속을 반영한 실제 전진 거리를 계산합니다.
             double distance = m_TravelledDistance + step; // 기존 경로에서 이번 프레임이 끝났을 때의 진행 거리를 구합니다.
             if (distance >= m_PathLength) // 도로 끝에서 시작점으로 반복 배치할 때만 이번 회차의 통과 상태를 초기화합니다.
-                m_HasPassedStopPoint = false; // 다음 회차에는 초록불에 다시 정지할 수 있게 합니다.
+            { // 도로 끝에서 다음 차량이 새로 진입하는 경우에만 도장을 바꿉니다.
+                m_HasPassedStopPoint = false; AdvanceBodyPaint(); // 새 주행 회차의 진입 상태와 차체 색을 함께 갱신합니다.
+            } // 같은 차량이 횡단보도 앞에서 멈췄다가 출발할 때는 색을 유지합니다.
 
             m_TravelledDistance = distance % m_PathLength; // 도로 양끝의 기존 반복 배치와 초과 거리 보존을 유지합니다.
             if (m_TravelledDistance > m_StopDistance) // 차량 중심이 정지점을 실제로 지난 뒤에는 그 회차의 통과를 확정합니다.

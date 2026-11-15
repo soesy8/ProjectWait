@@ -107,6 +107,10 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
         private Vector3 m_CheckpointPathStart, m_CheckpointPathDirection; // 안전 우회로가 기존 보행 경로를 바꾸어도 관찰 경로로 정확히 돌아가게 합니다.
         private float m_CheckpointPathLength, m_CheckpointPhaseOffset, m_CheckpointSpeedSetting; // 경로 길이·보폭 기준·설정 속도를 관찰 시점과 함께 저장합니다.
         private bool m_UnsafeScenarioCrossing, m_CheckpointCrossingStarted, m_CheckpointFirstStepHold; // 위험 선택에서만 횡단 제한을 적용하고 재시도할 때 횡단 시작 기록과 첫 발 보류를 복원합니다.
+        private bool m_ScenarioRunning; // 깜빡이는 파란불에 뛰어드는 위험 횡단에서만 빠른 보폭을 사용합니다.
+        private float ScenarioStrideLength => m_ScenarioRunning ? 1.05f : k_StrideLength; // 달리기에서는 넓은 보폭으로 발 위상을 맞추고 기존 인도 보행은 원래 보폭을 유지합니다.
+        public bool IsScenarioRunning => m_ScenarioRunning && !m_ScenarioPaused && IsWalking; // 실제 이동 중인 달리기에만 관절 연출을 적용하도록 상태를 제공합니다.
+        public void SetScenarioRunning(bool running) { m_ScenarioRunning = running; } // 결과 장면의 시작과 중간 지점 정지에서 같은 이동기의 달리기 상태를 전환합니다.
         private float m_ScenarioPlaybackRate = 1f, m_CheckpointWaitRemaining, m_CheckpointFirstStepTime; // 개별 느린 동작의 배율과 관찰 당시 첫 발 반응 시간을 보관합니다.
         private Transform m_CheckpointRejectedSignalTarget; // 재시도 후에도 원래 빨간 신호를 바라보는 반응을 재사용합니다.
         public bool IsScenarioDetouring => isActiveAndEnabled && (m_State == MovementState.TurningToWalk || IsWalking); // 우회 방향 준비와 실제 보행·감속이 모두 끝났는지 제공합니다.
@@ -150,7 +154,7 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
         public void PlaceWaitingForScenario(Vector3 position, Quaternion rotation) // 상황 취소 시 기록한 실제 위치와 방향으로 같은 친구를 복원합니다.
         { // 보행과 첫 발의 잔여 상태가 새 대기에 섞이지 않게 합니다.
             if (m_CrossingStarted) return; // 먼저 관찰 체크포인트를 복원해야 진행 중인 횡단을 되돌릴 수 있습니다.
-            m_DetourWaypoints = null; // 이전 인도 보행이 끝난 뒤 중간 지점을 다시 따르지 않게 합니다.
+            m_DetourWaypoints = null; m_ScenarioRunning = false; // 인도에서 다시 기다릴 때 이전 우회 경로와 위험 횡단의 달리기 보폭을 해제합니다.
             m_PathStart = position; m_PathDirection = Vector3.ProjectOnPlane(rotation * Vector3.forward, Vector3.up).normalized; // 대기 위치와 다음 방향을 실제 인도 기준으로 설정합니다.
             m_PathLength = 0f; m_Distance = 0f; m_CurrentSpeed = 0f; m_StopProgress = 0f; m_WaitRemaining = 0f; // 직전 보행과 감속 수치를 초기화합니다.
             m_ScenarioApproachLimit = null; m_ResponseElapsed = 1.6f; m_RejectedSignalTarget = null; m_ScenarioFirstStepHold = false; // 첫 발이나 차량 앞 제한이 남지 않게 합니다.
@@ -238,7 +242,7 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
             m_State = m_CheckpointState; // 기존 보행 상태를 복원합니다.
             m_PathStart = m_CheckpointPathStart; m_PathDirection = m_CheckpointPathDirection; m_PathLength = m_CheckpointPathLength; // 우회 중 중단되어도 처음 관찰했던 보행 경로로 복원합니다.
             m_PhaseOffset = m_CheckpointPhaseOffset; m_Speed = m_CheckpointSpeedSetting; m_ScenarioApproachLimit = m_CheckpointApproachLimit; // 같은 속도 설정·보폭·안전 대기 지점으로 재시도합니다.
-            m_CrossingStarted = m_CheckpointCrossingStarted; m_ScenarioFirstStepHold = m_CheckpointFirstStepHold; m_UnsafeScenarioCrossing = false; // 위험 횡단 기록을 없애고 원래 첫 발의 인도 대기 상태로 되돌립니다.
+            m_CrossingStarted = m_CheckpointCrossingStarted; m_ScenarioFirstStepHold = m_CheckpointFirstStepHold; m_UnsafeScenarioCrossing = false; m_ScenarioRunning = false; // 재시도에서 위험 횡단과 달리기 상태를 지우고 저장한 출발 직전 자세로 복원합니다.
             m_WaitRemaining = m_CheckpointWaitRemaining; m_ScenarioFirstStepTime = m_CheckpointFirstStepTime; m_RejectedSignalTarget = m_CheckpointRejectedSignalTarget; SetScenarioPlaybackRate(1f); // 첫 발의 남은 반응 시간과 정상 재생 속도를 복원합니다.
             m_ScenarioFirstStepOrigin = m_CheckpointFirstStepOrigin; // 복원한 첫 발 자세의 전진 기준도 같은 위치로 맞춥니다.
             m_ResponseElapsed = 1.6f; // 이전 명령의 손들기 반응이 재시도에 남지 않게 합니다.
@@ -286,7 +290,7 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
             m_CurrentSpeed = 0f; // 대기 상태에서 출발 가속을 시작합니다.
             m_StopProgress = 0f; // 마지막 한 걸음은 아직 시작하지 않았습니다.
             m_WaitRemaining = PositiveOrZero(m_StartDelay); // 음수·비정상 대기 시간은 즉시 출발로 취급합니다.
-            m_PhaseOffset = Mathf.Repeat(-(m_PathLength - k_StopDistance) / k_StrideLength, 1f); // 정지 구간 진입 시 걷기 위상이 정확히 0이 되도록 설정합니다.
+            m_PhaseOffset = Mathf.Repeat(-(m_PathLength - k_StopDistance) / ScenarioStrideLength, 1f); // 실제 이동 방식의 보폭으로 걸음 위상을 계산하여 빠른 달리기가 짧은 제자리 걸음처럼 보이지 않게 합니다.
             m_State = MovementState.Waiting; // 자동 시작은 이 대기 상태에서 한 번만 발생합니다.
             transform.SetPositionAndRotation(m_PathStart, Quaternion.LookRotation(m_PathDirection, Vector3.up)); // 캐릭터만 출발점에 놓고 실제 이동 방향을 바라보게 합니다.
             m_Animator.applyRootMotion = false; // 클립과 스크립트가 이동 거리를 중복 적용하지 않게 합니다.
@@ -333,7 +337,7 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
             m_Distance = 0f; // 접근에서 누적한 거리를 횡단 경로에 섞지 않습니다.
             m_CurrentSpeed = 0f; // 기존 출발 가속을 사용해 정지 상태에서 자연스럽게 출발합니다.
             m_StopProgress = 0f; // 가까운 인도에 도착할 때 마지막 감속 걸음을 처음부터 적용합니다.
-            m_PhaseOffset = Mathf.Repeat(-(m_PathLength - k_StopDistance) / k_StrideLength, 1f); // 횡단 거리에도 기존 보폭과 마지막 정지 자세를 일치시킵니다.
+            m_PhaseOffset = Mathf.Repeat(-(m_PathLength - k_StopDistance) / ScenarioStrideLength, 1f); // 실제 이동 방식의 보폭으로 걸음 위상을 계산하여 빠른 달리기가 짧은 제자리 걸음처럼 보이지 않게 합니다.
             m_WaitRemaining = 0f; // 횡단 출발에서도 불필요한 제자리 대기를 두지 않습니다. // 현재 휴대전화의 0.5초 자세 해제 동안 제자리에서 횡단 방향을 준비합니다.
             m_ResponseElapsed = 1.6f; // 이전 멈춤 응답의 손들기를 횡단 동작에 남기지 않습니다.
             m_Animator.SetFloat(k_WalkPhase, m_PhaseOffset); // 새 경로에 맞는 걷기 위상을 준비합니다.
@@ -391,7 +395,7 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
                     float progress = Mathf.Clamp01((k_SignalReactionDuration - m_WaitRemaining) / m_ScenarioFirstStepTime); // 긴 프레임에서도 한 걸음의 범위를 넘지 않는 진행도를 구합니다.
                     float distance = k_ScenarioFirstStepDistance * Mathf.SmoothStep(0f, 1f, progress); // 한 발을 내딛고 끝에서 멈추도록 이동을 완만하게 만듭니다.
                     transform.position = m_ScenarioFirstStepOrigin + m_ArrivalRotation * Vector3.forward * distance; // 현재 횡단 방향으로 친구의 루트만 인도 위에서 움직입니다.
-                    m_Animator.SetFloat(k_WalkPhase, distance / k_StrideLength); // 루트가 실제 움직인 거리에 맞춰 기존 걷기 클립의 발 디딤을 표시합니다.
+                    m_Animator.SetFloat(k_WalkPhase, distance / ScenarioStrideLength); // 실제 이동 방식의 보폭으로 걸음 위상을 계산하여 빠른 달리기가 짧은 제자리 걸음처럼 보이지 않게 합니다.
                 } // 선택 대기에서는 실제 위치와 자세가 한 프레임의 상태로 함께 저장됩니다.
                 else m_Animator.SetFloat(k_WalkPhase, (k_SignalReactionDuration - m_WaitRemaining) * 0.6f); // 일반 빨간불 거절 반응은 기존의 제자리 발 디딤을 사용합니다.
                 float turnSpeed = m_ScenarioFirstStepHold ? Mathf.Max(720f, ScenarioTurnSpeed) : ScenarioTurnSpeed; // 짧은 관찰 첫 발에서도 인도 진행 방향에서 횡단 방향으로 충분히 돌아봅니다.
@@ -439,7 +443,7 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
         { // 마지막 한 걸음을 남겨 두고 걷기 루프를 끝냅니다.
             float targetSpeed = PositiveOrZero(m_Speed); // Inspector 속도가 비정상적이면 전진을 멈춥니다.
             if (targetSpeed == 0f) { m_CurrentSpeed = 0f; return 0f; } // 진행도를 함께 정지시켜 발만 제자리에서 걷지 않게 합니다.
-            float acceleration = Mathf.Max(0.1f, PositiveOrZero(m_Acceleration)); // 출발 가속 계산에서 0으로 나누지 않도록 합니다.
+            float acceleration = m_ScenarioRunning ? Mathf.Max(6f, PositiveOrZero(m_Acceleration)) : Mathf.Max(0.1f, PositiveOrZero(m_Acceleration)); // 위험 횡단은 빠르게 뛰기 시작하고 기존 인도 보행의 출발 가속도는 유지합니다.
             float previousSpeed = m_CurrentSpeed; // 가속 구간 이동 거리를 계산할 시작 속도입니다.
             float rampTime = Mathf.Min(deltaTime, Mathf.Abs(targetSpeed - previousSpeed) / acceleration); // 목표 속도까지 가감속한 실제 시간을 구합니다.
             m_CurrentSpeed = Mathf.MoveTowards(previousSpeed, targetSpeed, acceleration * deltaTime); // 이번 프레임 끝의 속도를 연속적으로 갱신합니다.
@@ -450,7 +454,7 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
                 if (m_Distance + step >= limitDistance) // 이번 프레임에 안전 지점에 도달하거나 넘어가려는 경우입니다.
                 { // 초과 거리를 적용하기 전에 위치와 걸음 진행도를 제한합니다.
                     m_Distance = limitDistance; m_CurrentSpeed = 0f; ApplyPathPosition(); // 정확한 관찰 위치에서 앞으로 더 걷지 않게 합니다.
-                    m_Animator.SetFloat(k_WalkPhase, Mathf.Repeat(m_PhaseOffset + m_Distance / k_StrideLength, 1f)); // 휴대전화를 보며 걷던 발 자세를 유지합니다.
+                    m_Animator.SetFloat(k_WalkPhase, Mathf.Repeat(m_PhaseOffset + m_Distance / ScenarioStrideLength, 1f)); // 실제 이동 방식의 보폭으로 걸음 위상을 계산하여 빠른 달리기가 짧은 제자리 걸음처럼 보이지 않게 합니다.
                     return 0f; // 선택이 확정되어 제한을 해제할 때까지 도입 경로를 더 진행하지 않습니다.
                 } // 안전 지점 이전에는 기존 가속과 발 디딤을 그대로 적용합니다.
             } // 횡단과 명시적으로 재개한 위험 보행은 기존 도착점까지 진행합니다.
@@ -468,10 +472,10 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
             } // 경계 뒤의 이동은 마지막 발 디딤 계산에서 처리합니다.
             m_Distance += step; // 실제 전진한 거리만 걸음 진행도에 누적합니다.
             ApplyPathPosition(); // 접근의 기존 높이를 유지하고 횡단에서는 같은 고정 경로 위 실제 지면 높이를 적용합니다.
-            m_Animator.SetFloat(k_WalkPhase, Mathf.Repeat(m_PhaseOffset + m_Distance / k_StrideLength, 1f)); // 속도 변경과 관계없이 발 디딤을 실제 이동 거리에 맞춥니다.
+            m_Animator.SetFloat(k_WalkPhase, Mathf.Repeat(m_PhaseOffset + m_Distance / ScenarioStrideLength, 1f)); // 실제 이동 방식의 보폭으로 걸음 위상을 계산하여 빠른 달리기가 짧은 제자리 걸음처럼 보이지 않게 합니다.
             if (intermediate && m_Distance >= m_PathLength - 0.00001f) // 도착한 중간 지점에서는 보행 상태를 계속 유지합니다.
             { // 같은 속도와 누적 걸음 위상을 다음 구간에 전달합니다.
-                m_PhaseOffset = Mathf.Repeat(m_PhaseOffset + m_Distance / k_StrideLength, 1f); ++m_DetourIndex; PrepareDetourLeg(); // 경로만 바꾸고 대기·감속·출발을 반복하지 않습니다.
+                m_PhaseOffset = Mathf.Repeat(m_PhaseOffset + m_Distance / ScenarioStrideLength, 1f); ++m_DetourIndex; PrepareDetourLeg(); // 실제 이동 방식의 보폭으로 걸음 위상을 계산하여 빠른 달리기가 짧은 제자리 걸음처럼 보이지 않게 합니다.
                 return Mathf.Max(0f, deltaTime - consumedTime); // 이번 프레임의 남은 이동 시간을 보존합니다.
             } // 마지막 경유점에서만 기존 정지 애니메이션을 재생합니다.
             if (m_Distance >= m_PathLength - stopDistance) // 루프 마지막 자세가 정지 클립의 첫 자세와 만나는 지점입니다.

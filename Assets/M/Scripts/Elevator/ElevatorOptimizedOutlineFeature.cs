@@ -35,7 +35,7 @@ namespace ProjectWait.M.Elevator
    const float WorldUnitsPerWidthUnit=4f*.6745085f/1080f;
    // Printed surfaces sit slightly in front of their authored frames.
    const float DepthTolerance=.06f;
-   static readonly int SourceID=Shader.PropertyToID("_OutlineSource"),MaskID=Shader.PropertyToID("_OutlineOriginalMask"),SizeID=Shader.PropertyToID("_OutlineFullSize"),SourceSizeID=Shader.PropertyToID("_OutlineSourceSize"),StepID=Shader.PropertyToID("_OutlineStep"),ColourID=Shader.PropertyToID("_OutlineTint"),WidthsID=Shader.PropertyToID("_OutlineWidths");
+   static readonly int SourceID=Shader.PropertyToID("_OutlineSource"),MaskID=Shader.PropertyToID("_OutlineOriginalMask"),SizeID=Shader.PropertyToID("_OutlineFullSize"),SourceSizeID=Shader.PropertyToID("_OutlineSourceSize"),StepID=Shader.PropertyToID("_OutlineStep"),ColourID=Shader.PropertyToID("_OutlineTint"),WidthsID=Shader.PropertyToID("_OutlineWidths"),ScreenScaleID=Shader.PropertyToID("_OutlineScreenScale"); // 기존 합성 속성과 함께 대상별 화면 두께 배율을 전달할 셰이더 식별자를 준비합니다.
    public OutlinePass(Material mask,Material distance){maskMaterial=mask;distanceMaterial=distance;renderPassEvent=RenderPassEvent.BeforeRenderingTransparents;ConfigureInput(ScriptableRenderPassInput.Depth);}
    MaterialPropertyBlock Block(){if(blockIndex==blocks.Count)blocks.Add(new MaterialPropertyBlock());var b=blocks[blockIndex++];b.Clear();return b;}
    sealed class MaskData{public ElevatorOutlineGeometry[] geometry;public Material material;public Rect rect;}
@@ -56,18 +56,18 @@ namespace ProjectWait.M.Elevator
       if(p.z<=camera.nearClipPlane){near=true;continue;}any=true;min=Vector2.Min(min,p);max=Vector2.Max(max,p);
      }
     }
-    float scale=projectionScale/(camera.orthographic?1:Mathf.Max(nearestDepth,camera.nearClipPlane));
+    float scale=target.constantScreenSize?height/1080f:projectionScale/(camera.orthographic?1:Mathf.Max(nearestDepth,camera.nearClipPlane)); // 집처럼 화면 두께를 유지하는 대상은 실제 합성과 같은 배율로 후광의 그리기 영역을 확보합니다.
     // The closest bounds corner gives a conservative search radius for every silhouette depth.
     radius=Mathf.Min(Mathf.Max(width,height),Mathf.Max(target.Width,target.Halo)*scale);float padding=radius+6;
     if(!any){rect=default;return false;}if(near){rect=new Rect(0,0,1,1);return true;}
     float px=padding/width,py=padding/height;rect=Rect.MinMaxRect(Mathf.Clamp01(min.x-px),Mathf.Clamp01(min.y-py),Mathf.Clamp01(max.x+px),Mathf.Clamp01(max.y+py));return rect.width>0&&rect.height>0;
    }
-   void Blit(RenderGraph graph,string name,TextureHandle source,TextureHandle mask,TextureHandle depth,TextureHandle destination,Material material,int shaderPass,Rect rect,Vector4 fullSize,Vector4 sourceSize,float step,Color colour,Vector4 widths,bool blend)
+   void Blit(RenderGraph graph,string name,TextureHandle source,TextureHandle mask,TextureHandle depth,TextureHandle destination,Material material,int shaderPass,Rect rect,Vector4 fullSize,Vector4 sourceSize,float step,Color colour,Vector4 widths,bool blend,float screenScale=0f) // 기본값은 기존 거리 감쇠를 유지하고 집의 최종 합성에만 화면 기준 배율을 전달합니다.
    {
     using(var builder=graph.AddRasterRenderPass<BlitData>(name,out var data))
     {
      data.source=source;data.mask=mask;data.material=material;data.shaderPass=shaderPass;data.rect=rect;data.properties=Block();
-     data.properties.SetVector(SizeID,fullSize);data.properties.SetVector(SourceSizeID,sourceSize);data.properties.SetFloat(StepID,step);data.properties.SetColor(ColourID,colour);data.properties.SetVector(WidthsID,widths);
+     data.properties.SetVector(SizeID,fullSize);data.properties.SetVector(SourceSizeID,sourceSize);data.properties.SetFloat(StepID,step);data.properties.SetColor(ColourID,colour);data.properties.SetVector(WidthsID,widths);data.properties.SetFloat(ScreenScaleID,screenScale); // 각 패스가 사용할 기존 속성과 화면 두께 배율을 개별 속성 블록에 기록합니다.
      builder.UseTexture(source,AccessFlags.Read);if(mask.IsValid())builder.UseTexture(mask,AccessFlags.Read);if(depth.IsValid())builder.UseTexture(depth,AccessFlags.Read);
      builder.SetRenderAttachment(destination,0,blend?AccessFlags.ReadWrite:AccessFlags.Write);
      builder.SetRenderFunc(static(BlitData d,RasterGraphContext context)=>
@@ -121,7 +121,7 @@ namespace ProjectWait.M.Elevator
      int start=Mathf.Max(1,Mathf.NextPowerOfTwo(Mathf.Max(1,Mathf.CeilToInt(radius*.5f)+1))/2);
      for(int jump=start;jump>=1;jump/=2){var next=graph.CreateTexture(seedDesc);Blit(graph,"Elevator dilation "+jump,nearest,TextureHandle.nullHandle,TextureHandle.nullHandle,next,distanceMaterial,1,halfRect,fullSize,seedSize,jump,Color.white,Vector4.zero,false);nearest=next;}
      var refined=graph.CreateTexture(seedDesc);Blit(graph,"Elevator dilation refine",nearest,TextureHandle.nullHandle,TextureHandle.nullHandle,refined,distanceMaterial,1,halfRect,fullSize,seedSize,1,Color.white,Vector4.zero,false);
-     Blit(graph,"Elevator outside-only composite / "+target.name,refined,mask,resources.cameraDepthTexture,resources.activeColorTexture,distanceMaterial,2,rect,fullSize,seedSize,0,target.Colour,new Vector4(target.Width,target.Halo,widthScale,DepthTolerance),true);
+     Blit(graph,"Elevator outside-only composite / "+target.name,refined,mask,resources.cameraDepthTexture,resources.activeColorTexture,distanceMaterial,2,rect,fullSize,seedSize,0,target.Colour,new Vector4(target.Width,target.Halo,widthScale,DepthTolerance),true,target.constantScreenSize?h/1080f:0f); // 집은 화면 해상도에 맞는 윤곽선과 후광을 합성하고 다른 대상은 원래 거리별 두께를 유지합니다.
     }
    }
   }

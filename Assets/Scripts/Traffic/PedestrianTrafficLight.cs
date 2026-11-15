@@ -34,6 +34,8 @@ namespace Y.Crosswalk // 개인 작업 영역의 횡단보도 기능을 기존 V
         private double m_StateStartedAt; // 현재 신호가 시작한 절대 시간을 저장하여 프레임별 누적 오차를 피합니다.
         private bool m_ScenarioPaused; // 관찰 중에도 표시를 켜 둔 채 이 신호의 자동 전환만 보류합니다.
         private double m_ScenarioPausedAt; // 재개할 때 정지한 시간을 신호 기준 시각에서 제외합니다.
+        private bool m_ScenarioFlashingGreen; // 관찰 중에도 유지할 파란 사람 표시의 깜빡임 상태를 보관합니다.
+        private double m_ScenarioFlashStartedAt; // 신호 타이머 정지와 별개로 실제 깜빡임의 시작 시각을 저장합니다.
         public bool IsScenarioPaused => m_ScenarioPaused; // 상황 제어기가 기존 개별 정지 상태를 보관하고 복원하게 합니다.
 
         public void SetScenarioPaused(bool paused) // 신호 오브젝트를 끄지 않고 현재 표시와 남은 시간을 유지합니다.
@@ -56,6 +58,12 @@ namespace Y.Crosswalk // 개인 작업 영역의 횡단보도 기능을 기존 V
             ApplyState(SignalState.Green); m_ScenarioPaused = true; // 실제 파란 보행 표시를 켜고 시험용 자동 전환만 보류합니다.
         } // 차량과 XR 입력의 시간을 전역으로 정지하지 않습니다.
 
+        public void HoldFlashingGreenForScenario() // 친구가 서둘러 뛰어들려는 상황에서 실제 파란 사람 표시를 깜빡이게 합니다.
+        { // 자동 신호의 남은 시간이 관찰 도중 소진되지 않도록 기존 상황 정지를 사용합니다.
+            if (m_ScenarioFlashingGreen) return; // 도착이나 위험 선택에서 같은 깜빡임을 다시 요청해도 이미 진행 중인 점멸 위상을 초기화하지 않습니다.
+            HoldGreenForScenario(); m_ScenarioFlashingGreen = true; m_ScenarioFlashStartedAt = Time.unscaledTimeAsDouble; // 파란불 상태를 유지하면서 표시만 별도의 실제 시간으로 켰다 끕니다.
+        } // 기다리기나 위험 횡단에서 빨간불로 바꾸면 깜빡임도 함께 끝납니다.
+
         public SignalState CurrentState { get; private set; } = SignalState.Red; // 다른 스크립트는 현재 신호를 읽을 수 있지만 임의로 바꾸지는 못합니다.
 
         private void OnEnable() // 씬 시작이나 신호등 재활성화 시 정지 신호부터 시간을 계산합니다.
@@ -73,6 +81,7 @@ namespace Y.Crosswalk // 개인 작업 영역의 횡단보도 기능을 기존 V
 
         private void Update() // 활성 상태에서 현재 신호의 유지 시간이 지났는지 프레임마다 판단합니다.
         { // 지나간 시간으로 최종 상태를 먼저 계산하고 표시 변경은 마지막에 한 번만 수행합니다.
+            if (m_ScenarioFlashingGreen) { bool lit = (Time.unscaledTimeAsDouble - m_ScenarioFlashStartedAt) % 0.6d < 0.3d; if (m_GreenSignal.activeSelf != lit) m_GreenSignal.SetActive(lit); return; } // 0.3초 간격의 실제 깜빡임은 선택을 기다리며 상황 시간이 정지해도 계속 표시합니다.
             if (m_ScenarioPaused) return; // 관찰과 호출 도입에서는 현재 빨간 표시를 유지하고 타이머만 보류합니다.
             double redDuration = Mathf.Max(k_MinimumDuration, m_RedDuration); // 직렬화된 값에도 최소 시간을 적용하여 계산에 0이 들어가지 않게 합니다.
             double greenDuration = Mathf.Max(k_MinimumDuration, m_GreenDuration); // 초록불에도 같은 양수 조건을 적용하고 실행 중 변경값을 읽습니다.
@@ -98,6 +107,7 @@ namespace Y.Crosswalk // 개인 작업 영역의 횡단보도 기능을 기존 V
 
         private void ApplyState(SignalState state) // 두 사람 표시의 활성 상태와 공개 상태를 함께 갱신합니다.
         { // 켤 표시를 선택하기 전에 두 표시를 모두 꺼 동시 점등을 방지합니다.
+            m_ScenarioFlashingGreen = false; // 빨간불이나 일반 파란불을 적용하면 이전 상황의 깜빡임이 다음 신호를 덮어쓰지 않게 합니다.
             m_RedSignal.SetActive(false); // 정지 사람 도형 전체를 먼저 끕니다.
             m_GreenSignal.SetActive(false); // 보행 사람 도형도 끈 뒤 하나만 선택할 준비를 합니다.
             CurrentState = state; // 외부에서 읽는 상태를 이번에 적용할 신호로 갱신합니다.
@@ -109,6 +119,7 @@ namespace Y.Crosswalk // 개인 작업 영역의 횡단보도 기능을 기존 V
 
         private void OnDisable() // 신호등이나 컴포넌트가 꺼지면 표시도 함께 정리합니다.
         { // 초기 연결이 누락되어 비활성화된 경우에도 안전하게 표시를 끕니다.
+            m_ScenarioFlashingGreen = false; // 비활성화한 신호를 다시 켤 때 이전 깜빡임이 재개되지 않게 정리합니다.
             if (m_RedSignal != null) // 빨간 표시가 연결된 경우에만 활성 상태를 바꿉니다.
                 m_RedSignal.SetActive(false); // 정지 신호가 비활성 컴포넌트에 남아 켜져 있지 않게 합니다.
             if (m_GreenSignal != null) // 초록 표시의 연결도 독립적으로 확인합니다.

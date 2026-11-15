@@ -129,7 +129,7 @@ namespace Y.Crosswalk // 두 번째 상황의 친구 2 표현을 진행·입력�
 
         private void LateUpdate() // Animator가 적용한 기본 자세 뒤에 필요한 표현만 덧붙입니다.
         { // 정지된 결과 표현은 매번 기준 자세를 불러와 회전 누적을 방지합니다.
-            if (m_Mode == PoseMode.None) return; // 평소에는 기존 모델·Animator의 자세를 그대로 둡니다.
+            if (m_Mode == PoseMode.None) { if (m_Movement.IsScenarioRunning && m_Animator.enabled) ApplyRunningPose(); return; } // Animator가 새 자세를 기록하는 실제 달리기에서만 보폭과 팔·상체 움직임을 덧붙여 회전 누적을 피합니다.
             if (m_Mode != PoseMode.PanicHold) m_Time += Time.unscaledDeltaTime * m_PlaybackRate; // 이 친구의 연출 시간만 개별 배율로 진행합니다.
             if (m_Mode != PoseMode.Notice) LoadPose(m_BasePositions, m_BaseRotations, m_BaseScales); // Animator가 멈춘 표현에서도 매 프레임 같은 관절 기준을 사용합니다.
             if (m_Mode == PoseMode.Wave) // 빨간불을 모르고 반갑게 손을 흔드는 동작입니다.
@@ -166,6 +166,21 @@ namespace Y.Crosswalk // 두 번째 상황의 친구 2 표현을 진행·입력�
                 BlenderRigPose.SetSurprise(m_Head, m_SurpriseMouth, true); // 사고 원인을 설명하는 동안 놀란 입을 유지합니다.
             } // 플레이어의 시점이나 시간 배율은 바꾸지 않습니다.
         } // 친구 1의 자세와 애니메이션에는 접근하지 않습니다.
+
+        private void ApplyRunningPose() // 깜빡이는 파란불에 뛰어드는 친구를 기존 골격과 걷기 위상으로 표현합니다.
+        { // 매 프레임 Animator가 갱신한 자세를 기준으로 달리기의 기울기와 큰 관절 움직임만 덧붙입니다.
+            float phase = m_Animator.GetFloat("걸음 진행도") * Mathf.PI * 2f; // 실제 달린 거리에 동기화한 좌우 발 디딤 위상을 읽습니다.
+            m_Hips.localPosition += BlenderRigPose.ModelOffset(m_Hips, Vector3.up * (0.035f * Mathf.Abs(Mathf.Sin(phase * 2f)))); // 빠르게 발을 교대할 때 골반이 짧게 들리는 달리기 반동을 더합니다.
+            m_Spine.localRotation *= BlenderRigPose.DeltaRotation(m_Spine, Quaternion.Euler(12f, 0f, 0f)); // 급히 뛰어드는 상체를 진행 방향으로 기울입니다.
+            for (int i = 0; i < 2; ++i) // 양팔과 양다리를 같은 위상에서 교대로 움직입니다.
+            { // 원본 관절 좌표 변환을 사용해 모델의 바인드 회전을 유지합니다.
+                float swing = Mathf.Sin(phase + i * Mathf.PI); // 반대편 팔과 다리는 반 주기 뒤에 움직이게 합니다.
+                m_Arms[i].localRotation *= BlenderRigPose.DeltaRotation(m_Arms[i], Quaternion.Euler(swing * 24f, 0f, 0f)); // 보행보다 크게 앞뒤로 팔을 흔들어 서두르는 동작을 보여 줍니다.
+                m_Forearms[i].localRotation *= BlenderRigPose.DeltaRotation(m_Forearms[i], Quaternion.Euler(0f, 0f, i == 0 ? -60f : 60f)); // 팔꿈치를 굽힌 채 달리는 자세로 바꿉니다.
+                m_Thighs[i].localRotation *= BlenderRigPose.DeltaRotation(m_Thighs[i], Quaternion.Euler(-swing * 18f, 0f, 0f)); // 실제 이동 보폭에 맞춰 다리의 앞뒤 움직임을 넓힙니다.
+                m_Shins[i].localRotation *= BlenderRigPose.DeltaRotation(m_Shins[i], Quaternion.Euler(Mathf.Max(0f, -swing) * 32f, 0f, 0f)); // 뒤로 접히는 발의 무릎을 들어 걷기와 다른 빠른 발 교대를 만듭니다.
+            } // 달리기가 끝나면 기존 놀람과 정지 동작이 같은 관절을 이어받습니다.
+        } // 관찰 정지 중에는 이 동작을 반복 적용하지 않습니다.
 
         private void BeginSteps(Vector3 destination, Transform viewer) // 정지된 기존 골격에서 뒷걸음의 시작과 양발 기준을 저장합니다.
         { // 결과 이동을 적용하기 전에 일반 보행은 이미 개별 정지되어 있습니다.

@@ -25,6 +25,7 @@ namespace ProjectWait.M.Elevator
   public Color idleColor=new Color(1,.70f,.28f,1),hoverColor=new Color(.32f,.84f,1,1);
   [Min(0),Tooltip("주황색과 파란색 사이의 전환 시간(초). 0이면 즉시 전환합니다.")]public float colorTransitionDuration=.25f;
   [Min(1)]public float idleWidth=6.5f,hoverWidth=10.4f,idleHalo=20,hoverHalo=32;
+  [InspectorName("화면에서 강조 두께 유지"),Tooltip("멀리 있는 선택 대상의 윤곽선과 후광을 1080p 기준 화면 두께로 표시합니다.")] public bool constantScreenSize; // 먼 집도 가까운 휴대전화와 같은 화면 두께로 식별할 수 있도록 대상별 표시 방식을 저장합니다.
   public bool Visible{get;private set;}
   public bool Hovered{get;private set;}
   public bool InRange{get;private set;}

@@ -11,6 +11,7 @@ Shader "Y/Crosswalk/CleanCartoon" // 기존 모델의 큰 색면에 세 단계 �
         [HideInInspector] _BandSoftness("명암 경계의 부드러움", Range(0.001, 0.15)) = 0.015 // 단계별 명암 경계를 짧게 연결해 작은 물체의 깜빡임을 줄입니다.
         [HideInInspector] _OutlineColor("모델 윤곽선 색상", Color) = (0.28627452, 0.2, 0.15294118, 1) // M 친구와 같은 계열의 짙은 갈색을 윤곽선에만 사용합니다.
         [HideInInspector] _OutlineWidth("모델 윤곽선 두께(픽셀)", Range(0, 4)) = 1.6 // 물체의 원래 색면을 가리지 않는 얇은 화면 두께를 사용합니다.
+        [HideInInspector] _RoadClearanceHalfWidth("도로 지형 제외 반폭(m)", Float) = 0 // 배경 지형 전용 재질에서만 도로와 인도를 덮는 지면을 제외하며 기본값은 다른 모델을 유지합니다.
     } // 내부 재질 속성의 끝입니다.
     SubShader // 현재 프로젝트의 URP 파이프라인에서 사용하는 불투명 표면입니다.
     { // 기본 색면과 그림자 및 깊이를 같은 메시에서 출력합니다.
@@ -27,7 +28,12 @@ Shader "Y/Crosswalk/CleanCartoon" // 기존 모델의 큰 색면에 세 단계 �
             half _BandSoftness; // 명암 단계 사이의 짧은 전환 폭입니다.
             half _OutlineWidth; // 화면에서 사용할 윤곽선의 목표 픽셀 두께입니다.
             half _Cull; // 양면 얼굴 도형에는 별도 팽창 윤곽선을 겹치지 않게 합니다.
+            float _RoadClearanceHalfWidth; // 이 배경 지형 재질에만 지정한 차도와 양쪽 인도의 바깥 경계를 받습니다.
         CBUFFER_END // 모든 렌더링 패스가 공유하는 재질 상수 정의를 마칩니다.
+        void ClipRoadTerrain(float3 positionWS) // 지형의 색상과 그림자 및 윤곽선에서 같은 도로 영역을 제외합니다.
+        { // 기존 도로 아래의 지면과 양옆 건물 바닥은 유지합니다.
+            if (_RoadClearanceHalfWidth > 0.0) clip(max(abs(positionWS.z) - _RoadClearanceHalfWidth, 0.001 - positionWS.y)); // 도로 안쪽으로 솟은 지형만 버려 이미 배치된 차도와 인도가 가려지지 않게 합니다.
+        } // 도로를 덮는 지형의 공통 제외 처리를 마칩니다.
         ENDHLSL // 공통 재질 선언을 각 패스에 전달합니다.
         Pass // 캐릭터와 건물의 실제 화면 색상을 그리는 패스입니다.
         { // 주광과 그림자에 따른 밝음·중간·그늘의 세 단계 명암을 계산합니다.
@@ -165,10 +171,16 @@ Shader "Y/Crosswalk/CleanCartoon" // 기존 모델의 큰 색면에 세 단계 �
                 float3 normalOS : NORMAL; // 로컬 표면 방향입니다.
                 UNITY_VERTEX_INPUT_INSTANCE_ID // 반복 배치한 물체의 인스턴스 정보입니다.
             }; // 그림자 입력의 끝입니다.
-            float4 ShadowVertex(ShadowAttributes input) : SV_POSITION // 광원 기준의 그림자 정점입니다.
+            struct ShadowVaryings // 그림자에서도 도로 위 지형을 제외할 실제 월드 위치를 전달합니다.
+            { // 그림자 지도 위치와 원래 지면 위치를 함께 보관합니다.
+                float4 positionCS : SV_POSITION; // 기존 바이어스를 적용한 광원 기준의 화면 좌표입니다.
+                float3 positionWS : TEXCOORD0; // 도로 경계를 판정할 바이어스 적용 전의 지형 좌표입니다.
+            }; // 지형 제외를 위한 그림자 보간값 정의를 마칩니다.
+            ShadowVaryings ShadowVertex(ShadowAttributes input) // 기존 그림자 좌표와 도로 경계 판정에 필요한 원래 지형 위치를 함께 출력합니다.
             { // 그림자 번짐과 자기 그림자의 줄무늬를 줄이는 기본 바이어스를 반영합니다.
                 UNITY_SETUP_INSTANCE_ID(input); // 현재 물체의 변환을 사용합니다.
                 float3 positionWS = TransformObjectToWorld(input.positionOS.xyz); // 물체의 실제 배치 좌표입니다.
+                ShadowVaryings output = (ShadowVaryings)0; output.positionWS = positionWS; // 기존 모델의 실제 월드 좌표를 그림자 픽셀 단계까지 전달합니다.
                 float3 normalWS = TransformObjectToWorldNormal(input.normalOS); // 실제 표면 방향입니다.
                 #if defined(_CASTING_PUNCTUAL_LIGHT_SHADOW) // 점광원은 물체 위치에 따라 방향이 달라집니다.
                     float3 lightDirection = normalize(_LightPosition - positionWS); // 정점에서 광원으로 향하는 방향입니다.
@@ -181,11 +193,11 @@ Shader "Y/Crosswalk/CleanCartoon" // 기존 모델의 큰 색면에 세 단계 �
                 #else // 일반 깊이 버퍼의 근평면 처리입니다.
                     positionCS.z = max(positionCS.z, UNITY_NEAR_CLIP_VALUE * positionCS.w); // 일반 깊이 버퍼의 유효 범위를 유지합니다.
                 #endif // 플랫폼별 깊이 처리의 끝입니다.
-                return positionCS; // 그림자 지도에 기록할 정점입니다.
+                output.positionCS = positionCS; return output; // 원래 그림자 바이어스와 깊이를 유지하면서 지형 제외에 필요한 위치도 전달합니다.
             } // 그림자 정점 변환의 끝입니다.
-            half4 ShadowFragment() : SV_Target // 색상 대신 깊이만 기록하는 픽셀 단계입니다.
+            half4 ShadowFragment(ShadowVaryings input) : SV_Target // 화면에서 제외한 도로 위 지형이 보이지 않는 그림자를 남기지 않게 합니다.
             { // 패스의 ColorMask 설정에 따라 색상은 사용하지 않습니다.
-                return 0; // 추가 표면 효과 없이 그림자 깊이만 만듭니다.
+                ClipRoadTerrain(input.positionWS); return 0; // 도로를 덮는 지형은 그림자 깊이에서도 제외하고 다른 모델은 원래 깊이를 기록합니다.
             } // 그림자 픽셀 단계의 끝입니다.
             ENDHLSL // 그림자 패스의 끝입니다.
         } // 그림자 생성 패스의 끝입니다.

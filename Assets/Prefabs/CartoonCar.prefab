@@ -2629,6 +2629,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Y.Crosswalk.TrafficCarMovement
   m_StartPosition: {x: -37.5, y: 0, z: -1.75}
   m_EndPosition: {x: 37.5, y: 0, z: -1.75}
+  m_BodyPaintRenderer: {fileID: 78000003}
+  m_BodyPaintMaterialIndex: 5
+  m_BodyPaintColors:
+  - {r: 0.94, g: 0.38, b: 0.39, a: 1}
+  - {r: 0.27, g: 0.55, b: 0.84, a: 1}
+  - {r: 0.95, g: 0.72, b: 0.24, a: 1}
+  - {r: 0.28, g: 0.68, b: 0.51, a: 1}
   m_Speed: 4
   m_Acceleration: 2
   m_Deceleration: 3

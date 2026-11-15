@@ -16,9 +16,6 @@ namespace Y.Crosswalk // 기존 관찰 UI와 같은 월드 공간 입력 구성�
         [SerializeField, InspectorName("무단횡단 위험 설명"), Tooltip("부드러운 주황색 사고 원인 설명 패널입니다.")] private FirstSituationPanel m_Unsafe; // 실제 급정거 연출 뒤에만 설명을 표시합니다.
         [SerializeField, InspectorName("다시 관찰 안내"), Tooltip("관찰 복원 안내와 재시도 버튼이 있는 실제 패널입니다.")] private FirstSituationPanel m_Retry; // 기존 파스텔 버튼의 확대 반응을 재사용합니다.
         [SerializeField, Range(1.8f, 3.5f), InspectorName("UI 읽기 거리(m)"), Tooltip("패널을 배치할 편안한 읽기 거리입니다.")] private float m_Distance = 2.4f; // 친구가 건너편에 있어도 글자는 가까운 읽기 거리에서 표시합니다.
-        [SerializeField, InspectorName("전체 체험 마무리 패널"), Tooltip("세 번째 상황 완료와 구분되는 전체 안전 수칙·체험 종료 패널입니다. 두 번째 UI에서는 비워 둡니다.")] private FirstSituationPanel m_OverallSummary; // 상황 완료와 전체 마무리를 서로 다른 실제 패널로 표시합니다.
-        public float CompletionTransitionDuration => m_Safe.TransitionDuration; // 실제 세 번째 완료 패널이 퇴장한 뒤 전체 마무리로 전환합니다.
-        private Vector3 m_OriginalAnchorScale; // 마무리 화면의 각도와 크기를 조절할 때 실제 Canvas 배율을 보존합니다.
         [SerializeField, InspectorName("공유 말풍선 배치"), Tooltip("첫 상황에서 사용하는 실제 말풍선 배치입니다. 활성 UI와 얼굴을 함께 피합니다.")] private FirstSituationUI m_SharedLayout; // 생각·감사 대사에 별도의 배치 규칙을 만들지 않습니다.
         private FirstSituationPanel[] m_Panels; // 이번 선택과 결과의 실제 패널 목록입니다.
         [SerializeField, InspectorName("기존 VR·마우스 전환"), Tooltip("헤드셋 연결 상태를 판정하는 기존 입력 컴포넌트입니다.")] private CrosswalkDesktopInput m_InputSource; // 입력 모드 판정을 새로 만들지 않습니다.
@@ -39,7 +36,7 @@ namespace Y.Crosswalk // 기존 관찰 UI와 같은 월드 공간 입력 구성�
         private void Awake() // 이미 씬에 있는 패널만 준비합니다.
         { // 코드로 사각형·텍스트·버튼을 만들지 않습니다.
             foreach (Button button in m_Anchor.GetComponentsInChildren<Button>(true)) m_SharedLayout.StyleButton(button, true); // 두 번째·세 번째 상황의 기존 버튼도 M의 글꼴·그림·색상으로 초기화합니다.
-            m_OriginalAnchorScale = m_Anchor.localScale; m_Panels = new[] { m_Choice, m_Warning, m_Thanks, m_Safe, m_Unsafe, m_Retry, m_OverallSummary }; HideAll(); // 초기에는 선택 정답이나 결과를 미리 보여 주지 않습니다.
+            m_Panels = new[] { m_Choice, m_Warning, m_Thanks, m_Safe, m_Unsafe, m_Retry }; HideAll(); // 현재 상황의 기존 패널만 관리하고 별도의 전체 완료 화면은 등록하지 않습니다.
         } // 글꼴·배경·버튼 이미지 자산은 기존 리소스를 사용합니다.
 
         public void HideAll() // 다음 상태에서 이전 결과와 선택 버튼이 남지 않게 합니다.
@@ -60,30 +57,13 @@ namespace Y.Crosswalk // 기존 관찰 UI와 같은 월드 공간 입력 구성�
             forward.Normalize(); m_Anchor.SetPositionAndRotation(m_Viewer.transform.position + forward * m_Distance - Vector3.up * 0.15f, desktop ? m_Viewer.transform.rotation : Quaternion.LookRotation(forward)); // 실제 UI만 배치하고 XR 추적은 유지합니다.
         } // 중요한 도로와 캐릭터를 계속 둘러볼 수 있습니다.
 
-        public void ShowChoice() { HideAll(); m_SharedLayout.PresentChoices(m_Choice, "나", FirstSituationUI.ReadPanelLine(m_Choice)); } // 신호·차량 판단도 첫 상황과 같은 M의 읽기·응답 배치에 연결합니다.
+        public void ShowChoice() { HideAll(); m_SharedLayout.PresentChoices(m_Choice, "", FirstSituationUI.ReadPanelLine(m_Choice)); } // 신호·차량 판단도 첫 상황과 같은 M의 읽기·응답 배치에 연결합니다.
         public void ShowWarning(Vector3 friendHeadPosition) // 플레이어의 제지 대사를 중요 단서와 떨어진 말풍선으로 표시합니다.
         { // 기존 말풍선 배치가 친구와 접근 차량의 화면 영역을 피합니다.
             HideAll(); m_SharedLayout.ShowDialogue(m_Warning, friendHeadPosition); // 현재 상황의 경고 패널만 공유 배치에 전달합니다.
         } // 경고가 끝나면 같은 패널의 기존 퇴장 효과를 사용합니다.
-        public void ShowSafe() { HideAll(); m_SharedLayout.PresentChoices(m_Safe, "친구", FirstSituationUI.ReadPanelLine(m_Safe), false); m_SharedLayout.PlaySuccessCue(); } // 세 번째 안전 횡단 완료도 같은 원본 읽기 프레임과 실제 완료 행동 버튼으로 표시합니다.
+        public void ShowSafe() { HideAll(); m_SharedLayout.PresentChoices(m_Safe, "", FirstSituationUI.ReadPanelLine(m_Safe), false); m_SharedLayout.PlaySuccessCue(); } // 횡단보도 파트 완료를 기존 PC·VR 공용 읽기 영역과 확인 버튼으로 표시합니다.
         public void ShowUnsafe() { HideAll(); m_SharedLayout.PresentChoices(m_Retry, "잠깐!", FirstSituationUI.ReadPanelLine(m_Unsafe), false); } // 사고 이유를 읽고 실제 재시도 버튼만 고르는 M의 결과 표시를 사용합니다.
-
-        public void ShowOverallSummary() // 세 번째 완료 화면의 다음 버튼으로 전체 체험 마무리를 표시합니다.
-        { // 이전 두 상황의 안전 결과 패널은 바꾸지 않습니다.
-            if (m_OverallSummary == null) return; // 전체 마무리를 소유하지 않는 두 번째 UI에는 개입하지 않습니다.
-            HideAll(); m_SharedLayout.HideAll(); PlaceCompletionAnchor(); m_OverallSummary.Show(true); // 이전 읽기·응답을 닫고 원래 전체 안전 수칙과 종료 버튼을 M 글꼴·그림으로 표시합니다.
-        } // 자동으로 사라지는 타이머는 사용하지 않습니다.
-
-        private void PlaceCompletionAnchor() // PC에서 완료 화면이 수평 시야 밖에 나타나지 않게 실제 현재 시선에 맞춥니다.
-        { // 카메라 회전·이동이나 머리 추적은 변경하지 않습니다.
-            m_Anchor.localScale = m_OriginalAnchorScale; // 이전 완료 화면에서 줄인 크기를 다음 화면에 중복 적용하지 않습니다.
-            if (m_InputSource == null || !m_InputSource.IsDesktopActive) { PlaceAnchor(); return; } // VR에서는 기존 편안한 거리의 월드 공간 배치를 유지합니다.
-            Transform view = m_Viewer.transform; Vector3 forward = view.forward; float distance = m_Distance; // PC의 현재 수평·수직 시선 방향을 모두 반영합니다.
-            XROrigin origin = m_Viewer.GetComponentInParent<XROrigin>(); float floor = origin != null ? origin.Origin.transform.position.y : view.position.y - 1.65f; // 기존 플레이어 바닥을 기준으로 패널의 지면 관통을 방지합니다.
-            if (forward.y < -0.01f) distance = Mathf.Min(distance, Mathf.Max(0.4f, view.position.y - floor - 0.5f) / -forward.y); // 아래를 보고 있으면 패널이 바닥 안으로 들어가지 않는 거리로 제한합니다.
-            distance = Mathf.Max(0.4f, distance); m_Anchor.localScale = m_OriginalAnchorScale * (distance / m_Distance); // 거리를 바꿔도 화면에서 보이는 글자와 패널 크기는 일정하게 유지합니다.
-            m_Anchor.SetPositionAndRotation(view.position + forward * distance, view.rotation); // 실제 완료 UI만 현재 PC 시야 안에 놓고 마우스는 버튼 조작에 사용합니다.
-        } // 기존 관찰·선택 패널과 두 번째 상황 배치에는 적용하지 않습니다.
 
         public void ShowThanks(Vector3 headPosition) // 실제 친구의 화면 위치 옆에 감사 말풍선을 배치합니다.
         { // 친구의 얼굴이나 신호를 큰 중앙 패널로 덮지 않습니다.

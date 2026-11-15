@@ -3,11 +3,15 @@ using TMPro; // PC 조작일 때 씬의 기존 보행 안내 문구만 바꿉니
 using Unity.XR.CoreUtils; // 기존 XR Origin과 1인칭 카메라를 그대로 사용합니다.
 using UnityEngine; // 마우스 시점과 실제 물체의 포인터 선택을 처리합니다.
 using UnityEngine.InputSystem; // WASD와 마우스 입력을 New Input System으로 읽습니다.
+using UnityEngine.EventSystems; // 선택지가 열릴 때 기존 UI 모듈의 최종 포인터 판정을 걸러 같은 클릭이 이어지지 않게 합니다.
 using UnityEngine.InputSystem.XR; // 헤드셋이 없을 때만 기존 TrackedPoseDriver를 잠시 보류합니다.
 using UnityEngine.UI; // 기존 월드 Canvas의 마우스용 GraphicRaycaster를 연결합니다.
 using UnityEngine.XR; // 헤드셋의 실제 연결 상태를 읽어 VR 조작을 보존합니다.
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers; // 키보드 벡터를 기존 이동 Provider의 지원 입력 경로로 전달합니다.
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement; // 새 이동기를 만들지 않고 기존 연속 이동·충돌·중력을 사용합니다.
+using UnityEngine.XR.Interaction.Toolkit.Interactors; // 기존 양손 Near-Far 상호작용기를 재사용합니다.
+using UnityEngine.XR.Interaction.Toolkit.Interactors.Casters; // UI와 실제 물체를 가리키는 같은 곡선 레이의 판정 마스크를 사용합니다.
+using UnityEngine.XR.Interaction.Toolkit.Interactors.Visuals; // 레이 표시 길이를 실제 판정 거리와 일치시킵니다.
 using UnityEngine.XR.Interaction.Toolkit.UI; // 기존 XR UI 모듈의 마우스 입력을 PC 모드에서 사용합니다.
 
 namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성에 연결합니다.
@@ -34,6 +38,16 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
         private CrosswalkReticleGraphic m_Reticle; // M 원본의 작은 원과 점 조준 표시를 사용합니다.
         private readonly RaycastHit[] m_WorldHits = new RaycastHit[128]; // 반복되는 물리 조준 결과를 재사용하며 가득 찬 경우에만 전체 결과를 가져옵니다.
         private bool m_UIWasEnabledBeforeLook; // 자유 시점에 들어가기 전의 마우스 UI 입력 상태를 저장해 선택용 커서로 돌아갈 때 복원합니다.
+        private bool m_ChoiceClickBlocked; // 선택지를 연 클릭과 연속 클릭을 새 선택지에 전달하지 않도록 입력 보호 상태를 보관합니다.
+        private float m_ChoiceInputReadyAt; // 선택지 표시 직후의 짧은 입력 보호 구간이 끝나는 실제 시간을 저장합니다.
+        private NearFarInteractor[] m_Hands; // 현재 XR Origin 안의 기존 양손 레이만 사용합니다.
+        private XRInputButtonReader[] m_OriginalHandSelect; // 이 씬을 나갈 때 각 손의 기존 선택 입력을 복원합니다.
+        private CurveInteractionCaster[] m_HandCasters; // 표시 레이와 UI 판정이 사용하는 실제 캐스터를 보관합니다.
+        private LayerMask[] m_OriginalHandMasks; // 선택지가 사라지면 각 손의 기존 물체 판정 마스크를 복원합니다.
+        private bool[] m_OriginalHandUI, m_OriginalHandNear, m_OriginalHandFar; // 이 씬에서 바꾸는 기존 레이 설정을 비활성화 시 돌려놓습니다.
+        private float[] m_OriginalHandDistances; // 기존 곡선 레이의 판정 거리를 보관합니다.
+        private CurveVisualController[][] m_HandVisuals; // 각 손의 기존 레이 표시기를 그대로 사용합니다.
+        private float[][] m_OriginalVisualDistances; // 레이 표시 거리도 이 씬을 나갈 때 복원합니다.
         private bool m_Looking, m_ApplicationPaused; // 상대 마우스 입력의 적용 여부와 앱의 일시정지 상태를 따로 추적합니다.
         private bool m_CursorRequested; // 자유 시점 중에만 Tab이나 Escape로 커서를 요청한 상태를 기억합니다.
         private Vector2 m_CursorBeforeLook; // 회전을 마치면 버튼을 누르기 전의 커서 위치로 복원합니다.
@@ -62,7 +76,7 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
             m_View = m_Origin.Camera; m_Tracking = m_View.GetComponent<TrackedPoseDriver>(); // 중복 카메라 없이 기존 시점과 추적 컴포넌트를 확보합니다.
         } // Collider·중력·루트 이동은 기존 XR 이동 기능에 남깁니다.
 
-        private void OnEnable() { m_KeyboardMove?.Enable(); } // 재활성화해도 같은 WASD 액션을 재사용합니다.
+        private void OnEnable() { m_KeyboardMove?.Enable(); ConfigureVRHands(); if (m_UIInput != null) m_UIInput.finalizeRaycastResults += FilterOpeningChoiceRaycasts; } // 같은 양손 트리거와 UI 입력을 연결하고 새 선택지로 이전 입력이 넘어가지 않게 합니다.
         private void Start() { RefreshMode(); if (m_Desktop) ApplyViewPose(); m_Buttons.AddRange(m_StoryUI.GetComponentsInChildren<Button>(true)); foreach (SecondSituationUI ui in FindObjectsByType<SecondSituationUI>(FindObjectsInactive.Include, FindObjectsSortMode.None)) ui.CollectButtons(m_Buttons); BuildReticle(); } // 기존 PC 눈높이를 준비하고 세 상황의 실제 버튼 참조와 M 조준 표시를 입력에 연결합니다.
 
         private void RefreshMode() // 실제 헤드셋 연결에 따라 PC 입력과 원래 XR 입력을 전환합니다.
@@ -104,12 +118,12 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
                 Cursor.lockState = m_OriginalCursorLock; Cursor.visible = m_OriginalCursorVisible; // VR 복귀와 씬 종료에는 PC 진입 전의 커서 상태를 복원합니다.
             } // XR Origin 루트의 현재 위치는 어느 전환에서도 되돌리지 않습니다.
             if (!desktop && m_DesktopObservationHUD != null) m_DesktopObservationHUD.SetActive(false); // 헤드셋으로 전환하는 순간 PC 조준 표시와 안내를 숨깁니다.
-            m_Desktop = desktop; // 다음 프레임부터 선택한 입력 방식만 처리합니다.
+            SyncVRHands(false); m_Desktop = desktop; m_ChoiceClickBlocked = false; // 모드를 바꿀 때 UI 전용 물체 마스크와 이전 클릭 보호를 원래 상태로 돌립니다.
         } // 스테이지 진행 상태와 완료 기록은 변경하지 않습니다.
 
         private void Update() // 사물 조사와 선택 UI의 마우스 입력을 현재 표시 상태에 맞춰 구분합니다.
         { // 대사를 화면 클릭으로 넘기는 별도 입력 단계는 없습니다.
-            RefreshMode(); if (!m_Desktop) return; m_KeyboardReader.manualValue = Vector2.zero; Mouse mouse = Mouse.current; // VR에서는 기존 컨트롤러 레이와 XR UI 입력을 유지합니다.
+            RefreshMode(); if (!m_Desktop) { SyncVRHands(HasVisibleButtons()); return; } m_KeyboardReader.manualValue = Vector2.zero; Mouse mouse = Mouse.current; // VR에서는 머리 추적을 건드리지 않고 기존 양손 레이의 UI 우선순위만 맞춥니다.
             bool focused = Application.isFocused && !m_ApplicationPaused; bool waiting = m_Situation != null && m_Situation.IsWaitingForStartScreen; bool transitioning = m_Situation != null && m_Situation.IsSceneTransitioning; // 제목 화면과 위치 전환 중에는 기존 커서 복구를 유지합니다.
             if (!focused || mouse == null || waiting || transitioning) { EndMouseLook(); SetHovered(null, null); SyncDesktopObservationHUD(false, false, true); return; } // 시작 화면과 포커스·전환 중에는 기존 커서 상태를 복원합니다.
             if (HasVisibleButtons()) // 실제 행동 선택·재시도·마무리 버튼이 보이는 동안에는 커서로 UI를 누릅니다.
@@ -118,7 +132,7 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
                 return; // 같은 좌클릭은 기존 XR UI 입력 모듈에서 실제 버튼에 한 번만 전달합니다.
             } // 읽기 안내만 표시할 때는 기존 중앙 조준으로 사물을 계속 조사합니다.
             Keyboard keyboard = Keyboard.current; if (keyboard != null && keyboard.escapeKey.wasPressedThisFrame) m_CursorRequested = true; // 에디터와 운영체제의 마우스 잠금 해제를 존중합니다.
-            if (m_CursorRequested && (mouse.rightButton.wasPressedThisFrame || mouse.leftButton.wasPressedThisFrame)) m_CursorRequested = false; // 포커스 복귀 후 첫 클릭은 둘러보기 복귀에만 사용합니다.
+            if (m_CursorRequested && mouse.leftButton.wasPressedThisFrame) m_CursorRequested = false; // 포커스 복귀 후 첫 클릭은 둘러보기 복귀에만 사용합니다.
             if (m_Looking && Cursor.lockState != CursorLockMode.Locked) m_CursorRequested = true; // 외부에서 해제된 잠금을 강제로 즉시 다시 잡지 않습니다.
             if (m_CursorRequested) { EndMouseLook(); SetHovered(null, null); SyncDesktopObservationHUD(false, false, true); return; } // 사용자가 잠금을 해제한 동안에는 세계 입력을 잠시 보류합니다.
             if (!m_Looking) { BeginMouseLook(mouse); return; } UpdateMouseLook(mouse); ApplyViewPose(); // 중앙 판정보다 먼저 이번 프레임의 실제 시선을 반영합니다.
@@ -137,6 +151,54 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
             m_Reticle.rectTransform.sizeDelta = new Vector2(24f, 24f); m_Reticle.rectTransform.anchoredPosition = Vector2.zero; // M의 원 반경 5.5~7을 유지할 고정 픽셀 영역입니다.
         } // 기존 HUD Canvas와 표시 생명 주기는 그대로 사용합니다.
 
+        private void ConfigureVRHands() // 기존 양손의 UI 트리거를 물체 선택에도 연결합니다.
+        { // 새 레이나 컨트롤러 오브젝트를 만들지 않습니다.
+            m_Hands = m_Origin.GetComponentsInChildren<NearFarInteractor>(true); int count = m_Hands.Length; // 현재 Origin의 실제 양손 레이를 찾습니다.
+            m_OriginalHandSelect = new XRInputButtonReader[count]; m_HandCasters = new CurveInteractionCaster[count]; m_OriginalHandMasks = new LayerMask[count]; // 바꾸는 선택 입력과 캐스터 설정을 보관할 공간을 준비합니다.
+            m_OriginalHandUI = new bool[count]; m_OriginalHandNear = new bool[count]; m_OriginalHandFar = new bool[count]; m_OriginalHandDistances = new float[count]; // 기존 UI·근거리·원거리 설정과 판정 거리를 저장합니다.
+            m_HandVisuals = new CurveVisualController[count][]; m_OriginalVisualDistances = new float[count][]; // 실제 표시 레이의 기존 길이를 저장합니다.
+            for (int i = 0; i < count; ++i) // 왼손과 오른손을 같은 규칙으로 연결합니다.
+            { // 표본 프리팹이나 전역 입력 에셋은 수정하지 않습니다.
+                NearFarInteractor hand = m_Hands[i]; m_OriginalHandSelect[i] = hand.selectInput; m_OriginalHandUI[i] = hand.enableUIInteraction; m_OriginalHandNear[i] = hand.enableNearCasting; m_OriginalHandFar[i] = hand.enableFarCasting; // 각 손의 원래 설정을 먼저 보관합니다.
+                hand.selectInput = hand.uiPressInput; hand.enableUIInteraction = true; // 기존 검지 트리거로 UI 버튼과 실제 물체를 모두 선택하게 합니다.
+                m_HandCasters[i] = hand.farInteractionCaster as CurveInteractionCaster; // 같은 레이 표시와 판정에 연결된 실제 원거리 캐스터를 읽습니다.
+                if (m_HandCasters[i] != null) { m_OriginalHandMasks[i] = m_HandCasters[i].raycastMask; m_OriginalHandDistances[i] = m_HandCasters[i].castDistance; m_HandCasters[i].castDistance = Mathf.Max(m_HandCasters[i].castDistance, m_SelectDistance); } // PC와 같은 대상 거리에 양손 레이가 닿게 합니다.
+                m_HandVisuals[i] = hand.GetComponentsInChildren<CurveVisualController>(true); m_OriginalVisualDistances[i] = new float[m_HandVisuals[i].Length]; // 각 손의 기존 레이 표시기를 연결합니다.
+                for (int j = 0; j < m_HandVisuals[i].Length; ++j) { m_OriginalVisualDistances[i][j] = m_HandVisuals[i][j].maxVisualCurveDistance; m_HandVisuals[i][j].maxVisualCurveDistance = Mathf.Max(m_HandVisuals[i][j].maxVisualCurveDistance, m_SelectDistance); } // 실제 판정 거리에서 레이 그림만 짧게 끊기지 않게 합니다.
+            } // 컨트롤러의 위치와 머리 회전은 기존 XR 추적이 담당합니다.
+        } // 같은 트리거 입력으로 양손 모두 사용할 수 있습니다.
+        private void SyncVRHands(bool buttonsVisible) // 선택지가 떠 있으면 PC와 같이 UI 버튼을 우선 가리키게 합니다.
+        { // UI 뒤의 친구 Collider가 보이는 버튼보다 먼저 선택되지 않도록 합니다.
+            if (m_Hands == null) return; // 양손 연결 전에는 기존 초기화를 기다립니다.
+            for (int i = 0; i < m_Hands.Length; ++i) // 실제 양손의 같은 레이에 표시와 판정 우선순위를 적용합니다.
+            { // UI 레이어도 판정 마스크에 남겨 실제 버튼 사각형을 가리키게 합니다.
+                if (m_Hands[i] == null) continue; m_Hands[i].enableNearCasting = buttonsVisible ? false : m_OriginalHandNear[i]; m_Hands[i].enableFarCasting = buttonsVisible || m_OriginalHandFar[i]; // 버튼 선택 중에는 손 주변 물체보다 같은 원거리 UI 레이를 사용합니다.
+                if (m_HandCasters[i] != null) m_HandCasters[i].raycastMask = buttonsVisible ? (LayerMask)(1 << 5) : m_OriginalHandMasks[i]; // 선택지가 닫히면 같은 레이가 기존 친구·소품 판정으로 돌아갑니다.
+            } // 레이를 추가하거나 화면과 다른 가상 버튼 판정을 만들지 않습니다.
+        } // 실제 GraphicRaycaster가 반환한 버튼 위치를 그대로 사용합니다.
+        private void RestoreVRHands() // 이 씬을 비활성화하면 연결했던 양손 설정을 복원합니다.
+        { // 통합된 다른 파트의 입력 설정에 이 씬의 선택 방식을 남기지 않습니다.
+            if (m_Hands == null) return; // 아직 연결하지 않은 경우 복원할 설정이 없습니다.
+            for (int i = 0; i < m_Hands.Length; ++i) // 살아 있는 기존 레이만 복원합니다.
+            { // 파괴된 컨트롤러를 다시 찾거나 만들지 않습니다.
+                if (m_Hands[i] == null) continue; m_Hands[i].selectInput = m_OriginalHandSelect[i]; m_Hands[i].enableUIInteraction = m_OriginalHandUI[i]; m_Hands[i].enableNearCasting = m_OriginalHandNear[i]; m_Hands[i].enableFarCasting = m_OriginalHandFar[i]; // 각 손의 원래 입력과 상호작용 방식을 돌립니다.
+                if (m_HandCasters[i] != null) { m_HandCasters[i].raycastMask = m_OriginalHandMasks[i]; m_HandCasters[i].castDistance = m_OriginalHandDistances[i]; } // 물체 판정 범위와 레이 거리를 함께 복원합니다.
+                for (int j = 0; j < m_HandVisuals[i].Length; ++j) if (m_HandVisuals[i][j] != null) m_HandVisuals[i][j].maxVisualCurveDistance = m_OriginalVisualDistances[i][j]; // 표시 레이도 기존 거리로 복원합니다.
+            } // 원본 프리팹과 입력 에셋은 변경하지 않습니다.
+        } // 같은 Origin을 쓰는 다음 파트의 조작을 보존합니다.
+
+        public void RequireFreshChoiceClick() // 세 상황의 선택지가 열리면 이전 행동의 클릭을 새 선택지와 분리합니다.
+        { // 버튼 위치와 기존 커서 조작을 바꾸지 않고 입력을 받는 시점만 구분합니다.
+            m_ChoiceClickBlocked = true; m_ChoiceInputReadyAt = Time.unscaledTime + 0.3f; // 선택지 등장 직후의 연속 클릭을 막고 클릭을 놓을 때까지 보호 상태를 유지합니다.
+        } // 실제 입력 허용 여부는 UI 모듈이 최종 클릭 대상을 정할 때 판단합니다.
+        private void FilterOpeningChoiceRaycasts(PointerEventData eventData, List<RaycastResult> results) // 같은 PC·VR UI 모듈에서 선택지를 연 입력이 새 버튼으로 이어지지 않게 합니다.
+        { // 모듈이 누름과 해제를 계속 처리하도록 하면서 보호 중에는 클릭 대상만 비웁니다.
+            if (!m_ChoiceClickBlocked) return; bool held = false; // 새 선택지가 열릴 때만 이전 입력의 해제를 기다립니다.
+            if (m_Desktop) { Mouse mouse = Mouse.current; held = mouse == null || mouse.leftButton.isPressed || mouse.leftButton.wasReleasedThisFrame; } // PC는 실제 마우스를 놓은 프레임까지 보호합니다.
+            else if (m_Hands != null) foreach (NearFarInteractor hand in m_Hands) if (hand != null && (hand.uiPressInput.ReadIsPerformed() || hand.uiPressInput.ReadWasPerformedThisFrame())) { held = true; break; } // VR은 양손 트리거가 모두 해제되어야 다음 선택을 받습니다.
+            if (Time.unscaledTime >= m_ChoiceInputReadyAt && !held) { m_ChoiceClickBlocked = false; return; } // 같은 0.3초 보호 시간 뒤 새 클릭이나 트리거 누름부터 받습니다.
+            results.Clear(); // 이전 누름의 해제가 다음 버튼의 클릭으로 처리되지 않게 실제 UI 판정 결과만 비웁니다.
+        } // 보호가 끝나면 기존 UI 모듈과 버튼 연결을 그대로 사용합니다.
         private bool HasVisibleButtons() // 실제로 표시 요청된 패널에 선택 버튼이 있는지 확인합니다.
         { // 숨겨진 버튼과 퇴장 중인 이전 선택지는 커서 모드의 기준으로 사용하지 않습니다.
             foreach (Button button in m_Buttons) // 기존 씬에서 수집한 세 상황의 버튼 참조를 사용합니다.
@@ -161,7 +223,7 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
             SetHovered(null, null); // 이전 커서 조준 표시를 정리합니다.
         } // 말풍선과 버튼 오브젝트 자체는 변경하지 않습니다.
 
-        private void EndMouseLook() // 전환·포커스 손실·우클릭 해제에서 같은 정리 경로를 사용합니다.
+        private void EndMouseLook() // 선택 버튼 표시·전환·포커스 손실에서 기존 커서 상태를 복원합니다.
         { // 헤드셋 모드의 커서 상태는 변경하지 않습니다.
             if (!m_Desktop) return; // VR의 기존 입력 설정을 보존합니다.
             bool restore = m_Looking; m_Looking = false; Cursor.lockState = CursorLockMode.None; Cursor.visible = true; // 상대 입력과 커서 잠금을 함께 끝냅니다.
@@ -191,9 +253,9 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
             m_View.transform.localRotation = Quaternion.Euler(m_Pitch, m_Yaw, 0f); // 마지막 수동 회전 또는 암전 중 설정한 구도만 적용하여 자동 연출이 입력을 덮어쓰지 않게 합니다.
         } // 헤드셋 연결 시 원래 자세와 TrackedPoseDriver를 복원합니다.
 
-        private void ProcessObservationPointer(Mouse mouse, Vector2 position) // 중앙 조준으로 주변 단서를 조사하거나 실제 친구에게 말을 겁니다.
+        private void ProcessObservationPointer(Mouse mouse, Vector2 position) // 실제 포인터 위치에서 주변 물체를 조사하거나 친구에게 말을 겁니다.
         { // 비대화형 안내 대신 실제 월드 Collider를 클릭 대상으로 사용합니다.
-            PickWorldTarget(position, out FirstSituationObservation target, out FriendStopInteraction friend, out Vector3 hitPosition); // 기존 중앙 레이로 현재 선택할 수 있는 물체나 친구를 찾습니다.
+            PickWorldTarget(position, out FirstSituationObservation target, out FriendStopInteraction friend, out Vector3 hitPosition); // 전달받은 커서 좌표의 광선으로 실제 선택한 물체나 친구를 찾습니다.
             SetHovered(target, friend); // 조준한 대상의 기존 외곽선과 안내를 갱신합니다.
             if (!mouse.leftButton.wasPressedThisFrame) return; // 조준만 한 상태에서는 대화나 조사 결과를 열지 않습니다.
             if (target == null) // 관찰 목록에 없는 친구는 기존 멈춤 명령으로 처리합니다.
@@ -246,7 +308,7 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
             m_CursorRequested = true; EndMouseLook(); m_KeyboardReader.manualValue = Vector2.zero; SetHovered(null, null); // 포커스를 다시 얻을 때까지 커서와 현재 시점을 유지합니다.
         } // 버튼 입력은 포커스를 얻은 뒤 해당 단계의 공통 분기에서 처리합니다.
         private void OnApplicationPause(bool paused) { m_ApplicationPaused = paused; if (paused) { m_CursorRequested = true; EndMouseLook(); SetHovered(null, null); } } // 앱 일시정지 중에 마우스 잠금과 관찰 강조가 남지 않게 합니다.
-        private void OnDisable() { EndMouseLook(); SetDesktopMode(false); m_KeyboardMove?.Disable(); } // 씬 종료 때 원래 XR 입력·추적·커서를 돌려주고 PC 액션을 끕니다.
+        private void OnDisable() { if (m_UIInput != null) m_UIInput.finalizeRaycastResults -= FilterOpeningChoiceRaycasts; m_ChoiceClickBlocked = false; EndMouseLook(); SetDesktopMode(false); RestoreVRHands(); m_KeyboardMove?.Disable(); } // 클릭 필터를 해제하고 양손 레이·기존 XR 추적·커서·키보드 상태를 복원합니다.
         private void OnDestroy() { m_KeyboardMove?.Dispose(); m_KeyboardReader?.inputAction?.Dispose(); } // 이 컴포넌트가 만든 씬 전용 입력 리소스만 해제합니다.
     } // 기존 VR 스테이지의 PC 조작 연결을 마칩니다.
 } // 프로젝트의 공통 입력 자산과 다른 씬은 변경하지 않습니다.
