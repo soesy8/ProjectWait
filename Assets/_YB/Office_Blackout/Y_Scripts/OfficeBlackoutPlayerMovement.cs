@@ -19,6 +19,12 @@ namespace ProjectWait.YB.OfficeBlackout
         [SerializeField] Transform playerStart;
         [SerializeField] bool placeAtPlayerStartOnStart = true;
 
+        [Header("Desktop debug look")]
+        [SerializeField] bool enableDesktopMouseLook = true;
+        [SerializeField] Transform desktopPitchPivot;
+        [SerializeField, Min(0.01f)] float desktopLookSensitivity = 0.12f;
+        [SerializeField, Range(30f, 89f)] float desktopPitchLimit = 80f;
+
         [Header("Movement input")]
         [Tooltip("Optional XRI Left Locomotion / Move action. Keyboard WASD is always available on desktop.")]
         [SerializeField] InputActionReference xrMoveAction;
@@ -30,6 +36,7 @@ namespace ProjectWait.YB.OfficeBlackout
         [SerializeField] OfficeBlackoutFlow.Step[] movementSteps =
         {
             OfficeBlackoutFlow.Step.Errand,
+            OfficeBlackoutFlow.Step.BlackoutReaction,
             OfficeBlackoutFlow.Step.EscortToExit
         };
 
@@ -39,9 +46,14 @@ namespace ProjectWait.YB.OfficeBlackout
         InputAction activeXRMove;
         bool enabledXRActionHere;
         float verticalSpeed;
+        float desktopPitch;
+        CursorLockMode previousCursorLockMode;
+        bool previousCursorVisible;
+        bool cursorStateCaptured;
 
         public Vector2 LastInput { get; private set; }
         public bool CanMove => IsMovementStepAllowed();
+        public bool IsMovementManuallyEnabled => manualMovementEnabled;
 
         void Reset()
         {
@@ -52,6 +64,12 @@ namespace ProjectWait.YB.OfficeBlackout
         {
             characterController = GetComponent<CharacterController>();
             if (!playerCamera) playerCamera = GetComponentInChildren<Camera>();
+            if (!desktopPitchPivot && playerCamera && playerCamera.transform.parent)
+                desktopPitchPivot = playerCamera.transform.parent;
+
+            previousCursorLockMode = Cursor.lockState;
+            previousCursorVisible = Cursor.visible;
+            cursorStateCaptured = true;
 
             keyboardMove = new InputAction("OfficeBlackoutDesktopMove", InputActionType.Value);
             keyboardMove.AddCompositeBinding("2DVector")
@@ -80,6 +98,9 @@ namespace ProjectWait.YB.OfficeBlackout
         {
             if (placeAtPlayerStartOnStart && playerStart)
                 PlaceAt(playerStart);
+
+            if (enableDesktopMouseLook && !XRSettings.isDeviceActive)
+                LockDesktopCursor();
         }
 
         void Update()
@@ -94,6 +115,9 @@ namespace ProjectWait.YB.OfficeBlackout
             UpdateControllerCenter();
 
             bool usingXR = XRSettings.isDeviceActive;
+            if (!usingXR && enableDesktopMouseLook)
+                UpdateDesktopLook();
+
             Vector2 input = usingXR
                 ? activeXRMove != null ? activeXRMove.ReadValue<Vector2>() : Vector2.zero
                 : keyboardMove.ReadValue<Vector2>();
@@ -156,6 +180,41 @@ namespace ProjectWait.YB.OfficeBlackout
             characterController.center = new Vector3(headLocal.x, characterController.height * 0.5f, headLocal.z);
         }
 
+        void UpdateDesktopLook()
+        {
+            if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                return;
+            }
+
+            if (Cursor.lockState != CursorLockMode.Locked)
+            {
+                if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+                    LockDesktopCursor();
+                return;
+            }
+
+            if (Mouse.current == null) return;
+
+            Vector2 look = Mouse.current.delta.ReadValue() * desktopLookSensitivity;
+            if (Mathf.Abs(look.x) > 0.001f)
+                transform.Rotate(Vector3.up, look.x, Space.World);
+
+            if (desktopPitchPivot && Mathf.Abs(look.y) > 0.001f)
+            {
+                desktopPitch = Mathf.Clamp(desktopPitch - look.y, -desktopPitchLimit, desktopPitchLimit);
+                desktopPitchPivot.localRotation = Quaternion.Euler(desktopPitch, 0f, 0f);
+            }
+        }
+
+        static void LockDesktopCursor()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
         void OnDisable()
         {
             keyboardMove?.Dispose();
@@ -173,6 +232,12 @@ namespace ProjectWait.YB.OfficeBlackout
             enabledXRActionHere = false;
             verticalSpeed = 0f;
             LastInput = Vector2.zero;
+            if (cursorStateCaptured)
+            {
+                Cursor.lockState = previousCursorLockMode;
+                Cursor.visible = previousCursorVisible;
+                cursorStateCaptured = false;
+            }
         }
     }
 }
