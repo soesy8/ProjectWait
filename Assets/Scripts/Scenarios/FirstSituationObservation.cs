@@ -31,6 +31,7 @@ namespace Y.Crosswalk // 각 상황의 단서를 동일한 입력 규칙의 독�
         public string DisplayName => string.IsNullOrWhiteSpace(m_DisplayName) ? "살펴볼 물체" : m_DisplayName; // 현재 클릭 대상의 실제 한글 이름을 제공합니다.
         public string GuideAction => m_GuideAction; // 현재 물체와 연결된 행동 표식 문구입니다.
         public Vector3 GuidancePosition => m_GuideAnchor != null ? m_GuideAnchor.position : ObservationBounds(transform.position).center; // 기존 Collider나 지정 경로 위치를 안내 표시의 기준으로 사용합니다.
+        public Bounds DialogueBounds => ObservationBounds(transform.position); // 월드 대화가 실제 관찰 대상의 표면을 가리지 않게 합니다.
         public int PointerPriority => m_PointerPriority; // 기존 중앙 조준이 겹친 대상을 판정할 때 참조합니다.
         private Context m_Context; // 현재 열린 관찰 상황에 따라 말풍선의 문구를 선택합니다.
         private MaterialPropertyBlock m_Properties; // 같은 재질을 공유해도 대상별 관찰 외곽선 표시를 따로 관리합니다.
@@ -94,7 +95,7 @@ namespace Y.Crosswalk // 각 상황의 단서를 동일한 입력 규칙의 독�
             if (m_UI.TryCompleteTask(this)) return true; // 휴대전화·전봇대·신호·차량·친구 중 지금 안내한 실제 물체를 누르면 다음 이야기를 엽니다.
             string thought = m_Context == Context.RedSignal ? m_SecondThought : m_Context == Context.GreenSignal ? m_ThirdThought : m_Thought; // 빨간불과 파란불에서 같은 대상의 상황별 생각을 읽습니다.
             if (string.IsNullOrWhiteSpace(thought)) thought = m_Thought; // 별도 문구가 없는 관찰 대상은 저장된 기본 생각을 그대로 표시합니다.
-            if (!string.IsNullOrWhiteSpace(thought)) m_UI.ShowThought(thought, hitPosition, ObservationBounds(hitPosition)); // 휴대전화·전봇대·신호·차량을 조사하면 단서만 표시합니다.
+            if (!string.IsNullOrWhiteSpace(thought)) m_UI.ShowThought(thought, hitPosition, ObservationBounds(hitPosition), this); // 설명을 실제 선택한 물체에 연결하고 과제 콜백은 유지합니다.
             return false; // 단서 조사 뒤에는 중앙 조준과 자유 시점을 유지합니다.
         } // 대화 선택 진입은 친구 클릭에만 연결합니다.
 

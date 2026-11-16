@@ -16,8 +16,8 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
         [SerializeField, InspectorName("세 번째 실제 패널"), Tooltip("기존 Canvas 아래에 배치한 선택·대사·결과·최종 안내입니다.")] private SecondSituationUI m_UI; // 같은 파스텔 표시·버튼 반응을 사용합니다.
         [SerializeField, InspectorName("세 번째 생각 말풍선"), Tooltip("실제 Hierarchy에 배치한 세 번째 생각 패널입니다.")] private FirstSituationPanel m_Thought; // 첫 두 상황의 생각 패널과 표시 상태를 분리합니다.
         [SerializeField, InspectorName("세 번째 생각 문구"), Tooltip("생각 말풍선 내부의 실제 TMP 텍스트입니다.")] private TMP_Text m_ThoughtText; // 클릭한 단서의 문구를 표시합니다.
-        [SerializeField, InspectorName("기존 플레이어 카메라"), Tooltip("기존 XR Origin의 추적 카메라입니다. UI와 캐릭터 응시 기준으로만 사용합니다.")] private Camera m_Viewer; // 실제 카메라는 이동·회전·흔들지 않습니다.
-        [SerializeField, InspectorName("기존 XR Origin"), Tooltip("안전한 선택 뒤 공통 친구와 함께 횡단할 플레이어 루트입니다.")] private XROrigin m_Origin; // 시점 방향을 바꾸지 않고 이동 위치를 갱신합니다.
+        [SerializeField, InspectorName("기존 플레이어 카메라"), Tooltip("기존 XR Origin의 추적 카메라입니다. UI와 캐릭터 응시 기준으로만 사용합니다.")] private Camera m_Viewer; // 추적 카메라의 로컬 자세는 직접 변경하지 않습니다.
+        [SerializeField, InspectorName("기존 XR Origin"), Tooltip("친구와 함께 횡단하고, 도착 후 친구 쪽으로 돌아볼 플레이어 루트입니다.")] private XROrigin m_Origin; // 회전은 기존 입력기의 XR Origin 연출을 재사용합니다.
         [SerializeField, InspectorName("파란불 관찰 대상"), Tooltip("친구·신호·차량·횡단보도의 기존 관찰 인스턴스입니다.")] private FirstSituationObservation[] m_Observations; // 접근 차량과 횡단 시작 위치를 실제로 누를 수 있게 합니다.
         [SerializeField, InspectorName("접근 자동차 클릭 대상"), Tooltip("파란불에도 접근하는 자동차의 관찰 컴포넌트입니다.")] private FirstSituationObservation m_CarObservation; // 움직이던 차를 확인하고 친구를 말릴 이유를 발견합니다.
         [SerializeField, InspectorName("기다리며 확인할 신호등"), Tooltip("빨간불에서 바로 다음 장면으로 넘어가지 않고 플레이어가 직접 확인할 기존 신호등입니다.")] private FirstSituationObservation m_SignalObservation; // 다음 신호를 기다리는 실제 물체 클릭을 이야기 진행에 연결합니다.
@@ -49,12 +49,16 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
         private bool m_Initialized, m_Started, m_QueueFreeze, m_HasCheckpoint, m_RetryRequested; // 관찰 진입과 재시도, 중단 후 재활성화를 분리합니다.
         private Vector3 m_ReadyPlayerPosition, m_ReadyFriendPosition; // 횡단을 취소하거나 재시도할 때 돌아갈 같은 쪽 인도 위치입니다.
         private Quaternion m_ReadyFriendRotation; // 세 번째 상황이 시작되기 직전 친구의 실제 대기 방향을 저장합니다.
+        private Quaternion m_ReadyPlayerRotation; // 도착 회전이 중단되면 횡단 전의 루트 방향도 복원합니다.
+        private CrosswalkDesktopInput m_ViewInput;
         public StageState CurrentState => m_State; // PC 입력이 실제 단계 전환을 감지하여 이전 커서 잠금을 해제하도록 제공합니다.
         public bool IsCompleted => m_Completed; // 마지막 안전 행동이 끝난 사실만 외부에 제공합니다.
         public bool BlocksPlayerTranslation => isActiveAndEnabled && m_Started; // 기존 직접 이동은 추가하지 않고 체험 구도를 유지합니다.
         public bool AllowsLooking => m_Started; // PC 마우스와 기존 헤드셋의 자연스러운 둘러보기를 유지합니다.
         public bool IsObservationReady => isActiveAndEnabled && m_State == StageState.Observation; // 정지된 장면에서만 네 단서의 클릭을 허용합니다.
         public bool HasResultUIInput => isActiveAndEnabled && (m_State == StageState.Choice || m_State == StageState.Retry || m_State == StageState.Complete); // 이 파트의 선택·재시도·완료 확인 버튼에만 UI 입력을 연결합니다.
+
+        private void Awake() { m_ViewInput = m_First.GetComponent<CrosswalkDesktopInput>(); } // 입구의 좌측 회전과 같은 PC·VR 입력기를 사용합니다.
 
         private void Start() // 실제 씬의 UI와 기존 캐릭터 초기화가 끝난 뒤 시작을 기다립니다.
         { // 두 번째 완료 이벤트가 아직 없으면 자동으로 건너뛰지 않습니다.
@@ -66,7 +70,9 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
         { // 실패나 중복 클릭으로 세 번째 상황을 먼저 시작하지 않습니다.
             if (!isActiveAndEnabled || m_Started || m_Completed || !m_First.IsCompleted || !m_Second.IsCompleted) return; // 실제 앞선 두 안전 완료가 있어야 시작합니다.
             m_Started = true; m_State = StageState.Introduction; // 빨간불에 함께 기다리는 현재 장면에서 세 번째 흐름을 시작합니다.
+            m_SharedUI.SetDialogueSpeaker(m_Friend.transform, m_Performance.HeadTarget);
             m_ReadyPlayerPosition = m_Origin.Origin.transform.position; // 횡단 결과를 재시도할 때 같은 인도 위치로 돌아갑니다.
+            m_ReadyPlayerRotation = m_Origin.Origin.transform.rotation;
             m_Friend.transform.GetPositionAndRotation(out m_ReadyFriendPosition, out m_ReadyFriendRotation); // 두 번째 상황이 끝난 친구의 위치와 방향을 그대로 이어받습니다.
             StartCoroutine(RunIntroduction()); // 같은 횡단보도에서 다음 접근 차량을 준비합니다.
         } // 앞선 상황의 완료 기록을 초기화하지 않습니다.
@@ -161,6 +167,7 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
                 Debug.LogError("차량 통과 확인 후 공통 친구의 안전 횡단을 시작하지 못했습니다.", this); yield return RestoreObservation(); yield break; // 결과가 시작되지 않은 상태에서 완료 처리하지 않습니다.
             } // 실제 횡단이 시작되면 발소리와 플레이어 이동을 함께 연결합니다.
             m_State = StageState.Crossing; m_WalkAudio.SetActive(true); m_SharedUI.ShowCinematicCaption("", "앞을 보면서 천천히 같이 건너자."); // 실제 친구와 플레이어의 횡단 위에 M 방식 자동 자막을 표시합니다. // 횡단 중에도 플레이어는 주위를 자유롭게 볼 수 있습니다.
+            m_SharedUI.SetMovementLetterbox(true);
             float crossingDeadline = Time.unscaledTime + m_Friend.ScenarioTravelBudget; // 횡단 경로가 중단된 경우 복원하기 위한 최대 대기 시간입니다.
             while (!m_Friend.HasCompletedCrossing && m_Friend.isActiveAndEnabled && Time.unscaledTime < crossingDeadline) // 친구 이동기가 반대편 인도에 도착했다고 기록할 때까지만 기다립니다.
             { // 같은 거리와 높이 변화를 적용해 플레이어가 친구 옆의 흰 줄을 따라 이동합니다.
@@ -169,8 +176,12 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
             } // 별도의 정지 시간이나 애니메이션 종료 신호로 도착을 추정하지 않습니다.
             if (!m_Friend.HasCompletedCrossing) { Debug.LogWarning("친구가 횡단 도착점에 이르지 못해 관찰을 복원합니다.", this); yield return RestoreObservation(); yield break; } // 이동이 끊긴 상태로 체험을 완료하지 않습니다.
             m_Origin.Origin.transform.position = m_ReadyPlayerPosition + (m_Friend.transform.position - friendStart); // 감속한 마지막 이동까지 같은 인도에 도착한 플레이어 위치에 반영합니다.
-            m_WalkAudio.Stop(); m_State = StageState.Arrival; // 같은 친구와 함께 도착했으므로 재회용 이동과 손짓을 거치지 않습니다.
+            m_WalkAudio.Stop(); m_State = StageState.Arrival; // 완전히 도착한 뒤에만 회전을 시작합니다.
+            m_SharedUI.HideAll(); // 횡단 중 대사는 닫되 도착 회전이 끝날 때까지 이동 레터박스는 유지합니다.
             m_Friend.FaceScenarioTarget(m_Viewer.transform); // 도착한 친구가 옆의 플레이어를 자연스럽게 돌아봅니다.
+            Vector3 crossingDirection = m_Friend.transform.position - friendStart;
+            if (m_ViewInput != null) yield return m_ViewInput.TurnScenarioView(90f, 0.9f, crossingDirection); // 횡단 진행 방향에서 우측 90도로 돌아 옆의 친구를 다시 바라봅니다.
+            m_SharedUI.SetMovementLetterbox(false);
             StartCoroutine(m_Performance.AcknowledgeWaiting()); // 감사 동작은 결과 진행과 나란히 재생합니다.
             yield return m_SharedUI.PlayCaption("친구", "덕분에 안전하게 건넜어. 같이 살펴봐서 다행이야!", 3f); // 실제 반대편 인도에 도착한 뒤 친구의 감사 대사를 자동으로 보여 줍니다.
             yield return m_SharedUI.PlayCaption("", "집에 가는 길에는 앞을 보고, 신호가 바뀌어도 차를 꼭 확인하자.", 3.5f); // 마지막 정리도 화면 클릭 없이 완료 화면으로 이어집니다.
@@ -207,10 +218,10 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
         } // 안전 선택은 뒤쪽을, 위험 접근은 앞쪽을 기준으로 판단합니다.
         private IEnumerator RestoreObservation() // 같은 세 번째 상황을 부드럽게 다시 관찰할 수 있게 합니다.
         { // 앞선 완료 이벤트나 도입을 다시 호출하지 않습니다.
-            m_UI.HideAll(); m_SharedUI.HideAll(); m_SharedUI.Transition(true); m_Second.PlaySharedResetSound(); // 기존 짧은 복원 암전과 음향을 사용합니다.
+            m_SharedUI.SetMovementLetterbox(false); m_UI.HideAll(); m_SharedUI.HideAll(); m_SharedUI.Transition(true); m_Second.PlaySharedResetSound(); // 기존 짧은 복원 암전과 음향을 사용합니다.
             yield return new WaitForSecondsRealtime(m_SharedUI.FadeCoverDuration); // 위치·자세 복원은 가려진 뒤에만 수행합니다.
             StopEffects(); m_Performance.RestoreObservation(); m_Car.RestoreScenarioCheckpoint(); m_Signal.HoldGreenForScenario(); // 위험 횡단 전 친구와 차량, 신호를 같은 프레임으로 복원합니다.
-            m_Origin.Origin.transform.position = m_ReadyPlayerPosition; // 안전 횡단 도중 이동이 중단되어도 기존 인도 관찰 위치로 돌아갑니다.
+            m_Origin.Origin.transform.SetPositionAndRotation(m_ReadyPlayerPosition, m_ReadyPlayerRotation); // 위치와 도착 회전 상태를 같은 횡단 전 체크포인트로 복원합니다.
             EnterObservation(); m_SharedUI.Transition(false); // 기존 마우스로 다시 조사하고 두 선택지를 고를 수 있게 합니다.
         } // 플레이어 카메라를 되감거나 이동시키지 않습니다.
         private void StopEffects() // 이전 사고의 소리와 자국이 다음 선택에 남지 않게 합니다.
@@ -228,6 +239,7 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
         private void OnDisable() // 세 번째 상황 도중 중단되면 같은 인도에서 재개할 상태를 정리합니다.
         { // 이미 도착했다면 완료한 횡단 위치는 보존합니다.
             StopAllCoroutines(); m_QueueFreeze = false; if (!m_Started) return; // 종료된 연출이 관찰을 다시 열지 않도록 예약을 지웁니다.
+            if (m_ViewInput != null) m_ViewInput.CancelScenarioViewTurn(); // 회전 도중 중단해도 PC 시점 입력 보류가 남지 않게 합니다.
             SetObservations(false); StopEffects(); if (m_UI != null) m_UI.HideAll(); if (m_Thought != null) m_Thought.Show(false); // 세 번째 상황이 사용한 조사 입력, 소리와 화면을 닫습니다.
             if (m_Performance != null) { m_Performance.StopLookingAt(); BlenderRigPose.ResetFace(m_Performance.HeadTarget); } // 상황을 중단하면 플레이어를 바라보던 고개 제어와 표정도 함께 해제합니다.
             if (!m_Completed) // 다시 시작할 경우 빨간불에서 기다린 위치를 기준으로 이어갑니다.
@@ -235,11 +247,11 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
                 if (m_HasCheckpoint && m_Performance != null) m_Performance.RestoreObservation(); // 기존 복원 경로로 같은 친구의 횡단과 자세 상태를 초기화합니다.
                 if (m_Car != null) m_Car.RestoreBeforeGreenScenario(); // 먼저 지나가던 차량의 경로와 위치를 돌려줍니다.
                 if (m_Friend != null) { m_Friend.SetScenarioPaused(false); m_Friend.PlaceWaitingForScenario(m_ReadyFriendPosition, m_ReadyFriendRotation); } // 두 번째 상황의 실제 대기 위치에 같은 친구를 복원합니다.
-                if (m_Origin != null) m_Origin.Origin.transform.position = m_ReadyPlayerPosition; // 플레이어를 함께 대기한 쪽 인도에 복원합니다.
+                if (m_Origin != null) m_Origin.Origin.transform.SetPositionAndRotation(m_ReadyPlayerPosition, m_ReadyPlayerRotation); // 도착 회전이 중단되어도 다음 실행에 회전량을 누적하지 않습니다.
                 if (m_Signal != null) m_Signal.HoldRedForScenario(); // 재진입 때 파란불 전환을 다시 보여 주기 위해 빨간불을 유지합니다.
                 m_State = StageState.Waiting; // 완료한 빨간불 상황에서 다시 진입할 수 있게 합니다.
             } // 완료 화면을 닫는 경우에는 이동 결과를 되돌리지 않습니다.
-            if (m_SharedUI != null) { m_SharedUI.HideAll(); m_SharedUI.Transition(false); } // 관찰 말풍선이나 재시도 암전이 남지 않게 합니다.
+            if (m_SharedUI != null) { m_SharedUI.SetMovementLetterbox(false); m_SharedUI.HideAll(); m_SharedUI.Transition(false); } // 관찰 말풍선이나 재시도 암전이 남지 않게 합니다.
             m_HasCheckpoint = false; m_Started = false; // 이전 실행의 관찰 상태를 다음 실행에서 사용하지 않습니다.
         } // 다시 활성화할 때는 새 관찰 자세를 저장합니다.
 

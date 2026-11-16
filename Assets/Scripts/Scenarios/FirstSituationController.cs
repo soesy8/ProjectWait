@@ -60,6 +60,7 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
         private void Start() // 기존 XR와 실제 씬 UI가 준비되면 별도 조작 없이 도입을 시작합니다.
         { // 머리 추적과 컨트롤러 선택은 유지합니다.
             m_Started = true; m_LocomotionEnabled = new bool[m_Locomotion.Length]; // 직접 이동 설정만 나중에 복원할 수 있게 보관합니다.
+            m_UI.SetDialogueSpeaker(m_Movement.transform, m_Performance.HeadTarget);
             m_ImpactEffect.gameObject.SetActive(false); m_CloseupCamera.enabled = false; // 사고 효과와 별도 카메라는 필요한 구간에서만 표시합니다.
             m_TransitionAudio.spatialBlend = 0f; m_ImpactAudio.spatialBlend = 1f; m_ImpactAudio.dopplerLevel = 0f; // 전환음과 실제 접촉 충격음을 분리합니다.
             if (!m_Completed) PrepareDeparture(); // 시작 화면부터 전봇대 앞이 아닌 실제 이야기 출발 위치를 사용합니다.
@@ -95,11 +96,16 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
         private IEnumerator FollowIntroductionWalk(Transform limit) // 집을 확인한 뒤 걷는 구간과 휴대전화를 보며 걷는 구간을 실제 보행에 연결합니다.
         { // 대사가 바뀌는 것을 이동으로 대신하지 않고 기존 경로를 따라 움직입니다.
             m_Movement.SetScenarioApproachLimit(limit); m_Performance.Freeze(false); m_WalkAudio.SetActive(true); Vector3 previous = m_Movement.transform.position; // 이번 구간의 실제 한계와 동행 위치 기준을 준비합니다.
-            while (m_Movement.IsScenarioDetouring && m_Movement.ScenarioLimitRemaining > 0.03f) // 지정한 인도 구간이 끝날 때까지 실제 보행을 이어갑니다.
-            { // 플레이어는 주변을 둘러보면서 친구 옆에서 함께 이동합니다.
-                Vector3 current = m_Movement.transform.position; m_Origin.Origin.transform.position += current - previous; previous = current; yield return null; // 친구가 걸은 실제 거리만 플레이어 루트에 적용하고 시선은 바꾸지 않습니다.
-            } // 마지막 프레임의 이동도 빠뜨리지 않습니다.
-            m_Origin.Origin.transform.position += m_Movement.transform.position - previous; m_WalkAudio.Stop(); // 실제 도착 지점에서 친구와 플레이어가 함께 멈춥니다.
+            m_UI.SetMovementLetterbox(true);
+            try
+            {
+                while (m_Movement.IsScenarioDetouring && m_Movement.ScenarioLimitRemaining > 0.03f) // 지정한 인도 구간이 끝날 때까지 실제 보행을 이어갑니다.
+                { // 플레이어는 주변을 둘러보면서 친구 옆에서 함께 이동합니다.
+                    Vector3 current = m_Movement.transform.position; m_Origin.Origin.transform.position += current - previous; previous = current; yield return null; // 친구가 걸은 실제 거리만 플레이어 루트에 적용하고 시선은 바꾸지 않습니다.
+                }
+                m_Origin.Origin.transform.position += m_Movement.transform.position - previous; // 감속한 마지막 프레임도 반영합니다.
+            }
+            finally { m_UI.SetMovementLetterbox(false); m_WalkAudio.Stop(); }
         } // 다음 물체 선택이나 결과 연출은 도입 순서가 결정합니다.
 
         private IEnumerator RunIntroduction() // 집 찾기·확인 대사·동행·알림·전화 확인·부주의한 보행을 순서대로 연결합니다.
@@ -270,7 +276,7 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
             if (m_WalkAudio != null) m_WalkAudio.Stop(); // 자동 도입과 우회의 보행 소리도 함께 초기화합니다.
             if (m_Performance != null) m_Performance.Freeze(true); // 친구가 먼저 제거되지 않았을 때만 연출을 정지합니다.
             if (m_Movement != null) BlenderRigPose.ResetFace(m_Movement.transform); // 상황을 중단하면 친구 1의 대사와 결과 표정도 끝냅니다.
-            if (m_UI != null) { m_UI.HideAll(); m_UI.Transition(false); } // 살아 있는 UI 제어기의 표시와 전환을 정리합니다.
+            if (m_UI != null) { m_UI.SetMovementLetterbox(false); m_UI.HideAll(); m_UI.Transition(false); } // 살아 있는 UI 제어기의 표시와 전환을 정리합니다.
             m_QueueFreeze = false; // 오브젝트 해제 순서에 관계없이 대기 중인 체크포인트 요청을 취소합니다.
         } // 원본 신호등과 자동차는 활성 상태를 유지합니다.
 

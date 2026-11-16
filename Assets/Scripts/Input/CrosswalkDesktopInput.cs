@@ -1,4 +1,5 @@
 using System.Collections.Generic; // 실제 헤드셋 표시 장치를 조회하는 목록을 재사용합니다.
+using System.Collections;
 using TMPro; // PC 조작일 때 씬의 기존 보행 안내 문구만 바꿉니다.
 using Unity.XR.CoreUtils; // 기존 XR Origin과 1인칭 카메라를 그대로 사용합니다.
 using UnityEngine; // 마우스 시점과 실제 물체의 포인터 선택을 처리합니다.
@@ -49,6 +50,7 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
         private CurveVisualController[][] m_HandVisuals; // 각 손의 기존 레이 표시기를 그대로 사용합니다.
         private float[][] m_OriginalVisualDistances; // 레이 표시 거리도 이 씬을 나갈 때 복원합니다.
         private bool m_Looking, m_ApplicationPaused; // 상대 마우스 입력의 적용 여부와 앱의 일시정지 상태를 따로 추적합니다.
+        private bool m_ScenarioViewTurning; // 횡단보도 입구의 한 번뿐인 회전 중에는 마우스 시점 입력을 보류합니다.
         private bool m_CursorRequested; // 자유 시점 중에만 Tab이나 Escape로 커서를 요청한 상태를 기억합니다.
         private Vector2 m_CursorBeforeLook; // 회전을 마치면 버튼을 누르기 전의 커서 위치로 복원합니다.
         private readonly List<XRDisplaySubsystem> m_Displays = new List<XRDisplaySubsystem>(); // 로더 등록 여부와 실제 실행 중인 XR 표시 장치를 구분합니다.
@@ -124,6 +126,7 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
         private void Update() // 사물 조사와 선택 UI의 마우스 입력을 현재 표시 상태에 맞춰 구분합니다.
         { // 대사를 화면 클릭으로 넘기는 별도 입력 단계는 없습니다.
             RefreshMode(); if (!m_Desktop) { SyncVRHands(HasVisibleButtons()); return; } m_KeyboardReader.manualValue = Vector2.zero; Mouse mouse = Mouse.current; // VR에서는 머리 추적을 건드리지 않고 기존 양손 레이의 UI 우선순위만 맞춥니다.
+            if (m_ScenarioViewTurning) { EndMouseLook(); SetHovered(null, null); SyncDesktopObservationHUD(false, false, true); return; }
             bool focused = Application.isFocused && !m_ApplicationPaused; bool waiting = m_Situation != null && m_Situation.IsWaitingForStartScreen; bool transitioning = m_Situation != null && m_Situation.IsSceneTransitioning; // 제목 화면과 위치 전환 중에는 기존 커서 복구를 유지합니다.
             if (!focused || mouse == null || waiting || transitioning) { EndMouseLook(); SetHovered(null, null); SyncDesktopObservationHUD(false, false, true); return; } // 시작 화면과 포커스·전환 중에는 기존 커서 상태를 복원합니다.
             if (HasVisibleButtons()) // 실제 행동 선택·재시도·마무리 버튼이 보이는 동안에는 커서로 UI를 누릅니다.
@@ -238,6 +241,38 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
             m_Yaw = local.eulerAngles.y; m_Pitch = Mathf.Clamp(Mathf.DeltaAngle(0f, local.eulerAngles.x), -75f, 75f); ApplyViewPose(); // 이전 장소의 PC 회전값을 다음 장면에 남기지 않습니다.
         } // 관찰 중에는 이 메서드를 호출하지 않습니다.
 
+        public IEnumerator TurnScenarioView(float degrees, float duration, Vector3 approachForward)
+        {
+            if (!isActiveAndEnabled || m_ScenarioViewTurning || float.IsNaN(degrees) || float.IsInfinity(degrees)) yield break;
+            m_ScenarioViewTurning = true; EndMouseLook(); SetHovered(null, null);
+            Vector3 up = m_Origin.Origin.transform.up;
+            Vector3 currentForward = Vector3.ProjectOnPlane(m_View.transform.forward, up);
+            if (currentForward.sqrMagnitude < 0.001f) currentForward = m_Origin.Origin.transform.forward;
+            approachForward = Vector3.ProjectOnPlane(approachForward, up);
+            if (approachForward.sqrMagnitude < 0.001f) approachForward = currentForward;
+            Vector3 targetForward = Quaternion.AngleAxis(degrees, up) * approachForward;
+            // Use the walking route as the 90-degree reference, so looking aside during the walk cannot leave us facing away from the crossing.
+            float turn = Vector3.SignedAngle(currentForward, targetForward, up), initialPitch = m_Pitch;
+            float elapsed = 0f, previous = 0f;
+            duration = Mathf.Max(0.05f, duration);
+            try
+            {
+                while (elapsed < duration && m_ScenarioViewTurning && isActiveAndEnabled)
+                {
+                    elapsed += Time.unscaledDeltaTime;
+                    float progress = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
+                    float angle = turn * progress;
+                    // Rotate the rig about the eyes, not the tracked camera: no head-pose overwrite or orbital movement.
+                    m_Origin.RotateAroundCameraUsingOriginUp(angle - previous); previous = angle;
+                    if (m_Desktop) m_Pitch = Mathf.Lerp(initialPitch, 0f, progress); // PC만 눈높이로 복귀하고 HMD의 고개 자세는 유지합니다.
+                    yield return null;
+                }
+            }
+            finally { m_ScenarioViewTurning = false; }
+        }
+
+        public void CancelScenarioViewTurn() { m_ScenarioViewTurning = false; }
+
         private void UpdateMouseLook(Mouse mouse) // 잠긴 관찰 모드에서 우클릭 없이 상대 마우스 이동량을 시점에 반영합니다.
         { // 커서를 멈추면 화면 가장자리에서도 시점 회전이 즉시 멈춥니다.
             Vector2 delta = mouse.delta.ReadValue(); // New Input System에서 이번 프레임의 실제 가로·세로 마우스 이동량을 읽습니다.
@@ -308,7 +343,7 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
             m_CursorRequested = true; EndMouseLook(); m_KeyboardReader.manualValue = Vector2.zero; SetHovered(null, null); // 포커스를 다시 얻을 때까지 커서와 현재 시점을 유지합니다.
         } // 버튼 입력은 포커스를 얻은 뒤 해당 단계의 공통 분기에서 처리합니다.
         private void OnApplicationPause(bool paused) { m_ApplicationPaused = paused; if (paused) { m_CursorRequested = true; EndMouseLook(); SetHovered(null, null); } } // 앱 일시정지 중에 마우스 잠금과 관찰 강조가 남지 않게 합니다.
-        private void OnDisable() { if (m_UIInput != null) m_UIInput.finalizeRaycastResults -= FilterOpeningChoiceRaycasts; m_ChoiceClickBlocked = false; EndMouseLook(); SetDesktopMode(false); RestoreVRHands(); m_KeyboardMove?.Disable(); } // 클릭 필터를 해제하고 양손 레이·기존 XR 추적·커서·키보드 상태를 복원합니다.
+        private void OnDisable() { CancelScenarioViewTurn(); if (m_UIInput != null) m_UIInput.finalizeRaycastResults -= FilterOpeningChoiceRaycasts; m_ChoiceClickBlocked = false; EndMouseLook(); SetDesktopMode(false); RestoreVRHands(); m_KeyboardMove?.Disable(); } // 클릭 필터를 해제하고 양손 레이·기존 XR 추적·커서·키보드 상태를 복원합니다.
         private void OnDestroy() { m_KeyboardMove?.Dispose(); m_KeyboardReader?.inputAction?.Dispose(); } // 이 컴포넌트가 만든 씬 전용 입력 리소스만 해제합니다.
     } // 기존 VR 스테이지의 PC 조작 연결을 마칩니다.
 } // 프로젝트의 공통 입력 자산과 다른 씬은 변경하지 않습니다.

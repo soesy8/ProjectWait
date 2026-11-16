@@ -3,7 +3,7 @@ using System.Text; // M 원본처럼 단어를 먼저 묶어 한국어 어미가
 using System.Collections.Generic; // 말풍선 한 번의 배치 동안 UI 및 관찰 대상의 화면 영역을 재사용합니다.
 using TMPro; // 씬에 미리 제작된 선명한 한국어 UI 텍스트를 사용합니다.
 using UnityEngine; // 월드 공간 UI의 배치와 포함 글꼴 리소스를 관리합니다.
-using UnityEngine.UI; // 대화 카드 없이 장면 아래 자막 띠를 그리는 기존 Unity UI를 사용합니다.
+using UnityEngine.UI; // 기존 대화 프레임·선택지와 연출 띠를 사용합니다.
 using UnityEngine.XR.Interaction.Toolkit.UI; // 기존 Canvas에 양손 컨트롤러의 UI 레이 판정을 연결합니다.
 using UnityEngine.Events; // 친구에게 말을 걸었을 때 현재 상황의 선택지를 여는 콜백을 사용합니다.
 
@@ -75,11 +75,21 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
         [SerializeField, InspectorName("M 선택 버튼 그림"), Tooltip("원본 ButtonTeal 스프라이트입니다. 안전·위험 응답에 같은 모양을 사용합니다.")] private Sprite m_PrimaryButton; // M의 판단 선택지처럼 정답을 색으로 구별하지 않습니다.
         [SerializeField, InspectorName("M 돌아보기 버튼 그림"), Tooltip("원본 ButtonCream 스프라이트입니다. 다시 살펴보기 같은 보조 행동에 사용합니다.")] private Sprite m_SecondaryButton; // 원본과 같은 보조 버튼의 모양을 사용합니다.
         [SerializeField, InspectorName("M 대사 꼬리"), Tooltip("기존 대사 프레임 아래의 SpeechTail 그림입니다.")] private RectTransform m_SpeechTail; // M 원본의 72×42 장식 위치를 그대로 적용합니다.
-        private RectTransform m_SubtitleRoot, m_SubtitleBar, m_SubtitleTop, m_ReadingColumn, m_ReadingPaper; // 연출 자막과 조사 중 읽기 영역을 M처럼 별도로 배치합니다.
-        private Canvas m_ReadingCanvas; // PC 대사와 응답을 카메라 위치 계산 없이 화면 왼쪽 위에 고정하는 Canvas입니다.
-        private GraphicRaycaster m_ReadingMouseRaycaster; // 같은 읽기 Canvas에서 PC 마우스 클릭을 처리합니다.
-        private TrackedDeviceGraphicRaycaster m_ReadingVRRaycaster; // 같은 읽기 Canvas에서 양손 트리거의 실제 UI 판정을 처리합니다.
-        private TMP_Text m_CaptionText; // 연출 자막은 조사 카드의 본문과 분리하여 자동 장면 진행 중에만 표시합니다.
+        private RectTransform m_SubtitleRoot, m_SubtitleBar, m_SubtitleTop, m_ReadingColumn, m_ReadingPaper; // 화면 레터박스와 월드 대화 영역을 분리합니다.
+        private Canvas m_ReadingCanvas; // 읽기 전용 대사를 대화 주체 옆의 월드 공간에 표시합니다.
+        private Transform m_DialogueSpeaker, m_DialogueHead, m_ReadingSubject;
+        private Vector3 m_ReadingLocalPoint, m_ReadingWorldPoint, m_ReadingOffset;
+        private Bounds m_ReadingSubjectBounds;
+        private bool m_ReadingSubjectAssigned, m_ReadingPlacementReady;
+        private float m_ReadingUnit = 0.002f;
+        private Canvas m_WorldChoicesCanvas; // 응답·재시도·완료 버튼은 시선에 따라 움직이지 않는 월드 공간에 둡니다.
+        private UnityEngine.UI.GraphicRaycaster m_ChoiceMouseRaycaster;
+        private TrackedDeviceGraphicRaycaster m_ChoiceVRRaycaster;
+        private bool m_CinematicDialogue, m_MovementLetterbox;
+        private float m_LetterboxAmount;
+        private Vector3 m_LetterboxLevelRight = Vector3.right; // 수직으로 올려다볼 때도 마지막 수평 축을 유지합니다.
+        private GraphicRaycaster m_ReadingMouseRaycaster; // 읽기 전용 대사의 마우스 레이 판정은 꺼 둡니다.
+        private TrackedDeviceGraphicRaycaster m_ReadingVRRaycaster; // 대사가 물체·선택지 입력을 가로채지 않게 합니다.
         private Material m_RuntimeTextOverlay; // M 글꼴의 실제 아틀라스를 복사하고 원본의 4201 표시 순서를 적용합니다.
         private CrosswalkObjectGuide m_ObjectGuide; // 세 상황의 실제 클릭 대상을 M의 오른쪽 위 안내와 물체 옆 표식으로 보여 줍니다.
         private FirstSituationPanel m_ActionPanel; // 세 상황에서 현재 표시하는 실제 행동 버튼 패널을 기억합니다.
@@ -101,29 +111,63 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
                 label.font = m_Font; // 씬에 저장된 동적 SDF 에셋을 사용하여 한국어 글리프를 같은 원본에서 가져옵니다.
                 label.fontSharedMaterial = m_RuntimeTextOverlay; // 현재 동적 한국어 글꼴에서 복사한 재질을 사용하여 글자와 아틀라스의 연결을 일치시킵니다.
             } // 원본 글꼴 에셋과 그 안의 글리프는 수정하지 않습니다.
-            BuildSubtitles(); GameObject guide = new GameObject("M 물체 선택 안내") { layer = 5 }; guide.transform.SetParent(m_Anchor.parent, false); m_ObjectGuide = guide.AddComponent<CrosswalkObjectGuide>(); m_ObjectGuide.Initialize(m_Viewer, m_InputSource, m_Font, m_SubtitleBackground, m_RuntimeTextOverlay); // M의 화면 고정 안내는 World Canvas 밖에 연결하여 기존 읽기 프레임의 배치와 배율을 상속하지 않게 합니다.
+            BuildSubtitles(); BuildWorldChoices(); GameObject guide = new GameObject("M 물체 선택 안내") { layer = 5 }; guide.transform.SetParent(m_Anchor.parent, false); m_ObjectGuide = guide.AddComponent<CrosswalkObjectGuide>(); m_ObjectGuide.Initialize(m_Viewer, m_InputSource, m_Font, m_SubtitleBackground, m_RuntimeTextOverlay); // M의 화면 고정 안내는 World Canvas 밖에 연결하여 기존 읽기 프레임의 배치와 배율을 상속하지 않게 합니다.
             foreach (Button button in m_Anchor.GetComponentsInChildren<Button>(true)) StyleButton(button, button.targetGraphic is Image image && image.sprite == m_PrimaryButton); // 시작 화면을 포함한 기존 버튼의 글자·색상 전환을 M 원본 기준으로 적용합니다.
         } // 포함된 글꼴과 이미지 자산은 원본 상태로 보존합니다.
 
-        private void BuildSubtitles() // M의 연출 자막과 조사 중 읽기 영역을 기존 UI에 연결합니다.
+        private void BuildSubtitles() // 월드 대화 프레임과 화면 연출 띠의 수명을 분리합니다.
         { // 화면 클릭이나 대사를 넘기는 입력 영역은 만들지 않습니다.
-            GameObject reading = new GameObject("PC 왼쪽 위 고정 대사", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster), typeof(TrackedDeviceGraphicRaycaster)) { layer = 5 }; reading.transform.SetParent(m_Anchor.parent, false); m_ReadingCanvas = reading.GetComponent<Canvas>(); m_ReadingCanvas.renderMode = RenderMode.ScreenSpaceOverlay; m_ReadingCanvas.sortingOrder = 210; m_ReadingCanvas.enabled = false; // 월드 Canvas 밖의 화면 UI로 분리하여 마우스 회전에 따른 월드 좌표 재배치를 없앱니다.
-            m_ReadingMouseRaycaster = reading.GetComponent<GraphicRaycaster>(); m_ReadingVRRaycaster = reading.GetComponent<TrackedDeviceGraphicRaycaster>(); m_ReadingVRRaycaster.checkFor2DOcclusion = false; m_ReadingVRRaycaster.checkFor3DOcclusion = false; m_ReadingVRRaycaster.ignoreReversedGraphics = false; m_ReadingVRRaycaster.enabled = false; // 화면 위에 그리는 기존 UI가 뒤쪽 장면의 Collider에 가려 클릭되지 않는 문제를 막습니다.
+            GameObject reading = new GameObject("대화 주체 옆 월드 대사", typeof(RectTransform), typeof(Canvas), typeof(UnityEngine.UI.GraphicRaycaster), typeof(TrackedDeviceGraphicRaycaster)) { layer = 5 }; reading.transform.SetParent(m_Anchor.parent, false); m_ReadingCanvas = reading.GetComponent<Canvas>(); m_ReadingCanvas.renderMode = RenderMode.WorldSpace; m_ReadingCanvas.sortingOrder = 210; m_ReadingCanvas.enabled = false; // PC·VR 모두 카메라의 자식이 아닌 월드 대사 Canvas를 사용합니다.
+            m_ReadingMouseRaycaster = reading.GetComponent<GraphicRaycaster>(); m_ReadingVRRaycaster = reading.GetComponent<TrackedDeviceGraphicRaycaster>(); m_ReadingVRRaycaster.checkFor2DOcclusion = false; m_ReadingVRRaycaster.checkFor3DOcclusion = false; m_ReadingVRRaycaster.ignoreReversedGraphics = false; m_ReadingMouseRaycaster.enabled = m_ReadingVRRaycaster.enabled = false; // 읽기 전용 대사가 월드 선택지의 클릭을 가로채지 않습니다.
             m_ReadingCanvas.worldCamera = m_Viewer; m_ReadingCanvas.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1 | AdditionalCanvasShaderChannels.Normal | AdditionalCanvasShaderChannels.Tangent; // 같은 글꼴과 그림을 VR의 실제 카메라와 셰이더 채널로 표시합니다.
-            CanvasScaler readingScale = reading.GetComponent<CanvasScaler>(); readingScale.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize; readingScale.referenceResolution = new Vector2(1280f, 720f); readingScale.matchWidthOrHeight = 1f; // 창 크기가 달라져도 같은 화면 여백과 읽기 크기를 유지합니다.
-            m_ReadingColumn = (RectTransform)new GameObject("M 방식 조사 읽기 영역", typeof(RectTransform)).transform; m_ReadingColumn.SetParent(m_Anchor, false); // 설명과 실제 선택지를 같은 기준점에서 배치합니다.
+            m_ReadingColumn = (RectTransform)new GameObject("M 방식 조사 읽기 영역", typeof(RectTransform)).transform; m_ReadingColumn.SetParent(m_ReadingCanvas.transform, false); // 기존 프레임과 이름표·초상·본문을 그대로 재사용합니다.
             Image frame = m_Guidance.GetComponent<Image>(); if (frame != null) { frame.type = Image.Type.Sliced; frame.pixelsPerUnitMultiplier = 4f; frame.material = m_SubtitleBackground; frame.color = Color.white; } // 설명 프레임에 M 원본과 같은 그림 재질과 슬라이스 비율을 적용합니다.
             m_StorySpeaker.rectTransform.SetParent(m_SpeakerTab, false); m_StorySpeaker.rectTransform.anchorMin = m_StorySpeaker.rectTransform.anchorMax = m_StorySpeaker.rectTransform.pivot = Vector2.one * 0.5f; m_StorySpeaker.rectTransform.localRotation = Quaternion.identity; m_StorySpeaker.rectTransform.localScale = Vector3.one; // 씬에서 형제로 저장된 이름 글자를 실제 이름표 안으로 연결하여 배경과 함께 배치합니다.
             m_Guidance.transform.SetParent(m_ReadingColumn, false); m_StoryNextButton.SetActive(false); // 기존 프레임은 읽기 전용으로 사용하고 제가 넣었던 다음 버튼은 표시하지 않습니다.
             GameObject paper = new GameObject("ReadingPaper", typeof(RectTransform), typeof(Image)) { layer = 5 }; m_ReadingPaper = (RectTransform)paper.transform; m_ReadingPaper.SetParent(m_Guidance.transform, false); m_ReadingPaper.SetSiblingIndex(0); Image fill = paper.GetComponent<Image>(); fill.material = m_SubtitleBackground; fill.color = new Color(1f, 0.975f, 0.89f, 1f); fill.raycastTarget = false; // M의 본문 안쪽 읽기 종이 색과 여백을 그대로 사용합니다.
-            GameObject root = new GameObject("장면 연출 자막", typeof(RectTransform), typeof(Canvas)) { layer = 5 }; // M의 CinematicOverlay와 같은 연출 전용 Canvas입니다.
-            m_SubtitleRoot = (RectTransform)root.transform; m_SubtitleRoot.SetParent(m_Viewer.transform, false); // 카메라의 추적을 유지하면서 자막만 같은 시야를 따라갑니다.
+            GameObject root = new GameObject("장면 연출 레터박스", typeof(RectTransform), typeof(Canvas)) { layer = 5 }; // 대화 텍스트 없이 연출 띠만 카메라에 연결합니다.
+            m_SubtitleRoot = (RectTransform)root.transform; m_SubtitleRoot.SetParent(m_Viewer.transform, false); // 레터박스만 시야를 따라가며 대화 Canvas는 월드에 남깁니다.
             Canvas canvas = root.GetComponent<Canvas>(); canvas.renderMode = RenderMode.WorldSpace; canvas.worldCamera = m_Viewer; canvas.overrideSorting = true; canvas.sortingOrder = 100; canvas.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1 | AdditionalCanvasShaderChannels.Normal | AdditionalCanvasShaderChannels.Tangent; // M과 같은 연출 정렬 및 TMP 정점 채널을 사용합니다.
-            m_SubtitleBar = CreateCaptionBar("아래 연출 띠", new Vector2(0.5f, 0f)); m_SubtitleTop = CreateCaptionBar("위 연출 띠", new Vector2(0.5f, 1f)); // M 원본의 위아래 82 포인트 띠를 함께 표시합니다.
-            GameObject caption = new GameObject("연출 대사", typeof(RectTransform), typeof(TextMeshProUGUI)) { layer = 5 }; caption.transform.SetParent(m_SubtitleBar, false); // 조사 본문을 옮기지 않고 연출 자막에만 별도의 글자를 둡니다.
-            m_CaptionText = caption.GetComponent<TMP_Text>(); m_CaptionText.font = m_Font; m_CaptionText.fontSharedMaterial = m_RuntimeTextOverlay; ApplyTypography(m_CaptionText, 28f, false); m_CaptionText.color = Color.white; m_CaptionText.alignment = TextAlignmentOptions.Center; // M의 CaptionSize 28과 흰색 중앙 자막을 그대로 적용합니다.
-            m_CaptionText.rectTransform.anchoredPosition = Vector2.zero; PositionSubtitles(); root.SetActive(false); // 실제 연출을 시작하기 전에는 자막 띠를 숨깁니다.
+            m_SubtitleBar = CreateCaptionBar("아래 연출 띠", Vector2.one * 0.5f); m_SubtitleTop = CreateCaptionBar("위 연출 띠", Vector2.one * 0.5f); // 메인 최신 작업의 200 포인트 띠와 0.38초 슬라이드를 사용합니다.
+            PositionSubtitles(); root.SetActive(false); // 실제 연출을 시작하기 전에는 위아래 띠를 숨깁니다.
         } // 일반 조사 설명은 기존 M 그림 프레임에서 읽습니다.
+
+        private void BuildWorldChoices()
+        {
+            GameObject root = new GameObject("월드 공간 행동 선택지", typeof(RectTransform), typeof(Canvas), typeof(UnityEngine.UI.GraphicRaycaster), typeof(TrackedDeviceGraphicRaycaster)) { layer = 5 };
+            root.transform.SetParent(m_Anchor.parent, false);
+            m_WorldChoicesCanvas = root.GetComponent<Canvas>(); m_WorldChoicesCanvas.renderMode = RenderMode.WorldSpace;
+            m_WorldChoicesCanvas.worldCamera = m_Viewer; m_WorldChoicesCanvas.sortingOrder = 200;
+            m_WorldChoicesCanvas.additionalShaderChannels = m_ReadingCanvas.additionalShaderChannels;
+            m_ChoiceMouseRaycaster = root.GetComponent<UnityEngine.UI.GraphicRaycaster>();
+            m_ChoiceVRRaycaster = root.GetComponent<TrackedDeviceGraphicRaycaster>();
+            m_ChoiceVRRaycaster.checkFor2DOcclusion = false; m_ChoiceVRRaycaster.checkFor3DOcclusion = false;
+            m_ChoiceVRRaycaster.ignoreReversedGraphics = false;
+            SyncChoiceRaycasters();
+        }
+
+        private void SyncChoiceRaycasters()
+        {
+            bool desktop = m_InputSource != null && m_InputSource.IsDesktopActive;
+            m_ChoiceMouseRaycaster.enabled = desktop; m_ChoiceVRRaycaster.enabled = !desktop;
+        }
+
+        private void PlaceWorldChoices(float height)
+        {
+            RectTransform root = (RectTransform)m_WorldChoicesCanvas.transform;
+            root.anchorMin = root.anchorMax = root.pivot = Vector2.one * 0.5f;
+            root.sizeDelta = new Vector2(580f, height);
+            const float unit = 0.002f; // 기존 월드 UI와 같은 물리적 글자 크기를 유지합니다.
+            Vector3 parentScale = root.parent != null ? root.parent.lossyScale : Vector3.one;
+            root.localScale = new Vector3(unit / parentScale.x, unit / parentScale.y, unit / parentScale.z);
+            bool desktop = m_InputSource != null && m_InputSource.IsDesktopActive;
+            Vector3 forward = desktop ? m_Viewer.transform.forward : Vector3.ProjectOnPlane(m_Viewer.transform.forward, Vector3.up);
+            if (forward.sqrMagnitude < 0.001f) forward = Vector3.ProjectOnPlane(m_Viewer.transform.parent.forward, Vector3.up);
+            forward.Normalize();
+            Quaternion rotation = desktop ? m_Viewer.transform.rotation : Quaternion.LookRotation(forward);
+            root.SetPositionAndRotation(m_Viewer.transform.position + forward * m_BubbleDistance + rotation * Vector3.right * 0.45f - Vector3.up * 0.18f, rotation);
+            SyncChoiceRaycasters(); // 표시 시 한 번만 배치하며 LateUpdate에서 카메라를 따라가지 않습니다.
+        }
 
         private RectTransform CreateCaptionBar(string label, Vector2 anchor) // M 연출의 화면 위아래 띠를 같은 크기로 만듭니다.
         { // 원본 UIOverlay 재질을 써서 실제 월드 물체 뒤로 가려지지 않게 합니다.
@@ -147,15 +191,26 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
 
         private void PositionSubtitles() // M의 720 기준 연출 자막을 현재 시야각에 맞춰 배치합니다.
         { // 실제 플레이어 카메라의 위치와 방향은 건드리지 않습니다.
-            float distance = Mathf.Max(0.45f, m_Viewer.nearClipPlane + 0.06f); float height = 2f * distance * Mathf.Tan(m_Viewer.fieldOfView * 0.5f * Mathf.Deg2Rad); float width = 720f * m_Viewer.aspect; // 원본 CinematicOverlay와 같은 화면 크기 계산을 사용합니다.
-            m_SubtitleRoot.localPosition = new Vector3(0f, 0f, distance); m_SubtitleRoot.localRotation = Quaternion.identity; m_SubtitleRoot.localScale = Vector3.one * (height / 720f); m_SubtitleRoot.sizeDelta = new Vector2(width, 720f); // 시선 입력과 독립적으로 연출 띠를 화면 가장자리에 둡니다.
-            m_SubtitleBar.sizeDelta = m_SubtitleTop.sizeDelta = new Vector2(width + 20f, 82f); if (m_CaptionText != null) m_CaptionText.rectTransform.sizeDelta = new Vector2(Mathf.Min(1100f, width - 48f), 82f); // 원본과 같은 띠 높이와 자막 여백을 적용합니다.
-        } // 연출이 끝나면 HideAll에서 위아래 띠를 함께 숨깁니다.
+            if (m_SubtitleRoot == null || m_Viewer == null) return;
+            bool vr = m_InputSource != null && !m_InputSource.IsDesktopActive;
+            float distance = Mathf.Max(vr ? CrosswalkLetterboxLayout.StereoDistance : 0.45f, m_Viewer.nearClipPlane + 0.06f);
+            float height = 2f * distance * Mathf.Tan(m_Viewer.fieldOfView * 0.5f * Mathf.Deg2Rad), width = 720f * m_Viewer.aspect;
+            m_SubtitleRoot.SetPositionAndRotation(m_Viewer.transform.position + m_Viewer.transform.forward * distance,
+                CrosswalkLetterboxLayout.LevelRotation(m_Viewer.transform.forward, ref m_LetterboxLevelRight)); // 카메라의 좌우 기울기만 제거하고 시선 방향은 유지합니다.
+            float unit = vr ? distance / CrosswalkLetterboxLayout.PointsPerRadian : height / 720f;
+            Vector3 parentScale = m_SubtitleRoot.parent.lossyScale;
+            m_SubtitleRoot.localScale = new Vector3(unit / parentScale.x, unit / parentScale.y, unit / parentScale.z);
+            m_SubtitleRoot.sizeDelta = new Vector2(width, 720f);
+            bool ready = vr ? CrosswalkLetterboxLayout.LayoutStereo(m_Viewer, m_SubtitleRoot, m_SubtitleTop, m_SubtitleBar, m_LetterboxAmount)
+                : CrosswalkLetterboxLayout.LayoutDesktop(m_Viewer, m_SubtitleRoot, m_SubtitleTop, m_SubtitleBar, m_LetterboxAmount);
+            m_SubtitleTop.gameObject.SetActive(ready && m_LetterboxAmount > 0f); m_SubtitleBar.gameObject.SetActive(ready && m_LetterboxAmount > 0f);
+        } // 대사와 이동이 모두 끝나면 슬라이드 퇴장 후 위아래 띠를 숨깁니다.
 
-        public void ShowCinematicCaption(string speaker, string line) // M처럼 실제 행동 연출 위에 자동 대사만 표시합니다.
+        public void SetMovementLetterbox(bool visible) { m_MovementLetterbox = visible; }
+
+        public void ShowCinematicCaption(string speaker, string line) // 자동 진행 시간은 유지하고 대사는 주체 옆 월드 프레임에 표시합니다.
         { // 화면 클릭으로 문장을 넘기는 입력이나 다음 버튼은 연결하지 않습니다.
-            HideAll(); // 첫 인사와 이동 중 자동 대사는 대화 창으로 바꾸지 않고 기존 화면 자막으로만 표시합니다.
-            m_CaptionText.text = (string.IsNullOrWhiteSpace(speaker) ? "" : speaker + "  ·  ") + line.Replace("\n", " "); m_SubtitleRoot.gameObject.SetActive(true); // 원본 Caption과 같은 한 줄 자막을 사용합니다.
+            HideAll(); m_CinematicDialogue = true; SetReading(speaker, line); // 레터박스 안에 화면 고정 대사를 중복 생성하지 않습니다.
         } // 장면 진행과 다음 문장은 상황의 실제 연출 코루틴이 결정합니다.
 
         public IEnumerator PlayCaption(string speaker, string line, float duration) // 기존 행동의 결과 대사를 연출 시간에 맞춰 자동으로 이어갑니다.
@@ -163,8 +218,26 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             ShowCinematicCaption(speaker, line); yield return new WaitForSecondsRealtime(duration); // 친구의 동작과 대사를 함께 보여 주고 별도의 화면 클릭은 기다리지 않습니다.
         } // 호출한 상황 제어기가 다음 행동이나 관찰 단계로 이어갑니다.
 
-        private void SetReading(string speaker, string line) // 친구 대사와 물체 설명을 같은 읽기 프레임 안에 정확히 배치합니다.
+        public void SetDialogueSpeaker(Transform speaker, Transform head)
+        {
+            m_DialogueSpeaker = speaker; m_DialogueHead = head;
+        }
+
+        private void SetReading(string speaker, string line, Transform subject = null, Vector3? point = null, Bounds? bounds = null) // 친구 대사와 물체 설명을 같은 월드 프레임으로 표시합니다.
         { // 이름표는 명시적으로 연결한 배경만 사용하고 전체 대사 프레임은 건드리지 않습니다.
+            if (subject == null && !point.HasValue)
+            {
+                subject = m_DialogueHead != null ? m_DialogueHead : m_DialogueSpeaker;
+                if (subject == null) { m_Guidance.Show(false); return; }
+                point = m_DialogueHead != null ? m_DialogueHead.position : subject.position + Vector3.up * 1.55f;
+                bounds = new Bounds(point.Value, new Vector3(0.6f, 0.65f, 0.55f));
+            }
+            m_ReadingSubject = subject; m_ReadingSubjectAssigned = subject != null;
+            m_ReadingWorldPoint = point ?? subject.position;
+            m_ReadingLocalPoint = subject != null ? subject.InverseTransformPoint(m_ReadingWorldPoint) : Vector3.zero;
+            m_ReadingSubjectBounds = bounds ?? new Bounds(m_ReadingWorldPoint, Vector3.one * 0.2f);
+            m_ReadingUnit = 0.002f * Mathf.Clamp(Vector3.Distance(m_Viewer.transform.position, m_ReadingWorldPoint) / 3f, 1f, 4f);
+            m_ReadingPlacementReady = false;
             bool named = !string.IsNullOrWhiteSpace(speaker); m_SpeakerTab.gameObject.SetActive(named); m_StorySpeaker.gameObject.SetActive(named); m_StorySpeaker.text = speaker ?? ""; m_StoryPortrait.SetActive(speaker == "친구"); // 명시한 화자에만 이름표와 친구 초상을 표시하고 이름 없는 설명은 그대로 보여 줍니다.
             ApplyTypography(m_StoryText, 35f, false); m_StoryText.font = m_Font; m_StoryText.fontSharedMaterial = m_RuntimeTextOverlay; m_StoryText.margin = Vector4.zero; m_StoryText.color = new Color32(58, 36, 24, 255); m_StoryText.lineSpacing = 9f; m_StoryText.alignment = TextAlignmentOptions.MidlineLeft; m_StoryText.gameObject.SetActive(true); // 프레임 안쪽 여백을 중복 적용하지 않고 M의 본문 크기와 정렬을 사용합니다.
             m_StoryText.text = WrapReadingLine(line ?? ""); ApplyTypography(m_StorySpeaker, 28f, true); m_StorySpeaker.margin = Vector4.zero; m_StorySpeaker.color = new Color32(58, 36, 24, 255); m_StorySpeaker.alignment = TextAlignmentOptions.Center; m_StorySpeaker.textWrappingMode = TextWrappingModes.NoWrap; m_Guidance.Show(true); LayoutReading(); // 실제 이름은 이름표 가운데에만 두고 본문은 단어 단위로 줄을 바꿉니다.
@@ -189,24 +262,78 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             } // 결과 본문을 한 번에 표시합니다.
             return string.Join("\n", lines); // 읽기 자체에는 다음 클릭이나 페이지 넘김을 요구하지 않습니다.
         } // 프레임 높이는 줄바꿈된 실제 본문 높이로 계산합니다.
-        private void LayoutReading() // M SpatialUI와 StorybookUI의 읽기·응답 열 크기를 적용합니다.
-        { // 설명은 화면 왼쪽 아래에 두고 선택지가 열리면 그 위치를 고정합니다.
-            const float width = 580f; float body = Mathf.Max(102f, m_StoryText.GetPreferredValues(m_StoryText.text, 476f, 0f).y + 12f); float height = Mathf.Max(210f, body + 80f); bool actions = m_ActionPanel != null && m_ActionPanel.WantsVisible; // 원본 PanelWidth와 본문 여백을 기준으로 높이를 확보합니다.
+        private void LayoutReading() // 기존 프레임의 문구·한글 줄바꿈과 크기를 유지합니다.
+        { // 화면 앵커 대신 월드 공간의 주체 위치로 전체 대화 열을 배치합니다.
+            const float width = 580f; float body = Mathf.Max(102f, m_StoryText.GetPreferredValues(m_StoryText.text, 476f, 0f).y + 12f); float height = Mathf.Max(210f, body + 80f); // 선택지 크기는 월드 Canvas에서 별도로 계산합니다.
             RectTransform panel = (RectTransform)m_Guidance.transform; panel.sizeDelta = new Vector2(width, height); m_StoryText.rectTransform.sizeDelta = new Vector2(width - 104f, height - 80f); m_StoryText.rectTransform.anchoredPosition = Vector2.zero; // 원본 프레임 안쪽의 52 포인트 여백과 본문 위치를 적용합니다.
             m_ReadingPaper.sizeDelta = m_StoryText.rectTransform.sizeDelta + new Vector2(24f, 14f); m_ReadingPaper.anchoredPosition = Vector2.zero; // M 원본의 본문보다 가로 24·세로 14 포인트 넓은 읽기 종이를 배치합니다.
             RectTransform tab = m_SpeakerTab; float tagWidth = Mathf.Clamp(m_StorySpeaker.GetPreferredValues().x + 54f, 132f, 292f); tab.sizeDelta = new Vector2(tagWidth, 58f); tab.anchoredPosition = new Vector2(-width * 0.5f + (m_StoryPortrait.activeSelf ? 88f : 30f) + tagWidth * 0.5f, height * 0.5f - 1f); m_StorySpeaker.rectTransform.sizeDelta = new Vector2(tagWidth - 42f, 46f); m_StorySpeaker.rectTransform.anchoredPosition = new Vector2(-3f, 1f); // M 원본의 화자 이름 띠 크기와 위치를 적용합니다.
             RectTransform portrait = (RectTransform)m_StoryPortrait.transform; portrait.sizeDelta = new Vector2(83f, 83f); portrait.anchoredPosition = new Vector2(-width * 0.5f + 47f, height * 0.5f - 9f); if (m_SpeechTail != null) { m_SpeechTail.sizeDelta = new Vector2(72f, 42f); m_SpeechTail.anchoredPosition = new Vector2(-width * 0.21f, -height * 0.5f - 12f); } // 친구 초상과 꼬리 장식도 원본의 비율을 유지합니다.
-            float actionHeight = actions ? ((RectTransform)m_ActionPanel.transform).rect.height : 0f; float top = height * 0.5f + 48f; float bottom = -height * 0.5f - (actions ? 24f + actionHeight : 34f) - 16f; float centre = (top + bottom) * 0.5f; float pixelHeight = top - bottom; float pixelWidth = width + 48f; // M처럼 전체 읽기·선택 열의 중심을 기준으로 배치합니다.
-            panel.anchoredPosition = new Vector2(0f, -centre); if (actions) ((RectTransform)m_ActionPanel.transform).anchoredPosition = new Vector2(0f, -height * 0.5f - 24f - centre); // 설명 아래에 실제 선택 버튼만 세로로 연결합니다.
-            bool desktop = m_InputSource != null && m_InputSource.IsDesktopActive; PlaceSharedScreenCanvas(m_ReadingCanvas, m_Viewer, desktop, m_Anchor.parent); // 같은 Canvas와 같은 그림을 PC 화면 또는 VR 카메라 앞의 동일한 기준 화면에 표시합니다.
-            m_ReadingCanvas.enabled = true; m_ReadingMouseRaycaster.enabled = desktop; m_ReadingVRRaycaster.enabled = !desktop; // 표시와 클릭 판정에 맞는 기존 입력 방식만 활성화합니다.
-            if (m_ReadingColumn.parent != m_ReadingCanvas.transform) m_ReadingColumn.SetParent(m_ReadingCanvas.transform, false); // VR에서도 PC와 동일한 읽기 영역과 실제 버튼을 재사용합니다.
-            float fit = Mathf.Min(0.82f, Mathf.Min(672f / pixelHeight, 600f / pixelWidth)); m_ReadingColumn.anchorMin = m_ReadingColumn.anchorMax = new Vector2(0f, 1f); m_ReadingColumn.pivot = Vector2.one * 0.5f; // 두 입력 방식에서 같은 왼쪽 위 위치와 화면 여백을 사용합니다.
-            m_ReadingColumn.sizeDelta = new Vector2(pixelWidth, pixelHeight); m_ReadingColumn.localRotation = Quaternion.identity; m_ReadingColumn.localScale = Vector3.one * fit; // 대사와 선택지 크기를 PC와 같은 배율로 유지합니다.
-            m_ReadingColumn.anchoredPosition3D = new Vector3(24f + pixelWidth * fit * 0.5f, -24f - pixelHeight * fit * 0.5f, 0f); // 화면 기준으로 고정한 같은 버튼 좌표를 PC·VR의 레이 판정에도 사용합니다.
-        } // VR에서 임의의 다른 위치에 창을 다시 배치하지 않습니다.
+            float top = height * 0.5f + 48f; float bottom = -height * 0.5f - 50f; float centre = (top + bottom) * 0.5f; float pixelHeight = top - bottom; float pixelWidth = width + 48f;
+            panel.anchoredPosition = new Vector2(0f, -centre);
+            m_ReadingCanvas.enabled = true; m_ReadingMouseRaycaster.enabled = m_ReadingVRRaycaster.enabled = false; // 실제 버튼 입력은 월드 Canvas에서만 받습니다.
+            m_ReadingColumn.anchorMin = m_ReadingColumn.anchorMax = m_ReadingColumn.pivot = Vector2.one * 0.5f;
+            m_ReadingColumn.sizeDelta = new Vector2(pixelWidth, pixelHeight); m_ReadingColumn.localRotation = Quaternion.identity; m_ReadingColumn.localScale = Vector3.one;
+            m_ReadingColumn.anchoredPosition3D = Vector3.zero;
+            ((RectTransform)m_ReadingCanvas.transform).sizeDelta = m_ReadingColumn.sizeDelta;
+            PositionWorldReading();
+        }
 
-        public static void PlaceSharedScreenCanvas(Canvas canvas, Camera viewer, bool desktop, Transform desktopParent) // 기존 읽기 화면과 오른쪽 위 안내가 같은 PC·VR 화면 좌표를 사용하게 합니다.
+        private void PositionWorldReading()
+        {
+            if (m_ReadingSubjectAssigned && (m_ReadingSubject == null || !m_ReadingSubject.gameObject.activeInHierarchy))
+            { m_Guidance.Show(false); return; }
+            Vector3 anchor = m_ReadingSubjectAssigned ? m_ReadingSubject.TransformPoint(m_ReadingLocalPoint) : m_ReadingWorldPoint;
+            RectTransform root = (RectTransform)m_ReadingCanvas.transform;
+            Vector3 parentScale = root.parent != null ? root.parent.lossyScale : Vector3.one;
+            root.localScale = new Vector3(m_ReadingUnit / parentScale.x, m_ReadingUnit / parentScale.y, m_ReadingUnit / parentScale.z);
+            root.anchorMin = root.anchorMax = root.pivot = Vector2.one * 0.5f;
+            Vector3 forward = Vector3.ProjectOnPlane(anchor - m_Viewer.transform.position, Vector3.up);
+            if (forward.sqrMagnitude < 0.001f) forward = Vector3.forward;
+            Quaternion rotation = Quaternion.LookRotation(forward);
+            if (!m_ReadingPlacementReady)
+            {
+                Vector2 size = m_ReadingColumn.sizeDelta * m_ReadingUnit;
+                Vector3 right = rotation * Vector3.right;
+                float side = size.x * 0.5f + Mathf.Clamp(Mathf.Max(m_ReadingSubjectBounds.extents.x, m_ReadingSubjectBounds.extents.z), 0.12f, 0.6f) + 0.12f;
+                float above = size.y * 0.5f + Mathf.Clamp(m_ReadingSubjectBounds.max.y - anchor.y, 0.1f, 0.6f) + 0.12f;
+                Vector3 preferred = -right * side + Vector3.up * 0.08f;
+                Vector3 alternate = right * side + Vector3.up * 0.08f;
+                Vector3 upper = Vector3.up * above;
+                m_ReadingOffset = preferred;
+                float best = ReadingPlacementCost(anchor + preferred, rotation, size);
+                float cost = ReadingPlacementCost(anchor + alternate, rotation, size);
+                if (cost < best) { best = cost; m_ReadingOffset = alternate; }
+                if (ReadingPlacementCost(anchor + upper, rotation, size) + 0.01f < best) m_ReadingOffset = upper;
+                m_ReadingPlacementReady = true;
+            }
+            // Position follows the speaker/object, never a viewport coordinate or camera-local offset.
+            Vector3 position = anchor + m_ReadingOffset;
+            Vector3 facing = Vector3.ProjectOnPlane(position - m_Viewer.transform.position, Vector3.up);
+            root.SetPositionAndRotation(position, facing.sqrMagnitude > 0.001f ? Quaternion.LookRotation(facing) : rotation);
+        }
+
+        private float ReadingPlacementCost(Vector3 center, Quaternion rotation, Vector2 size)
+        {
+            Vector2 min = Vector2.positiveInfinity, max = Vector2.negativeInfinity;
+            float cost = 0f;
+            for (int i = 0; i < 4; ++i)
+            {
+                Vector3 corner = center + rotation * new Vector3((i & 1) == 0 ? -size.x * 0.5f : size.x * 0.5f, (i & 2) == 0 ? -size.y * 0.5f : size.y * 0.5f, 0f);
+                Vector3 p = m_Viewer.WorldToViewportPoint(corner);
+                if (p.z <= m_Viewer.nearClipPlane) return 10000f;
+                cost += 100f * (Mathf.Max(0f, 0.04f - p.x) + Mathf.Max(0f, p.x - 0.96f) + Mathf.Max(0f, 0.04f - p.y) + Mathf.Max(0f, p.y - 0.96f));
+                min = Vector2.Min(min, new Vector2(p.x, p.y)); max = Vector2.Max(max, new Vector2(p.x, p.y));
+            }
+            Rect area = Rect.MinMaxRect(min.x, min.y, max.x, max.y);
+            cost += OverlapArea(area, ProjectBounds(m_ReadingSubjectBounds)) * 200f;
+            if (m_ProtectedObjects != null) foreach (Collider target in m_ProtectedObjects)
+                if (target != null && target.enabled && target.gameObject.activeInHierarchy) cost += OverlapArea(area, ProjectBounds(target.bounds)) * 65f;
+            if (m_ActionPanel != null && m_ActionPanel.WantsVisible) cost += OverlapArea(area, m_ActionPanel.ViewportArea(m_Viewer)) * 1000f;
+            return cost;
+        }
+
+        public static void PlaceSharedScreenCanvas(Canvas canvas, Camera viewer, bool desktop, Transform desktopParent) // 화면 고정 조작 안내 전용이며 월드 대화 Canvas에는 호출하지 않습니다.
         { // 새 UI 창이나 복사본을 만들지 않고 전달받은 Canvas만 배치합니다.
             canvas.worldCamera = viewer; RectTransform screen = (RectTransform)canvas.transform; // 렌더링과 레이 판정이 같은 실제 카메라를 참조하게 합니다.
             if (desktop) // PC는 기존 화면 오버레이의 표시와 마우스 좌표를 유지합니다.
@@ -228,12 +355,13 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
 
         public void PresentChoices(FirstSituationPanel actions, string speaker, string line, bool judgment = true) // 세 상황의 판단·재시도 버튼을 M의 같은 응답 열에 연결합니다.
         { // 설명 창을 닫는 클릭 없이 실제 행동 버튼을 바로 선택하게 합니다.
-            HideAll(); m_ActionPanel = actions; actions.transform.SetParent(m_ReadingColumn, false); Button[] buttons = actions.GetComponentsInChildren<Button>(true); float y = 0f; // 기존 버튼과 onClick 연결을 이동만 시켜 재사용합니다.
+            HideAll(); m_ActionPanel = actions; actions.transform.SetParent(m_WorldChoicesCanvas.transform, false); Button[] buttons = actions.GetComponentsInChildren<Button>(true); float y = 0f; // 기존 버튼과 onClick 연결은 유지하고 월드 Canvas로 분리합니다.
             foreach (Graphic graphic in actions.GetComponentsInChildren<Graphic>(true)) if (graphic.GetComponentInParent<Button>() == null) graphic.enabled = false; // 옛 중앙 팝업의 배경과 제목은 읽기 프레임에 중복 표시하지 않습니다.
             for (int i = 0; i < buttons.Length; ++i) { Button button = buttons[i]; StyleButton(button, judgment ? i < 2 : i == 0); TMP_Text text = button.GetComponentInChildren<TMP_Text>(true); float buttonHeight = Mathf.Max(76f, text.GetPreferredValues(text.text, 516f, 0f).y + 32f); RectTransform rect = (RectTransform)button.transform; rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 1f); rect.sizeDelta = new Vector2(580f, buttonHeight); rect.anchoredPosition = new Vector2(0f, -y - buttonHeight * 0.5f); text.rectTransform.anchorMin = text.rectTransform.anchorMax = new Vector2(0.5f, 0.5f); text.rectTransform.sizeDelta = rect.sizeDelta - new Vector2(64f, 26f); text.rectTransform.anchoredPosition = Vector2.zero; y += buttonHeight + 12f; } // M 원본처럼 580 폭의 응답을 12 간격으로 놓고 글자 크기는 유지합니다.
-            RectTransform actionRect = (RectTransform)actions.transform; actionRect.pivot = new Vector2(0.5f, 1f); actionRect.sizeDelta = new Vector2(580f, Mathf.Max(0f, y - 12f)); actions.Show(true); SetReading(speaker, line); // 설명 바로 아래 실제 행동 선택지를 열고 공용 읽기 영역에 함께 배치합니다.
+            RectTransform actionRect = (RectTransform)actions.transform; actionRect.anchorMin = actionRect.anchorMax = new Vector2(0.5f, 1f); actionRect.pivot = new Vector2(0.5f, 1f); actionRect.localRotation = Quaternion.identity; actionRect.anchoredPosition3D = Vector3.zero; actionRect.sizeDelta = new Vector2(580f, Mathf.Max(0f, y - 12f));
+            PlaceWorldChoices(actionRect.rect.height); actions.Show(true); SetReading(speaker, line); // 설명은 대화 주체 옆에, 실제 응답은 기존 월드 위치에 둡니다.
             m_InputSource?.RequireFreshChoiceClick(); // 세 상황의 선택지를 연 기존 클릭을 버리고 보호 시간과 마우스 해제가 끝난 뒤 새 클릭으로 응답하게 합니다.
-        } // 같은 선택 버튼은 PC 중앙 조준과 기존 VR 레이 모두 사용할 수 있습니다.
+        } // 같은 선택 버튼은 PC 커서와 기존 VR 레이 모두 사용할 수 있습니다.
         public void PlaceInFront(Transform viewer, float distance = 2.15f) // 단계 시작 시 한 번만 편안한 읽기 거리로 배치합니다.
         { // 머리를 돌리는 동안 패널을 시야 중앙에 고정하지 않습니다.
             bool desktop = m_InputSource != null && m_InputSource.IsDesktopActive; // 기존 실제 입력 모드만 읽습니다.
@@ -247,13 +375,13 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
         { // 원래 첫 번째·두 번째 패널 구성은 그대로 유지합니다.
             if (m_ObjectGuide != null) m_ObjectGuide.Hide(); // 컷씬이나 행동 선택으로 전환하면 이전 물체 안내와 표식을 함께 닫습니다.
             if (m_PlacedBubble != null) m_PlacedBubble.Show(false); m_PlacedBubble = null; // 다른 상황의 감사·호출 말풍선도 단계 종료와 함께 숨깁니다.
-            if (m_SubtitleRoot != null) m_SubtitleRoot.gameObject.SetActive(false); // 단계가 바뀌면 이전 자막도 즉시 닫아 내용이 겹치지 않게 합니다.
+            m_CinematicDialogue = false; // 대사만 닫고 실제 이동 중인 레터박스는 유지합니다.
             if (m_ActionPanel != null) m_ActionPanel.Show(false); m_ActionPanel = null; // 현재 응답 패널을 닫고 참조를 비워 다음 단계에 이전 선택지가 남지 않게 합니다.
             m_TaskCompleted = null; m_TaskTarget = null; if (m_ContextThought != null && m_ContextThought != m_Thought) m_ContextThought.Show(false); // 이전 대사와 물체 클릭 콜백을 닫아 다음 이야기에서 실행되지 않게 합니다.
             foreach (FirstSituationPanel panel in m_Panels) if (panel != null) panel.Show(false); // 원래 파스텔 패널의 표시를 정리합니다.
             m_ContextThought = m_Thought; m_ContextThoughtText = m_ThoughtText; // 다음 기본 관찰은 기존 말풍선으로 시작합니다.
         } // 첫 번째·두 번째 관찰 문구를 덮어쓰지 않습니다.
-        public void ShowGuidance() { HideAll(); m_Guidance.Show(true); } // 보행 안내만 표시합니다.
+        public void ShowGuidance() { HideAll(); SetReading(m_StorySpeaker.text, m_StoryText.text); } // 안내도 실제 대화 주체 옆에 배치합니다.
         public void ShowIntroduction() { HideAll(); SetCinematicLabels(true); m_Closeup.Show(true); } // 별도 카메라의 1인칭 보행 장면을 실제 월드 공간 화면으로 보여 줍니다.
         public void ShowCloseup() { HideAll(); SetCinematicLabels(false); m_Closeup.Show(true); } // 같은 화면에서 전화 클로즈업의 실제 제목과 설명을 표시합니다.
         private void SetCinematicLabels(bool introduction) // 실제 Hierarchy의 문구를 전환하여 Inspector에서 편집한 내용을 유지합니다.
@@ -263,7 +391,9 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
         } // 문구 내용과 글자 크기는 각 TMP 오브젝트에 저장된 값을 사용합니다.
         public void ShowTask(FirstSituationObservation target, string instruction, UnityAction onSelected, string speaker = "안내", string line = null) // M처럼 설명과 실제 물체 선택을 한 단계에서 제공합니다.
         { // 읽는 문장을 닫거나 다음을 눌러야 조사할 수 있는 구조를 사용하지 않습니다.
-            HideAll(); m_TaskTarget = target; m_TaskCompleted = onSelected; m_TaskText.text = instruction; SetReading(speaker, line ?? instruction); // 현재 상호작용의 의미를 읽으면서 바로 해당 물체를 선택하게 합니다.
+            HideAll(); m_TaskTarget = target; m_TaskCompleted = onSelected; m_TaskText.text = instruction;
+            if (speaker == "친구" || target == null) SetReading(speaker, line ?? instruction); // 말하는 친구와 다음에 클릭할 물체가 달라도 화자 옆에 대사를 둡니다.
+            else SetReading(speaker, line ?? instruction, target.transform, target.GuidancePosition, target.DialogueBounds);
             m_Observation.Show(false); m_ObjectGuide.Show(target); // M의 오른쪽 위 조작 안내와 실제 물체 옆 선택 표식을 함께 엽니다.
         } // 실제 선택 결과는 기존 관찰 컴포넌트의 TryCompleteTask로만 실행합니다.
         public bool TryCompleteTask(FirstSituationObservation target) // 마우스와 XR에서 같은 물체 클릭으로 현재 이야기 행동을 수행합니다.
@@ -275,20 +405,21 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             return true; // PC 입력은 새 대화나 선택지를 조작할 커서를 즉시 표시합니다.
         } // 클릭 개수를 세지 않고 이야기의 실제 행동을 순서대로 연결합니다.
 
-        public void ShowFriendDialogue(string line, Vector3 headPosition) // 친구의 말도 동일한 화면 자막으로 읽습니다.
-        { // 별도 얼굴 옆 대화창을 띄우지 않습니다.
-            SetReading("친구", line); // 친구 대사도 세계 선택을 막지 않는 M의 읽기 영역에 표시합니다. // 물체 관찰 입력은 유지하고 장면 아래에 말만 표시합니다.
+        public void ShowFriendDialogue(string line, Vector3 headPosition) // 실제 친구 머리 옆의 같은 월드 프레임을 사용합니다.
+        {
+            SetReading("친구", line, m_DialogueHead != null ? m_DialogueHead : m_DialogueSpeaker, headPosition, new Bounds(headPosition, new Vector3(0.6f, 0.65f, 0.55f)));
         } // 다음 행동은 현재 상황의 기존 진행을 따릅니다.
-        public void ShowThought(string thought, Vector3 hitPosition, Bounds bounds) // 다른 물체를 살펴본 생각은 화면 아래 자막으로 표시합니다.
+        public void ShowThought(string thought, Vector3 hitPosition, Bounds bounds, FirstSituationObservation subject = null) // 조사한 물체의 옆이나 위에 설명을 표시합니다.
         { // 진행 중인 클릭 과제의 대상과 콜백을 지우지 않습니다.
-            SetReading("", thought); // 물체 설명을 읽는 동안 현재 과제와 다른 관찰 대상의 클릭을 유지합니다. // 클릭한 물체를 말풍선으로 가리지 않고 생각을 읽게 합니다.
+            SetReading("", thought, subject != null ? subject.transform : null, hitPosition, bounds); // 과제 콜백은 보존하고 이동하는 대상의 로컬 선택 지점을 추적합니다.
         } // 안내한 물체를 누르면 기존 과제가 다음 이야기를 엽니다.
         public void ShowChoice() { PresentChoices(m_Choice, "", "친구가 휴대전화만 보고 걷고 있어." + "\n" + "어떻게 말해 줄까?"); } // 전봇대 앞에서 친구에게 실제로 할 말을 M의 응답 선택지로 표시합니다.
         public void ShowUnsafe() { PresentChoices(m_Retry, "잠깐!", ReadPanelLine(m_Unsafe), false); } // 사고 설명과 재시도 행동을 M의 같은 읽기·응답 열에 표시합니다.
         public void ShowSafe() { HideAll(); PlaceInFront(m_Viewer.transform); m_Safe.Show(true); PlaySuccessCue(); } // 실제 안전 완료 패널과 같은 시점에 성공 광채와 차임을 재생합니다.
-        public void ShowDialogue(FirstSituationPanel panel, Vector3 headPosition) // 기존 경고·감사 문구를 실제 행동 연출의 자막으로 연결합니다.
+        public void ShowDialogue(FirstSituationPanel panel, Vector3 headPosition) // 기존 경고·감사 문구도 친구 옆의 월드 프레임으로 표시합니다.
         { // 결과 대사를 별도 클릭 창으로 띄우지 않습니다.
-            ShowCinematicCaption("", ReadPanelLine(panel)); // 씬에 작성된 문장을 M의 자동 연출 자막으로 보여 줍니다.
+            HideAll(); m_CinematicDialogue = true;
+            SetReading("", ReadPanelLine(panel), m_DialogueHead != null ? m_DialogueHead : m_DialogueSpeaker, headPosition, new Bounds(headPosition, new Vector3(0.6f, 0.65f, 0.55f)));
         } // 실제 행동과 다음 단계는 각 상황 코루틴이 계속 담당합니다.
         private void TrackBubble(FirstSituationPanel panel, Vector3 source, Bounds bounds, bool protect) // 대상을 바꿀 때 기존 말풍선의 위치를 자연스럽게 잇습니다.
         { // 처음 보이는 말풍선만 계산한 위치에 바로 배치합니다.
@@ -364,8 +495,12 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
 
         private void LateUpdate() // 시점이 갱신된 뒤 안내창과 말풍선의 화면 위치를 정합니다.
         { // 말풍선은 이동한 안내창을 가림 영역으로 읽습니다.
-            if (m_ReadingCanvas != null) m_ReadingCanvas.enabled = true; // 같은 읽기 화면을 VR에서도 표시하고 실제 패널의 CanvasGroup으로 표시 여부를 제어합니다.
-            if (m_SubtitleRoot != null && m_SubtitleRoot.gameObject.activeSelf) PositionSubtitles(); if (m_Guidance.WantsVisible) LayoutReading(); // 대사를 읽거나 고개를 돌리는 동안 자막의 화면 크기를 유지합니다.
+            m_LetterboxAmount = Mathf.MoveTowards(m_LetterboxAmount, m_CinematicDialogue || m_MovementLetterbox ? 1f : 0f, Time.unscaledDeltaTime / CrosswalkLetterboxLayout.SlideDuration);
+            if (m_SubtitleRoot != null) m_SubtitleRoot.gameObject.SetActive(m_LetterboxAmount > 0f);
+            if (m_WorldChoicesCanvas != null) SyncChoiceRaycasters();
+            if (m_Guidance.WantsVisible) PositionWorldReading(); // 대상의 이동만 따라가고 고개 회전으로 화면 안에 재배치하지 않습니다.
+            if (m_ReadingCanvas != null) m_ReadingCanvas.enabled = m_Guidance.IsDisplayed;
+            if (m_SubtitleRoot != null && m_SubtitleRoot.gameObject.activeSelf) PositionSubtitles();
             if (m_Observation.WantsVisible && m_InputSource != null && m_InputSource.IsDesktopActive) // PC에서 둘러보는 동안에도 안내창을 중앙 조준점 밖에 유지합니다.
             { // 이미 배치한 관찰 안내를 화면 왼쪽 아래에 맞춥니다.
                 m_ObservationInViewport = true; m_Observation.SetLayoutScale(1f); // 씬 원래 크기를 기준으로 화면에 맞는 배율을 새로 계산합니다.
@@ -376,7 +511,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
                 float width = Vector3.Dot(upper, m_Viewer.transform.right), height = Vector3.Dot(upper, m_Viewer.transform.up); // 화면 비율이나 카메라 시야각에 맞는 월드 길이를 구합니다.
                 float fit = Mathf.Clamp(Mathf.Min(width * 0.35f / size.x, height * 0.2f / size.y), 0.35f, 1f); // 안내가 중앙 시야를 가리지 않는 크기로 줄입니다.
                 m_Observation.SetLayoutScale(fit); // 글과 버튼의 실제 클릭 영역을 같은 비율로 조정합니다.
-                Vector3 center = m_Viewer.ViewportToWorldPoint(new Vector3(0.96f - size.x * fit / (2f * width), 0.91f - size.y * fit / (2f * height), depth)); // M처럼 현재 행동 안내를 오른쪽 위에 두어 친구와 도로를 비워 둡니다.
+                Vector3 center = m_Viewer.ViewportToWorldPoint(new Vector3(0.84f - size.x * fit / (2f * width), 0.76f - size.y * fit / (2f * height), depth)); // 기존 화면 고정 관찰 안내도 더 중앙 쪽으로 이동합니다.
                 m_Observation.transform.SetPositionAndRotation(center, m_Viewer.transform.rotation); // 플레이어가 고개를 돌려도 안내가 화면 모서리를 따라옵니다.
             } // 배치는 안내창 자체에만 적용해 공유 Canvas의 선택지와 암전을 움직이지 않습니다.
             else if (m_ObservationInViewport) // 안내가 닫히거나 VR로 전환되면 원래 배치로 되돌립니다.
@@ -390,8 +525,8 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
         public void ShowThanks(Transform friend) // 안전하게 피한 친구의 화면 위치 옆에서 감사 대사를 읽을 수 있게 합니다.
         { // 다른 패널의 편집된 위치는 변경하지 않습니다.
             HideAll(); // 이전 관찰이나 선택 패널을 숨기고 실제 친구의 감사 동작을 보여 줍니다.
-            TrackBubble(m_Thanks, friend.position + Vector3.up * 1.7f, new Bounds(friend.position + Vector3.up * 1.55f, new Vector3(0.75f, 0.7f, 0.5f)), true); // 실제 친구 얼굴을 보호하며 감사 문구를 배치합니다. // 실제 친구의 얼굴 옆에서 읽을 수 있는 위치에 감사 말풍선을 배치합니다.
-            m_Thanks.Show(true); // 감사 동작에 맞춰 부드럽게 표시합니다.
+            Vector3 head = m_DialogueHead != null ? m_DialogueHead.position : friend.position + Vector3.up * 1.55f;
+            SetReading("친구", ReadPanelLine(m_Thanks), m_DialogueHead != null ? m_DialogueHead : friend, head, new Bounds(head, new Vector3(0.6f, 0.65f, 0.55f)));
         } // 카메라나 친구 모델의 위치는 변경하지 않습니다.
         public void BeginOpeningFade() // M의 자동 시작처럼 첫 화면을 가린 상태에서 도입을 시작합니다.
         { // 사용자가 누를 이야기 시작 버튼이나 조작 안내 창을 띄우지 않습니다.
@@ -421,22 +556,147 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             m_ImmersiveFade.enabled = m_FadeWeight > 0.001f || cue.a > 0.001f; // 복원 암전과 상황 강조가 모두 끝났을 때만 렌더링을 끕니다.
         } // 머리를 돌려도 카메라 자식인 구체가 전체 시야를 동일하게 가립니다.
 
-        private void OnDestroy() // 카메라 아래로 옮긴 자막과 복사한 글자 재질을 상황 UI와 함께 정리합니다.
+        private void OnDestroy() // 월드 대화·선택지·레터박스와 복사한 글자 재질을 함께 정리합니다.
         { // 원본 씬 글꼴과 M 재질 에셋에는 손대지 않습니다.
-            if (m_ReadingCanvas != null) Destroy(m_ReadingCanvas.gameObject); // 별도 화면 부모에 둔 대사와 실제 응답 버튼도 상황 UI 종료와 함께 정리합니다.
+            if (m_ReadingCanvas != null) Destroy(m_ReadingCanvas.gameObject); // 월드 대화 Canvas와 재사용한 읽기 프레임을 정리합니다.
+            if (m_WorldChoicesCanvas != null) Destroy(m_WorldChoicesCanvas.gameObject);
             if (m_SubtitleRoot != null) Destroy(m_SubtitleRoot.gameObject); // 별도 부모에 붙은 자막이 씬에 남지 않게 합니다.
             if (m_ObjectGuide != null) Destroy(m_ObjectGuide.gameObject); // 별도 화면 Canvas에 연결한 안내도 상황 UI와 함께 정리합니다.
             if (m_RuntimeTextOverlay != null) Destroy(m_RuntimeTextOverlay); // 실행 중 만든 글자 재질만 해제합니다.
         } // 원본 폰트와 UI 이미지는 프로젝트가 계속 관리합니다.
         private void OnDisable() // UI가 먼저 비활성화되어도 전환막이 시야에 남지 않게 합니다.
         { // 해제된 Renderer의 속성에는 접근하지 않습니다.
-            if (m_ReadingCanvas != null) m_ReadingCanvas.enabled = false; // 비활성화된 상황의 고정 대사 창이 화면에 남지 않게 합니다.
+            Application.onBeforeRender -= PositionSubtitles;
+            m_CinematicDialogue = m_MovementLetterbox = false; m_LetterboxAmount = 0f;
+            if (m_WorldChoicesCanvas != null) m_WorldChoicesCanvas.enabled = false;
+            if (m_ReadingCanvas != null) m_ReadingCanvas.enabled = false;
             if (m_ObjectGuide != null) m_ObjectGuide.Hide(); // 공유 UI가 꺼질 때 화면 고정 안내가 혼자 남지 않게 합니다.
             if (m_SubtitleRoot != null) m_SubtitleRoot.gameObject.SetActive(false); m_TaskCompleted = null; m_TaskTarget = null; // 공유 UI가 비활성화되면 카메라 자막과 남은 진행 입력도 함께 닫습니다.
             m_FadeVisible = false; m_FadeWeight = 0f; m_CueRemaining = 0f; // 재활성화 시 이전 암전과 상황 강조를 남기지 않습니다.
             if (m_PresentationAudio != null) m_PresentationAudio.Stop(); // UI가 종료되면 재생 중인 연출 차임과 선택음을 함께 정리합니다.
             if (m_ImmersiveFade != null) m_ImmersiveFade.enabled = false; // 살아 있는 전환막만 즉시 숨깁니다.
         } // 원본 머티리얼과 헤드셋 추적은 유지합니다.
+
+        private void OnEnable()
+        {
+            Application.onBeforeRender += PositionSubtitles;
+            if (m_WorldChoicesCanvas != null) m_WorldChoicesCanvas.enabled = true;
+        }
+
+        // Keep this UI-only helper in the already imported script. A newly created
+        // source file must not be a prerequisite for recompiling the existing scene.
+        private static class CrosswalkLetterboxLayout
+        {
+            // main f74a815: VRUIReadingLayout and ElevatorCinematicOverlay's native-eye band layout.
+            // Only the overlay is positioned; headset projection, tracking and camera FOV are never changed.
+            public const float ReferenceHeight = 720f;
+            public const float BandHeight = 200f;
+            public const float BottomRaise = 25f; // 720 기준 하단 띠의 안쪽 경계만 올리고 화면 아래쪽은 계속 덮습니다.
+            public const float SlideDuration = 0.38f;
+            public const float StereoDistance = 1.4f;
+            public const float PointsPerRadian = 700f;
+
+            public static Quaternion LevelRotation(Vector3 forward, ref Vector3 previousRight)
+            {
+                if (forward.sqrMagnitude < 0.000001f) return Quaternion.identity;
+                forward.Normalize();
+                Vector3 right = Vector3.Cross(Vector3.up, forward);
+                if (right.sqrMagnitude < 0.000001f) right = Vector3.ProjectOnPlane(previousRight, forward);
+                if (right.sqrMagnitude < 0.000001f) right = Vector3.ProjectOnPlane(Vector3.right, forward);
+                right.Normalize(); previousRight = right;
+                return Quaternion.LookRotation(forward, Vector3.Cross(forward, right));
+            }
+
+            public static bool LayoutDesktop(Camera viewer, RectTransform plane, RectTransform top, RectTransform bottom, float amount)
+            {
+                if (!ViewBounds(viewer, plane, viewer.worldToCameraMatrix, viewer.projectionMatrix, out Rect coverage, out Vector2 vertical)) return false;
+                LayoutBands(plane, top, bottom, coverage, vertical, vertical, amount);
+                return true;
+            }
+
+            public static bool LayoutStereo(Camera viewer, RectTransform plane, RectTransform top, RectTransform bottom, float amount)
+            {
+                if (!viewer.stereoEnabled) return false; // Wait for actual eyes instead of using the monitor's aspect ratio.
+                if (!EyeBounds(viewer, plane, Camera.StereoscopicEye.Left, out Rect left, out Vector2 lv) ||
+                    !EyeBounds(viewer, plane, Camera.StereoscopicEye.Right, out Rect right, out Vector2 rv)) return false;
+
+                Rect coverage = Rect.MinMaxRect(Mathf.Min(left.xMin, right.xMin), Mathf.Min(left.yMin, right.yMin),
+                    Mathf.Max(left.xMax, right.xMax), Mathf.Max(left.yMax, right.yMax));
+                LayoutBands(plane, top, bottom, coverage, lv, rv, amount);
+                return true;
+            }
+
+            private static void LayoutBands(RectTransform plane, RectTransform top, RectTransform bottom, Rect coverage, Vector2 lv, Vector2 rv, float amount)
+            {
+                plane.sizeDelta = coverage.size;
+                float overscan = coverage.height * 0.02f;
+                float band = Mathf.Min(lv.y - lv.x, rv.y - rv.x) * (BandHeight / ReferenceHeight);
+                float progress = Mathf.SmoothStep(0f, 1f, amount);
+                // Slide from outside the rolled frustum, not from its unrolled vertical edge.
+                float lowerInner = Mathf.Lerp(coverage.yMin, Mathf.Max(lv.x, rv.x) + band, progress);
+                float upperInner = Mathf.Lerp(coverage.yMax, Mathf.Min(lv.y, rv.y) - band, progress);
+                float thickness = Mathf.Max(lowerInner - (coverage.yMin - overscan), coverage.yMax + overscan - upperInner);
+                float raise = Mathf.Min(lv.y - lv.x, rv.y - rv.x) * (BottomRaise / ReferenceHeight) * progress;
+                top.sizeDelta = new Vector2(coverage.width + overscan * 2f, thickness);
+                top.anchoredPosition = new Vector2(coverage.center.x, upperInner + thickness * 0.5f);
+                bottom.sizeDelta = new Vector2(coverage.width + overscan * 2f, thickness + raise);
+                bottom.anchoredPosition = new Vector2(coverage.center.x, lowerInner + raise - (thickness + raise) * 0.5f);
+            }
+
+            private static bool EyeBounds(Camera viewer, Transform plane, Camera.StereoscopicEye eye, out Rect bounds, out Vector2 vertical)
+            {
+                return ViewBounds(viewer, plane, viewer.GetStereoViewMatrix(eye), viewer.GetStereoProjectionMatrix(eye), out bounds, out vertical);
+            }
+
+            private static bool ViewBounds(Camera viewer, Transform plane, Matrix4x4 view, Matrix4x4 projection, out Rect bounds, out Vector2 vertical)
+            {
+                bounds = default; vertical = default;
+                if (!Valid(view) || !Valid(projection) || Mathf.Abs(projection.m32) <= 0.5f || Mathf.Abs(projection.m33) >= 0.001f) return false;
+                Matrix4x4 inverse = (projection * view).inverse;
+                Vector3 origin = view.inverse.MultiplyPoint3x4(Vector3.zero);
+                Vector2 min = Vector2.positiveInfinity, max = Vector2.negativeInfinity;
+                for (int i = 0; i < 4; ++i)
+                {
+                    if (!Intersect(viewer, plane, inverse, origin, view, new Vector2((i & 1) == 0 ? -1f : 1f, (i & 2) == 0 ? -1f : 1f), out Vector2 local)) return false;
+                    min = Vector2.Min(min, local); max = Vector2.Max(max, local);
+                }
+                // Native vertical extent remains the same when the head rolls. Its Y component alone collapses at 90 degrees.
+                if (!Intersect(viewer, plane, inverse, origin, view, new Vector2(0f, -1f), out Vector2 lower) ||
+                    !Intersect(viewer, plane, inverse, origin, view, new Vector2(0f, 1f), out Vector2 upper)) return false;
+                bounds = Rect.MinMaxRect(min.x, min.y, max.x, max.y);
+                float center = (lower.y + upper.y) * 0.5f;
+                float halfHeight = Vector2.Distance(lower, upper) * 0.5f;
+                vertical = new Vector2(center - halfHeight, center + halfHeight);
+                return bounds.width > 0f && bounds.height > 0f && vertical.y > vertical.x;
+            }
+
+            private static bool Intersect(Camera viewer, Transform plane, Matrix4x4 inverse, Vector3 origin, Matrix4x4 view, Vector2 ndc, out Vector2 local)
+            {
+                local = default;
+                Vector4 point = inverse * new Vector4(ndc.x, ndc.y, 0f, 1f);
+                if (!Finite(point.w) || Mathf.Abs(point.w) < 0.000001f) return false;
+                Vector3 direction = new Vector3(point.x, point.y, point.z) / point.w - origin;
+                float denominator = Vector3.Dot(direction, plane.forward);
+                if (!Finite(denominator) || Mathf.Abs(denominator) < 0.000001f) return false;
+                float t = Vector3.Dot(plane.position - origin, plane.forward) / denominator;
+                if (!Finite(t) || t <= 0f) return false;
+                Vector3 world = origin + direction * t;
+                float depth = -view.MultiplyPoint3x4(world).z;
+                if (!Finite(depth) || depth < viewer.nearClipPlane || depth > viewer.farClipPlane) return false;
+                Vector3 position = plane.InverseTransformPoint(world);
+                if (!Finite(position.x) || !Finite(position.y)) return false;
+                local = new Vector2(position.x, position.y);
+                return true;
+            }
+
+            private static bool Valid(Matrix4x4 matrix)
+            {
+                for (int i = 0; i < 16; ++i) if (!Finite(matrix[i])) return false;
+                return Mathf.Abs(matrix.determinant) > 0.0000001f;
+            }
+
+            private static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
+        }
 
     } // 첫 번째 상황의 월드 공간 표시를 마칩니다.
 } // 버튼의 진행 명령은 씬에 저장된 onClick 연결을 사용합니다.

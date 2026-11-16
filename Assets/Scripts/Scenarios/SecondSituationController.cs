@@ -43,6 +43,8 @@ namespace Y.Crosswalk // 두 번째 상황의 도입·관찰·행동 선택과 �
         private bool m_Initialized, m_Started, m_QueueFreeze, m_FriendWasPaused, m_SignalWasPaused; // 보행 시작과 관찰 정지의 수명을 구분합니다.
         private Vector3 m_PlayerStart, m_FriendStart; // 전환을 중단하면 전봇대 회피가 끝난 위치로 돌아갑니다.
         private Quaternion m_FriendStartRotation; // 재개할 때 같은 회피 직후 방향을 사용합니다.
+        private Quaternion m_PlayerStartRotation;
+        private CrosswalkDesktopInput m_ViewInput;
         [SerializeField, InspectorName("두 번째 선택·결과 UI"), Tooltip("실제 씬에 배치한 파스텔 선택·대사·결과·재시도 패널입니다.")] private SecondSituationUI m_ResultUI; // 첫 번째 상황의 선택지와 결과 패널은 변경하지 않습니다.
         [SerializeField, InspectorName("공통 친구 결과 동작"), Tooltip("같은 친구의 놀람·뒷걸음·감사와 관찰 자세 저장을 담당합니다.")] private SecondSituationCharacterPerformance m_Performance; // 기존 사고와 안전 결과의 골격 연출을 공통 친구에 적용합니다.
         [SerializeField, InspectorName("안전한 인도 안쪽 위치"), Tooltip("친구가 빨간불을 확인하고 플레이어와 같은 인도에서 물러날 지점입니다.")] private Transform m_RetreatPoint; // 세 번째 상황이 이어지는 대기 위치입니다.
@@ -69,6 +71,8 @@ namespace Y.Crosswalk // 두 번째 상황의 도입·관찰·행동 선택과 �
         public bool IsObservationReady => isActiveAndEnabled && m_State == StageState.Observation; // 정지된 관찰 단계에서만 기존 마우스 단서 선택을 허용합니다.
         public bool IsActionSelectionReady => isActiveAndEnabled && m_State == StageState.ActionSelectionReady; // 다음 진행 시스템이 결과 실행 없이 관찰 완료 상태를 참조할 수 있게 합니다.
 
+        private void Awake() { m_ViewInput = m_First.GetComponent<CrosswalkDesktopInput>(); } // 기존 첫 상황 루트에 연결된 입력기를 사용합니다.
+
         private void Start() // 씬의 관찰 대상이 준비된 뒤 첫 상황 완료를 기다립니다.
         { // 이전 저장 상태에서도 같은 진입점을 사용합니다.
             m_Initialized = true; // 초기 활성화와 플레이 중 재활성화를 구분합니다.
@@ -79,8 +83,10 @@ namespace Y.Crosswalk // 두 번째 상황의 도입·관찰·행동 선택과 �
         { // 수동 호출이나 중복 이벤트로 이전 상황을 건너뛰지 않습니다.
             if (!isActiveAndEnabled || !m_First.IsCompleted || m_Started || m_Completed) return; // 실제 안전 완료와 아직 시작하지 않은 도입만 수락합니다.
             m_Started = true; m_State = StageState.FirstResult; // 다음 입력 프레임보다 먼저 두 번째 상황의 이동 보류 상태를 확정합니다.
+            m_SharedUI.SetDialogueSpeaker(m_Friend.transform, m_Performance.HeadTarget);
             m_FriendWasPaused = m_Friend.IsScenarioPaused; m_SignalWasPaused = m_Signal.IsScenarioPaused; // 중간에 제어기가 꺼지면 동행 전 정지 설정을 복원합니다.
             m_PlayerStart = m_Origin.Origin.transform.position; // 실제 플레이어가 전봇대를 피한 장면을 보던 위치부터 이어 걷습니다.
+            m_PlayerStartRotation = m_Origin.Origin.transform.rotation;
             m_Friend.transform.GetPositionAndRotation(out m_FriendStart, out m_FriendStartRotation); // 친구의 회피 완료 위치에서 끊김 없이 경로를 연결합니다.
             m_LocomotionEnabled = new bool[m_Locomotion.Length]; m_CarsWerePaused = new bool[m_Cars.Length]; // 취소 시 원래 이동과 차량 정지를 복원할 공간을 준비합니다.
             for (int i = 0; i < m_Locomotion.Length; ++i) { m_LocomotionEnabled[i] = m_Locomotion[i].enabled; m_Locomotion[i].enabled = false; } // 기존 직접 이동만 보류하고 추적·컨트롤러 레이는 유지합니다.
@@ -106,6 +112,10 @@ namespace Y.Crosswalk // 두 번째 상황의 도입·관찰·행동 선택과 �
             yield return WalkTogetherTo(m_FriendArrival, m_PlayerPoint.position); // 선택한 횡단보도 입구까지 같은 친구와 함께 이동합니다.
             if (Vector3.Distance(m_Friend.transform.position, m_FriendArrival.position) > 0.08f) { Debug.LogError("친구가 선택한 횡단보도 입구까지 도착하지 못했습니다.", this); enabled = false; yield break; } // 실제 도착 이후에만 신호를 보고 출발하려는 장면을 엽니다.
             m_Origin.Origin.transform.position = m_PlayerPoint.position; foreach (TrafficCarMovement car in m_Cars) car.SetScenarioPaused(true); // 입구에서 접근 중인 차량과 플레이어의 관찰 위치를 유지합니다.
+            m_State = StageState.Arriving;
+            m_SharedUI.SetMovementLetterbox(true);
+            if (m_ViewInput != null) yield return m_ViewInput.TurnScenarioView(-90f, 0.9f, m_FriendArrival.position - m_LeavePoint.position); // 보행 방향에서 좌측 90도인 건너편을 바라보도록 현재 시선의 편차도 보정합니다.
+            m_SharedUI.SetMovementLetterbox(false);
             yield return m_Performance.LookAtTarget(m_GreenSignalPoint, 0.9f); // 도착하기 전부터 이어진 파란불 깜빡임을 끊거나 다시 시작하지 않고 친구가 신호를 바라보게 합니다.
             m_SharedUI.ShowCinematicCaption("친구", "빨리 건너자!"); yield return new WaitForSecondsRealtime(0.9f); // 신호를 보고 서두르는 짧은 대사만 표시합니다.
             if (!m_Friend.TryBeginScenarioFirstStep(m_GreenSignalPoint, m_FirstStepTime)) { Debug.LogError("깜빡이는 파란불에서 친구의 출발 자세를 준비하지 못했습니다.", this); enabled = false; yield break; } // 기존 첫 발을 사용해 친구가 뛰어들려는 순간을 준비합니다.
@@ -118,15 +128,19 @@ namespace Y.Crosswalk // 두 번째 상황의 도입·관찰·행동 선택과 �
             if (!m_Friend.TryBeginScenarioDetour(destination)) yield break; // 기존 보행기가 경로를 수락하지 않으면 호출한 도입에서 도착 실패를 처리합니다.
             m_State = StageState.Walking; m_WalkAudio.SetActive(true); bool carsReleased = false, flashingStarted = false; // 이번 보행 구간에서 차량 출발과 도착 직전의 신호 깜빡임을 각각 한 번만 시작합니다.
             Vector3 span = Vector3.ProjectOnPlane(destination.position - friendStart, Vector3.up); float deadline = Time.unscaledTime + span.magnitude / Mathf.Max(0.3f, m_WalkSpeed) + 6f; // 실제 구간 길이로 이동 진행도와 도착 대기 범위를 구합니다.
-            while (m_Friend.IsScenarioDetouring && Time.unscaledTime < deadline) // 기존 정지 동작이 끝나 실제로 도착할 때까지 동행합니다.
-            { // 친구가 멈추면 플레이어도 같은 위치에서 멈춥니다.
-                Vector3 walked = Vector3.ProjectOnPlane(m_Friend.transform.position - friendStart, Vector3.up); float progress = Mathf.Clamp01(Vector3.Dot(walked, span) / Mathf.Max(0.01f, span.sqrMagnitude)); // 현재 구간에서 실제로 걸은 비율을 계산합니다.
-                m_Origin.Origin.transform.position = Vector3.Lerp(playerStart, playerDestination, progress); // 머리와 마우스 회전은 유지하며 플레이어 루트만 함께 이동합니다.
-                if (!flashingStarted && destination == m_FriendArrival && Vector3.Distance(m_Friend.transform.position, m_FriendArrival.position) <= 3f) { m_Signal.HoldFlashingGreenForScenario(); flashingStarted = true; } // 입구까지 3m 남았을 때 기존 파란불이 깜빡이기 시작해 도착 전후의 신호 흐름을 연결합니다.
-                if (!carsReleased && Vector3.Distance(m_Friend.transform.position, m_FriendArrival.position) <= m_CarReleaseDistance) { foreach (TrafficCarMovement car in m_Cars) car.SetScenarioPaused(false); carsReleased = true; } // 횡단보도 가까이에 도착했을 때 기존 차로의 차량 접근을 시작합니다.
-                yield return null; // 다음 실제 보행 프레임의 위치를 기다립니다.
-            } // 각 구간의 최종 정지는 기존 보행기가 담당합니다.
-            m_WalkAudio.Stop(); // 길 찾기 대사와 신호 관찰 중에는 걷는 소리가 이어지지 않게 합니다.
+            m_SharedUI.SetMovementLetterbox(true);
+            try
+            {
+                while (m_Friend.IsScenarioDetouring && Time.unscaledTime < deadline) // 기존 정지 동작이 끝나 실제로 도착할 때까지 동행합니다.
+                { // 친구가 멈추면 플레이어도 같은 위치에서 멈춥니다.
+                    Vector3 walked = Vector3.ProjectOnPlane(m_Friend.transform.position - friendStart, Vector3.up); float progress = Mathf.Clamp01(Vector3.Dot(walked, span) / Mathf.Max(0.01f, span.sqrMagnitude)); // 현재 구간에서 실제로 걸은 비율을 계산합니다.
+                    m_Origin.Origin.transform.position = Vector3.Lerp(playerStart, playerDestination, progress); // 머리와 마우스 회전은 유지하며 플레이어 루트만 함께 이동합니다.
+                    if (!flashingStarted && destination == m_FriendArrival && Vector3.Distance(m_Friend.transform.position, m_FriendArrival.position) <= 3f) { m_Signal.HoldFlashingGreenForScenario(); flashingStarted = true; } // 입구까지 3m 남았을 때 기존 파란불이 깜빡이기 시작해 도착 전후의 신호 흐름을 연결합니다.
+                    if (!carsReleased && Vector3.Distance(m_Friend.transform.position, m_FriendArrival.position) <= m_CarReleaseDistance) { foreach (TrafficCarMovement car in m_Cars) car.SetScenarioPaused(false); carsReleased = true; } // 횡단보도 가까이에 도착했을 때 기존 차로의 차량 접근을 시작합니다.
+                    yield return null; // 다음 실제 보행 프레임의 위치를 기다립니다.
+                }
+            }
+            finally { m_SharedUI.SetMovementLetterbox(false); m_WalkAudio.Stop(); }
         } // 다음 보행은 실제 횡단보도 선택이 끝난 뒤에만 시작합니다.
 
         private void LateUpdate() // 실제 골격과 차체 이동이 적용된 프레임에서 관찰을 정지합니다.
@@ -296,6 +310,8 @@ namespace Y.Crosswalk // 두 번째 상황의 도입·관찰·행동 선택과 �
         { // 코루틴이나 예약된 정지 작업이 다음 활성화에 남지 않게 합니다.
             StopAllCoroutines(); m_QueueFreeze = false; // 중단된 연출이 다시 재생되더라도 기존 코루틴이 함께 실행되지 않습니다.
             if (!m_Started) return; // 첫 상황을 기다리는 동안에는 다른 제어기의 상태에 관여하지 않습니다.
+            if (m_ViewInput != null) m_ViewInput.CancelScenarioViewTurn();
+            if (m_SharedUI != null) m_SharedUI.SetMovementLetterbox(false);
             if (!m_Completed) // 세 번째 상황에 넘긴 친구와 차량은 다음 제어기가 계속 사용합니다.
             { // 횡단보도 도착 전이나 재시도 중에는 동행 전 상태로 돌아갑니다.
                 SetObservations(false); // 빨간불 관찰의 입력과 윤곽만 정리합니다.
@@ -305,7 +321,7 @@ namespace Y.Crosswalk // 두 번째 상황의 도입·관찰·행동 선택과 �
                 if (m_ResultUI != null) m_ResultUI.HideAll(); // 두 번째 상황에서 열린 패널을 닫습니다.
                 if (m_Friend != null) { m_Friend.SetScenarioPaused(false); m_Friend.PlaceWaitingForScenario(m_FriendStart, m_FriendStartRotation); } // 공통 친구를 회피 완료 위치로 돌리고 Animator에 대기 자세를 적용합니다.
                 if (m_FirstPerformance != null) m_FirstPerformance.Freeze(m_FriendWasPaused); // 동행 전 이동과 휴대전화의 정지 상태를 복원합니다.
-                if (m_Origin != null) m_Origin.Origin.transform.position = m_PlayerStart; // 플레이어도 함께 출발했던 인도 위치로 복원합니다.
+                if (m_Origin != null) m_Origin.Origin.transform.SetPositionAndRotation(m_PlayerStart, m_PlayerStartRotation); // 회전 중 중단되어도 동행 전 위치와 방향을 복원합니다.
                 if (m_Signal != null) m_Signal.SetScenarioPaused(m_SignalWasPaused); // 이 상황에서 설정하기 전의 신호 타이머 상태로 돌아갑니다.
                 for (int i = 0; i < m_Cars.Length; ++i) if (m_Cars[i] != null) m_Cars[i].SetScenarioPaused(m_CarsWerePaused[i]); // 차량별 이전 정지 상태를 돌려줍니다.
                 if (m_SharedUI != null) { m_SharedUI.HideAll(); m_SharedUI.Transition(false); } // 공유 관찰창과 재시도 암전이 남지 않게 합니다.

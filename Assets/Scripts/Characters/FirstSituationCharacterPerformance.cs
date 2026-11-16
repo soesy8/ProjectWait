@@ -14,6 +14,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 캐릭터 연출을 기존 개인 
         [SerializeField, InspectorName("허리"), Tooltip("기존 Spine 관절입니다.")] private Transform m_Spine; // 골반과 독립적으로 허리를 뒤로 젖힙니다.
         [SerializeField, InspectorName("가슴"), Tooltip("기존 UpperChest 관절입니다.")] private Transform m_Chest; // 충격이 상체로 이어지는 동작을 만듭니다.
         [SerializeField, InspectorName("머리"), Tooltip("기존 Head 관절입니다.")] private Transform m_Head; // 충격 반동과 감사의 끄덕임을 표현합니다.
+        public Transform HeadTarget => m_Head; // 대화를 실제 친구 머리 옆에 표시하는 기준입니다.
         [SerializeField, InspectorName("왼쪽 위팔"), Tooltip("기존 LeftUpperArm 관절입니다.")] private Transform m_LeftArm; // 휴대전화를 든 팔의 반동을 표현합니다.
         [SerializeField, InspectorName("왼쪽 아래팔"), Tooltip("기존 LeftLowerArm 관절입니다.")] private Transform m_LeftForearm; // 휴대전화가 손과 함께 흔들리게 합니다.
         [SerializeField, InspectorName("오른쪽 위팔"), Tooltip("기존 RightUpperArm 관절입니다.")] private Transform m_RightArm; // 균형 잡기와 감사 손짓을 표현합니다.
