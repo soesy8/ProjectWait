@@ -113,7 +113,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         }
 
         void OnEnable(){Application.onBeforeRender+=PositionHud;}
-        void OnDisable(){Application.onBeforeRender-=PositionHud;}
+        void OnDisable(){Application.onBeforeRender-=PositionHud;if(playerSpeech)playerSpeech.Hide();}
 
         public void Present(string who, string line, string objective)
         {

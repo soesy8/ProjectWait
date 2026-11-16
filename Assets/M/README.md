@@ -1,5 +1,11 @@
 # 엘리베이터 체험
 
+## 최신 인수인계 — 2026-11-16
+
+- 중단 후 재개한 UI 검증·PC 통합 검사·개발 기능 분리 결과: `Documentation/WorkResume_20261116.md`.
+- 임시 도구·증거의 분류와 재실행 주의사항: `Documentation/TemporaryTools.md`.
+- 현재 M 씬은 체험 `Wait_Elevator`와 선택 광장 `Wait_Robby`다. 저장된 빌드 씬 목록에는 체험만 등록돼 있으며, 로비 시작 배포 및 다른 팀 체험 연결은 별도 작업이다.
+
 ## 실행·빌드 씬
 
 `Assets/M/Scene/Wait_Elevator.unity`
@@ -16,7 +22,7 @@
 
 | 경로 | 용도 |
 |---|---|
-| `Assets/M/Scene/` | 유일한 체험 씬 |
+| `Assets/M/Scene/` | 메인 체험과 선택 광장 씬 |
 | `Assets/M/Scene/Elevator_Dialogue_Preview_Settings.asset` | 메인 씬 설정 자산 |
 | `Assets/M/Scripts/DialoguePreview/` | 현재 체험 런타임. 승격 전 폴더·네임스페이스를 유지하여 GUID와 타입 참조를 보존 |
 | `Assets/M/Scripts/Elevator/` | 공통 설정 타입·최적화 외곽선 피처 |
@@ -24,19 +30,19 @@
 | `Assets/Shared Assets/`, `Assets/Test/Scripts/` | 현재 씬이 사용하는 공통 외곽선·버튼·말풍선 코드 |
 | `Assets/Samples/`, `Assets/VRTemplateAssets/` | 현재 XR 리그에 필요한 샘플 코드·입력·아이콘만 유지 |
 | `Assets/XR/`, `Assets/XRI/`, `Assets/Settings/`, `Assets/TextMesh Pro/` | XR·렌더링·텍스트 실행 설정과 필수 자산 |
-| `Assets/M/CodexTemp/MainSceneTools~/` | 이번 정리의 의존성·삭제 목록·검증 도구와 결과. 런타임 의존성 없음 |
+| `Assets/M/CodexTemp/` | 임시 검증·캡처·과거 증거. 최신 분류는 `Documentation/TemporaryTools.md` 참고. 런타임 의존성 없음 |
 
 정리 대상은 이전 ObservationTrial 씬·전용 런타임·회귀 검사, 별도 TeamShare 산출물, 메인 씬에서 사용하지 않는 ControlGuide 이미지·제작 원본입니다. 씬의 직렬화 의존성뿐 아니라 코드 전용 참조·동적 셰이더·셰이더 include·Resources·폰트 원본과 라이선스·필수 XR 및 프로젝트 설정 의존성을 보존합니다. 기존 폴더와 폴더 `.meta`는 비어도 남깁니다. Packages와 빌드 씬 목록 외의 프로젝트 설정은 변경하지 않습니다.
 
 ## 검증
 
-`CodexTemp/MainSceneTools~/`의 검증 JSON을 확인합니다. 씬 이동 시 본문·`.meta` 해시와 GUID를 유지합니다. 에디터 컴파일·씬 참조·셰이더 검사와 실제 씬 콜백을 사용하는 관리실/119 모의 통화 경로·일시정지·재시작 검사는 결과 파일에 기록합니다. 빌드 대상 씬 등록과 실제 실행 파일 빌드는 별개이며, 이번 요청은 실행 파일 빌드를 포함하지 않습니다.
+최신 결과는 `CodexTemp/ResumeWork_20261116~/`와 `Documentation/WorkResume_20261116.md`를 확인합니다. `MainSceneTools~/`는 과거 씬 승격 당시의 기록 경로이며 현재 로컬에 없는 결과도 있습니다. 에디터 컴파일·씬 참조·셰이더 검사와 실제 씬 콜백을 사용하는 관리실/119 모의 통화 경로·일시정지·재시작 검사를 최신 결과에 기록합니다. 빌드 대상 씬 등록과 실제 실행 파일 빌드는 별개이며, 이번 작업은 실행 파일 빌드를 포함하지 않습니다.
 
 ## 추가 개선
 
 - HMD 높이: 착용/명시적 확인·추적 유효성·자세 안정화를 확인하고 자동 보정하며, 재착용·추적 원점 변경·메뉴 재보정을 지원합니다.
 - 계단 전환: 1층 상태 진입 시 도착을 확정해 전환 도중 긴 프레임이 발생해도 플레이어가 3층에 남지 않도록 합니다.
-- 현재 메인 씬의 정리 회귀 검사: `CodexTemp/MainSceneTools~/MainSceneSmoke.cs`. 이전 ObservationTrial 전용 Test Runner 테스트·메뉴는 정리 대상입니다.
+- 현재 메인 씬 검사: `CodexTemp/ResumeWork_20261116~/ResumeValidation.cs`. 이전 ObservationTrial 전용 도구를 현재 메인 씬에 그대로 실행하지 않습니다.
 - 공통 렌더링: 직교 깊이를 별도 변환하고, 겹쳐 활성화된 렌더링/FPS 소유자는 해제 순서와 무관하게 마지막 해제 때 원래 설정을 복원합니다.
 
 실제 HMD 착용감·양안 가독성·초심자 이해도·기기 빌드 성능은 자동 검사와 별개입니다. `Documentation/DeviceAcceptance.md`에 미검증 체크리스트와 결과 기록 형식을 정리했습니다.

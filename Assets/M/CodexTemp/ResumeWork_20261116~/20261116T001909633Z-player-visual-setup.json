@@ -1,0 +1,10 @@
+{
+    "utc": "2026-11-16T00:19:09.6331433Z",
+    "mode": "player-visual-setup",
+    "passed": true,
+    "checks": [
+        "PASS: PC visual preview only",
+        "PASS: Player line reached through original callbacks"
+    ],
+    "errors": []
+}

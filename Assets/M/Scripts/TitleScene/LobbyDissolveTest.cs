@@ -124,7 +124,9 @@ namespace ProjectWait.M.TitleScene
         void Update()
         {
             if (SceneTransitionControlled) return;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             if (enableKShortcut && Keyboard.current != null && Keyboard.current.kKey.wasPressedThisFrame) ToggleFade();
+#endif
             Advance(Time.unscaledDeltaTime);
         }
 

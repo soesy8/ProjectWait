@@ -1,0 +1,69 @@
+﻿{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "console",
+    "parameters": {
+      "level": "warn",
+      "tail": "10"
+    },
+    "result": {
+      "entries": [
+        {
+          "seq": 19,
+          "timestampUtc": "2026-11-16T00:25:27.2694087Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 20,
+          "timestampUtc": "2026-11-16T00:25:27.273431Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "XR: Error setting active audio output driver. Falling back to default.",
+          "stackTrace": "UnityEngine.XR.Management.XRGeneralSettings:AttemptInitializeXRSDKOnLoad ()\n",
+          "seeded": false
+        },
+        {
+          "seq": 21,
+          "timestampUtc": "2026-11-16T00:25:33.5361754Z",
+          "level": "warn",
+          "logType": "Warning",
+          "message": "Could not find a device that supports eye tracking on Awake. Gaze Interactor (UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager) has subscribed to device connected events and will activate the GameObject when an eye tracking device is connected.",
+          "stackTrace": "UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets.GazeInputManager:Awake () (at Assets/Samples/XR Interaction Toolkit/3.5.1/Starter Assets/Scripts/GazeInputManager.cs:55)\n",
+          "seeded": false
+        }
+      ],
+      "cursor": 21,
+      "session": "b25235d98b794ad0be65a20f913ce9e8",
+      "returned": 3,
+      "dropped": false,
+      "reset": false,
+      "counts": {
+        "error": 0,
+        "warn": 3,
+        "log": 1
+      },
+      "groundTruth": {
+        "sampledUtc": "2026-11-16T00:27:19.3345702Z",
+        "ageMs": 22,
+        "compilationFailed": false,
+        "compiling": false,
+        "consoleErrors": 0,
+        "consoleWarnings": 3,
+        "consoleLogs": 1,
+        "seeded": true
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "D:\\project\\ProjectWait"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

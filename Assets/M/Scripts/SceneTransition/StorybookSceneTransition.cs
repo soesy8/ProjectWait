@@ -105,8 +105,10 @@ namespace ProjectWait.M.SceneTransition
 
         void Update()
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             if (enablePreviewShortcut && !IsBusy && activeFade && Keyboard.current != null && (activeFade.useSceneMaterials ? Keyboard.current.f9Key.wasPressedThisFrame : Keyboard.current.f8Key.wasPressedThisFrame))
                 Preview();
+#endif
             double now = Time.realtimeSinceStartupAsDouble;
             float seconds = (float)Math.Max(0, now - previousTick);
             previousTick = now;

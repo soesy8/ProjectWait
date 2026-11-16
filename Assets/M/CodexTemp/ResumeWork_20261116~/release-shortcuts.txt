@@ -1,0 +1,7 @@
+﻿PASS: Editor contains / non-Editor non-development DLL omits <Keyboard>/f8
+PASS: Editor contains / non-Editor non-development DLL omits ElevatorChoice
+PASS: Release API DLL retains public R restart binding
+PASS: Editor contains / release DLL omits preview key reference get_kKey
+PASS: Editor contains / release DLL omits preview key reference get_f8Key
+PASS: Editor contains / release DLL omits preview key reference get_f9Key
+LIMIT: API/preprocessor check only; not a platform build or real device input test

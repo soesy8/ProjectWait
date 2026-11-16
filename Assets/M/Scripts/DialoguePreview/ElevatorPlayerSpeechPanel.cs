@@ -14,7 +14,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         Canvas canvas;
         CanvasGroup group;
         CanvasScaler scaler;
-        RectTransform root,panel,tag;
+        RectTransform root,panel,speakerTag;
         TMP_Text body,nameLabel;
         StereoUISafeArea.PlaneCache geometry;
         bool vrMode;
@@ -27,12 +27,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             canvas=gameObject.AddComponent<Canvas>();canvas.sortingOrder=110;
             scaler=gameObject.AddComponent<CanvasScaler>();
             group=gameObject.AddComponent<CanvasGroup>();group.alpha=0;group.interactable=group.blocksRaycasts=false;
-            panel=Rect("Player dialogue",root);tag=Rect("Player speaker",panel);
+            panel=Rect("Player dialogue",root);speakerTag=Rect("Player speaker",panel);
             var art=owner.storybook;
-            if(art){art.Artwork(panel,art.dialogueFrame);art.Artwork(tag,art.speakerRibbon,false);}
+            if(art){art.Artwork(panel,art.dialogueFrame);art.Artwork(speakerTag,art.speakerRibbon,false);}
             else{var paper=panel.gameObject.AddComponent<Image>();paper.color=new Color(1,.965f,.86f);paper.raycastTarget=false;}
             body=Text("Player line",panel,ElevatorDialogueText.BodySize,false);
-            nameLabel=Text("Player name",tag,ElevatorTypography.SpeakerSize,true);nameLabel.text="나";
+            nameLabel=Text("Player name",speakerTag,ElevatorTypography.SpeakerSize,true);nameLabel.text="나";
             canvas.enabled=false;
         }
         static RectTransform Rect(string name,Transform parent)
@@ -59,10 +59,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             height=Mathf.Max(210,bodyHeight+80);panel.sizeDelta=new Vector2(width,height);
             body.rectTransform.sizeDelta=new Vector2(width-104,bodyHeight);body.rectTransform.anchoredPosition=Vector2.zero;
             float tagWidth=Mathf.Clamp(nameLabel.GetPreferredValues().x+54,132,Mathf.Max(132,width-60));
-            tag.sizeDelta=new Vector2(tagWidth,58);tag.anchoredPosition=new Vector2(-width*.5f+30+tagWidth*.5f,height*.5f-1);
+            speakerTag.sizeDelta=new Vector2(tagWidth,58);speakerTag.anchoredPosition=new Vector2(-width*.5f+30+tagWidth*.5f,height*.5f-1);
             nameLabel.rectTransform.sizeDelta=new Vector2(tagWidth-42,46);nameLabel.rectTransform.anchoredPosition=new Vector2(-3,1);
         }
-        bool Allowed()=>owner&&owner.IsPlayerSpeaking&&!owner.view.lesson.IsPaused&&owner.view.lesson.SpawnReady&&
+        bool Allowed()=>isActiveAndEnabled&&owner&&owner.isActiveAndEnabled&&owner.IsPlayerSpeaking&&!owner.view.lesson.IsPaused&&owner.view.lesson.SpawnReady&&
             !StorybookSceneTransition.IsBusy&&(!owner.CinematicOverlay||owner.CinematicOverlay.FadeAlpha<=.01f);
         public void Hide(){if(canvas)canvas.enabled=false;if(group)group.alpha=0;}
         void Show()
@@ -75,10 +75,16 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(!owner||!canvas||!Allowed()){Hide();return;}
             if(vr)
             {
-                if(!StereoUISafeArea.TryCapture(owner.view.playerCamera,out var frame)||!LayoutVR(frame)){Hide();return;}
-                Show();owner.LayoutVRHud(frame);
+                if(!StereoUISafeArea.TryCapture(owner.view.playerCamera,out var frame)){Hide();return;}
+                RefreshVR(frame);
             }
             else LayoutDesktop();
+        }
+        // Shares the production display path with recorded-frustum checks; it never changes XR state.
+        public bool RefreshVR(StereoUISafeArea.Frame frame)
+        {
+            if(!owner||!canvas||!Allowed()||!LayoutVR(frame)){Hide();return false;}
+            Show();owner.LayoutVRHud(frame);return IsVisible;
         }
         public bool LayoutVR(StereoUISafeArea.Frame frame)
         {
@@ -94,7 +100,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             float y=Mathf.Clamp(edge+height/6,safe.yMin+height*.5f+8,safe.yMax-height*.5f-37);
             float x=Mathf.Clamp(0,safe.xMin+width*.5f+8,safe.xMax-width*.5f-8);
             panel.anchoredPosition=new Vector2(x,y);
-            return VRUIReadingLayout.Project(frame,panel,out _,true)&&VRUIReadingLayout.Project(frame,tag,out _,true);
+            return VRUIReadingLayout.Project(frame,panel,out _,true)&&VRUIReadingLayout.Project(frame,speakerTag,out _,true);
         }
         void LayoutDesktop()
         {
@@ -112,7 +118,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public bool TryGetExclusion(Transform plane,out UnityEngine.Rect region)
         {
             region=default;if(!IsVisible||!vrMode)return false;
-            var a=VRUIReadingLayout.LocalRect(panel,plane);var b=VRUIReadingLayout.LocalRect(tag,plane);
+            var a=VRUIReadingLayout.LocalRect(panel,plane);var b=VRUIReadingLayout.LocalRect(speakerTag,plane);
             region=UnityEngine.Rect.MinMaxRect(Mathf.Min(a.xMin,b.xMin),Mathf.Min(a.yMin,b.yMin),Mathf.Max(a.xMax,b.xMax),Mathf.Max(a.yMax,b.yMax));return true;
         }
         public bool LookingAtPanel()

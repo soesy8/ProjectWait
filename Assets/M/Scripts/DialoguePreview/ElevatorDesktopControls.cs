@@ -61,14 +61,19 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             Application.onBeforeRender+=CompleteAuthoredSpawn;
             tint=new MaterialPropertyBlock();if(laserDot)dotRenderer=laserDot.GetComponent<Renderer>();
             uiModule=FindFirstObjectByType<XRUIInputModule>();
+            choices=System.Array.Empty<InputAction>();
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             choices=new InputAction[4];
             for(int i=0;i<4;i++)
             {
                 int n=i;choices[i]=new InputAction("ElevatorChoice"+(i+1),InputActionType.Button,"<Keyboard>/"+(i+1));
                 choices[i].performed+=_=>{if(pendingChoice<0&&lesson&&lesson.Flow!=null&&!lesson.CinematicBlocking){pendingChoice=n;pendingRevision=lesson.Flow.Revision;pendingRun=lesson.RunVersion;}};choices[i].Enable();
             }
-            restartAction=new InputAction("RestartElevator",InputActionType.Button,"<Keyboard>/r");restartAction.performed+=_=>{if(lesson&&!lesson.CinematicBlocking)pendingRestart=true;};restartAction.Enable();
             developerAction=new InputAction("ElevatorDeveloper",InputActionType.Button,"<Keyboard>/f8");developerAction.performed+=_=>{if(lesson&&!lesson.CinematicBlocking)pendingDeveloper=true;};developerAction.Enable();
+#else
+            developerAction=null;
+#endif
+            restartAction=new InputAction("RestartElevator",InputActionType.Button,"<Keyboard>/r");restartAction.performed+=_=>{if(lesson&&!lesson.CinematicBlocking)pendingRestart=true;};restartAction.Enable();
             clickAction=new InputAction("ElevatorCenterClick",InputActionType.Button,"<Mouse>/leftButton");
             clickAction.performed+=_=>{if(lesson&&lesson.Flow!=null&&(lesson.IsPaused||!lesson.CinematicBlocking)){pendingClick=true;clickRevision=lesson.Flow.Revision;clickRun=lesson.RunVersion;}};clickAction.Enable();
         }

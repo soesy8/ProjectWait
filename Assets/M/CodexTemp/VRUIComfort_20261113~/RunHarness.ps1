@@ -36,7 +36,10 @@ $log=Join-Path $run 'harness-editor.log'
 $runtimeHash=(Get-FileHash (Join-Path $harness 'Assets/Plugins/VRComfortRuntime.dll') -Algorithm SHA256).Hash
 $testHash=(Get-FileHash (Join-Path $harness 'Assets/Editor/VRUIComfortValidation.cs') -Algorithm SHA256).Hash
 $arguments=@('-batchmode','-nographics','-disable-assembly-updater','-projectPath',('"'+$harness+'"'),'-executeMethod','ProjectWait.M.EditorTools.VRUIComfortValidation.Run','-quit','-logFile',('"'+$log+'"'))
-$process=Start-Process 'C:/Program Files/Unity/Hub/Editor/6000.3.18f1/Editor/Unity.exe' -ArgumentList $arguments -Wait -PassThru
+$process=Start-Process 'C:/Program Files/Unity/Hub/Editor/6000.3.18f1/Editor/Unity.exe' -ArgumentList $arguments -PassThru
+# Start-Process -Wait waits for the whole Windows process tree, including a resident licensing client.
+# Wait only for the Unity process that owns this run; its real exit code remains authoritative.
+$process.WaitForExit()
 Copy-Item $log (Join-Path $PSScriptRoot 'harness-editor.log')
 $exists=Test-Path $result
 if($exists){Copy-Item $result (Join-Path $run 'validation.txt');Copy-Item $result (Join-Path $PSScriptRoot 'validation.txt');Get-Content $result}

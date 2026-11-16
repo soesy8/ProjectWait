@@ -368,8 +368,8 @@ namespace ProjectWait.M.EditorTools
             typeof(ElevatorCinematicOverlay).GetMethod("Position",BindingFlags.NonPublic|BindingFlags.Instance).Invoke(overlay,null);
             var top=overlay.transform.Find("TopLetterbox") as RectTransform;
             var bottom=overlay.transform.Find("BottomLetterbox") as RectTransform;
-            Require(Mathf.Abs(top.rect.width-1300)<.01f&&top.rect.height==82&&bottom.rect.height==82,"PC letterbox geometry changed");
-            Require(bottom.Find("CinematicSubtitle").localScale==Vector3.one,"PC subtitle was scaled");
+            Require(Mathf.Abs(top.rect.width-1300)<.01f&&top.rect.height==200&&bottom.rect.height==200,"PC letterbox must use 200 reference points");
+            Require(!overlay.HasVisibleSubtitle&&overlay.GetComponentsInChildren<TMPro.TMP_Text>(true).Length==0,"Letterbox must not own speech text");
 #endif
         }
     }

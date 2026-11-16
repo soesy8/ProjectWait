@@ -134,7 +134,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 if(!observing)dialogueText.maxVisibleCharacters=Mathf.Max(1,(int)((Time.unscaledTime-revealStarted)*48));
             }
         }
-        public void ToggleDeveloper(){developer=!developer;developerPanel.gameObject.SetActive(developer);InteractionRevision++;}
+        public void ToggleDeveloper()
+        {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            developer=!developer;developerPanel.gameObject.SetActive(developer);InteractionRevision++;
+#endif
+        }
         public void ShowThought(string value)
         {
             // A clicked object's card persists until another click or explicit close;

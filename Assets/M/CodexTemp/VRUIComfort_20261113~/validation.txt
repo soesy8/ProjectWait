@@ -5,7 +5,10 @@ PASS: Actual status reflow without obsolete subtitle exclusion
 PASS: Source bubble text + choices / legacy caption cannot duplicate or move it
 PASS: Friend / intercom / phone / both rescuers: source following, not gaze following
 PASS: Rescue world-card ownership, ready-to-exit and PC policy
-PASS: VR scale independent of monitor FOV; PC layout retained
+PASS: VR scale independent of monitor FOV; PC uses 200-point bars
+PASS: Player screen panel owns first-person speech / pause / fade / speaker changes
+PASS: Player panel and name fit both eyes through bar animation
+PASS: Player panel gaze and HUD exclusion use the visible screen card
 PASS: Floor/device spawn, tracked readiness and authored facing reset
 PASS: Turned lobby PC arrival resets heading / preserves height / gates startup
 PASS: Stereo geometry cache invalidation
@@ -14,6 +17,6 @@ PASS: Player departure shifts exactly 0.2s, including XR comfort fade
 PASS: Legacy region helper retained for older callers
 PASS: Cinematic speech visible in source bubbles / narration and timed expiry
 PASS: Bubble tail points at its source without intercepting input
-COUNTS: 125 legacy-caption suppression, 40 tutorial, 65 status, 10 dialogue/choice layouts; 25 actor/emitter anchor checks.
+COUNTS: 125 legacy-caption suppression, 40 tutorial, 65 status, 10 dialogue/choice layouts; 25 actor/emitter anchor checks; 60 player stereo layouts.
 MEASURED: guide max text-centre elevation=17.76deg; Quest guide/common width=26.0 %; Quest status/common width=26.0 %; worst tested guide/status width=36.8 %/36.8 %.
 NOT TESTED: headset optics/distortion, user comfort, raster screenshots, or full story playback. Geometry uses recorded Quest frusta and actual runtime UI/TMP text layout.

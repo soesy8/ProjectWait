@@ -1,0 +1,262 @@
+﻿[
+    {
+        "path":  "Assets/M/Scripts/FrameRateLimiter.cs",
+        "sha256":  "A92D111DD730C7DC1E63DCE5823709907AABC285578D6BEB533B77D7AD5D6384"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorBillboardCanvas.cs",
+        "sha256":  "58F5AE716374C62B99CF29A7FB97F8E499ECB8C9B80ABEF1500C562F3873BF06"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorButtonFeedback.cs",
+        "sha256":  "944608858D8C5D67F5F4818F969F28BC12CD693311FAA5F7A4794CD34D937AB2"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorCameraEffects.cs",
+        "sha256":  "7D1CAA2E7E41283C16B89146769365D8DFBFCFF1AF68FBE426C65C9512FC33C1"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorCharacterPerformance.cs",
+        "sha256":  "DA1AA0452D70F474967C9A66C7398E90A1C12C2607F12F200A3EE2895D1243D0"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorCinematicOverlay.cs",
+        "sha256":  "946330CD620D95BE1C8E44A6006BAD488C1C77603D009DD73BE9D0A6A6AD40E0"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorDesktopControls.cs",
+        "sha256":  "8449FF9D2548B06F1922C99DDD06115EAD7928DBD50478354884C647B03FD1D9"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorDialogue.cs",
+        "sha256":  "35102A36D5799501FB19E365A8AC1401AB6C5ED7CAA2C8C0C5784360A0C174EB"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorDialogueText.cs",
+        "sha256":  "0281CD4AE5BE2656A7DC85AA1D624A67E0783CB70336FC199ED1F038F05C095B"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorDoorSafetyCutscene.cs",
+        "sha256":  "C037F458A29452DBC862AF7DF1BB2C32E7A12464E4E91E22982EAD60AA14B0EE"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorFlow.cs",
+        "sha256":  "B71EA5609939BC79AFDC59C03BBF4A551773081208B13D03DA78FD218B20CF22"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorLesson.cs",
+        "sha256":  "C2FC4770593F22C199227447DC8ADE9E2BE577086C5F986D0E8D20DBF2D0704D"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorMemoryGraphic.cs",
+        "sha256":  "726529E8328BCA0ED2BCC54AE5C124BAC18194291E3E63B087D86310C1F70065"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorObjectHint.cs",
+        "sha256":  "9209155901D36487C04893A2DCFB9076C44FBC9248E5CE42599799EAFF4389AA"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorObservation.cs",
+        "sha256":  "A8794E1BF6E498857F1BA9A856BE36A37CA4AB0312A3E6ACC0D280749F9DC2C9"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorOpeningSequence.cs",
+        "sha256":  "79964B9F428E0F3861E6A13369F6125B3E1411D1A5C0CE7D9D9D1ACF36605F6D"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorPauseMenu.cs",
+        "sha256":  "1B6B249BDEB72945BDF820A8CC21A86B40C254F9A1E14FDFE32BB8D4D9AFB307"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorPlayerMovement.cs",
+        "sha256":  "83A5405DA393B067FC66800537D088D802C92C5B30807346B710BF6D88B7F604"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorPlayerSpeechPanel.cs",
+        "sha256":  "A4AEBB5DBE9E1D9D7582030C18790D7527B57E12F4BBF34B63806E2EC66A02A6"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorPosterCueGraphic.cs",
+        "sha256":  "30631AAA97E75EF161AF8C6CF992424996E954DCC803E940A99F5F4BC219DA75"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorPosterCutscene.cs",
+        "sha256":  "CEF38AD8AEFF0AFD2E1E86C7CBC2CCB4E1F41A87A10D83B40FBDC08B4DE52BC1"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorRescueTeam.cs",
+        "sha256":  "23CD14DCE0F1AF3EED3E090D4EB5ACA8BCC502A7810B727B0DFA5CAF6A63E6D0"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorReticleGraphic.cs",
+        "sha256":  "8647FC1C4EE3C0FFD506B750B6E9697A7FF252520D27BF8FDA3219AC17C2268B"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorScenarioDirector.cs",
+        "sha256":  "942B84FFC29F26E52DEBA73D2616EADB3B52EF30938B022C6176761461442E93"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorSmoothButtonFeedback.cs",
+        "sha256":  "F8039FBAAAF3CC3553F7CF56AA9E947D40C87305379A153EFA53099BFFC8BA25"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorSpacePresentation.cs",
+        "sha256":  "BFE039EB723D768A5C563FB5DF6E183613B212592F82CDC1046145CE1786377B"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorSpatialUI.cs",
+        "sha256":  "E61531B9AE0452309CAA537B45043B3FC2C6E8E8A34B9A3547B8F184EDC43204"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorSpawnPlacement.cs",
+        "sha256":  "C60D78088CA64D8582D50FC04DF9B62B955AA574AE0927776F1FBC309866F537"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorSpeechAnchor.cs",
+        "sha256":  "3A874728FE4BA27AE9A2AAE2D312F0509DC55A9D7FB9533753FF70A2359D65DD"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorSportsCentreMap.cs",
+        "sha256":  "795605D898BC19F996D37579ADAFD0FE3E8565752BC23CC4D1655AFE43569405"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorStorybookUI.cs",
+        "sha256":  "5E5A75E598FD221A58A2B10530ADAE278695169FDD47DD8D2316D43A8642DD3F"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorStoryPresentation.cs",
+        "sha256":  "4147AAC870DB828828DFFCBD8C296BCC555B9DCD98AA3AC321F45F45A9530850"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorThoughtHeaderPolicy.cs",
+        "sha256":  "5CB800AC7C330EFF6EF87C76E7C3F31BD6B2683912B3DA206FD70390A4CC056E"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorTutorialPreview.cs",
+        "sha256":  "37DD037B55701360B33E42C41AB33F276919B347857799C7D79846B8593FB9BA"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorTypography.cs",
+        "sha256":  "E49776BC63376417FEEEC6DD237A55AFC3A21148E685733C9B0E8039268CE084"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorUIFocusRaycastFilter.cs",
+        "sha256":  "109D8C7A15083222759B7A14E1411B8DB70CCEA40B6D73C15C20642E9CCEC82F"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorUIFocusWindow.cs",
+        "sha256":  "B35A23D46BAE756F83BDBA42A7D9A3FDF95D7F43574C644DC0740E327E9348F0"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorUIPlacement.cs",
+        "sha256":  "5498292A586CA232CBD04C853CBA8B7EF7C9137F07714DA97C53A8AFEEA7ED3A"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorUITransitions.cs",
+        "sha256":  "58A8DDECE5FCA8BE358B246B7D176C6FE7B59D73960D11B82131AD1790E8B17C"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorView.cs",
+        "sha256":  "35E289025784925431104AB66544C93D523D88E3D77D05C0B6379128D4AD79DB"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorVRSelectGraphic.cs",
+        "sha256":  "574989FFAAE16348D3668E146948C2921C03B3EE33BF1A1B44C1AA6DDAA10DC9"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/ElevatorXRHeightCalibration.cs",
+        "sha256":  "2680E1625210C2B12CF0DEC6B3141BCB8A4A4176F040898D084E13BE5B458124"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/FriendImprovedExpressions.cs",
+        "sha256":  "70F994892F284E8CBA2EABCEC0AF0B0DC75BEB822D64426658B9EB39AF7F5F33"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/StereoUISafeArea.cs",
+        "sha256":  "DC9A53B20EECDBF51252875EA3E69C7CD4E31B629C78A743DB614953A10F6E6F"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/VRDialogueWorldAnchors.cs",
+        "sha256":  "729D131E80AFD443501FE734DB35748D829CF8F0D436EE8EE3A7A997804FF76D"
+    },
+    {
+        "path":  "Assets/M/Scripts/DialoguePreview/VRUIReadingLayout.cs",
+        "sha256":  "CA32D5C449F05BE9B92261A246D89FF396FBF01241D2EF7D01F6B1388FF35EA7"
+    },
+    {
+        "path":  "Assets/M/Scripts/Editor/LobbyVRInputDiagnostics.cs",
+        "sha256":  "7B26112834525EA76901EA59FDCDF0F68EEF2206404E935BC7B9ADB0C61567FE"
+    },
+    {
+        "path":  "Assets/M/Scripts/Editor/VRImprovementValidation.cs",
+        "sha256":  "C975E8B5E6F80181AF16ED72DF85E5306186D5F4BA9ED3A00020787DD002F0AE"
+    },
+    {
+        "path":  "Assets/M/Scripts/Editor/VRUIComfortValidation.cs",
+        "sha256":  "FA987D8CAF63E133B49B6681E05F0C4CC867FECA1C9CDB3C4E98A854183C6390"
+    },
+    {
+        "path":  "Assets/M/Scripts/Elevator/ElevatorOptimizedOutlineFeature.cs",
+        "sha256":  "43612053EBC1E0352D3B083B4B36311B20D4F06251EB105D69B155B286CBB692"
+    },
+    {
+        "path":  "Assets/M/Scripts/Elevator/ElevatorSettings.cs",
+        "sha256":  "CCE8E5B6CA51D79643A4A96AB4292CA8B472D2F7916F0144AFA5A3981CA5973B"
+    },
+    {
+        "path":  "Assets/M/Scripts/SceneTransition/SceneMaterialDissolve.cs",
+        "sha256":  "7E0BBB53695640A8C317A2B9114D23AA4FA76DC1BE83344C348E7B361B440E38"
+    },
+    {
+        "path":  "Assets/M/Scripts/SceneTransition/SceneTransitionHeadPose.cs",
+        "sha256":  "83DD80280ED664C4F30232B10F4F2EB264111621712DD94A202C3CC876B42EDF"
+    },
+    {
+        "path":  "Assets/M/Scripts/SceneTransition/SceneTransitionView.cs",
+        "sha256":  "27DC1855415BF01675D5D0E4039E7E9DD37222FCB6E3FCE60770BCECFB787650"
+    },
+    {
+        "path":  "Assets/M/Scripts/SceneTransition/StorybookSceneTransition.cs",
+        "sha256":  "07C6024C5F7EB488E198B2D1924B200DDD99F747877CE428BCC8932AA5912DDC"
+    },
+    {
+        "path":  "Assets/M/Scripts/SceneTransition/TransitionShapeGraphic.cs",
+        "sha256":  "8C6C62CBBDD5721576B842152A226B0CE5F30C107D69FDEDF4BC42553050AC5C"
+    },
+    {
+        "path":  "Assets/M/Scripts/TitleScene/LobbyDissolveTest.cs",
+        "sha256":  "DE115C700525903D234AC78A8CE29A96BBC9BB03104BD1D4FB468B22C59AD21F"
+    },
+    {
+        "path":  "Assets/M/Scripts/TitleScene/LobbyDropletMesh.cs",
+        "sha256":  "6B1964BCF05686BFAF097C2AC90FA3A1C7332E8199DEC17C5D0EC4C714195512"
+    },
+    {
+        "path":  "Assets/M/Scripts/TitleScene/LobbyDropletPopAudio.cs",
+        "sha256":  "D2444AE3549A0869403B9732E27F480ADCC45B4B4457B628F48E089A7B980DD3"
+    },
+    {
+        "path":  "Assets/M/Scripts/TitleScene/LobbyDropletRenderer.cs",
+        "sha256":  "1F54C0037C11BAE2FEE38B3BA1B791786611D3F4CB87DACE52D72BB79B3267DA"
+    },
+    {
+        "path":  "Assets/M/Scripts/TitleScene/TitleControllerPose.cs",
+        "sha256":  "4738E438F7EACCA0DFDB21EAEBC603C3A4E2A1BA5B81E63EA718D6AD961C256E"
+    },
+    {
+        "path":  "Assets/M/Scripts/TitleScene/TitleLobbyControllerVisuals.cs",
+        "sha256":  "D6C26D773D6A5D72F6304F7D2E8E9B61B83225880118BCA00622E953ED8FFBB5"
+    },
+    {
+        "path":  "Assets/M/Scripts/TitleScene/TitlePlazaPlayer.cs",
+        "sha256":  "9275B9B429A54F956347338A1DBAF10FB116C328D75AEC533B2D8F15A4A2754D"
+    },
+    {
+        "path":  "Assets/M/Scripts/TitleScene/TitlePortal.cs",
+        "sha256":  "61CE309FA36AB1E9EBA0D416ECC8D8DF1C567CF5FDB43C3F0312CC5BD2DE3C10"
+    },
+    {
+        "path":  "Assets/M/Scripts/TitleScene/TitleSceneRenderProfile.cs",
+        "sha256":  "05173B7E89922C1F71680FFD6535B14A840B26FE85FE53273D09AC2022779F68"
+    }
+]

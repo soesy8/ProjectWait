@@ -1,0 +1,37 @@
+﻿[
+    {
+        "path":  "Assets/M/Scene/Wait_Elevator.unity",
+        "gitContentHash":  "95c3734e96a5798c155c459636777106c2cc6671",
+        "matchesHead":  true
+    },
+    {
+        "path":  "Assets/M/Scene/Wait_Robby.unity",
+        "gitContentHash":  "4c9b1a8ee513ed269e0d7b7dcabee5313b34cb6b",
+        "matchesHead":  true
+    },
+    {
+        "path":  "Packages/manifest.json",
+        "gitContentHash":  "5d71f185b1e4f50c7b11b1522991a7fa14cd6518",
+        "matchesHead":  true
+    },
+    {
+        "path":  "Packages/packages-lock.json",
+        "gitContentHash":  "ba74bd7b0eece8a9729f57196faf2b8a9ff9354d",
+        "matchesHead":  true
+    },
+    {
+        "path":  "Assets/XR/Settings/OpenXRPackageSettings.asset",
+        "gitContentHash":  "ab3d7384268c8e5a17a13f7780f9b405141b783b",
+        "matchesHead":  true
+    },
+    {
+        "path":  "ProjectSettings/EditorBuildSettings.asset",
+        "gitContentHash":  "50273adb8906f01ae8092067cb3288ace1c8cc15",
+        "matchesHead":  true
+    },
+    {
+        "path":  "ProjectSettings/Packages/com.unity.learn.iet-framework/Settings.json",
+        "gitContentHash":  "1f72e47f6f7432db66b73527ee5697efc8a41344",
+        "matchesHead":  true
+    }
+]

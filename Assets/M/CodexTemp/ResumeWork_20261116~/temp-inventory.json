@@ -1,0 +1,137 @@
+﻿[
+    {
+        "folder":  "EssentialChecks~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "HeadPoseContinuity~",
+        "files":  6,
+        "bytes":  894747
+    },
+    {
+        "folder":  "LobbyDissolveTest~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "LobbyLightweightFade~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "LobbyLowQualityFade~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "LobbyMetaballUpdate~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "LobbyPanelReadability~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "LobbyPopFade~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "LobbyRevision~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "LobbyVRInput_20261113~",
+        "files":  3,
+        "bytes":  8859
+    },
+    {
+        "folder":  "QuestLinkDiagnostics~",
+        "files":  11,
+        "bytes":  3550240
+    },
+    {
+        "folder":  "ResumeWork_20261116~",
+        "files":  19,
+        "bytes":  904874
+    },
+    {
+        "folder":  "SceneTransitionConcept~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "SceneTransitionDroplets~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "SceneTransitionPreview~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "ShadowReadyPC~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "SkyboxGround40~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "SkyboxGround48~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "SkyboxRatio55~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "TitleLayoutTools~",
+        "files":  0,
+        "bytes":  null
+    },
+    {
+        "folder":  "VRDeviceCheck_20261113~",
+        "files":  14,
+        "bytes":  4570339
+    },
+    {
+        "folder":  "VRImprovement_20261113~",
+        "files":  3761,
+        "bytes":  79589742
+    },
+    {
+        "folder":  "VRInspection_20261112~",
+        "files":  14,
+        "bytes":  9002668
+    },
+    {
+        "folder":  "VRIntegration_20261113~",
+        "files":  3,
+        "bytes":  8692
+    },
+    {
+        "folder":  "VRStageTools~",
+        "files":  1,
+        "bytes":  173380995
+    },
+    {
+        "folder":  "VRUIComfort_20261113~",
+        "files":  24582,
+        "bytes":  1868294329
+    },
+    {
+        "folder":  "WorldTransitionLerp~",
+        "files":  0,
+        "bytes":  null
+    }
+]

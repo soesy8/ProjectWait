@@ -1,0 +1,24 @@
+{
+    "utc": "2026-11-16T00:24:17.1845199Z",
+    "mode": "edit",
+    "passed": true,
+    "checks": [
+        "PASS: Editor is outside Play Mode",
+        "PASS: Latest UI suite in original project",
+        "PASS: Saved scene / controller / stereo suite",
+        "PASS: Assets/M/Scene/Wait_Robby.unity: no Missing Script",
+        "PASS: Assets/M/Scene/Wait_Robby.unity: no broken serialized object reference",
+        "PASS: Assets/M/Scene/Wait_Robby.unity: renderer shaders resolve without errors",
+        "PASS: Assets/M/Scene/Wait_Robby.unity: no temporary-folder dependency",
+        "PASS: Assets/M/Scene/Wait_Robby.unity: droplet implementation retained for official scene transition",
+        "PASS: Assets/M/Scene/Wait_Elevator.unity: no Missing Script",
+        "PASS: Assets/M/Scene/Wait_Elevator.unity: no broken serialized object reference",
+        "PASS: Assets/M/Scene/Wait_Elevator.unity: renderer shaders resolve without errors",
+        "PASS: Assets/M/Scene/Wait_Elevator.unity: no temporary-folder dependency",
+        "PASS: Mock preview remains disabled and EditorOnly",
+        "PASS: PC_Test_Controls is required PC/XR spawn/input, not disposable test code",
+        "PASS: Assets/M/Scene/Wait_Elevator.unity: droplet implementation retained for official scene transition",
+        "NOT TESTED: headset optics/comfort/native input; APK/performance; team-scene integration."
+    ],
+    "errors": []
+}

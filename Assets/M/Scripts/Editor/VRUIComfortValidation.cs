@@ -23,7 +23,7 @@ namespace ProjectWait.M.EditorTools
         static readonly List<string> report=new List<string>();
         static TMP_FontAsset font;
         static float worstGuideElevation,widestGuideFraction,widestStatusFraction,questGuideFraction,questStatusFraction;
-        static int captionCases,guideCases,worldCases,statusCases,anchorCases;
+        static int captionCases,guideCases,worldCases,statusCases,anchorCases,playerCases;
         static readonly string[] Captions={
             ElevatorDialogue.Caption("친구",ElevatorDialogue.ShotStory),
             ElevatorDialogue.Caption("친구",ElevatorDialogue.ShotGesture),
@@ -52,7 +52,7 @@ namespace ProjectWait.M.EditorTools
         public static void Run()
         {
             if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Run outside Play Mode.");
-            Directory.CreateDirectory(Output);report.Clear();captionCases=guideCases=worldCases=statusCases=anchorCases=0;
+            Directory.CreateDirectory(Output);report.Clear();captionCases=guideCases=worldCases=statusCases=anchorCases=playerCases=0;
             worstGuideElevation=widestGuideFraction=widestStatusFraction=questGuideFraction=questStatusFraction=0;
             var settingsField=typeof(TMP_Settings).GetField("s_Instance",BindingFlags.NonPublic|BindingFlags.Static);
             var originalSettings=TMP_Settings.instance;
@@ -79,7 +79,10 @@ namespace ProjectWait.M.EditorTools
                 Check("Source bubble text + choices / legacy caption cannot duplicate or move it",WorldLayouts);
                 Check("Friend / intercom / phone / both rescuers: source following, not gaze following",AnchoredRegions);
                 Check("Rescue world-card ownership, ready-to-exit and PC policy",RescueOwnership);
-                Check("VR scale independent of monitor FOV; PC layout retained",Modes);
+                Check("VR scale independent of monitor FOV; PC uses 200-point bars",Modes);
+                Check("Player screen panel owns first-person speech / pause / fade / speaker changes",PlayerPanelOwnership);
+                Check("Player panel and name fit both eyes through bar animation",PlayerPanelStereo);
+                Check("Player panel gaze and HUD exclusion use the visible screen card",PlayerPanelHud);
                 Check("Floor/device spawn, tracked readiness and authored facing reset",SpawnPlacement);
                 Check("Turned lobby PC arrival resets heading / preserves height / gates startup",ArrivalReset);
                 Check("Stereo geometry cache invalidation",CachedLayouts);
@@ -88,7 +91,7 @@ namespace ProjectWait.M.EditorTools
                 Check("Legacy region helper retained for older callers",RescueMeetingAnchors);
                 Check("Cinematic speech visible in source bubbles / narration and timed expiry",SpeechOwnership);
                 Check("Bubble tail points at its source without intercepting input",SpeechTailDirections);
-                report.Add($"COUNTS: {captionCases} legacy-caption suppression, {guideCases} tutorial, {statusCases} status, {worldCases} dialogue/choice layouts; {anchorCases} actor/emitter anchor checks.");
+                report.Add($"COUNTS: {captionCases} legacy-caption suppression, {guideCases} tutorial, {statusCases} status, {worldCases} dialogue/choice layouts; {anchorCases} actor/emitter anchor checks; {playerCases} player stereo layouts.");
                 report.Add($"MEASURED: guide max text-centre elevation={worstGuideElevation:F2}deg; Quest guide/common width={questGuideFraction:P1}; Quest status/common width={questStatusFraction:P1}; worst tested guide/status width={widestGuideFraction:P1}/{widestStatusFraction:P1}.");
                 report.Add("NOT TESTED: headset optics/distortion, user comfort, raster screenshots, or full story playback. Geometry uses recorded Quest frusta and actual runtime UI/TMP text layout.");
             }
@@ -397,7 +400,7 @@ namespace ProjectWait.M.EditorTools
             foreach(float fov in new[]{55f,80f,110f}){f.camera.fieldOfView=fov;f.overlay.LayoutVR(frame);Need(f.overlay.transform.lossyScale==scale&&f.caption.rectTransform.sizeDelta==size&&Vector3.Distance(position,f.caption.transform.position)<.0001f,"Monitor FOV changes VR typography/layout");}
             f.camera.fieldOfView=60;f.camera.aspect=16f/9;Call(f.overlay,"Position");
             var top=f.overlay.transform.Find("TopLetterbox") as RectTransform;var bottom=f.overlay.transform.Find("BottomLetterbox") as RectTransform;
-            Need(top.gameObject.activeSelf&&top.rect.height==82&&bottom.rect.height==82&&Mathf.Abs(top.rect.width-1300)<.01f,"PC bars changed");
+            Need(top.gameObject.activeSelf&&top.rect.height==200&&bottom.rect.height==200&&Mathf.Abs(top.rect.width-1300)<.01f,"PC bars must use the new 200-point height");
             Need(!f.caption.enabled&&!f.caption.gameObject.activeSelf&&f.caption.text=="","PC legacy subtitle reappeared");
             var guide=Go("mode guide").AddComponent<ElevatorTutorialPreview>();guide.lesson=f.lesson;guide.font=font;Call(guide,"BuildViews");Set(guide,"Step",ElevatorTutorialPreview.GuideStep.BoardingActions);
             guide.SetContent(true,true);guide.LayoutVR(frame);guide.SetContent(true,false);
@@ -582,7 +585,9 @@ namespace ProjectWait.M.EditorTools
                     step==ElevatorStep.Rescue||step==ElevatorStep.ReturnLobby?"소방 구조대원":"친구";
                 f.view.dialogueText.text=ElevatorDialogue.FriendQuestion;f.spatial.Present(who,ElevatorDialogue.FriendQuestion,"");
                 f.spatial.LayoutVRHud(frame);f.spatial.SetCinematicVisibility(true);
-                Need(f.view.dialoguePanel.gameObject.activeSelf&&f.view.GetComponent<CanvasGroup>().alpha==1,"Cinematic speech was hidden: "+step);
+                if(who=="나")
+                    Need(Field<ElevatorPlayerSpeechPanel>(f.spatial,"playerSpeech").RefreshVR(frame)&&f.view.GetComponent<CanvasGroup>().alpha==0,"Player screen speech was hidden or duplicated: "+step);
+                else Need(f.view.dialoguePanel.gameObject.activeSelf&&f.view.GetComponent<CanvasGroup>().alpha==1,"Cinematic speech was hidden: "+step);
                 Need(f.view.dialogueText.text==ElevatorDialogue.FriendQuestion,"Spoken content was dropped: "+step);
                 if(f.lesson.Flow.IsCinematic)Need(!f.view.GetComponent<CanvasGroup>().interactable,"Cinematic speech unlocked actions");
             }
@@ -631,6 +636,90 @@ namespace ProjectWait.M.EditorTools
                 f.spatial.storybook.PointSpeechTail(panel.TransformPoint(points[i]));
                 Need(Mathf.Abs(Mathf.DeltaAngle(tail.localEulerAngles.z,angles[i]))<.01f,"Bubble tail does not point towards source side "+i);
             }
+        }
+
+        static ElevatorPlayerSpeechPanel PlayerPanel(Fixture f,string text)
+        {
+            Set(f.lesson.Flow,"Step",ElevatorStep.CallResponse);Set(f.lesson.Flow,"Elapsed",0f);
+            f.view.dialogueText.text=text;f.spatial.Present("나",text,"");f.spatial.SetCinematicVisibility(false);
+            var result=Field<ElevatorPlayerSpeechPanel>(f.spatial,"playerSpeech");
+            Need(result&&result.IsVisible,"First-person panel was not shown");return result;
+        }
+
+        static void PlayerPanelOwnership()
+        {
+            var f=new Fixture();var speech=PlayerPanel(f,ElevatorDialogue.SituationReport);
+            var canvas=speech.GetComponent<Canvas>();var group=speech.GetComponent<CanvasGroup>();
+            Need(canvas.renderMode==RenderMode.ScreenSpaceOverlay&&canvas.sortingOrder>100,"PC player panel is not above the bars");
+            Need(!group.interactable&&!group.blocksRaycasts,"Player panel intercepts choices");
+            var body=Field<TMP_Text>(speech,"body");TextFits(body);TextFits(Field<TMP_Text>(speech,"nameLabel"));
+            Need(body.text==f.view.dialogueText.text&&f.view.GetComponent<CanvasGroup>().alpha==0,"First-person text was lost or duplicated");
+            var rect=Field<RectTransform>(speech,"panel");
+            Need(Mathf.Abs(rect.anchoredPosition.y-(-360+200+rect.rect.height/6))<.01f,"PC panel does not straddle the lower band at one third");
+            f.lesson.pauseMenu=Go("player panel pause").AddComponent<ElevatorPauseMenu>();
+            Set(f.lesson.pauseMenu,"IsPaused",true);f.spatial.SetCinematicVisibility(false);Need(!speech.IsVisible,"Paused player speech remained visible");
+            Set(f.lesson.pauseMenu,"IsPaused",false);f.spatial.SetCinematicVisibility(false);Need(speech.IsVisible,"Player speech did not return after pause");
+            Set(f.overlay,"FadeAlpha",1f);f.spatial.SetCinematicVisibility(false);Need(!speech.IsVisible,"Player speech covers the comfort blackout");
+            Set(f.overlay,"FadeAlpha",0f);f.spatial.SetCinematicVisibility(false);Need(speech.IsVisible,"Player speech did not return after blackout");
+            f.view.dialogueText.text=ElevatorDialogue.FriendQuestion;f.spatial.Present("친구",f.view.dialogueText.text,"");f.spatial.SetCinematicVisibility(false);
+            Need(!speech.IsVisible&&f.view.GetComponent<CanvasGroup>().alpha==1,"Speaker change failed to restore world speech");
+            PlayerPanel(f,ElevatorDialogue.SituationReport);f.spatial.enabled=false;Call(f.spatial,"OnDisable");
+            Need(!speech.IsVisible,"Disabling the speech owner left an orphan screen panel");
+            speech.Refresh(false);Need(!speech.IsVisible,"Disabled owner's late refresh revived the player panel");
+        }
+
+        static void PlayerPanelStereo()
+        {
+            foreach(int variant in Enumerable.Range(0,5))
+            {
+                var f=new Fixture();var speech=PlayerPanel(f,ElevatorDialogue.SituationReport);var frame=Frame(f.camera,variant);
+                foreach(string text in new[]{ElevatorDialogue.SituationReport,"한빛 생활체육센터예요. 엘리베이터 번호는 HB-EL-01이에요.","여기서는 뛰면 위험해.\n슛은 밖에서 하자."})
+                foreach(float amount in new[]{0f,.1f,.5f,1f})
+                {
+                    f.view.dialogueText.text=text;Set(f.overlay,"Amount",amount);f.overlay.LayoutVR(frame);
+                    Need(speech.RefreshVR(frame),"Player layout failed: eye="+variant+" amount="+amount);
+                    var panel=Field<RectTransform>(speech,"panel");var tag=Field<RectTransform>(speech,"speakerTag");
+                    Fits(frame,panel,f.camera.transform,false);Fits(frame,tag,f.camera.transform,false);
+                    TextFits(Field<TMP_Text>(speech,"body"));TextFits(Field<TMP_Text>(speech,"nameLabel"));
+                    Need(Field<TMP_Text>(speech,"body").text==text,"Player body did not follow the current line");
+                    Need(Mathf.Abs(f.camera.transform.InverseTransformPoint(speech.transform.position).z-1.4f)<.0001f,"Player reading depth changed");
+                    frame.Plane(speech.transform,out var safe,out _);
+                    // The production cache applies the same native-eye safety margins.
+                    var cache=Field<StereoUISafeArea.PlaneCache>(speech,"geometry");
+                    Need(cache.Get(frame,speech.transform,out safe,out _,out _,out _),"Player safe area unavailable");
+                    frame.EyeVerticalRange(speech.transform,0,out var left);frame.EyeVerticalRange(speech.transform,1,out var right);
+                    float edge=ElevatorCinematicOverlay.LowerBandEdge(left,right,amount);
+                    float expected=Mathf.Clamp(edge+panel.rect.height/6,safe.yMin+panel.rect.height*.5f+8,safe.yMax-panel.rect.height*.5f-37);
+                    Need(Mathf.Abs(panel.anchoredPosition.y-expected)<.01f,"Player panel lost the one-third edge rule / safe clamp");
+                    playerCases++;
+                }
+                var localPosition=Field<RectTransform>(speech,"panel").anchoredPosition;
+                f.camera.transform.SetPositionAndRotation(new Vector3(.2f,1.5f,.1f),Quaternion.Euler(12,50,7));
+                Need(speech.LayoutVR(Frame(f.camera,variant)),"Head-locked panel did not follow head pose");
+                Need(Vector2.Distance(localPosition,Field<RectTransform>(speech,"panel").anchoredPosition)<.01f,"Head turn changed player screen placement");
+                Need(!speech.RefreshVR(default)&&!speech.IsVisible,"Missing XR geometry left stale player speech visible");
+                f.view.dialogueText.text=string.Join("\n",Enumerable.Repeat("긴 문장 가독성 확인",50));
+                Need(!speech.RefreshVR(Frame(f.camera,variant))&&!speech.IsVisible,"Oversized player speech was shown clipped instead of hidden");
+                f.view.dialogueText.text=ElevatorDialogue.SituationReport;
+                Need(speech.RefreshVR(Frame(f.camera,variant)),"Player panel did not recover after invalid geometry / oversized text");
+                speech.Refresh(false);Need(speech.IsVisible&&speech.GetComponent<Canvas>().renderMode==RenderMode.ScreenSpaceOverlay,"VR-to-PC player panel recovery failed");
+                Clean();
+            }
+        }
+
+        static void PlayerPanelHud()
+        {
+            var f=new Fixture();var speech=PlayerPanel(f,ElevatorDialogue.SituationReport);var frame=Frame(f.camera,0);
+            Need(speech.RefreshVR(frame),"Player HUD fixture did not fit");
+            var panel=Field<RectTransform>(speech,"panel");f.camera.transform.LookAt(panel.position);
+            Need((bool)Call(f.spatial,"LookingAtDialogue"),"Looking at the player screen card did not hide the goal");
+            f.camera.transform.rotation=Quaternion.identity;
+            Set(f.lesson.Flow,"Step",ElevatorStep.DoorPosterWarning);
+            f.spatial.LayoutHud(true);Need(f.spatial.LayoutVRHud(frame),"Status cannot fit above player speech");
+            Need(speech.TryGetExclusion(f.spatial.hud.transform,out var exclusion),"Visible player panel reserved no HUD space");
+            var status=VRUIReadingLayout.LocalRect(f.spatial.mission,f.spatial.hud.transform);
+            Need(!status.Overlaps(exclusion),"Goal overlaps the player panel/name");
+            speech.Hide();Need(!speech.TryGetExclusion(f.spatial.hud.transform,out _),"Hidden player panel still reserves HUD space");
         }
     }
 }
