@@ -124,10 +124,14 @@ namespace Y.Crosswalk // 두 번째 상황의 도입·관찰·행동 선택과 �
 
         private IEnumerator WalkTogetherTo(Transform destination, Vector3 playerDestination) // 길 찾기 전후의 두 보행 구간에서 같은 이동과 시점 보존 처리를 사용합니다.
         { // 구간 사이의 위치와 도착 방향을 같은 검은 전환으로 한 번만 배치합니다.
-            m_State=StageState.Walking;m_WalkAudio.Stop();m_Friend.SetScenarioPaused(true);
+            m_State=StageState.Walking;
+            Vector3 friendStart=m_Friend.transform.position,playerStart=m_Origin.Origin.transform.position;
+            m_Friend.SetScenarioPaused(false);
+            if(!m_Friend.TryBeginScenarioDetour(destination))throw new System.InvalidOperationException("동행 출발 경로를 준비하지 못했습니다.");
+            m_WalkAudio.SetActive(true);
             yield return ProjectWait.M.Shared.ComfortBlackout.Relocate(m_SharedUI, () =>
             {
-                m_Friend.PlaceWaitingForScenario(destination);
+                m_WalkAudio.Stop();m_Friend.SetScenarioPaused(true);m_Friend.PlaceWaitingForScenario(destination);
                 m_Origin.Origin.transform.position=playerDestination;
                 if(destination==m_FriendArrival)
                 {
@@ -136,7 +140,7 @@ namespace Y.Crosswalk // 두 번째 상황의 도입·관찰·행동 선택과 �
                 }
                 if(Vector3.Distance(destination.position,m_FriendArrival.position)<=m_CarReleaseDistance)
                     foreach(var car in m_Cars)car.SetScenarioPaused(false);
-            });
+            },dt=>m_Origin.Origin.transform.position=playerStart+(m_Friend.transform.position-friendStart));
         } // 다음 보행은 실제 횡단보도 선택이 끝난 뒤에만 시작합니다.
 
         private void LateUpdate() // 실제 골격과 차체 이동이 적용된 프레임에서 관찰을 정지합니다.

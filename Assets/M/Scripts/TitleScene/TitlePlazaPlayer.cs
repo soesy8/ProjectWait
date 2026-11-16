@@ -11,6 +11,7 @@ namespace ProjectWait.M.TitleScene
     public sealed class TitlePlazaPlayer : MonoBehaviour
     {
         public Camera viewCamera;
+        public TitlePauseMenu pauseMenu;
         public TMP_Text messageText;
         public Canvas desktopHints;
         public LineRenderer controllerRay;
@@ -24,6 +25,7 @@ namespace ProjectWait.M.TitleScene
         public bool IsVR { get; private set; }
         public int TickedFrames { get; private set; }
         public string HoveredExperience => hovered ? hovered.experienceTitle : "";
+        public bool InteractionBlocked => StorybookSceneTransition.IsBusy||pauseMenu&&pauseMenu.IsPaused||menuClickBlocked;
         public CharacterController Controller { get; private set; }
         public float FeetOffset { get; private set; }
         public float FloorHeight => transform.position.y + FeetOffset;
@@ -37,6 +39,8 @@ namespace ProjectWait.M.TitleScene
         readonly List<XRInputSubsystem> inputSubsystems = new List<XRInputSubsystem>();
         InputAction aimPose, selectTrigger;
         bool hadValidAim;
+        bool menuClickBlocked;
+        float menuInputReadyAt;
         TitleLobbyControllerVisuals controllerVisuals;
         LobbyControllerRay sharedRay;
         readonly ProjectWait.M.Elevator.DialoguePreview.ElevatorXRHeightCalibration heightCalibration=new ProjectWait.M.Elevator.DialoguePreview.ElevatorXRHeightCalibration();
@@ -100,7 +104,7 @@ namespace ProjectWait.M.TitleScene
             RefreshMode();
             SetTransitionHudHidden(StorybookSceneTransition.IsBusy);
             var keyboard = Keyboard.current;
-            if (!IsVR && keyboard != null && keyboard.escapeKey.wasPressedThisFrame) SetMouseLock(Cursor.lockState != CursorLockMode.Locked);
+            if(pauseMenu&&pauseMenu.IsPaused){if(IsVR)ApplyTrackedHead();return;}
             if (!IsVR && StorybookSceneTransition.IsBusy && Cursor.lockState != CursorLockMode.Locked && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) SetMouseLock(true);
             Vector2 input = Vector2.zero;
             if (IsVR)
@@ -171,7 +175,7 @@ namespace ProjectWait.M.TitleScene
         }
         public void Move(Vector2 input, float seconds)
         {
-            if (StorybookSceneTransition.IsBusy || !Controller || !Controller.enabled || !viewCamera || seconds <= 0) return;
+            if (StorybookSceneTransition.IsBusy || pauseMenu&&pauseMenu.IsPaused || !Controller || !Controller.enabled || !viewCamera || seconds <= 0) return;
             input = Vector2.ClampMagnitude(input, 1);
             if (input.magnitude < .18f) input = Vector2.zero;
             var forward = Vector3.ProjectOnPlane(viewCamera.transform.forward, Vector3.up).normalized;
@@ -227,6 +231,12 @@ namespace ProjectWait.M.TitleScene
         }
         void UpdateInteraction()
         {
+            if(menuClickBlocked)
+            {
+                bool held=IsVR?selectTrigger!=null&&selectTrigger.IsPressed():Mouse.current!=null&&Mouse.current.leftButton.isPressed;
+                if(Time.unscaledTime<menuInputReadyAt||held)return;
+                menuClickBlocked=false;
+            }
             var ray = new Ray(viewCamera.transform.position, viewCamera.transform.forward);
             bool pressed = false;
             if (IsVR)
@@ -278,6 +288,18 @@ namespace ProjectWait.M.TitleScene
         }
         public void ShowMessage(string message)
         { LastMessage = message; messageUntil = Time.unscaledTime + 3; if (messageText) messageText.text = message; }
+        public void SetMenuOpen(bool open)
+        {
+            if(hovered)hovered.SetHovered(false);hovered=null;
+            oldTrigger=true;hadValidAim=false;SetMouseLock(!open&&!IsVR);sharedRay?.Hide();
+            if(!open){menuClickBlocked=true;menuInputReadyAt=Time.unscaledTime+.3f;}
+        }
+        public void ShowMenuRay(Ray ray,bool valid,Vector3 end,bool target,bool pressed)
+        {
+            if(controllerRay)controllerRay.enabled=valid;
+            sharedRay?.Set(ray,valid,end,target,pressed);
+            controllerVisuals?.ShowPointer(end,false,false);
+        }
         void SetMouseLock(bool value) { Cursor.lockState = value ? CursorLockMode.Locked : CursorLockMode.None; Cursor.visible = !value; skipMouse = true; }
         void OnApplicationFocus(bool focus) { skipMouse = true; }
         void SetTransitionHudHidden(bool hidden)

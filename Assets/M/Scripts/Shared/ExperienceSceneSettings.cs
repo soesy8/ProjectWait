@@ -66,6 +66,7 @@ namespace ProjectWait.M.Shared
         }
         public static void RequireFreshClick()
         {
+            var lobby=FindFirstObjectByType<ProjectWait.M.TitleScene.TitlePauseMenu>();if(lobby)lobby.RequireFreshClick();
             var controls=FindFirstObjectByType<ElevatorDesktopControls>();if(controls)controls.RequireFreshChoiceClick();
             if(CrosswalkSceneIntegration.Current)CrosswalkSceneIntegration.Current.input.RequireFreshChoiceClick();
         }

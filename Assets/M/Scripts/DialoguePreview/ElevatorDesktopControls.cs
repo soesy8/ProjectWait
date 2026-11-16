@@ -75,7 +75,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             for(int i=0;i<4;i++)
             {
                 int n=i;choices[i]=new InputAction("ElevatorChoice"+(i+1),InputActionType.Button,"<Keyboard>/"+(i+1));
-                choices[i].performed+=_=>{if(pendingChoice<0&&lesson&&lesson.Flow!=null&&!lesson.CinematicBlocking){pendingChoice=n;pendingRevision=lesson.Flow.Revision;pendingRun=lesson.RunVersion;}};choices[i].Enable();
+                choices[i].performed+=_=>{if(pendingChoice<0&&lesson&&lesson.Flow!=null&&!lesson.CinematicBlocking){pendingChoice=n;pendingRevision=lesson.view.InteractionRevision;pendingRun=lesson.RunVersion;}};choices[i].Enable();
             }
             developerAction=new InputAction("ElevatorDeveloper",InputActionType.Button,"<Keyboard>/f8");developerAction.performed+=_=>{if(lesson&&!lesson.CinematicBlocking)pendingDeveloper=true;};developerAction.Enable();
 #else
@@ -83,7 +83,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
 #endif
             restartAction=new InputAction("RestartElevator",InputActionType.Button,"<Keyboard>/r");restartAction.performed+=_=>{if(lesson&&!lesson.CinematicBlocking)pendingRestart=true;};restartAction.Enable();
             clickAction=new InputAction("ElevatorCenterClick",InputActionType.Button,"<Mouse>/leftButton");
-            clickAction.performed+=_=>{if(lesson&&lesson.Flow!=null&&(lesson.IsPaused||!lesson.CinematicBlocking)){pendingClick=true;clickRevision=lesson.Flow.Revision;clickRun=lesson.RunVersion;}};clickAction.Enable();
+            clickAction.performed+=_=>{if(lesson&&lesson.Flow!=null&&(lesson.IsPaused||!lesson.CinematicBlocking)){pendingClick=true;clickRevision=lesson.view.InteractionRevision;clickRun=lesson.RunVersion;}};clickAction.Enable();
         }
         void Start(){wasFocused=Application.isFocused;RefreshMode();}
         void RefreshMode()
@@ -141,10 +141,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(pendingChoice>=0)
             {
                 int n=pendingChoice;pendingChoice=-1;
-                if(pendingRevision==lesson.Flow.Revision&&pendingRun==lesson.RunVersion)lesson.view.InvokeChoice(n);
+                if(pendingRevision==lesson.view.InteractionRevision&&pendingRun==lesson.RunVersion)lesson.view.InvokeChoice(n);
             }
             UpdateCenterRay();
-            if(click&&clickRevision==lesson.Flow.Revision&&clickRun==lesson.RunVersion)SelectCenterTarget();
+            if(click&&clickRevision==lesson.view.InteractionRevision&&clickRun==lesson.RunVersion)SelectCenterTarget();
             RefreshLaserVisibility();
         }
         void LateUpdate()

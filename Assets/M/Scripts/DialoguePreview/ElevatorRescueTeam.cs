@@ -46,6 +46,9 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 collisionPlayer=player;
             }
             float floor=map?map.CurrentFloorHeight:0,t=f.Elapsed;
+            // Fit the existing escorted choreography into the short skip. Everyone
+            // reaches the meeting pose while opaque, before the landing is revealed.
+            if(f.Step==ElevatorStep.Exiting&&t>=ProjectWait.M.Shared.ComfortBlackout.PlacementAt)t=4.2f;
             Vector3 a=firefighterAtDoor,b=specialistAtDoor;float faceA=8,faceB=-8,guide=f.ReadyToExit?1:0,checking=f.ReadyToExit?0:1;
             if(f.Step==ElevatorStep.Rescue)
             {
@@ -74,6 +77,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             {
                 a=firefighterInLobby;b=specialistInLobby;faceA=8;faceB=-8;guide=1;checking=0;
                 lesson.friend.position=friendInLobby+Vector3.up*floor;lesson.friend.rotation=Quaternion.Euler(0,180,0);
+                if(f.Step==ElevatorStep.Returning)
+                {
+                    // The 3F stairs are to the east, not at the 1F destination's XZ.
+                    var offset=Vector3.right*(ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed*t);
+                    a+=offset;b+=offset;lesson.friend.position+=offset;
+                    faceA=faceB=90;lesson.friend.rotation=Quaternion.Euler(0,90,0);
+                }
                 DialogueAnchor=new Vector3(-1.8f,floor+dialogueHeight,-4.30f);
             }
             else
@@ -83,7 +93,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 DialogueAnchor=new Vector3(-1.4f,floor+dialogueHeight,-3.6f);
             }
             a.y=b.y=floor;
-            float walking=f.Step==ElevatorStep.Exiting?S(t,.15f,.45f)*(1-S(t,3.5f,4.1f)):f.Step==ElevatorStep.Rescue?S(t,.15f,.35f)*(1-S(t,1.45f,1.95f)):0;
+            float walking=f.Step==ElevatorStep.Exiting?S(t,.15f,.45f)*(1-S(t,3.5f,4.1f)):f.Step==ElevatorStep.Returning&&floor>1?S(t,0,.25f):f.Step==ElevatorStep.Rescue?S(t,.15f,.35f)*(1-S(t,1.45f,1.95f)):0;
             firePose.Present(a,faceA,.035f,guide,false,t,0,walking);
             specialistPose.Present(b,faceB,.075f*checking,guide,true,t,checking,walking);
             if(dialogueRun!=lesson.RunVersion){dialogueRun=lesson.RunVersion;dialogueBeat=-1;}

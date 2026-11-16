@@ -33,11 +33,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         float lastFloor;
         bool initialized;
         bool teleported;
+        Vector3 travelStart,friendTravelStart;
         bool ringsInitialized,previousDestination;
         public void ConfigureTravel()
         {
             float duration=ProjectWait.M.Shared.ComfortBlackout.Duration;
-            Lesson.Flow.ConfigureTravel(duration,duration,duration,duration);
+            Lesson.Flow.ConfigureTravel(duration+ElevatorTravelTiming.LeadIn(ElevatorStep.GymDeparture),duration,duration,duration);
         }
         public bool IsInteriorBeat=>InteriorBeat(Lesson.Flow.Step)||Lesson.Flow.IsDoorSafetyCutscene||Lesson.Flow.IsCallCutscene||
             Lesson.Flow.AwaitingCallContinue||Lesson.Flow.Step==ElevatorStep.DoorPosterPointing;
@@ -45,12 +46,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         float thirdFloorDoorOpen;
         public float DoorOpen { get; private set; }
         ElevatorLesson Lesson => space.lesson;
-        public bool OnGround => Lesson.Flow.Step==ElevatorStep.GroundFloor || Lesson.Flow.Step==ElevatorStep.GoingHome || Lesson.Flow.Step==ElevatorStep.Complete || Lesson.Flow.Step==ElevatorStep.Returning&&Lesson.Flow.Elapsed>=ProjectWait.M.Shared.ComfortBlackout.Cover;
+        public bool OnGround => Lesson.Flow.Step==ElevatorStep.GroundFloor || Lesson.Flow.Step==ElevatorStep.GoingHome || Lesson.Flow.Step==ElevatorStep.Complete || Lesson.Flow.Step==ElevatorStep.Returning&&Lesson.Flow.Elapsed>=ProjectWait.M.Shared.ComfortBlackout.PlacementAt;
         public float CurrentFloorHeight => OnGround ? 0 : ThirdFloorHeight;
-        public float DefaultHeading => Lesson.Flow!=null&&(Lesson.Flow.IsOpening || Lesson.Flow.Step==ElevatorStep.Lobby || Lesson.Flow.Step==ElevatorStep.Entering || Lesson.Flow.Step==ElevatorStep.ReturnLobby)?0:180;
+        public float DefaultHeading => Lesson.Flow!=null&&(Lesson.Flow.IsOpening || Lesson.Flow.Step==ElevatorStep.Lobby || Lesson.Flow.Step==ElevatorStep.Entering)?0:180;
         public Quaternion DialogueRotation => Quaternion.Euler(0, DefaultHeading, 0);
         static float S(float t,float a,float b)=>Mathf.SmoothStep(0,1,Mathf.InverseLerp(a,b,t));
-        void MoveRig(Vector3 p,bool resetHeading=false,float heading=0)
+        void MoveRig(Vector3 p,bool resetHeading=false,float heading=0,bool reanchor=true)
         {
             if (!controls) controls=FindFirstObjectByType<ElevatorDesktopControls>();
             var movement=space.playerRig.GetComponent<ElevatorPlayerMovement>();
@@ -71,7 +72,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(enabledController)controller.enabled=true;
             if(movement)movement.ResetVerticalMotion();
             if(resetHeading&&controls)controls.RequestAuthoredSpawn(p,heading);
-            Lesson.view.Reanchor(Lesson.playerCamera.transform.position);
+            if(reanchor)Lesson.view.Reanchor(Lesson.playerCamera.transform.position);
         }
         public void Apply()
         {
@@ -92,13 +93,28 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                     else if(f.Step==ElevatorStep.GroundFloor)MoveRig(groundLobby,true,180);
                     else if(f.Step==ElevatorStep.Complete)MoveRig(groundExit,true,180);
                 }
+                var travelMovement=space.playerRig.GetComponent<ElevatorPlayerMovement>();
+                travelStart=travelMovement?travelMovement.FeetPosition:space.playerRig.position;
+                friendTravelStart=f.Step==ElevatorStep.GymDeparture?friendGymStart:f.Step==ElevatorStep.Entering?friendLobby:
+                    f.Step==ElevatorStep.Exiting&&f.SafeWallReached&&Lesson.doorSafetyCutscene?Lesson.doorSafetyCutscene.SafeWallPosition:
+                    f.Step==ElevatorStep.Exiting?friendInside:OnGround?new Vector3(-.2f,0,-2.4f):friendLobby;
             }
-            if(ElevatorTravelTiming.IsRelocation(f.Step)&&t>=ProjectWait.M.Shared.ComfortBlackout.Cover&&!teleported)
+            float travelTime=ElevatorTravelTiming.TravelElapsed(f);
+            Vector3 destination=f.Step==ElevatorStep.Entering?inside:f.Step==ElevatorStep.Returning?groundLobby:f.Step==ElevatorStep.GoingHome?groundExit:lobby;
+            if(ElevatorTravelTiming.IsRelocation(f.Step)&&!teleported&&travelTime<ProjectWait.M.Shared.ComfortBlackout.PlacementAt)
+            {
+                var visibleDestination=f.Step==ElevatorStep.Returning?new Vector3(8.1f,travelStart.y,-1.75f):destination;visibleDestination.y=travelStart.y;
+                float distance=ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed*Mathf.Max(0,travelTime-.12f);
+                MoveRig(Vector3.MoveTowards(travelStart,visibleDestination,distance),reanchor:false);
+            }
+            if(ElevatorTravelTiming.IsRelocation(f.Step)&&travelTime>=ProjectWait.M.Shared.ComfortBlackout.PlacementAt&&!teleported)
             {
                 var blackout=ProjectWait.M.Shared.ComfortScreenFade.For(Lesson.playerCamera);if(blackout)blackout.SetOpacity(1);
-                Vector3 destination=f.Step==ElevatorStep.Entering?inside:f.Step==ElevatorStep.Returning?groundLobby:f.Step==ElevatorStep.GoingHome?groundExit:lobby;
                 MoveRig(destination);
-                if(controls)controls.FaceAuthoredHeading(f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Returning||f.Step==ElevatorStep.GoingHome?180:0);
+                float heading=f.Step==ElevatorStep.GymDeparture?0:180;
+                if(f.Step==ElevatorStep.Exiting&&p.rescueTeam)
+                {var toward=p.rescueTeam.ExteriorDialogueFootprint(false)-destination;heading=Mathf.Atan2(toward.x,toward.z)*Mathf.Rad2Deg;}
+                if(controls)controls.FaceAuthoredHeading(heading);
                 teleported=true;
             }
             Lesson.friend.position=outside?(OnGround?new Vector3(-.2f,0,-2.4f):friendLobby):friendInside;
@@ -113,13 +129,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             }
             else if(f.Step==ElevatorStep.GymDeparture)
             {
-                Lesson.friend.position=teleported?friendLobby:friendGymStart;
+                Lesson.friend.position=teleported?friendLobby:Vector3.MoveTowards(friendGymStart,friendLobby,ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed*travelTime);
                 Lesson.friend.rotation=Quaternion.identity;
             }
             else if(f.Step==ElevatorStep.Entering)
             {
                 DoorOpen=teleported?0:1;
-                Lesson.friend.position=teleported?friendInside:friendLobby;
+                Lesson.friend.position=teleported?friendInside:Vector3.MoveTowards(friendTravelStart,friendInside,ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed*travelTime);
                 Lesson.friend.rotation=Quaternion.Euler(0,teleported?180:0,0);
             }
             else if(f.Step==ElevatorStep.Rescue)DoorOpen=S(t,.4f,2.1f);
@@ -131,8 +147,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             }
             else if(f.Step==ElevatorStep.GoingHome)
             {
-                Lesson.friend.position=teleported?new Vector3(.1f,0,-8.4f):new Vector3(-.2f,0,-2.4f);
-                Lesson.friend.rotation=Quaternion.Euler(0,teleported?180:0,0);
+                Lesson.friend.position=teleported?new Vector3(.1f,0,-8.4f):Vector3.MoveTowards(friendTravelStart,new Vector3(.1f,0,-8.4f),ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed*travelTime);
+                Lesson.friend.rotation=Quaternion.Euler(0,180,0);
             }
             else if(f.Step==ElevatorStep.Complete)Lesson.friend.position=new Vector3(.1f,0,-8.4f);
             if(Lesson.doorSafetyCutscene)Lesson.doorSafetyCutscene.ApplyPosition();

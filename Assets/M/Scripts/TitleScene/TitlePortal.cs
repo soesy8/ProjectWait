@@ -44,7 +44,7 @@ namespace ProjectWait.M.TitleScene
         }
         public void Activate()
         {
-            if (IsLoading || StorybookSceneTransition.IsBusy) return;
+            if (IsLoading || StorybookSceneTransition.IsBusy || player&&player.InteractionBlocked) return;
             if (!CanEnter)
             {
                 if (statusText) statusText.text = "준비 중";

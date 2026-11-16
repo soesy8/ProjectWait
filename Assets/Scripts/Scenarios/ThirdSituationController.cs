@@ -169,14 +169,19 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
             { // 안전 조건이나 이동이 거절되면 마지막 관찰로 돌아갑니다.
                 Debug.LogError("차량 통과 확인 후 공통 친구의 안전 횡단을 시작하지 못했습니다.", this); yield return RestoreObservation(); yield break; // 결과가 시작되지 않은 상태에서 완료 처리하지 않습니다.
             } // 실제 횡단이 시작되면 발소리와 플레이어 이동을 함께 연결합니다.
-            m_State = StageState.Crossing; m_WalkAudio.Stop();
+            m_State = StageState.Crossing;
+            Vector3 playerStart=m_Origin.Origin.transform.position;
+            m_Friend.SetScenarioPaused(false);
+            if(!m_Friend.TryBeginCrossing()){yield return RestoreObservation();yield break;}
+            m_WalkAudio.SetActive(true);
             yield return ProjectWait.M.Shared.ComfortBlackout.Relocate(m_SharedUI, () =>
             {
+                m_WalkAudio.Stop();
                 if(!m_Friend.CompleteScenarioCrossingUnderBlackout())return;
                 m_Origin.Origin.transform.position=m_ReadyPlayerPosition+(m_Friend.transform.position-friendStart);
                 if(m_ViewInput)m_ViewInput.PlaceScenarioHeading(90f,m_Friend.transform.position-friendStart);
                 m_Friend.FaceScenarioTarget(m_Viewer.transform);
-            });
+            },dt=>m_Origin.Origin.transform.position=playerStart+(m_Friend.transform.position-friendStart));
             if (!m_Friend.HasCompletedCrossing) { Debug.LogWarning("친구가 횡단 도착점에 이르지 못해 관찰을 복원합니다.", this); yield return RestoreObservation(); yield break; } // 이동이 끊긴 상태로 체험을 완료하지 않습니다.
             m_WalkAudio.Stop(); m_State = StageState.Arrival; // 완전히 도착한 뒤에만 회전을 시작합니다.
             m_SharedUI.HideAll(); // 횡단 중 대사는 닫되 도착 회전이 끝날 때까지 이동 레터박스는 유지합니다.

@@ -19,7 +19,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public float FadeAlpha {get;private set;}
         public float RetryFade {get;set;}
         public bool LetterboxVisible => isActiveAndEnabled && Amount > .001f;
-        public bool Blocking => lesson&&lesson.Flow!=null&&(lesson.Flow.IsCinematic||Amount>.015f||lesson.RestoringObservation);
+        public bool Blocking => lesson&&lesson.Flow!=null&&(lesson.Flow.IsCinematic||FadeAlpha>.015f||lesson.RestoringObservation);
         int run=-1;
         bool enteredThroughStoryTransition;
         bool stereoReady;
@@ -51,14 +51,17 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(!lesson||lesson.Flow==null)return;if(!top)Build();
             if(run!=lesson.RunVersion){run=lesson.RunVersion;Amount=lesson.Flow.IsOpening?1:0;enteredThroughStoryTransition=ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy;}
             if(lesson.Flow.IsOpening&&ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy)enteredThroughStoryTransition=true;
-            Amount=Mathf.MoveTowards(Amount,lesson.Flow.IsCinematic?1:0,seconds/.38f);
+            // Keep the call's framing across the identity search/report interaction.
+            // The bands are presentation, not an invisible input shield.
+            bool framed=lesson.Flow.IsCinematic||lesson.Flow.SearchingIdentity||lesson.Flow.ReviewingIdentity||lesson.Flow.Step==ElevatorStep.CallSafetyAdvice;
+            Amount=Mathf.MoveTowards(Amount,framed?1:0,seconds/.38f);
             Position();
             top.gameObject.SetActive(Amount>0&&(!XRSettings.isDeviceActive||stereoReady));
             bottom.gameObject.SetActive(Amount>0&&(!XRSettings.isDeviceActive||stereoReady));
             var f=lesson.Flow;
             float alpha=0;
             if(f.Step==ElevatorStep.StartupFade)alpha=enteredThroughStoryTransition?0:ElevatorOpeningSequence.FadeAlpha(f.Elapsed);
-            if(ElevatorTravelTiming.IsRelocation(f.Step))alpha=ProjectWait.M.Shared.ComfortBlackout.Alpha(f.Elapsed);
+            if(ElevatorTravelTiming.IsRelocation(f.Step))alpha=ProjectWait.M.Shared.ComfortBlackout.Alpha(ElevatorTravelTiming.TravelElapsed(f));
             if(f.Step==ElevatorStep.WaitingFade)alpha=S(f.Elapsed,.35f,1.1f)*(1-S(f.Elapsed,3.6f,4.5f));
             if(XRSettings.isDeviceActive&&!lesson.SpawnReady)alpha=1;
             alpha=Mathf.Max(alpha,RetryFade);FadeAlpha=alpha;

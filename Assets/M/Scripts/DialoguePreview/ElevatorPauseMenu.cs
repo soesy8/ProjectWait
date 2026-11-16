@@ -37,7 +37,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy)return;
             if(IsPaused||!lesson||lesson.Flow==null||!canvas)return;
             priorTimeScale=Time.timeScale;priorAudioPause=AudioListener.pause;IsPaused=true;
-            ProjectWait.M.Shared.StoryMusic.SetPaused(this,true);
+            ProjectWait.M.Shared.StoryMusic.SetMenuDucked(this,true);
             Time.timeScale=0;AudioListener.pause=true;
             foreach(var o in lesson.CollectObservations())o.ResetHover();
             controls?.ClearTarget();controls?.SetMouseLook(false);
@@ -63,7 +63,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             // continuing confirms a stable worn pose when userPresence is unavailable.
             if(controls&&!controls.IsDesktop&&controls.XRCalibrationPending)controls.RequestXRHeightCalibration();
             IsPaused=false;Time.timeScale=priorTimeScale;AudioListener.pause=priorAudioPause;
-            ProjectWait.M.Shared.StoryMusic.SetPaused(this,false);
+            ProjectWait.M.Shared.StoryMusic.SetMenuDucked(this,false);
             if(canvas)canvas.gameObject.SetActive(false);
             controls?.ClearTarget();controls?.SetMouseLook(true);lesson?.view.SetCinematicVisibility();
         }
@@ -87,6 +87,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(IsPaused&&canvas)
             {Vector3 facing=canvas.transform.position-lesson.playerCamera.transform.position;if(facing.sqrMagnitude>.001f)canvas.transform.rotation=Quaternion.LookRotation(facing,Vector3.up);}
         }
-        void OnDisable(){ProjectWait.M.Shared.StoryMusic.SetPaused(this,false);toggle?.Dispose();if(IsPaused){Time.timeScale=priorTimeScale;AudioListener.pause=priorAudioPause;IsPaused=false;}if(canvas)canvas.gameObject.SetActive(false);}
+        void OnDisable(){ProjectWait.M.Shared.StoryMusic.SetMenuDucked(this,false);toggle?.Dispose();if(IsPaused){Time.timeScale=priorTimeScale;AudioListener.pause=priorAudioPause;IsPaused=false;}if(canvas)canvas.gameObject.SetActive(false);}
     }
 }

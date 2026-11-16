@@ -35,6 +35,9 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         float layoutAspect=-1, revealStarted;
         bool observing;
         CanvasGroup cinematicGroup;
+        ElevatorStep interactionStep=(ElevatorStep)(-1);
+        InteractionPhase interactionPhase;
+        int interactionRun=-1;
         Quaternion anchorRotation=Quaternion.identity;
         public void Initialize(ElevatorLesson value) {lesson=value;PrepareCompactPresentation();Reanchor(playerCamera.transform.position);}
         public void Build()
@@ -258,14 +261,14 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             subtitle.text=objective;normalLine=line;normalSpeaker=who;speaker.text=who;dialogueText.text=line;
             progress.text=(f.HelpRequested?"<color=#297A70>● 도움 요청</color>":"○ 도움 요청")+"   "+(f.LocationReported?"<color=#297A70>● 위치 전달</color>":"○ 위치 전달")+"   "+(f.Reassured?"<color=#297A70>● 함께 대기</color>":"○ 함께 대기");
             if(!spatial){revealStarted=Time.unscaledTime;dialogueText.maxVisibleCharacters=Application.isPlaying?0:int.MaxValue;}
-            int revision=f.Revision,run=lesson.RunVersion;
+            int run=lesson.RunVersion;var step=f.Step;var phase=f.Phase;
             for(int i=0;i<actions.Count;i++)
             {
                 var action=actions[i];string name=f.Step==ElevatorStep.Call&&!f.ReviewingIdentity?"DialogueNext":"Choice"+i;
                 Button b=i<previousButtons.Count&&i<previousLabels.Count&&previousLabels[i]==labels[i]&&previousButtons[i]&&previousButtons[i].name==name?previousButtons[i]:null;
                 if(b){previousButtons[i]=null;b.onClick.RemoveAllListeners();}
                 else{b=MakeButton(name,actionPanel,new Vector2(790,56),Vector2.zero,labels[i],()=>{});spatial?.Transitions?.Visibility((RectTransform)b.transform,true);}
-                b.onClick.AddListener(()=>{if(!lesson.CinematicBlocking&&lesson.Flow.Revision==revision&&lesson.RunVersion==run){bool explicitAction=lesson.Flow.HasObjectPreview||lesson.Flow.ReviewingIdentity||lesson.Flow.AwaitingCallContinue||lesson.Flow.Step==ElevatorStep.DoorPosterPointing||lesson.Flow.Step==ElevatorStep.Retry;if(!explicitAction&&spatial&&spatial.TryReadDialogue())return;action();}});
+                b.onClick.AddListener(()=>{if(!lesson.CinematicBlocking&&lesson.Flow.Step==step&&lesson.Flow.Phase==phase&&lesson.RunVersion==run&&ChoiceButtons.Contains(b)){action();}});
                 ChoiceButtons.Add(b);
             }
             foreach(var old in previousButtons)
@@ -276,7 +279,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             }
             if(spatial)spatial.SetPanelVisible(actionPanel,actions.Count>0);else actionPanel.gameObject.SetActive(actions.Count>0);
             if(spatial)spatial.Present(who,line,objective);
-            ApplyCompactLayout();SetCinematicVisibility();InteractionRevision++;
+            ApplyCompactLayout();SetCinematicVisibility();
+            // Hint/text/layout refreshes do not create new actions. Re-arming the
+            // click guard for those refreshes drops otherwise valid report clicks.
+            bool changed=interactionRun!=run||interactionStep!=step||interactionPhase!=phase||previousLabels.Count!=labels.Count;
+            if(!changed)for(int i=0;i<labels.Count;i++)if(previousLabels[i]!=labels[i]){changed=true;break;}
+            if(changed)InteractionRevision++;
+            interactionRun=run;interactionStep=step;interactionPhase=phase;
             if(lesson.scenario)lesson.scenario.RefreshWorldMaterials();
             spatial?.Transitions?.End();
         }

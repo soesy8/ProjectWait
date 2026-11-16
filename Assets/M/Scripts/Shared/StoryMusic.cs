@@ -19,6 +19,7 @@ namespace ProjectWait.M.Shared
         public bool Ready {get;private set;}
         public int PlayCount {get;private set;}
         readonly HashSet<UnityEngine.Object> pauseOwners=new HashSet<UnityEngine.Object>();
+        readonly HashSet<UnityEngine.Object> duckOwners=new HashSet<UnityEngine.Object>();
         AudioClip runtimeClip;
         bool held;
 
@@ -38,10 +39,19 @@ namespace ProjectWait.M.Shared
             if(pause)Current.pauseOwners.Add(owner);else Current.pauseOwners.Remove(owner);
             Current.ApplyPause();
         }
-        void Update(){if(Current==this){Source.volume=ExperiencePreferences.Current.music;pauseOwners.RemoveWhere(owner=>!owner);ApplyPause();}}
+        // Menus lower the mix without stopping its transport; failure outcomes retain
+        // their separate, deliberate silence policy through SetPaused.
+        public static void SetMenuDucked(UnityEngine.Object owner,bool duck)
+        {
+            if(!Current||!owner)return;
+            if(duck)Current.duckOwners.Add(owner);else Current.duckOwners.Remove(owner);
+            Current.ApplyPause();
+        }
+        void Update(){if(Current==this){pauseOwners.RemoveWhere(owner=>!owner);duckOwners.RemoveWhere(owner=>!owner);ApplyPause();}}
         void ApplyPause()
         {
-            bool pause=pauseOwners.Count>0;
+            Source.volume=ExperiencePreferences.Current.music*(duckOwners.Count>0?.4f:1);
+            bool pause=pauseOwners.Count>0&&duckOwners.Count==0;
             if(!Ready){held=pause;return;}
             if(pause==held)return;
             held=pause;if(held)Source.Pause();else Source.UnPause();
@@ -69,7 +79,7 @@ namespace ProjectWait.M.Shared
             }
             finally{Array.Clear(wave,0,wave.Length);if(batch!=null)Array.Clear(batch,0,batch.Length);}
             Source.clip=runtimeClip;Ready=true;Source.Play();PlayCount++;
-            held=pauseOwners.Count>0;if(held)Source.Pause();
+            held=false;ApplyPause();
         }
         // Retain the supplied protected PCM format; never write decrypted music to disk.
         static byte[] Decode(byte[] packed)

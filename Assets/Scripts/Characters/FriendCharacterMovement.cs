@@ -198,7 +198,7 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
         }
         public bool CompleteScenarioCrossingUnderBlackout()
         {
-            if(!TryBeginCrossing())return false;
+            if(!m_CrossingStarted&&!TryBeginCrossing())return false;
             m_Distance=m_PathLength;ApplyPathPosition();transform.rotation=m_ArrivalRotation;
             m_CurrentSpeed=0;m_StopProgress=1;m_ScenarioRunning=false;m_State=MovementState.Crossed;
             m_Animator.Play(k_IdleState,0,0f);return true;

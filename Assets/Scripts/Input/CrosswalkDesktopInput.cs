@@ -226,6 +226,12 @@ namespace Y.Crosswalk // 횡단보도 씬에서만 PC 입력을 기존 VR 구성
         { // 버튼 위치와 기존 커서 조작을 바꾸지 않고 입력을 받는 시점만 구분합니다.
             m_ChoiceClickBlocked = true; m_ChoiceInputReadyAt = UnityEngine.Time.unscaledTime + 0.3f; // 메뉴는 이야기 시계가 멈춰도 실제 시간으로 클릭 보호가 끝나야 합니다.
         } // 실제 입력 허용 여부는 UI 모듈이 최종 클릭 대상을 정할 때 판단합니다.
+        public void RegisterChoices(FirstSituationPanel panel)
+        {
+            m_Buttons.RemoveAll(button => button == null);
+            foreach (var button in panel.GetComponentsInChildren<Button>(true))
+                if (!m_Buttons.Contains(button)) m_Buttons.Add(button);
+        }
         private void FilterOpeningChoiceRaycasts(PointerEventData eventData, List<RaycastResult> results) // 같은 PC·VR UI 모듈에서 선택지를 연 입력이 새 버튼으로 이어지지 않게 합니다.
         { // 모듈이 누름과 해제를 계속 처리하도록 하면서 보호 중에는 클릭 대상만 비웁니다.
             if (ProjectWait.M.Crosswalk.CrosswalkSceneIntegration.GameplayBlocked)

@@ -96,16 +96,20 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
         } // 별도 RenderTexture 화면이나 클로즈업 패널을 열지 않습니다.
 
         private IEnumerator FollowIntroductionWalk(Transform limit) // 집을 확인한 뒤 걷는 구간과 휴대전화를 보며 걷는 구간을 실제 보행에 연결합니다.
-        { // 플레이어 이동은 보여 주지 않고 같은 경로의 관찰 지점으로 배치합니다.
-            m_WalkAudio.Stop(); m_Movement.SetScenarioPaused(true);
+        { // 처음 걸음과 휴대전화 자세를 보여 준 뒤 긴 구간만 암전으로 건너뜁니다.
             Vector3 friendStart=m_Movement.transform.position, playerStart=m_Origin.Origin.transform.position;
+            m_Performance.Freeze(false);m_Movement.SetScenarioPaused(false);
+            if(!m_Movement.IsApproaching&&!m_Movement.TryBeginScenarioDetour(m_DepartureRouteEnd))
+                throw new System.InvalidOperationException("인도 출발 보행을 준비하지 못했습니다.");
+            m_Movement.SetScenarioApproachLimit(limit);m_WalkAudio.SetActive(true);
             yield return ProjectWait.M.Shared.ComfortBlackout.Relocate(m_UI, () =>
             {
+                m_WalkAudio.Stop();m_Movement.SetScenarioPaused(true);
                 m_Performance.Freeze(false);
                 if(!m_Movement.PlaceApproachCheckpoint(m_DepartureRouteEnd,limit))
                     throw new System.InvalidOperationException("암전 중 인도 관찰 경로를 준비하지 못했습니다.");
                 m_Origin.Origin.transform.position=playerStart+(m_Movement.transform.position-friendStart);
-            });
+            },dt=>m_Origin.Origin.transform.position=playerStart+(m_Movement.transform.position-friendStart));
         } // 다음 물체 선택이나 결과 연출은 도입 순서가 결정합니다.
 
         private IEnumerator RunIntroduction() // 집 찾기·확인 대사·동행·알림·전화 확인·부주의한 보행을 순서대로 연결합니다.

@@ -59,7 +59,7 @@ namespace ProjectWait.M.Crosswalk
         {
             if (IsPaused || IsLeaving || StorybookSceneTransition.IsBusy || !viewer || !menuCanvas) return;
             IsPaused = true;
-            ProjectWait.M.Shared.StoryMusic.SetPaused(this, true);
+            ProjectWait.M.Shared.StoryMusic.SetMenuDucked(this, true);
             HoldTime();
             input.SetExternalMenu(true);
             menuCanvas.worldCamera = viewer;
@@ -79,7 +79,7 @@ namespace ProjectWait.M.Crosswalk
             if (!IsPaused) return;
             if(input&&input.HeightCalibrationPending)input.RequestHeightCalibration();
             IsPaused = false;
-            ProjectWait.M.Shared.StoryMusic.SetPaused(this, false);
+            ProjectWait.M.Shared.StoryMusic.SetMenuDucked(this, false);
             menuCanvas.gameObject.SetActive(false);
             RestoreCanvases();
             input.SetExternalMenu(false);
@@ -162,7 +162,7 @@ namespace ProjectWait.M.Crosswalk
         }
         void OnDisable()
         {
-            ProjectWait.M.Shared.StoryMusic.SetPaused(this, false);
+            ProjectWait.M.Shared.StoryMusic.SetMenuDucked(this, false);
             Application.onBeforeRender -= EnforceHud;
             toggle?.Dispose(); toggle = null;
             resumeButton.onClick.RemoveListener(Resume);
