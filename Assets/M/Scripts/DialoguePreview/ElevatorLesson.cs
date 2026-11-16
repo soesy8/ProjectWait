@@ -35,6 +35,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         ElevatorClue? activeClue;
         ElevatorDesktopControls controls;
         public bool SpawnReady=>!controls||controls.SpawnReady;
+        public bool RestoringObservation {get;private set;}
 
         void Awake()
         {
@@ -42,6 +43,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             friendHome = presentation&&presentation.space?presentation.space.friendInside:friend.localPosition;
             cabin = transform.Find("Cabin").gameObject;
             Flow = new ElevatorFlow(settings, presentation && presentation.space && presentation.space.sportsCentre) { NoResponse = simulateNoResponse };
+            if(presentation&&presentation.space&&presentation.space.sportsCentre)presentation.space.sportsCentre.ConfigureTravel();
             motor.clip = motorClip; motor.loop = true; motor.volume = .08f;
             signal.clip = stopClip; signal.volume = .18f;
             view.Initialize(this); ResetPresentation();
@@ -58,7 +60,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             Flow.NoResponse = simulateNoResponse;
             var previousStep=Flow.Step;var previousPhase=Flow.Phase;
             int previousRevision=Flow.Revision,previousHint=Flow.HintLevel;
-            Flow.Tick(delta);
+            // Do not skip the opaque placement and reveal after a long frame.
+            if(ElevatorTravelTiming.IsRelocation(Flow.Step))delta=Mathf.Min(delta,.05f);
+            float rate=ElevatorTravelTiming.IsTimedDialogue(Flow.Step)?ProjectWait.M.Shared.ExperiencePreferences.Current.dialogue:1;
+            Flow.Tick(delta*rate);
             bool outside = Flow.Step == ElevatorStep.Lobby || Flow.Step == ElevatorStep.Complete;
             cabin.SetActive(presentation&&presentation.space||!outside); friend.gameObject.SetActive(true);
             Floor = Flow.Step==ElevatorStep.GroundFloor||Flow.Step==ElevatorStep.GoingHome||Flow.Step==ElevatorStep.Complete ? 1 : 3;
@@ -77,6 +82,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             string floorText=Floor==1?"1":"3";
             if(floorLabel.text!=floorText)floorLabel.text=floorText;
             if (presentation) presentation.Apply(this);
+            if(presentation&&presentation.space&&presentation.space.overlay)presentation.space.overlay.Advance(0);
             if (renderedRevision != Flow.Revision)
             {
                 bool hintOnly=renderedRevision==previousRevision&&previousStep==Flow.Step&&previousPhase==Flow.Phase&&previousHint!=Flow.HintLevel;
@@ -104,9 +110,28 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public void Reassure() { Flow.Reassure(); Sync(); }
         public void UnsafeDoor() { Flow.UnsafeAction("문을 억지로 열려고 함"); Sync(); }
         public void UnsafeExit() { Flow.UnsafeAction("스스로 빠져나가려고 함"); Sync(); }
-        public void Retry() { Flow.Retry(); Sync(); }
+        public void Retry() { if(!RestoringObservation&&Flow.Step==ElevatorStep.Retry)StartCoroutine(RestoreObservation()); }
+        System.Collections.IEnumerator RestoreObservation()
+        {
+            RestoringObservation=true;var overlay=presentation&&presentation.space?presentation.space.overlay:null;
+            for(float time=0;time<.15f;time+=Time.deltaTime){if(overlay)overlay.RetryFade=Mathf.Clamp01(time/.15f);yield return null;}
+            if(overlay)overlay.RetryFade=1;
+            yield return null;Flow.Retry();Sync();
+            for(float time=0;time<.15f;time+=Time.deltaTime){if(overlay)overlay.RetryFade=1-Mathf.Clamp01(time/.15f);yield return null;}
+            if(overlay)overlay.RetryFade=0;RestoringObservation=false;controls?.RequireFreshChoiceClick();
+        }
         void Sync() { Advance(0); }
         public void Restart() { Flow.Reset(); FindFirstObjectByType<ElevatorDesktopControls>()?.ResetView(); ResetPresentation(); }
+        // Completion uses the same droplet transition as the lobby portals.
+        public void ReturnToLobby() { LoadExperience("Assets/M/Scene/Wait_Robby.unity", "이야기 로비", "잠깐의 이야기를 마치고,\n다음 이야기를 만나러 가요."); }
+        public void RestartExperience() { LoadExperience(gameObject.scene.path, "엘리베이터", ProjectWait.M.SceneTransition.StorybookSceneTransition.ElevatorContext); }
+        void LoadExperience(string path,string title,string context)
+        {
+            var transition=ProjectWait.M.SceneTransition.StorybookSceneTransition.Current;
+            if(ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy)return;
+            if(!transition||!transition.TryLoad(path,title,context,playerCamera))
+                Debug.LogWarning("장면을 준비하지 못했어요. 다시 시도해 주세요.",this);
+        }
         public void DeveloperJump(int stage) { Flow.DeveloperJump(stage); ResetPresentation(); }
         void ResetPresentation()
         {

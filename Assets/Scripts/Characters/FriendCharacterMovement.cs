@@ -185,6 +185,25 @@ namespace Y.Crosswalk // 차량·신호등과 같은 개인 작업 영역에 두
             return true; // 상황 제어기는 마지막 도착까지 같은 보행을 기다립니다.
         } // 경유점 사이에서는 속도·애니메이션을 초기화하지 않습니다.
 
+        // Called only under the lesson's opaque relocation. Retain the real route
+        // and checkpoint owner for later unsafe choices and completion guards.
+        public bool PlaceApproachCheckpoint(Transform routeEnd, Transform stop)
+        {
+            if(routeEnd==null||stop==null||m_CrossingStarted)return false;
+            Vector3 forward=Vector3.ProjectOnPlane(routeEnd.position-stop.position,Vector3.up);
+            if(forward.sqrMagnitude<.0025f)return false;
+            PlaceWaitingForScenario(stop.position,Quaternion.LookRotation(forward));
+            if(!TryBeginScenarioDetour(routeEnd))return false;
+            SetScenarioApproachLimit(stop);SetScenarioPaused(true);return true;
+        }
+        public bool CompleteScenarioCrossingUnderBlackout()
+        {
+            if(!TryBeginCrossing())return false;
+            m_Distance=m_PathLength;ApplyPathPosition();transform.rotation=m_ArrivalRotation;
+            m_CurrentSpeed=0;m_StopProgress=1;m_ScenarioRunning=false;m_State=MovementState.Crossed;
+            m_Animator.Play(k_IdleState,0,0f);return true;
+        }
+
         private void PrepareDetourLeg() // 다음 경유점으로 이동 기준만 바꿉니다.
         { // 중간 경유점에서 Idle이나 Stop을 재생하지 않습니다.
             m_PathStart = transform.position; Vector3 path = m_DetourWaypoints[m_DetourIndex].position - m_PathStart; path.y = 0f; // 현재 발 위치에서 다음 인도 구간을 구합니다.

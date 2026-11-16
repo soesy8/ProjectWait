@@ -10,7 +10,7 @@ using DwtD.TestScene;
 
 namespace ProjectWait.M.Elevator.DialoguePreview
 {
-    // Flow content stays here; spatial presentation owns world dialogue, the HUD and notebook.
+    // Flow content stays here; spatial presentation owns world dialogue, HUD and completion actions.
     [RequireComponent(typeof(CanvasGroup))]
     public sealed class ElevatorView : MonoBehaviour
     {
@@ -235,7 +235,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                     objective="친구와 밖으로 나가기";line=ElevatorDialogue.GroundFloor;Add("1   친구와 밖으로 나가기",lesson.Continue);break;
                 case ElevatorStep.GoingHome:objective="친구와 집으로";who="안내";break;
                 case ElevatorStep.Complete:
-                    objective="함께 안전하게 나왔어요";who="친구";line=ElevatorDialogue.Complete;Add("1   우리가 함께한 일",ShowHistory);Add("2   다시 해보기",lesson.Restart);break;
+                    objective="";who="";line="";Add("로비로 돌아가기",lesson.ReturnToLobby);Add("다시하기",lesson.RestartExperience);break;
             }
             if(f.Step!=ElevatorStep.DoorPosterPointing&&ElevatorDoorSafetyCutscene.Describe(lesson,out var safetySpeaker,out var safetyLine))
             {who=safetySpeaker;line=safetyLine;objective=f.IsCallCutscene||f.AwaitingCallContinue?"현재 위치를 알리고 안내 듣기":"문에서 떨어져 안전하게 기다리기";}
@@ -252,6 +252,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 {
                     if(f.CanChooseSafeWall)Add(ElevatorDialogue.SafeReply,lesson.ChooseSafeWall);
                     Add(ElevatorDialogue.UnsafeReply,lesson.ChooseUnsafeWall);
+                    Add("다시 살펴보기",lesson.ReobserveDoor);
                 }
             }
             subtitle.text=objective;normalLine=line;normalSpeaker=who;speaker.text=who;dialogueText.text=line;

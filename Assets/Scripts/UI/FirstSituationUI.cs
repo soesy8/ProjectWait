@@ -44,6 +44,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
         private float m_CueRemaining, m_CueDuration; // 짧은 화면 강조를 전역 시간 배율과 독립적으로 끝냅니다.
         private static readonly int k_CueColor = Shader.PropertyToID("_CueColor"); // 기존 전환막에 주변부 강조 색과 알파를 전달합니다.
         public bool IsTransitioning => m_FadeVisible || m_FadeWeight > 0.01f; // 암전 중에는 마우스 회전과 3D 클릭을 보류합니다.
+        public bool IsFullyCovered => m_FadeVisible && m_FadeWeight >= 1f;
         public float FadeCoverDuration => Mathf.Max(0.05f, m_ActiveFadeDuration) + 0.03f; // 배치 변경은 현재 상황이 요청한 실제 페이드가 끝난 뒤에만 수행합니다.
         private float m_ActiveFadeDuration; // 첫 번째 상황과 다음 장소 이동의 전환 시간을 별도로 적용합니다.
         private MaterialPropertyBlock m_FadeProperties; // 전환막 원본 머티리얼을 변경하지 않고 현재 알파만 전달합니다.
@@ -80,6 +81,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
         private RectTransform m_SubtitleRoot, m_SubtitleBar, m_SubtitleTop, m_ReadingColumn, m_ReadingPaper; // 화면 레터박스와 월드 대화 영역을 분리합니다.
         private Canvas m_ReadingCanvas; // 읽기 전용 대사를 대화 주체 옆의 월드 공간에 표시합니다.
         private Transform m_DialogueSpeaker, m_DialogueHead, m_ReadingSubject;
+        public Transform DialogueSubject => m_DialogueSpeaker;
         private Vector3 m_ReadingLocalPoint, m_ReadingWorldPoint, m_ReadingOffset;
         private Bounds m_ReadingSubjectBounds;
         private bool m_ReadingSubjectAssigned, m_ReadingPlacementReady;
@@ -154,7 +156,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             m_ChoiceMouseRaycaster.enabled = desktop; m_ChoiceVRRaycaster.enabled = !desktop;
         }
 
-        private void PlaceWorldChoices(float height)
+        private void PlaceWorldChoices(float height, bool centered = false)
         {
             RectTransform root = (RectTransform)m_WorldChoicesCanvas.transform;
             root.anchorMin = root.anchorMax = root.pivot = Vector2.one * 0.5f;
@@ -167,7 +169,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             if (forward.sqrMagnitude < 0.001f) forward = Vector3.ProjectOnPlane(m_Viewer.transform.parent.forward, Vector3.up);
             forward.Normalize();
             Quaternion rotation = desktop ? m_Viewer.transform.rotation : Quaternion.LookRotation(forward);
-            root.SetPositionAndRotation(m_Viewer.transform.position + forward * m_BubbleDistance + rotation * Vector3.right * 0.45f - Vector3.up * 0.18f, rotation);
+            root.SetPositionAndRotation(m_Viewer.transform.position + forward * m_BubbleDistance + rotation * Vector3.right * (centered ? 0f : 0.45f) - Vector3.up * 0.18f, rotation);
             SyncChoiceRaycasters(); // 표시 시 한 번만 배치하며 LateUpdate에서 카메라를 따라가지 않습니다.
         }
 
@@ -180,7 +182,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
 
         private static void ApplyTypography(TMP_Text text, float size, bool bold) // M의 ElevatorTypography에 저장된 글자 규칙을 그대로 적용합니다.
         { // 글자 크기를 줄여 문장을 억지로 끼워 넣지 않습니다.
-            text.fontSize = size; text.fontStyle = bold ? FontStyles.Bold : FontStyles.Normal; text.fontWeight = bold ? FontWeight.Bold : FontWeight.Regular; text.enableAutoSizing = false; text.extraPadding = true; text.raycastTarget = false; text.textWrappingMode = TextWrappingModes.Normal; text.overflowMode = TextOverflowModes.Overflow; text.maxVisibleCharacters = int.MaxValue; // 원본처럼 짧은 문장 전체를 즉시 보여 주고 읽기를 별도 클릭으로 소비하지 않습니다.
+            text.fontSize = size*ProjectWait.M.Shared.ExperiencePreferences.Current.text; text.fontStyle = bold ? FontStyles.Bold : FontStyles.Normal; text.fontWeight = bold ? FontWeight.Bold : FontWeight.Regular; text.enableAutoSizing = false; text.extraPadding = true; text.raycastTarget = false; text.textWrappingMode = TextWrappingModes.Normal; text.overflowMode = TextOverflowModes.Overflow; text.maxVisibleCharacters = int.MaxValue; // 공용 글자 배율을 적용하되 짧은 문장 전체를 즉시 표시합니다.
         } // 문장 길이에 따른 높이는 읽기 영역이 확보합니다.
 
         public void StyleButton(Button button, bool primary) // 기존 버튼의 동작은 유지하고 M 원본의 그림·글자·색상 전환을 적용합니다.
@@ -217,7 +219,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
 
         public IEnumerator PlayCaption(string speaker, string line, float duration) // 기존 행동의 결과 대사를 연출 시간에 맞춰 자동으로 이어갑니다.
         { // 조사 중 읽기와 달리 컷씬 대사는 M의 시간 진행을 따릅니다.
-            ShowCinematicCaption(speaker, line); yield return new WaitForSecondsRealtime(duration); // 친구의 동작과 대사를 함께 보여 주고 별도의 화면 클릭은 기다리지 않습니다.
+            ShowCinematicCaption(speaker, line); yield return new WaitForSecondsRealtime(duration/ProjectWait.M.Shared.ExperiencePreferences.Current.dialogue); // 대사 속도는 보행·차량의 실제 이동 시간과 분리합니다.
         } // 호출한 상황 제어기가 다음 행동이나 관찰 단계로 이어갑니다.
 
         public void SetDialogueSpeaker(Transform speaker, Transform head)
@@ -227,6 +229,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
 
         private void SetReading(string speaker, string line, Transform subject = null, Vector3? point = null, Bounds? bounds = null) // 친구 대사와 물체 설명을 같은 월드 프레임으로 표시합니다.
         { // 이름표는 명시적으로 연결한 배경만 사용하고 전체 대사 프레임은 건드리지 않습니다.
+            if (string.IsNullOrWhiteSpace(line)) { m_Guidance.Show(false); return; } // 종료 버튼만 있을 때 빈 말풍선을 만들지 않습니다.
             if (subject == null && !point.HasValue)
             {
                 subject = m_DialogueHead != null ? m_DialogueHead : m_DialogueSpeaker;
@@ -264,6 +267,28 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             } // 결과 본문을 한 번에 표시합니다.
             return string.Join("\n", lines); // 읽기 자체에는 다음 클릭이나 페이지 넘김을 요구하지 않습니다.
         } // 프레임 높이는 줄바꿈된 실제 본문 높이로 계산합니다.
+        public void ApplySharedSettings()
+        {
+            if (m_StoryText == null || m_ReadingColumn == null) return;
+            ApplyTypography(m_StoryText, 35f, false); ApplyTypography(m_StorySpeaker, 28f, true);
+            foreach (var button in m_Anchor.GetComponentsInChildren<Button>(true))
+            { var label = button.GetComponentInChildren<TMP_Text>(true); if (label) ApplyTypography(label, 34f, true); }
+            if (m_ActionPanel != null)
+            {
+                float y = 0;
+                foreach (var button in m_ActionPanel.GetComponentsInChildren<Button>(true))
+                {
+                    var text = button.GetComponentInChildren<TMP_Text>(true); if (!text) continue;
+                    ApplyTypography(text, 34f, true); float h = Mathf.Max(76f, text.GetPreferredValues(text.text, 516f, 0).y + 32);
+                    var rect = (RectTransform)button.transform; rect.sizeDelta = new Vector2(580, h); rect.anchoredPosition = new Vector2(0, -y-h*.5f);
+                    text.rectTransform.sizeDelta = rect.sizeDelta-new Vector2(64,26); y += h+12;
+                }
+                ((RectTransform)m_ActionPanel.transform).sizeDelta = new Vector2(620, Mathf.Max(0,y-12));
+                PlaceWorldChoices(Mathf.Max(0,y-12), string.IsNullOrWhiteSpace(m_StoryText.text));
+            }
+            LayoutReading();
+        }
+
         private void LayoutReading() // 기존 프레임의 문구·한글 줄바꿈과 크기를 유지합니다.
         { // 화면 앵커 대신 월드 공간의 주체 위치로 전체 대화 열을 배치합니다.
             const float width = 580f; float body = Mathf.Max(102f, m_StoryText.GetPreferredValues(m_StoryText.text, 476f, 0f).y + 12f); float height = Mathf.Max(210f, body + 80f); // 선택지 크기는 월드 Canvas에서 별도로 계산합니다.
@@ -361,7 +386,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             foreach (Graphic graphic in actions.GetComponentsInChildren<Graphic>(true)) if (graphic.GetComponentInParent<Button>() == null) graphic.enabled = false; // 옛 중앙 팝업의 배경과 제목은 읽기 프레임에 중복 표시하지 않습니다.
             for (int i = 0; i < buttons.Length; ++i) { Button button = buttons[i]; StyleButton(button, judgment ? i < 2 : i == 0); TMP_Text text = button.GetComponentInChildren<TMP_Text>(true); float buttonHeight = Mathf.Max(76f, text.GetPreferredValues(text.text, 516f, 0f).y + 32f); RectTransform rect = (RectTransform)button.transform; rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 1f); rect.sizeDelta = new Vector2(580f, buttonHeight); rect.anchoredPosition = new Vector2(0f, -y - buttonHeight * 0.5f); text.rectTransform.anchorMin = text.rectTransform.anchorMax = new Vector2(0.5f, 0.5f); text.rectTransform.sizeDelta = rect.sizeDelta - new Vector2(64f, 26f); text.rectTransform.anchoredPosition = Vector2.zero; y += buttonHeight + 12f; } // M 원본처럼 580 폭의 응답을 12 간격으로 놓고 글자 크기는 유지합니다.
             RectTransform actionRect = (RectTransform)actions.transform; actionRect.anchorMin = actionRect.anchorMax = new Vector2(0.5f, 1f); actionRect.pivot = new Vector2(0.5f, 1f); actionRect.localRotation = Quaternion.identity; actionRect.anchoredPosition3D = Vector3.zero; actionRect.sizeDelta = new Vector2(580f, Mathf.Max(0f, y - 12f));
-            PlaceWorldChoices(actionRect.rect.height); actions.Show(true); SetReading(speaker, line); // 설명은 대화 주체 옆에, 실제 응답은 기존 월드 위치에 둡니다.
+            PlaceWorldChoices(actionRect.rect.height, string.IsNullOrWhiteSpace(line)); actions.Show(true); SetReading(speaker, line); // 설명 없는 종료 화면은 두 버튼만 중앙에 둡니다.
             m_InputSource?.RequireFreshChoiceClick(); // 세 상황의 선택지를 연 기존 클릭을 버리고 보호 시간과 마우스 해제가 끝난 뒤 새 클릭으로 응답하게 합니다.
         } // 같은 선택 버튼은 PC 커서와 기존 VR 레이 모두 사용할 수 있습니다.
         public void PlaceInFront(Transform viewer, float distance = 2.15f) // 단계 시작 시 한 번만 편안한 읽기 거리로 배치합니다.
@@ -532,9 +557,17 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
         } // 카메라나 친구 모델의 위치는 변경하지 않습니다.
         public void BeginOpeningFade() // M의 자동 시작처럼 첫 화면을 가린 상태에서 도입을 시작합니다.
         { // 사용자가 누를 이야기 시작 버튼이나 조작 안내 창을 띄우지 않습니다.
+            var transition = ProjectWait.M.SceneTransition.StorybookSceneTransition.Current;
+            // The shared arrival owns visibility. A second, story-clock-frozen
+            // black sphere would otherwise cover every incoming water droplet.
+            if (transition && (ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy || transition.revealOnStandaloneStart))
+            {
+                m_FadeWeight = 0f; m_FadeVisible = false; m_ImmersiveFade.enabled = false;
+                return;
+            }
             m_FadeWeight = 1f; m_FadeVisible = true; m_ActiveFadeDuration = 1.5f; Color shade = m_FadeColor; shade.a = 1f; m_FadeProperties.SetColor(k_FadeColor, shade); m_FadeProperties.SetColor(k_CueColor, Color.clear); m_ImmersiveFade.SetPropertyBlock(m_FadeProperties); m_ImmersiveFade.enabled = true; // 첫 렌더부터 출발 배치가 보이지 않게 가리고 M의 1.5초 밝아짐을 준비합니다.
         } // 실제 밝아지는 시점은 도입 코루틴이 원본의 짧은 대기 후 요청합니다.
-        public void Transition(bool visible) { Transition(visible, m_FadeDuration); } // 기존 호출은 첫 번째 상황의 편집된 전환 시간을 그대로 사용합니다.
+        public void Transition(bool visible) { Transition(visible, visible ? ProjectWait.M.Shared.ComfortBlackout.Cover : ProjectWait.M.Shared.ComfortBlackout.Reveal); }
         public void Transition(bool visible, float duration) { m_ActiveFadeDuration = Mathf.Max(0.05f, duration); m_FadeVisible = visible; if (visible) m_CueRemaining = 0f; } // 위치 복원 암전을 시작하면 이전 상황의 주변광을 함께 정리합니다.
 
         public void PlayDangerCue() { BeginCue(new Color(1f, 0.32f, 0.08f, 1f), 0.75f); } // 실제 접촉이나 급제동 순간에만 따뜻한 주황 주변광을 짧게 표시합니다.
@@ -550,12 +583,14 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
         { // 실제 XR 카메라의 위치·각도·시야각은 변경하지 않습니다.
             if (m_ImmersiveFade == null) return; // 씬 종료 중 이미 해제된 전환막에는 접근하지 않습니다.
             m_FadeWeight = Mathf.MoveTowards(m_FadeWeight, m_FadeVisible ? 1f : 0f, Time.unscaledDeltaTime / Mathf.Max(0.05f, m_ActiveFadeDuration)); // 전역 시간을 바꾸지 않고 해당 상황에서 요청한 길이로 암전을 진행합니다.
-            Color tint = m_FadeColor; tint.a *= Mathf.SmoothStep(0f, 1f, m_FadeWeight); // 복원 순간에만 짧은 어두운 전환을 적용합니다.
+            var blackout = ProjectWait.M.Shared.ComfortScreenFade.For(m_Viewer);
+            if (blackout) blackout.SetOpacity(Mathf.SmoothStep(0f, 1f, m_FadeWeight));
+            Color tint = Color.black; tint.a = blackout ? 0f : Mathf.SmoothStep(0f, 1f, m_FadeWeight);
             m_CueRemaining = Mathf.Max(0f, m_CueRemaining - Time.unscaledDeltaTime); // 강조가 끝나면 현재 상황의 주변광을 정상 시간으로 지웁니다.
             float cueProgress = 1f - m_CueRemaining / Mathf.Max(0.01f, m_CueDuration); // 현재 강조의 시작부터 끝까지 진행도를 구합니다.
             Color cue = m_CueColor; cue.a *= m_CueStrength * Mathf.Max(0f, Mathf.Sin(cueProgress * Mathf.PI)); // 점멸 없이 한 번 부드럽게 나타났다 사라지는 주변광을 만듭니다.
             m_FadeProperties.SetColor(k_FadeColor, tint); m_FadeProperties.SetColor(k_CueColor, cue); m_ImmersiveFade.SetPropertyBlock(m_FadeProperties); // 같은 전환막에 복원 암전과 상황별 주변광을 함께 전달합니다.
-            m_ImmersiveFade.enabled = m_FadeWeight > 0.001f || cue.a > 0.001f; // 복원 암전과 상황 강조가 모두 끝났을 때만 렌더링을 끕니다.
+            m_ImmersiveFade.enabled = !ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy && (m_FadeWeight > 0.001f || cue.a > 0.001f); // 씬 물방울 전환 위에 기존 암전 구체를 중복 표시하지 않습니다.
         } // 머리를 돌려도 카메라 자식인 구체가 전체 시야를 동일하게 가립니다.
 
         private void OnDestroy() // 월드 대화·선택지·레터박스와 복사한 글자 재질을 함께 정리합니다.
@@ -575,6 +610,7 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             if (m_ObjectGuide != null) m_ObjectGuide.Hide(); // 공유 UI가 꺼질 때 화면 고정 안내가 혼자 남지 않게 합니다.
             if (m_SubtitleRoot != null) m_SubtitleRoot.gameObject.SetActive(false); m_TaskCompleted = null; m_TaskTarget = null; // 공유 UI가 비활성화되면 카메라 자막과 남은 진행 입력도 함께 닫습니다.
             m_FadeVisible = false; m_FadeWeight = 0f; m_CueRemaining = 0f; // 재활성화 시 이전 암전과 상황 강조를 남기지 않습니다.
+            var blackout = ProjectWait.M.Shared.ComfortScreenFade.For(m_Viewer); if (blackout) blackout.SetOpacity(0);
             if (m_PresentationAudio != null) m_PresentationAudio.Stop(); // UI가 종료되면 재생 중인 연출 차임과 선택음을 함께 정리합니다.
             if (m_ImmersiveFade != null) m_ImmersiveFade.enabled = false; // 살아 있는 전환막만 즉시 숨깁니다.
         } // 원본 머티리얼과 헤드셋 추적은 유지합니다.
@@ -593,7 +629,6 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
             // Only the overlay is positioned; headset projection, tracking and camera FOV are never changed.
             public const float ReferenceHeight = 720f;
             public const float BandHeight = 200f;
-            public const float BottomRaise = 25f; // 720 기준 하단 띠의 안쪽 경계만 올리고 화면 아래쪽은 계속 덮습니다.
             public const float SlideDuration = 0.38f;
             public const float StereoDistance = 1.4f;
             public const float PointsPerRadian = 700f;
@@ -638,11 +673,10 @@ namespace Y.Crosswalk // 첫 번째 상황의 표시를 진행 로직과 분리�
                 float lowerInner = Mathf.Lerp(coverage.yMin, Mathf.Max(lv.x, rv.x) + band, progress);
                 float upperInner = Mathf.Lerp(coverage.yMax, Mathf.Min(lv.y, rv.y) - band, progress);
                 float thickness = Mathf.Max(lowerInner - (coverage.yMin - overscan), coverage.yMax + overscan - upperInner);
-                float raise = Mathf.Min(lv.y - lv.x, rv.y - rv.x) * (BottomRaise / ReferenceHeight) * progress;
                 top.sizeDelta = new Vector2(coverage.width + overscan * 2f, thickness);
                 top.anchoredPosition = new Vector2(coverage.center.x, upperInner + thickness * 0.5f);
-                bottom.sizeDelta = new Vector2(coverage.width + overscan * 2f, thickness + raise);
-                bottom.anchoredPosition = new Vector2(coverage.center.x, lowerInner + raise - (thickness + raise) * 0.5f);
+                bottom.sizeDelta = new Vector2(coverage.width + overscan * 2f, thickness);
+                bottom.anchoredPosition = new Vector2(coverage.center.x, lowerInner - thickness * 0.5f);
             }
 
             private static bool EyeBounds(Camera viewer, Transform plane, Camera.StereoscopicEye eye, out Rect bounds, out Vector2 vertical)

@@ -9,7 +9,7 @@ namespace ProjectWait.M.TitleScene
     public sealed class TitleLobbyControllerVisuals : IDisposable
     {
         readonly Transform root, left, right, pointer;
-        readonly Material teal, orange, rayMaterial, previousRayMaterial;
+        readonly Material teal, orange;
         readonly InputAction leftPose,rightPose;
         readonly LineRenderer line;
         readonly Renderer pointerRenderer;
@@ -33,11 +33,7 @@ namespace ProjectWait.M.TitleScene
             pointer.gameObject.SetActive(false);
             if (line)
             {
-                previousRayMaterial = line.sharedMaterial;
-                rayMaterial = Material(shader, new Color(.34f, .76f, .64f));
-                line.sharedMaterial = rayMaterial;
                 line.useWorldSpace = true; line.positionCount = 2;
-                line.startWidth = .006f; line.endWidth = .003f; line.numCapVertices = 4;
                 line.shadowCastingMode = ShadowCastingMode.Off; line.receiveShadows = false;
             }
         }
@@ -65,19 +61,19 @@ namespace ProjectWait.M.TitleScene
             renderer.shadowCastingMode = ShadowCastingMode.Off; renderer.receiveShadows = false;
             return go.transform;
         }
-        public void Update(bool show)
+        public void Update(bool show,float heightOffset=0)
         {
             visible = show;
             if (!root || !left || !right) return;
             root.gameObject.SetActive(show);
             if (!show) { pointer.gameObject.SetActive(false); return; }
-            Track(left,leftPose);Track(right,rightPose);
+            Track(left,leftPose,heightOffset);Track(right,rightPose,heightOffset);
         }
-        static void Track(Transform model,InputAction action)
+        static void Track(Transform model,InputAction action,float heightOffset)
         {
             bool tracked=TitleControllerPose.TryRead(action,out var position,out var rotation);
             model.gameObject.SetActive(tracked);
-            if(tracked)model.SetLocalPositionAndRotation(position,rotation);
+            if(tracked)model.SetLocalPositionAndRotation(position+Vector3.up*heightOffset,rotation);
         }
         public void ShowPointer(Vector3 end, bool show, bool hovered)
         {
@@ -89,9 +85,8 @@ namespace ProjectWait.M.TitleScene
         }
         public void Dispose()
         {
-            if (line && line.sharedMaterial == rayMaterial) line.sharedMaterial = previousRayMaterial;
             if (root) Remove(root.gameObject);
-            leftPose?.Dispose();Remove(teal);Remove(orange);Remove(rayMaterial);
+            leftPose?.Dispose();Remove(teal);Remove(orange);
         }
         static void Remove(UnityEngine.Object value)
         {

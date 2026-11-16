@@ -94,7 +94,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             Vector3 right=Vector3.Cross(Vector3.up,forward).normalized;
             if(Controller.isGrounded&&verticalSpeed<0)verticalSpeed=-2;
             else verticalSpeed=Mathf.Max(-20,verticalSpeed+gravity*seconds);
-            Vector3 horizontal=(forward*LastInput.y+right*LastInput.x)*(vr?vrSpeed:desktopSpeed);
+            Vector3 horizontal=(forward*LastInput.y+right*LastInput.x)*ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed;
             Controller.Move((horizontal+Vector3.up*verticalSpeed)*seconds);
             if(vr)ConstrainHead();
         }

@@ -35,6 +35,7 @@ namespace ProjectWait.M.TitleScene
             {
                 var voice = root.AddComponent<AudioSource>();
                 voice.playOnAwake = false; voice.loop = false; voice.spatialBlend = 0;
+                voice.ignoreListenerPause = true; // Transition audio must survive the lesson's global pause.
                 voice.dopplerLevel = 0; voice.reverbZoneMix = 0; voice.priority = 180;
                 voices[i] = voice;
             }
@@ -72,7 +73,7 @@ namespace ProjectWait.M.TitleScene
             available.clip = owner.dropletPopClip;
             available.pitch = pitch;
             available.panStereo = Mathf.Lerp(-.12f, .12f, Next01());
-            available.volume = Mathf.Clamp01(owner.popVolume) * Mathf.Lerp(.76f, 1, Next01()) * Mathf.Lerp(.75f, 1, Mathf.Sin(progress * Mathf.PI));
+            available.volume = Mathf.Clamp01(owner.popVolume) * ProjectWait.M.Shared.ExperiencePreferences.Current.effects * Mathf.Lerp(.76f, 1, Next01()) * Mathf.Lerp(.75f, 1, Mathf.Sin(progress * Mathf.PI));
             available.Play();
             LastPitch = pitch; PlayedCount++;
         }

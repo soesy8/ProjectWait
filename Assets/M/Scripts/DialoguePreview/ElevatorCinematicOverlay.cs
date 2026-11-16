@@ -17,12 +17,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         [SerializeField] TMP_Text caption;
         public float Amount {get;private set;}
         public float FadeAlpha {get;private set;}
+        public float RetryFade {get;set;}
         public bool LetterboxVisible => isActiveAndEnabled && Amount > .001f;
-        public bool Blocking => lesson&&lesson.Flow!=null&&(lesson.Flow.IsCinematic||Amount>.015f);
+        public bool Blocking => lesson&&lesson.Flow!=null&&(lesson.Flow.IsCinematic||Amount>.015f||lesson.RestoringObservation);
         int run=-1;
         bool enteredThroughStoryTransition;
         bool stereoReady;
-        StereoUISafeArea.PlaneCache planeCache;
+        Vector3 levelRight=Vector3.right;
         // Compatibility for existing HUD/preview callers: the bands no longer own text.
         public int SubtitleLayoutVersion => 0;
         public bool SubtitleFits => false;
@@ -41,7 +42,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             var image=r.gameObject.AddComponent<Image>();image.color=Color.black;image.raycastTarget=false;image.material=overlayMaterial;return r;
         }
         void OnEnable(){Application.onBeforeRender+=Position;if(Application.isPlaying)Advance(0);}
-        void OnDisable(){Application.onBeforeRender-=Position;}
+        void OnDisable(){Application.onBeforeRender-=Position;var blackout=ProjectWait.M.Shared.ComfortScreenFade.For(playerCamera);if(blackout)blackout.SetOpacity(0);}
         void LateUpdate(){Advance(Time.unscaledDeltaTime);}
         public void Advance(float seconds)
         {
@@ -57,18 +58,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             var f=lesson.Flow;
             float alpha=0;
             if(f.Step==ElevatorStep.StartupFade)alpha=enteredThroughStoryTransition?0:ElevatorOpeningSequence.FadeAlpha(f.Elapsed);
-            if(f.Step==ElevatorStep.GymDeparture)
-            {
-                float startupAlpha=enteredThroughStoryTransition?0:ElevatorOpeningSequence.FadeAlpha(f.Elapsed);
-                alpha=Mathf.Max(startupAlpha,ElevatorOpeningSequence.ComfortFadeAlpha(f.Elapsed,XRSettings.isDeviceActive));
-            }
-            if(f.Step==ElevatorStep.Returning)alpha=S(f.Elapsed,.35f,1.1f)*(1-S(f.Elapsed,2.4f,3.25f));
+            if(ElevatorTravelTiming.IsRelocation(f.Step))alpha=ProjectWait.M.Shared.ComfortBlackout.Alpha(f.Elapsed);
             if(f.Step==ElevatorStep.WaitingFade)alpha=S(f.Elapsed,.35f,1.1f)*(1-S(f.Elapsed,3.6f,4.5f));
-            if(XRSettings.isDeviceActive&&(f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting))
-            {float middle=f.Step==ElevatorStep.Entering?3.1f:2.3f;alpha=1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.10f,.60f,Mathf.Abs(f.Elapsed-middle)));}
-            if(XRSettings.isDeviceActive&&f.Step==ElevatorStep.GoingHome)alpha=1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.12f,.65f,Mathf.Abs(f.Elapsed-3)));
             if(XRSettings.isDeviceActive&&!lesson.SpawnReady)alpha=1;
-            FadeAlpha=alpha;fade.gameObject.SetActive(alpha>0);fade.GetComponent<Image>().color=new Color(0,0,0,alpha);
+            alpha=Mathf.Max(alpha,RetryFade);FadeAlpha=alpha;
+            var blackout=ProjectWait.M.Shared.ComfortScreenFade.For(playerCamera);
+            if(blackout)blackout.SetOpacity(alpha);
+            fade.gameObject.SetActive(!blackout&&alpha>0);fade.GetComponent<Image>().color=new Color(0,0,0,alpha);
             lesson.view.SetCinematicVisibility();
         }
         static float S(float t,float a,float b)=>Mathf.SmoothStep(0,1,Mathf.InverseLerp(a,b,t));
@@ -78,19 +74,17 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             HideLegacyCaption();
             if(XRSettings.isDeviceActive){PositionStereo();return;}
             const float distance=.45f;float height=2*distance*Mathf.Tan(playerCamera.fieldOfView*.5f*Mathf.Deg2Rad);
-            transform.SetPositionAndRotation(playerCamera.transform.position+playerCamera.transform.forward*distance,playerCamera.transform.rotation);transform.localScale=Vector3.one*(height/720);
-            var root=(RectTransform)transform;float width=720*playerCamera.aspect;root.sizeDelta=new Vector2(width,720);
-            float band=VRUIReadingLayout.LetterboxHeight;
-            top.sizeDelta=bottom.sizeDelta=new Vector2(width+20,band);float slide=Mathf.SmoothStep(0,1,Amount)*band;
-            top.anchoredPosition=new Vector2(0,360+band*.5f-slide);bottom.anchoredPosition=new Vector2(0,-360-band*.5f+slide);
-            fade.sizeDelta=new Vector2(width+20,740);
-            fade.anchoredPosition=Vector2.zero;
+            transform.SetPositionAndRotation(playerCamera.transform.position+playerCamera.transform.forward*distance,ProjectWait.M.Shared.LevelLetterboxLayout.LevelRotation(playerCamera.transform.forward,ref levelRight));transform.localScale=Vector3.one*(height/720);
+            var root=(RectTransform)transform;
+            ProjectWait.M.Shared.LevelLetterboxLayout.LayoutDesktop(playerCamera,root,top,bottom,Amount);
+            fade.sizeDelta=root.sizeDelta*1.05f;fade.anchoredPosition=(top.anchoredPosition+bottom.anchoredPosition)*.5f;
             top.gameObject.SetActive(Amount>0);bottom.gameObject.SetActive(Amount>0);
         }
 
         void PositionStereo()
         {
             VRUIReadingLayout.SetPlane(transform,playerCamera.transform);
+            transform.rotation=ProjectWait.M.Shared.LevelLetterboxLayout.LevelRotation(playerCamera.transform.forward,ref levelRight);
             // Preserve a fully overscanned comfort blackout while XR projection is starting/reconnecting.
             fade.sizeDelta=new Vector2(2880,2880);fade.anchoredPosition=Vector2.zero;
             if(!StereoUISafeArea.TryCapture(playerCamera,out var frame))
@@ -104,21 +98,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(!playerCamera||!top)return false;
             HideLegacyCaption();
             VRUIReadingLayout.SetPlane(transform,playerCamera.transform);
-            stereoReady=planeCache.Get(frame,transform,out _,out var coverage,out _,out _);
+            transform.rotation=ProjectWait.M.Shared.LevelLetterboxLayout.LevelRotation(playerCamera.transform.forward,ref levelRight);
+            stereoReady=ProjectWait.M.Shared.LevelLetterboxLayout.LayoutStereo(playerCamera,frame,(RectTransform)transform,top,bottom,Amount,out var coverage);
             if(!stereoReady){top.gameObject.SetActive(false);bottom.gameObject.SetActive(false);return false;}
-            ((RectTransform)transform).sizeDelta=coverage.size;
             float overscan=coverage.height*.02f;
-            var lv=planeCache.LeftVertical;var rv=planeCache.RightVertical;
-            float band=Mathf.Min(lv.y-lv.x,rv.y-rv.x)*(VRUIReadingLayout.LetterboxHeight/720);
-            float outer=coverage.yMin-overscan;
-            float inner=LowerBandEdge(lv,rv,Amount);
-            float topOuter=coverage.yMax+overscan;
-            float topInner=Mathf.Min(lv.y,rv.y)-band*Mathf.SmoothStep(0,1,Amount);
-            // Equal-sized backgrounds; any canted/asymmetric excess stays offscreen.
-            float thickness=Mathf.Max(inner-outer,topOuter-topInner);
-            top.sizeDelta=bottom.sizeDelta=new Vector2(coverage.width+overscan*2,thickness);
-            bottom.anchoredPosition=new Vector2(coverage.center.x,inner-thickness*.5f);
-            top.anchoredPosition=new Vector2(coverage.center.x,topInner+thickness*.5f);
             bottom.gameObject.SetActive(Amount>0);
             top.gameObject.SetActive(Amount>0);
             fade.sizeDelta=coverage.size+Vector2.one*(overscan*2);

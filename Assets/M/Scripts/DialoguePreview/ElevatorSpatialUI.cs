@@ -6,7 +6,7 @@ using DwtD.TestScene;
 
 namespace ProjectWait.M.Elevator.DialoguePreview
 {
-    // VR dialogue keeps its placement pose; PC captions retain their existing following behaviour.
+    // All spoken lines use the same source-anchored world bubble on PC and VR.
     [RequireComponent(typeof(CanvasGroup))]
     public sealed class ElevatorSpatialUI : MonoBehaviour
     {
@@ -82,7 +82,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         readonly System.Collections.Generic.List<Vector3> readingGeometryCorners = new System.Collections.Generic.List<Vector3>();
         Bounds readingBounds;
         readonly ElevatorSpeechAnchor speechAnchor = new ElevatorSpeechAnchor();
-        ElevatorPlayerSpeechPanel playerSpeech;
         public bool IsPlayerSpeaking=>!complete&&speaker&&speaker.text=="나"&&view&&view.dialogueText&&!string.IsNullOrEmpty(view.dialogueText.text);
         public ElevatorCinematicOverlay CinematicOverlay=>Overlay;
         public Transform SpeechSource => speechAnchor.Source;
@@ -113,7 +112,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         }
 
         void OnEnable(){Application.onBeforeRender+=PositionHud;}
-        void OnDisable(){Application.onBeforeRender-=PositionHud;if(playerSpeech)playerSpeech.Hide();}
+        void OnDisable(){Application.onBeforeRender-=PositionHud;}
 
         public void Present(string who, string line, string objective)
         {
@@ -130,22 +129,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 view.dialogueText.text = ElevatorDialogue.IdentitySearchHint(f.HintLevel);
             }
             speaker.text = who;
-            view.actionPanel.SetParent(complete ? rightPage : view.transform, false);
+            view.actionPanel.SetParent(view.transform, false);
             view.actionPanel.localScale = Vector3.one;
-            if(complete)
-            {
-                view.dialogueText.text = ElevatorDialogue.Complete;
-                SetPanelVisible(view.dialoguePanel,false);
-                bool[] done = {f.HelpRequested, f.LocationReported, f.SafeWallReached, f.ReadyToExit};
-                for(int i=0;i<completionMarks.Length;i++)
-                {
-                    completionMarks[i].text = done[i] ? "완료" : "돌아보기";
-                    completionMarks[i].color = done[i] ? Teal : Ink;
-                }
-                notebookCaption.text = "안에서는 뛰지 않아요.";
-                notebookDetail.text = "";
-            }
-            notebook.gameObject.SetActive(complete);
+            if(complete)view.dialogueText.text="";
+            if(notebook)notebook.gameObject.SetActive(false);
             progress.gameObject.SetActive(!complete);
             string source=view.dialogueText.text;
             bool changed=dialogueRun!=view.lesson.RunVersion||dialogueSource!=source||dialogueSpeaker!=who;
@@ -271,6 +258,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
 
         public void ShowHistory()
         {
+            if(!notebook)return; // Legacy preview API; the experience no longer has a notebook.
             Transitions?.Begin();
             string[] titles = {"01  도움을 요청했어요", "02  위치를 전달했어요", "03  문에서 떨어져 기다렸어요", "04  안내에 따라 이동했어요"};
             string[] details = {
@@ -311,30 +299,29 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             speakerTab.anchoredPosition = new Vector2(-width*.5f+speakerTab.rect.width*.5f+24,height*.5f+5);
             speaker.rectTransform.sizeDelta = speakerTab.sizeDelta-new Vector2(22,4);
             speaker.rectTransform.anchoredPosition = Vector2.zero;
-            view.actionPanel.sizeDelta = complete ? new Vector2(438,72) : new Vector2(width,100*view.ChoiceButtons.Count);
+            view.actionPanel.sizeDelta = new Vector2(width,100*view.ChoiceButtons.Count);
             float buttonY=0;
             for(int i=0;i<view.ChoiceButtons.Count;i++)
             {
                 var button = view.ChoiceButtons[i];
                 if(!button)continue;
-                float buttonWidth = complete ? 211 : button.name=="DialogueNext"?190:width;
+                float buttonWidth = button.name=="DialogueNext"?190:width;
                 var r = (RectTransform)button.transform;
                 var label = button.GetComponentInChildren<TMP_Text>();
-                ElevatorTypography.Apply(label,complete?24:button.name=="DialogueNext"?ElevatorTypography.NextSize:ElevatorTypography.ChoiceSize);
-                if(complete)label.text = i==0 ? "함께한 일 보기" : "다시 해보기";
+                ElevatorTypography.Apply(label,button.name=="DialogueNext"?ElevatorTypography.NextSize:ElevatorTypography.ChoiceSize);
                 float padding=buttonWidth<300?38:storybook?64:44;
                 float minimumHeight=complete?82:76;
                 // Storybook artwork insets the final label by 26 pixels vertically.
                 // Measure enough padding for that final rectangle, not the pre-skin size.
                 float buttonHeight=Mathf.Max(minimumHeight,label.GetPreferredValues(label.text,buttonWidth-padding,0).y+32);
                 r.sizeDelta=new Vector2(buttonWidth,buttonHeight);
-                r.anchoredPosition=complete?new Vector2((i-.5f)*227,0):new Vector2(0,-buttonY-buttonHeight*.5f);
+                r.anchoredPosition=new Vector2(0,-buttonY-buttonHeight*.5f);
                 r.localPosition=new Vector3(r.localPosition.x,r.localPosition.y,-1);
                 label.rectTransform.sizeDelta=r.sizeDelta-new Vector2(44,20);
                 buttonY+=buttonHeight+12;
             }
-            if(!complete)view.actionPanel.sizeDelta=new Vector2(width,Mathf.Max(0,buttonY-12));
-            view.actionPanel.anchoredPosition=complete?new Vector2(0,-216):new Vector2(0,-height*.5f-24);
+            view.actionPanel.sizeDelta=new Vector2(width,Mathf.Max(0,buttonY-12));
+            view.actionPanel.anchoredPosition=complete?new Vector2(0,view.actionPanel.rect.height*.5f):new Vector2(0,-height*.5f-24);
             if(storybook)storybook.LayoutWorld(xr);
             PrepareDialogueReader();
             // Rotate the whole reading column around its centre, not around the body
@@ -447,11 +434,27 @@ namespace ProjectWait.M.Elevator.DialoguePreview
 
         void PositionWorld()
         {
-            if(IsPlayerSpeaking){EnsurePlayerSpeech().Refresh(XRSettings.isDeviceActive);return;}
-            if(playerSpeech)playerSpeech.Hide();
             var lesson=view.lesson;
             var f=lesson.Flow;
             var step=f!=null?f.Step:ElevatorStep.Lobby;
+            if(complete)
+            {
+                // Just two world buttons, latched once in front of the player, not on a book.
+                bool xr=XRSettings.isDeviceActive;
+                if(xr)stereoReady=StereoUISafeArea.TryCapture(view.playerCamera,out _);
+                if(placedStep!=step||placedRun!=lesson.RunVersion)
+                {
+                    var eye=view.playerCamera.transform;
+                    var forward=Vector3.ProjectOnPlane(eye.forward,Vector3.up).normalized;
+                    if(forward.sqrMagnitude<.001f)forward=Vector3.forward;
+                    dialoguePosition=eye.position+forward*1.8f-Vector3.up*.1f;
+                    placedStep=step;placedRun=lesson.RunVersion;
+                }
+                var facing=dialoguePosition-view.playerCamera.transform.position;
+                transform.SetPositionAndRotation(dialoguePosition,Quaternion.LookRotation(facing,Vector3.up));
+                transform.localScale=Vector3.one*(xr?VRUIReadingLayout.Distance/VRUIReadingLayout.PointsPerRadian*StereoUISafeArea.VisualScale:worldPixelSize);
+                return;
+            }
             if(XRSettings.isDeviceActive)
             {
                 stereoReady=StereoUISafeArea.TryCapture(view.playerCamera,out var frame);
@@ -467,27 +470,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             transform.SetPositionAndRotation(dialoguePosition,dialogueRotation);
             transform.localScale=dialogueScale;
             if(storybook)storybook.PointSpeechTail(speechAnchor.SourcePoint);
-            if(placedStep!=step||placedRun!=lesson.RunVersion)
-            {
-                // Place the book once when the stage changes; subsequent gaze changes do not move it.
-                var camera=view.playerCamera.transform;
-                var bookRotation=Quaternion.Euler(0,camera.eulerAngles.y,0);
-                notebook.SetPositionAndRotation(camera.position+bookRotation*(Vector3.forward*notebookDistance+notebookOffset),bookRotation*Quaternion.Euler(notebookTilt));
-                notebook.localScale=Vector3.one*notebookScale;
-                placedStep=step;placedRun=lesson.RunVersion;
-            }
-            if(complete&&notebook)
-            {
-                var direction=notebook.position-view.playerCamera.transform.position;
-                if(direction.sqrMagnitude>.001f)notebook.rotation=Quaternion.LookRotation(direction,Vector3.up)*Quaternion.Euler(notebookTilt);
-            }
-        }
-
-        ElevatorPlayerSpeechPanel EnsurePlayerSpeech()
-        {
-            if(playerSpeech)return playerSpeech;
-            var go=new GameObject("Player speech screen panel",typeof(RectTransform));go.transform.SetParent(view.lesson.transform,false);
-            playerSpeech=go.AddComponent<ElevatorPlayerSpeechPanel>();playerSpeech.Initialize(this);return playerSpeech;
+            placedStep=step;placedRun=lesson.RunVersion;
         }
 
         public void SetCinematicVisibility() => SetCinematicVisibility(XRSettings.isDeviceActive);
@@ -509,12 +492,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             // The letterbox and full-screen comfort fade remain separate owners.
             DialogueDeferredForSubtitle=false;
             worldGroup.alpha=invalidStereo||covered||paused||!content?0:1;worldGroup.interactable=!invalidStereo&&!view.lesson.CinematicBlocking;worldGroup.blocksRaycasts=worldGroup.interactable;
-            if(IsPlayerSpeaking)
-            {
-                worldGroup.alpha=0;worldGroup.interactable=worldGroup.blocksRaycasts=false;
-                EnsurePlayerSpeech().Refresh(vr);
-            }
-            else if(playerSpeech)playerSpeech.Hide();
             float goal=f.IsCinematic?0:1;
             if(hudVisibilityRun!=view.lesson.RunVersion||!Application.isPlaying)
             {
@@ -527,7 +504,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             }
             hudGroup.alpha=paused?0:hudOpacity;hudGroup.interactable=false;hudGroup.blocksRaycasts=false;
             if(statusGroup)statusGroup.alpha=paused?0:statusOpacity;
-            if(notebook)notebook.gameObject.SetActive(complete&&!paused);
+            if(notebook)notebook.gameObject.SetActive(false);
         }
 
         bool ShowInitialControls()=>!complete&&!view.lesson.IsPaused&&view.lesson.Flow.Step==ElevatorStep.Lobby&&view.lesson.Flow.Elapsed<12;
@@ -607,7 +584,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
 
         bool LookingAtDialogue()
         {
-            if(IsPlayerSpeaking)return playerSpeech&&playerSpeech.LookingAtPanel();
             if(screenOnly||!view.dialoguePanel.gameObject.activeInHierarchy||string.IsNullOrEmpty(view.dialogueText.text))return false;
             if(worldGroup&&worldGroup.alpha<=.01f)return false;
             var canvas=GetComponent<Canvas>();if(canvas&&!canvas.enabled)return false;
@@ -732,7 +708,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             hud.enabled=true;
             var statusArea=hudReadingArea;
             if(Overlay&&Overlay.TryGetSubtitleLocalRect(root,out var subtitle))statusArea=VRUIReadingLayout.Above(statusArea,subtitle);
-            if(playerSpeech&&playerSpeech.TryGetExclusion(root,out var playerRegion))statusArea=VRUIReadingLayout.Above(statusArea,playerRegion);
             mission.localScale=Vector3.one*StereoUISafeArea.VisualScale;
             StatusFits=VRUIReadingLayout.Place(mission,root,statusArea,VRUIReadingLayout.StatusYaw,VRUIReadingLayout.StatusPitch,out _)&&
                 VRUIReadingLayout.Project(frame,mission,out var projected,true);
@@ -742,7 +717,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(progressBackdrop)VRUIReadingLayout.Place(progressBackdrop,root,hudReadingArea,-16,20,out _);
             var controlsArea=hudReadingArea;
             if(Overlay&&Overlay.TryGetSubtitleLocalRect(root,out subtitle))controlsArea=VRUIReadingLayout.Above(controlsArea,subtitle);
-            if(playerSpeech&&playerSpeech.TryGetExclusion(root,out playerRegion))controlsArea=VRUIReadingLayout.Above(controlsArea,playerRegion);
             if(controls)VRUIReadingLayout.Place(controls.rectTransform,root,controlsArea,0,-20,out _);
             if(controlsBackdrop)VRUIReadingLayout.Place(controlsBackdrop,root,controlsArea,0,-20,out _);
             return StatusFits;

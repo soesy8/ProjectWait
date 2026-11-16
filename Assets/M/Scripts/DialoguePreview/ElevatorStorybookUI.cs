@@ -302,6 +302,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public void SkinPause(ElevatorPauseMenu pause)
         {
             if (!pause || !pause.canvas) return;
+            if (pause.useSharedArtwork) return; // The shared crosswalk prefab owns all menu typography/layout.
             foreach (var graphic in pause.canvas.GetComponentsInChildren<CorridorBubbleGraphic>(true))
             {
                 if (graphic.GetComponent<UnityEngine.UI.Button>()) continue;

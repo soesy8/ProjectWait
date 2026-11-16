@@ -22,7 +22,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public static void Apply(TMP_Text text, float size, bool bold = true)
         {
             if (!text) return;
-            text.fontSize = size;
+            text.fontSize = size*ProjectWait.M.Shared.ExperiencePreferences.Current.text;
             text.fontStyle = bold ? FontStyles.Bold : FontStyles.Normal;
             text.fontWeight = bold ? FontWeight.Bold : FontWeight.Regular;
             text.enableAutoSizing = false;

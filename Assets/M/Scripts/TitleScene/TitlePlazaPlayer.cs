@@ -38,6 +38,13 @@ namespace ProjectWait.M.TitleScene
         InputAction aimPose, selectTrigger;
         bool hadValidAim;
         TitleLobbyControllerVisuals controllerVisuals;
+        LobbyControllerRay sharedRay;
+        readonly ProjectWait.M.Elevator.DialoguePreview.ElevatorXRHeightCalibration heightCalibration=new ProjectWait.M.Elevator.DialoguePreview.ElevatorXRHeightCalibration();
+        float trackedHeightOffset;
+        int heightFrame=-1;
+        public void RequestHeightCalibration(){heightCalibration.Request(true);}
+        public const string HeightPrompt="눈높이를 맞추려면 트리거를 누른 뒤\n잠시 가만히 있어 주세요.";
+        void TrackingOriginChanged(XRInputSubsystem subsystem){heightCalibration.Request();}
 
         void Awake() { Controller = GetComponent<CharacterController>(); }
         void OnEnable()
@@ -59,6 +66,7 @@ namespace ProjectWait.M.TitleScene
         }
         void RefreshMode()
         {
+            eyeHeight=ProjectWait.M.Shared.ExperiencePreferences.EyeHeight;lookSensitivity=ProjectWait.M.Shared.ExperiencePreferences.LookSensitivity;
             bool vr = XRSettings.isDeviceActive && (XRSettings.loadedDeviceName ?? "").IndexOf("mock", System.StringComparison.OrdinalIgnoreCase) < 0;
             if (modeConfigured && vr == IsVR) return;
             modeConfigured = true;
@@ -77,12 +85,14 @@ namespace ProjectWait.M.TitleScene
             else
             {
                 if (controllerVisuals == null) controllerVisuals = new TitleLobbyControllerVisuals(transform,controllerRay,leftControllerVisual,rightControllerVisual,aimPose);
+                if(sharedRay==null&&controllerRay&&ProjectWait.M.Shared.StoryMusic.Current)
+                {var style=ProjectWait.M.Shared.StoryMusic.Current.GetComponent<ProjectWait.M.Shared.SharedControllerRays>();if(style)sharedRay=new LobbyControllerRay(transform,controllerRay,style);}
                 SetMouseLock(false);
                 SubsystemManager.GetSubsystems(inputSubsystems);
-                foreach (var subsystem in inputSubsystems) if (subsystem.running) subsystem.TrySetTrackingOriginMode(TrackingOriginModeFlags.Floor);
+                foreach (var subsystem in inputSubsystems) if (subsystem.running) {subsystem.trackingOriginUpdated-=TrackingOriginChanged;subsystem.trackingOriginUpdated+=TrackingOriginChanged;subsystem.TrySetTrackingOriginMode(TrackingOriginModeFlags.Floor);}
             }
             hasSafeHead = false;
-            controllerVisuals?.Update(vr && !transitionHudHidden);
+            controllerVisuals?.Update(vr && !transitionHudHidden,trackedHeightOffset);
         }
         void Update()
         {
@@ -146,6 +156,7 @@ namespace ProjectWait.M.TitleScene
             pose.Apply(transform, viewCamera.transform, floor, IsVR, footprint);
             eyeHeight = pose.EyeHeight;
             FeetOffset = floor - transform.position.y;
+            if(IsVR)heightCalibration.AcceptTransferredHeight();
             if (Controller) Controller.center = new Vector3(0, Controller.height * .5f + FeetOffset, 0);
             if (!IsVR)
             {
@@ -166,7 +177,7 @@ namespace ProjectWait.M.TitleScene
             var forward = Vector3.ProjectOnPlane(viewCamera.transform.forward, Vector3.up).normalized;
             var right = Vector3.Cross(Vector3.up, forward);
             verticalSpeed = Controller.isGrounded ? -1.5f : Mathf.Max(-12, verticalSpeed - 18 * seconds);
-            Controller.Move(((forward * input.y + right * input.x) * speed + Vector3.up * verticalSpeed) * seconds);
+            Controller.Move(((forward * input.y + right * input.x) * ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed + Vector3.up * verticalSpeed) * seconds);
             ConstrainToPlaza();
         }
         public void ConstrainToPlaza()
@@ -180,11 +191,21 @@ namespace ProjectWait.M.TitleScene
         void ApplyTrackedHead()
         {
             if (!IsVR || !viewCamera) return;
-            controllerVisuals?.Update(!transitionHudHidden);
             var head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
             if (head.TryGetFeatureValue(UnityEngine.XR.CommonUsages.devicePosition, out Vector3 p))
-            { if (p.y < .4f) p.y += eyeHeight; viewCamera.transform.localPosition = p; }
+            {
+                if (p.y < .4f) p.y += eyeHeight;
+                if(heightFrame!=Time.frameCount)
+                {
+                    heightFrame=Time.frameCount;bool known=head.TryGetFeatureValue(UnityEngine.XR.CommonUsages.userPresence,out bool present);
+                    bool tracked=head.TryGetFeatureValue(UnityEngine.XR.CommonUsages.isTracked,out bool value)&&value;
+                    if(heightCalibration.Observe(p.y,tracked,known?(bool?)present:null,Time.unscaledDeltaTime))
+                        trackedHeightOffset=FloorHeight+eyeHeight-transform.position.y-p.y;
+                }
+                p.y+=trackedHeightOffset;viewCamera.transform.localPosition = p;
+            }
             if (head.TryGetFeatureValue(UnityEngine.XR.CommonUsages.deviceRotation, out Quaternion r)) viewCamera.transform.localRotation = r;
+            controllerVisuals?.Update(!transitionHudHidden,trackedHeightOffset);
             var current = viewCamera.transform.position;
             if (hasSafeHead)
             {
@@ -212,9 +233,18 @@ namespace ProjectWait.M.TitleScene
             {
                 bool trigger = selectTrigger != null && selectTrigger.IsPressed();
                 bool valid = TryGetAimRay(out ray);
+                if(heightCalibration.Pending)
+                {
+                    if(LastMessage!=HeightPrompt)ShowMessage(HeightPrompt);
+                    if(valid&&trigger&&!oldTrigger)heightCalibration.Request(true);
+                    oldTrigger=trigger;hadValidAim=false;sharedRay?.Hide();if(controllerRay)controllerRay.enabled=false;
+                    if(hovered){hovered.SetHovered(false);hovered=null;}return;
+                }
+                if(LastMessage==HeightPrompt){LastMessage="";if(messageText)messageText.text="";}
                 if (controllerRay) controllerRay.enabled = valid && !transitionHudHidden;
                 if (!valid)
                 {
+                    sharedRay?.Hide();
                     controllerVisuals?.ShowPointer(default, false, false);
                     if (hovered) hovered.SetHovered(false);
                     hovered = null; hadValidAim = false; oldTrigger = trigger;
@@ -229,8 +259,8 @@ namespace ProjectWait.M.TitleScene
             }
             var target = TraceInteraction(ray, out var end);
             if (target != hovered) { if (hovered) hovered.SetHovered(false); hovered = target; if (hovered) hovered.SetHovered(true); }
-            if (controllerRay && IsVR) { controllerRay.SetPosition(0, ray.origin); controllerRay.SetPosition(1, end); }
-            if (IsVR) controllerVisuals?.ShowPointer(end, true, target != null);
+            if(IsVR)sharedRay?.Set(ray,true,end,target,pressed);
+            if (IsVR) controllerVisuals?.ShowPointer(end, false, false);
             if (pressed && hovered) hovered.Activate();
         }
         public TitlePortal TraceInteraction(Ray ray, out Vector3 end)
@@ -244,7 +274,7 @@ namespace ProjectWait.M.TitleScene
         {
             ray = default;
             if(!TitleControllerPose.TryRead(aimPose,out var p,out var q))return false;
-            ray=new Ray(transform.TransformPoint(p),transform.TransformDirection(q*Vector3.forward));return true;
+            ray=new Ray(transform.TransformPoint(p+Vector3.up*trackedHeightOffset),transform.TransformDirection(q*Vector3.forward));return true;
         }
         public void ShowMessage(string message)
         { LastMessage = message; messageUntil = Time.unscaledTime + 3; if (messageText) messageText.text = message; }
@@ -260,6 +290,7 @@ namespace ProjectWait.M.TitleScene
                 rayBeforeTransition = controllerRay && controllerRay.enabled;
                 if (desktopHints) desktopHints.enabled = false;
                 if (controllerRay) controllerRay.enabled = false;
+                sharedRay?.Hide();
                 controllerVisuals?.Update(false);
             }
             else
@@ -271,8 +302,10 @@ namespace ProjectWait.M.TitleScene
         void OnDisable()
         {
             Application.onBeforeRender -= ApplyTrackedHead;
+            foreach(var subsystem in inputSubsystems)if(subsystem!=null)subsystem.trackingOriginUpdated-=TrackingOriginChanged;
             aimPose?.Dispose(); selectTrigger?.Dispose(); aimPose = selectTrigger = null;
             controllerVisuals?.Dispose(); controllerVisuals = null; modeConfigured = false;
+            sharedRay?.Dispose();sharedRay=null;
             hadValidAim = oldTrigger = false;
             SetTransitionHudHidden(false); if (controllerRay) controllerRay.enabled = false;
             if (hovered) hovered.SetHovered(false); hovered = null; SetMouseLock(false);

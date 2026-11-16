@@ -165,25 +165,22 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
             SetObservations(false); m_SharedUI.HideAll(); // 횡단을 시작하면 행동 안내와 남은 물체 입력을 정리합니다.
             m_Friend.SetScenarioApproachLimit(null); m_Friend.SetScenarioApproachSpeed(1.35f); // 위험 선택 제한점 없이 반대편 인도까지 걸어가게 합니다.
             Vector3 friendStart = m_Friend.transform.position; // 같은 쪽 인도에서 출발한 친구를 기준으로 플레이어 이동량을 계산합니다.
-            if (CarBumperProgress(true) < m_CrosswalkHalfWidth || !m_Friend.TryBeginCrossing()) // 통과 상태와 횡단 경로가 유효한 경우에만 둘 다 이동합니다.
+            if (CarBumperProgress(true) < m_CrosswalkHalfWidth || !m_Friend.CanReceiveCrossCommand) // 통과 상태와 횡단 경로가 유효한 경우에만 둘 다 이동합니다.
             { // 안전 조건이나 이동이 거절되면 마지막 관찰로 돌아갑니다.
                 Debug.LogError("차량 통과 확인 후 공통 친구의 안전 횡단을 시작하지 못했습니다.", this); yield return RestoreObservation(); yield break; // 결과가 시작되지 않은 상태에서 완료 처리하지 않습니다.
             } // 실제 횡단이 시작되면 발소리와 플레이어 이동을 함께 연결합니다.
-            m_State = StageState.Crossing; m_WalkAudio.SetActive(true); m_SharedUI.ShowCinematicCaption("", "앞을 보면서 천천히 같이 건너자."); // 실제 친구와 플레이어의 횡단 위에 M 방식 자동 자막을 표시합니다. // 횡단 중에도 플레이어는 주위를 자유롭게 볼 수 있습니다.
-            m_SharedUI.SetMovementLetterbox(true);
-            float crossingDeadline = Time.unscaledTime + m_Friend.ScenarioTravelBudget; // 횡단 경로가 중단된 경우 복원하기 위한 최대 대기 시간입니다.
-            while (!m_Friend.HasCompletedCrossing && m_Friend.isActiveAndEnabled && Time.unscaledTime < crossingDeadline) // 친구 이동기가 반대편 인도에 도착했다고 기록할 때까지만 기다립니다.
-            { // 같은 거리와 높이 변화를 적용해 플레이어가 친구 옆의 흰 줄을 따라 이동합니다.
-                m_Origin.Origin.transform.position = m_ReadyPlayerPosition + (m_Friend.transform.position - friendStart); // 루트 위치만 움직여 사용자가 보고 있는 방향을 유지합니다.
-                yield return null; // 다음 실제 보행 이동에 맞춰 플레이어를 갱신합니다.
-            } // 별도의 정지 시간이나 애니메이션 종료 신호로 도착을 추정하지 않습니다.
+            m_State = StageState.Crossing; m_WalkAudio.Stop();
+            yield return ProjectWait.M.Shared.ComfortBlackout.Relocate(m_SharedUI, () =>
+            {
+                if(!m_Friend.CompleteScenarioCrossingUnderBlackout())return;
+                m_Origin.Origin.transform.position=m_ReadyPlayerPosition+(m_Friend.transform.position-friendStart);
+                if(m_ViewInput)m_ViewInput.PlaceScenarioHeading(90f,m_Friend.transform.position-friendStart);
+                m_Friend.FaceScenarioTarget(m_Viewer.transform);
+            });
             if (!m_Friend.HasCompletedCrossing) { Debug.LogWarning("친구가 횡단 도착점에 이르지 못해 관찰을 복원합니다.", this); yield return RestoreObservation(); yield break; } // 이동이 끊긴 상태로 체험을 완료하지 않습니다.
-            m_Origin.Origin.transform.position = m_ReadyPlayerPosition + (m_Friend.transform.position - friendStart); // 감속한 마지막 이동까지 같은 인도에 도착한 플레이어 위치에 반영합니다.
             m_WalkAudio.Stop(); m_State = StageState.Arrival; // 완전히 도착한 뒤에만 회전을 시작합니다.
             m_SharedUI.HideAll(); // 횡단 중 대사는 닫되 도착 회전이 끝날 때까지 이동 레터박스는 유지합니다.
             m_Friend.FaceScenarioTarget(m_Viewer.transform); // 도착한 친구가 옆의 플레이어를 자연스럽게 돌아봅니다.
-            Vector3 crossingDirection = m_Friend.transform.position - friendStart;
-            if (m_ViewInput != null) yield return m_ViewInput.TurnScenarioView(90f, 0.9f, crossingDirection); // 횡단 진행 방향에서 우측 90도로 돌아 옆의 친구를 다시 바라봅니다.
             m_SharedUI.SetMovementLetterbox(false);
             StartCoroutine(m_Performance.AcknowledgeWaiting()); // 감사 동작은 결과 진행과 나란히 재생합니다.
             yield return m_SharedUI.PlayCaption("친구", "덕분에 안전하게 건넜어. 같이 살펴봐서 다행이야!", 3f); // 실제 반대편 인도에 도착한 뒤 친구의 감사 대사를 자동으로 보여 줍니다.

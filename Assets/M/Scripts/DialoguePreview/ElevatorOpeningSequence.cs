@@ -18,9 +18,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public static float FadeAlpha(float elapsed) =>
             1 - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(FadeHold, FadeDuration, elapsed));
 
-        // The later HMD travel fade shares the same departure clock as the startup reveal.
-        public static float ComfortFadeAlpha(float elapsed, bool xr) => xr ? 1 - Mathf.SmoothStep(0, 1,
-            Mathf.InverseLerp(.12f, .65f, Mathf.Abs(elapsed - TeleportAt))) : 0;
+        // Legacy preview API: live XR now walks the same continuous route as PC.
+        public static float ComfortFadeAlpha(float elapsed, bool xr) => 0;
 
         public static string Caption(float elapsed) =>
             elapsed < 5 ? ElevatorDialogue.Caption("친구", FriendLine) : DepartureLine;
@@ -100,7 +99,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
 
         public static float ViewYaw(Vector3 start, Vector3 threshold, Vector3 end, float elapsed, float begins, float finishes, bool xr)
         {
-            // Headsets retain their live gaze and faded teleport; no visible forced HMD rotation.
+            // Headsets retain their live gaze during the smooth authored walk.
             if (xr) return 0;
             var current = WalkPath(start, threshold, end, elapsed, begins, finishes);
             var ahead = WalkPath(start, threshold, end, elapsed + .85f, begins, finishes);

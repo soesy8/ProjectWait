@@ -78,7 +78,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         }
         public bool Process(IXRSelectInteractor interactor, IXRSelectInteractable interactable) => CanActivate;
         bool IXRHoverFilter.Process(IXRHoverInteractor interactor, IXRHoverInteractable interactable) => CanActivate;
-        public void Activate() { if(!CanActivate)return; if(feedback&&(clue!=ElevatorClue.Intercom||lesson.Flow.Step==ElevatorStep.Stopped))feedback.Press(); lesson.Activate(clue); }
+        public void Activate() { if(!CanActivate)return;var controls=FindFirstObjectByType<ElevatorDesktopControls>();if(controls&&!controls.FreshClickReady)return; if(feedback&&(clue!=ElevatorClue.Intercom||lesson.Flow.Step==ElevatorStep.Stopped))feedback.Press(); lesson.Activate(clue); }
         public void ResetHover()
         {
             hovered=false;hoverBlend=0;
@@ -106,17 +106,17 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             float amount=duration>0?1-Mathf.Exp(-5*Time.unscaledDeltaTime/duration):1;
             hoverBlend=visible?Mathf.Lerp(hoverBlend,hovered?1:0,amount):0;
             if(Mathf.Abs(hoverBlend-(hovered?1:0))<.001f)hoverBlend=hovered&&visible?1:0;
-            // Four main cabin choices stay discoverable. All use the same orange,
-            // including optional reading; colour never identifies the correct reply.
-            float cue=visible&&lesson.scenario&&lesson.scenario.IsGuidanceTarget(clue)?
-                .45f+.35f*lesson.scenario.GuidanceBlend:0;
-            float attention=Mathf.Max(hoverBlend,cue);
-            outlineTarget.idleColor=outlineTarget.hoverColor=Color.Lerp(new Color(1,.55f,.18f),new Color(1,.73f,.36f),hoverBlend);
-            outlineTarget.idleWidth=outlineTarget.hoverWidth=Mathf.Lerp(PersistentSelectable?2.2f:0,4.0f,attention);
-            outlineTarget.idleHalo=outlineTarget.hoverHalo=Mathf.Lerp(0,.05f,attention);
-            outlineTarget.SetPresentation(visible&&(PersistentSelectable||attention>.001f),hovered,false);
+            // Match the crosswalk's available-orange / pointed-blue semantics.
+            // Reading stays available after inspecting; no colour reveals a safe reply.
+            outlineTarget.idleColor=new Color(1,.70f,.28f,1);outlineTarget.hoverColor=new Color(.32f,.84f,1,1);
+            outlineTarget.idleWidth=6.5f;outlineTarget.hoverWidth=10.4f;outlineTarget.idleHalo=20;outlineTarget.hoverHalo=32;
+            outlineTarget.colorTransitionDuration=.25f;outlineTarget.constantScreenSize=true;
+            bool guidance=visible&&lesson.scenario&&lesson.scenario.IsGuidanceTarget(clue);
+            outlineTarget.SetPresentation(visible&&(PersistentSelectable||hovered||guidance),hovered,hovered||guidance);
+            if(guidance&&Time.unscaledTime>=nextGuideFlash){outlineTarget.Flash();nextGuideFlash=Time.unscaledTime+1.1f;}
         }
         void OnDisable() { ResetHover(); }
+        float nextGuideFlash;
         void OnDestroy() { if(interaction){interaction.selectFilters.Remove(this);interaction.hoverFilters.Remove(this);} }
     }
 }

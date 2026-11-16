@@ -55,12 +55,20 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         InputAction restartAction,developerAction,clickAction;
         int pendingChoice=-1,pendingRevision,pendingRun,clickRevision,clickRun,viewRevision=-1;
         bool pendingRestart,pendingDeveloper,pendingClick;
+        readonly ProjectWait.M.Shared.FreshPressGate clickGate=new ProjectWait.M.Shared.FreshPressGate();
+        int guardedRevision=-1;
+        UnityEngine.XR.Interaction.Toolkit.Interactors.NearFarInteractor[] hands;
+        public bool FreshClickReady=>clickGate.Ready;
+        public void RequireFreshChoiceClick(){clickGate.Arm(Time.unscaledTimeAsDouble);pendingClick=false;}
         static readonly Color Idle=new Color(.85f,.94f,1),Target=new Color(.35f,.86f,1),OutOfRange=new Color(1,.70f,.28f);
         void OnEnable()
         {
             Application.onBeforeRender+=CompleteAuthoredSpawn;
             tint=new MaterialPropertyBlock();if(laserDot)dotRenderer=laserDot.GetComponent<Renderer>();
             uiModule=FindFirstObjectByType<XRUIInputModule>();
+            if(uiModule)uiModule.finalizeRaycastResults+=FilterFreshClick;
+            hands=xrOrigin?xrOrigin.GetComponentsInChildren<UnityEngine.XR.Interaction.Toolkit.Interactors.NearFarInteractor>(true):null;
+            eyeHeight=ProjectWait.M.Shared.ExperiencePreferences.EyeHeight;sensitivity=ProjectWait.M.Shared.ExperiencePreferences.LookSensitivity;
             choices=System.Array.Empty<InputAction>();
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             choices=new InputAction[4];
@@ -98,6 +106,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         void Update()
         {
             if(!lesson||lesson.Flow==null)return;
+            if(guardedRevision!=lesson.view.InteractionRevision){guardedRevision=lesson.view.InteractionRevision;RequireFreshChoiceClick();}
+            bool held=IsDesktop&&Mouse.current!=null&&(Mouse.current.leftButton.isPressed||Mouse.current.leftButton.wasReleasedThisFrame);
+            if(!IsDesktop&&hands!=null)foreach(var hand in hands)if(hand&&(hand.uiPressInput.ReadIsPerformed()||hand.uiPressInput.ReadWasPerformedThisFrame()))held=true;
+            clickGate.Observe(Time.unscaledTimeAsDouble,held);
             RefreshMode();bool click=pendingClick;pendingClick=false;
             if(lesson.IsPaused&&!ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy)
             {
@@ -209,7 +221,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             if(!capsule)capsule=xrOrigin.GetComponent<CharacterController>();
             bool enabled=capsule&&capsule.enabled;if(enabled)capsule.enabled=false;
-            bool applied=ElevatorSpawnPlacement.TryApply(xrOrigin,targetCamera.transform,footprint,heading,true,true,floorTracking,desiredHeight,out var height);
+            bool applied=ElevatorSpawnPlacement.TryApply(xrOrigin,targetCamera.transform,footprint,heading,true,true,false,ProjectWait.M.Shared.ExperiencePreferences.EyeHeight,out var height);
             if(applied)
             {
                 eyeHeight=height;spawnPending=false;heightCalibration.AcceptTransferredHeight();
@@ -252,6 +264,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         }
         public void ResetView(){if(!IsDesktop)return;SetScriptedHeading(lesson.presentation.space.DefaultHeading);SetMouseLook(true);}
         public void SetScriptedHeading(float value){SetLookAngles(value,0);skipDelta=true;}
+        public void FaceAuthoredHeading(float heading)
+        {
+            if(IsDesktop)SetScriptedHeading(heading);
+            else if(xrOrigin&&targetCamera)
+                xrOrigin.RotateAround(targetCamera.transform.position,Vector3.up,Mathf.DeltaAngle(targetCamera.transform.eulerAngles.y,heading));
+            if(movement)movement.ResetVerticalMotion();
+        }
         public void AddCinematicYaw(float degrees)
         {
             if(IsDesktop)SetLookAngles(yaw+degrees,pitch);
@@ -323,7 +342,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         }
         public void SelectCenterTarget()
         {
-            if(!IsDesktop||!hovered||!lesson||!lesson.IsPaused&&lesson.CinematicBlocking)return;ClickCount++;
+            if(!clickGate.Ready||!IsDesktop||!hovered||!lesson||!lesson.IsPaused&&lesson.CinematicBlocking)return;ClickCount++;
             var observation=hovered.GetComponent<ElevatorObservation>();if(observation&&!lesson.IsPaused){observation.Activate();return;}
             if(pointer==null)return;
             ExecuteEvents.Execute(hovered,pointer,ExecuteEvents.pointerDownHandler);ExecuteEvents.Execute(hovered,pointer,ExecuteEvents.pointerUpHandler);ExecuteEvents.Execute(hovered,pointer,ExecuteEvents.pointerClickHandler);
@@ -337,12 +356,19 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         void OnDisable()
         {
             Application.onBeforeRender-=CompleteAuthoredSpawn;
+            if(uiModule)uiModule.finalizeRaycastResults-=FilterFreshClick;
             foreach(var subsystem in inputSubsystems)if(subsystem!=null)subsystem.trackingOriginUpdated-=TrackingOriginChanged;
             inputSubsystems.Clear();heightCalibration.Request();
             ClearTarget();if(choices!=null)foreach(var a in choices)a.Dispose();restartAction?.Dispose();developerAction?.Dispose();clickAction?.Dispose();
             pendingChoice=-1;pendingRestart=pendingDeveloper=pendingClick=false;
             if(IsDesktop){Cursor.lockState=CursorLockMode.None;Cursor.visible=true;}
             if(centerLaser)centerLaser.enabled=false;if(laserDot)laserDot.gameObject.SetActive(false);if(reticle)reticle.gameObject.SetActive(false);
+        }
+        void FilterFreshClick(PointerEventData data,List<RaycastResult> hits)
+        {
+            if(!clickGate.Ready){hits.Clear();return;}
+            if(lesson&&lesson.IsPaused)hits.RemoveAll(h=>!h.gameObject||!h.gameObject.transform.IsChildOf(lesson.pauseMenu.canvas.transform));
+            else if(lesson&&lesson.CinematicBlocking)hits.Clear();
         }
     }
 }

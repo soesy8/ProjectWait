@@ -113,11 +113,9 @@ namespace Y.Crosswalk // 두 번째 상황의 도입·관찰·행동 선택과 �
             m_SharedUI.HideAll(); m_Friend.SetScenarioPaused(false); // 확인 대사가 끝난 뒤 기존 보행 애니메이션을 다시 켭니다.
             yield return WalkTogetherTo(m_FriendArrival, m_PlayerPoint.position); // 선택한 횡단보도 입구까지 같은 친구와 함께 이동합니다.
             if (Vector3.Distance(m_Friend.transform.position, m_FriendArrival.position) > 0.08f) { Debug.LogError("친구가 선택한 횡단보도 입구까지 도착하지 못했습니다.", this); enabled = false; yield break; } // 실제 도착 이후에만 신호를 보고 출발하려는 장면을 엽니다.
-            m_Origin.Origin.transform.position = m_PlayerPoint.position; foreach (TrafficCarMovement car in m_Cars) car.SetScenarioPaused(true); // 입구에서 접근 중인 차량과 플레이어의 관찰 위치를 유지합니다.
+            foreach (TrafficCarMovement car in m_Cars) car.SetScenarioPaused(true); // 암전 중 정한 플레이어 위치·눈 중심 회전을 다시 덮지 않습니다.
             m_State = StageState.Arriving;
-            m_SharedUI.SetMovementLetterbox(true);
-            if (m_ViewInput != null) yield return m_ViewInput.TurnScenarioView(-90f, 0.9f, m_FriendArrival.position - m_LeavePoint.position); // 보행 방향에서 좌측 90도인 건너편을 바라보도록 현재 시선의 편차도 보정합니다.
-            m_SharedUI.SetMovementLetterbox(false);
+            m_Friend.SetScenarioPaused(false); // 방향 배치는 이미 완전 암전 중에 끝났습니다.
             yield return m_Performance.LookAtTarget(m_GreenSignalPoint, 0.9f); // 도착하기 전부터 이어진 파란불 깜빡임을 끊거나 다시 시작하지 않고 친구가 신호를 바라보게 합니다.
             m_SharedUI.ShowCinematicCaption("친구", "빨리 건너자!"); yield return new WaitForSecondsRealtime(0.9f); // 신호를 보고 서두르는 짧은 대사만 표시합니다.
             if (!m_Friend.TryBeginScenarioFirstStep(m_GreenSignalPoint, m_FirstStepTime)) { Debug.LogError("깜빡이는 파란불에서 친구의 출발 자세를 준비하지 못했습니다.", this); enabled = false; yield break; } // 기존 첫 발을 사용해 친구가 뛰어들려는 순간을 준비합니다.
@@ -125,24 +123,20 @@ namespace Y.Crosswalk // 두 번째 상황의 도입·관찰·행동 선택과 �
         } // 이후 기다리기와 성급한 횡단의 기존 선택 분기로 이어집니다.
 
         private IEnumerator WalkTogetherTo(Transform destination, Vector3 playerDestination) // 길 찾기 전후의 두 보행 구간에서 같은 이동과 시점 보존 처리를 사용합니다.
-        { // 친구의 실제 이동량에 플레이어 위치만 맞추고 시선은 바꾸지 않습니다.
-            Vector3 friendStart = m_Friend.transform.position, playerStart = m_Origin.Origin.transform.position; // 이번 보행 구간의 실제 출발 위치를 보관합니다.
-            if (!m_Friend.TryBeginScenarioDetour(destination)) yield break; // 기존 보행기가 경로를 수락하지 않으면 호출한 도입에서 도착 실패를 처리합니다.
-            m_State = StageState.Walking; m_WalkAudio.SetActive(true); bool carsReleased = false, flashingStarted = false; // 이번 보행 구간에서 차량 출발과 도착 직전의 신호 깜빡임을 각각 한 번만 시작합니다.
-            Vector3 span = Vector3.ProjectOnPlane(destination.position - friendStart, Vector3.up); float deadline = Time.unscaledTime + span.magnitude / Mathf.Max(0.3f, m_WalkSpeed) + 6f; // 실제 구간 길이로 이동 진행도와 도착 대기 범위를 구합니다.
-            m_SharedUI.SetMovementLetterbox(true);
-            try
+        { // 구간 사이의 위치와 도착 방향을 같은 검은 전환으로 한 번만 배치합니다.
+            m_State=StageState.Walking;m_WalkAudio.Stop();m_Friend.SetScenarioPaused(true);
+            yield return ProjectWait.M.Shared.ComfortBlackout.Relocate(m_SharedUI, () =>
             {
-                while (m_Friend.IsScenarioDetouring && Time.unscaledTime < deadline) // 기존 정지 동작이 끝나 실제로 도착할 때까지 동행합니다.
-                { // 친구가 멈추면 플레이어도 같은 위치에서 멈춥니다.
-                    Vector3 walked = Vector3.ProjectOnPlane(m_Friend.transform.position - friendStart, Vector3.up); float progress = Mathf.Clamp01(Vector3.Dot(walked, span) / Mathf.Max(0.01f, span.sqrMagnitude)); // 현재 구간에서 실제로 걸은 비율을 계산합니다.
-                    m_Origin.Origin.transform.position = Vector3.Lerp(playerStart, playerDestination, progress); // 머리와 마우스 회전은 유지하며 플레이어 루트만 함께 이동합니다.
-                    if (!flashingStarted && destination == m_FriendArrival && Vector3.Distance(m_Friend.transform.position, m_FriendArrival.position) <= 3f) { m_Signal.HoldFlashingGreenForScenario(); flashingStarted = true; } // 입구까지 3m 남았을 때 기존 파란불이 깜빡이기 시작해 도착 전후의 신호 흐름을 연결합니다.
-                    if (!carsReleased && Vector3.Distance(m_Friend.transform.position, m_FriendArrival.position) <= m_CarReleaseDistance) { foreach (TrafficCarMovement car in m_Cars) car.SetScenarioPaused(false); carsReleased = true; } // 횡단보도 가까이에 도착했을 때 기존 차로의 차량 접근을 시작합니다.
-                    yield return null; // 다음 실제 보행 프레임의 위치를 기다립니다.
+                m_Friend.PlaceWaitingForScenario(destination);
+                m_Origin.Origin.transform.position=playerDestination;
+                if(destination==m_FriendArrival)
+                {
+                    m_Signal.HoldFlashingGreenForScenario();
+                    if(m_ViewInput)m_ViewInput.PlaceScenarioHeading(-90f,m_FriendArrival.position-m_LeavePoint.position);
                 }
-            }
-            finally { m_SharedUI.SetMovementLetterbox(false); m_WalkAudio.Stop(); }
+                if(Vector3.Distance(destination.position,m_FriendArrival.position)<=m_CarReleaseDistance)
+                    foreach(var car in m_Cars)car.SetScenarioPaused(false);
+            });
         } // 다음 보행은 실제 횡단보도 선택이 끝난 뒤에만 시작합니다.
 
         private void LateUpdate() // 실제 골격과 차체 이동이 적용된 프레임에서 관찰을 정지합니다.

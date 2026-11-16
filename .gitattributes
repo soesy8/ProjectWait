@@ -1,0 +1,27 @@
+# Keep Unity source and serialized text consistent on Windows and other platforms.
+# More-specific Git LFS rules in asset folders remain authoritative.
+* text=auto
+
+.gitattributes text eol=lf
+.gitignore text eol=lf
+*.cs text eol=lf
+*.shader text eol=lf
+*.hlsl text eol=lf
+*.cginc text eol=lf
+*.compute text eol=lf
+*.uxml text eol=lf
+*.uss text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.meta text eol=lf whitespace=-blank-at-eol
+# Unity writes a trailing space after empty serialized values (for example m_Name: ).
+# Do not treat that generated formatting as a source-code whitespace error.
+*.unity text=auto eol=lf whitespace=-blank-at-eol
+*.prefab text=auto eol=lf whitespace=-blank-at-eol
+*.asset text=auto eol=lf whitespace=-blank-at-eol
+*.mat text=auto eol=lf whitespace=-blank-at-eol
+*.anim text=auto eol=lf whitespace=-blank-at-eol
+*.controller text=auto eol=lf whitespace=-blank-at-eol
+*.overrideController text=auto eol=lf whitespace=-blank-at-eol

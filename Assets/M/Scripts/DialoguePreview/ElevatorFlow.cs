@@ -6,7 +6,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
     public enum ElevatorStep { Lobby, Boarding, Proposal, Jump, Stopped, Connecting, Call, Unanswered, Waiting, Retry, Rescue, Complete, Entering, Exiting, Travel, ReturnLobby, Returning, GroundFloor, GoingHome, WaitingFade, PosterPointing, PosterWarning, CallQuestion, CallResponse, CallLiftQuestion, CallIdentityGuide, CallLocationResponse, CallSafetyAdvice, DoorLean, DoorPosterPointing, DoorPosterWarning, SafeWallMove, SafeWallWaiting, GymDeparture, StartupFade }
     public enum InteractionPhase { Dialogue, Investigation, Choice }
 
-    // PC, XR and verification all use this state owner. The player's body never jumps.
+    // PC and XR share one state owner; authored relocation is fully blacked out.
     public sealed class ElevatorFlow
     {
         public ElevatorStep Step { get; private set; }
@@ -35,6 +35,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         public bool ProposalRetry => Step == ElevatorStep.Retry && retryReturn == ElevatorStep.Proposal;
         public bool DoorRetry => Step == ElevatorStep.Retry && retryReturn == ElevatorStep.DoorPosterPointing;
         public float Elapsed { get; private set; }
+        public float OpeningSeconds {get;private set;}=ProjectWait.M.Shared.ComfortBlackout.Duration;
+        public float EntrySeconds {get;private set;}=ProjectWait.M.Shared.ComfortBlackout.Duration;
+        public float ExitSeconds {get;private set;}=ProjectWait.M.Shared.ComfortBlackout.Duration;
+        public float HomeSeconds {get;private set;}=ProjectWait.M.Shared.ComfortBlackout.Duration;
+        public void ConfigureTravel(float opening,float entry,float exit,float home)
+        {OpeningSeconds=opening;EntrySeconds=entry;ExitSeconds=exit;HomeSeconds=home;}
         public bool AwaitingPoster => Step == ElevatorStep.PosterPointing || Step == ElevatorStep.DoorPosterPointing;
         public bool SearchingIdentity => (Step == ElevatorStep.CallIdentityGuide || Step == ElevatorStep.Call && Phase == InteractionPhase.Investigation) && SituationReported && !IdentityReviewOpen && !LocationReported;
         public bool ReviewingIdentity => Step == ElevatorStep.Call && IdentityReviewOpen && IdentityFound && !LocationReported;
@@ -216,23 +222,23 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                     if (Elapsed >= ElevatorOpeningSequence.FadeDuration) Enter(ElevatorStep.GymDeparture);
                     break;
                 case ElevatorStep.GymDeparture:
-                    if (Elapsed >= ElevatorOpeningSequence.DepartureSeconds)
+                    if (Elapsed >= OpeningSeconds)
                     {
                         History.Add("농구를 마치고 친구와 함께 체육관에서 3층 로비로 나옴");
                         Enter(ElevatorStep.Lobby);
                     }
                     break;
                 case ElevatorStep.Entering:
-                    if(Elapsed>=settings.boardingSeconds)Enter(ElevatorStep.Boarding);
+                    if(Elapsed>=EntrySeconds)Enter(ElevatorStep.Boarding);
                     break;
                 case ElevatorStep.Exiting:
-                    if(Elapsed>=settings.exitSeconds)Enter(ElevatorStep.ReturnLobby, InteractionPhase.Choice);
+                    if(Elapsed>=ExitSeconds)Enter(ElevatorStep.ReturnLobby, InteractionPhase.Choice);
                     break;
                 case ElevatorStep.Returning:
-                    if (Elapsed >= 3.5f) Enter(ElevatorStep.GroundFloor, InteractionPhase.Choice);
+                    if (Elapsed >= ProjectWait.M.Shared.ComfortBlackout.Duration) Enter(ElevatorStep.GroundFloor, InteractionPhase.Choice);
                     break;
                 case ElevatorStep.GoingHome:
-                    if (Elapsed >= 6) Enter(ElevatorStep.Complete);
+                    if (Elapsed >= HomeSeconds) Enter(ElevatorStep.Complete);
                     break;
                 case ElevatorStep.Stopped:
                     if (Phase == InteractionPhase.Dialogue && Elapsed >= 1.8f) Continue();
