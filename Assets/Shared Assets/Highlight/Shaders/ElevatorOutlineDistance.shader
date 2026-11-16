@@ -10,7 +10,7 @@ Shader "ProjectWait/M/Outline Distance"
   #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
   TEXTURE2D_X(_OutlineSource);TEXTURE2D_X(_OutlineOriginalMask);
   CBUFFER_START(UnityPerMaterial)
-  float4 _OutlineFullSize,_OutlineSourceSize,_OutlineTint,_OutlineWidths;float _OutlineStep;
+  float4 _OutlineFullSize,_OutlineSourceSize,_OutlineTint,_OutlineWidths;float _OutlineStep,_OutlineScreenScale;
   CBUFFER_END
   struct A{uint vertexID:SV_VertexID;UNITY_VERTEX_INPUT_INSTANCE_ID};
   struct V{float4 positionCS:SV_POSITION;float2 uv:TEXCOORD0;UNITY_VERTEX_OUTPUT_STEREO};
@@ -52,7 +52,7 @@ Shader "ProjectWait/M/Outline Distance"
    float raw=SampleSceneDepth(i.uv);float scene=unity_OrthoParams.w>.5?LinearDepthToEyeDepth(raw):LinearEyeDepth(raw,_ZBufferParams);if(scene+max(_OutlineWidths.w,seed.z*.001)<seed.z)return 0;
    // Scale at the nearest silhouette's eye depth, including the current eye's projection.
    // Orthographic cameras have no perspective distance attenuation.
-   float scale=_OutlineWidths.z*abs(UNITY_MATRIX_P._m11)/(unity_OrthoParams.w>.5?1:max(seed.z,_ProjectionParams.y));
+   float scale=_OutlineScreenScale>0?_OutlineScreenScale:_OutlineWidths.z*abs(UNITY_MATRIX_P._m11)/(unity_OrthoParams.w>.5?1:max(seed.z,_ProjectionParams.y));
    float width=_OutlineWidths.x*scale;float haloWidth=_OutlineWidths.y*scale;
    float distance=max(0,sqrt(best)-.5);float core=1-smoothstep(width-.75,width+.75,distance);
    float halo=pow(saturate(1-distance/max(haloWidth,.0001)),1.7)*.65;

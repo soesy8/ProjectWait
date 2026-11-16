@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/M/Scene/Wait_Robby.unity
+    guid: 5dc1aa7ed2169fa428703de21f69881f
+  - enabled: 1
     path: Assets/M/Scene/Wait_Elevator.unity
     guid: ce534388c2131e347b4b6e028e464a86
+  - enabled: 1
+    path: Assets/Scenes/CrosswalkScene.unity
+    guid: d0206d19c2ce3e7ba5ce4b619432c3ee
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: dc5a169419fa04987b057f65238cf3ba, type: 2}

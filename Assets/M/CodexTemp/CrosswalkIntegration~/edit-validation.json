@@ -1,0 +1,30 @@
+{
+  "checks": [
+    "Editor is stopped",
+    "Build starts in lobby",
+    "Both experiences registered without replacing elevator",
+    "Saved crosswalk opens cleanly",
+    "No missing scripts, including XR sample dependencies",
+    "No broken serialized object references: ",
+    "190 MB LFS environment mesh restored",
+    "Street environment mesh still connected after scene save",
+    "Pause bridge references complete",
+    "Four pause buttons have artwork and Korean text",
+    "Pause canvas has PC and XR raycasters",
+    "Final confirmation returns to lobby",
+    "Scene owns its rendering profile",
+    "Model outlines and observation halo both registered",
+    "Scene shaders compile without errors",
+    "Lobby crosswalk portal points to saved scene and story context",
+    "New loading context is fully baked in a static Korean atlas",
+    "Korean text renders after the paper card, not behind it",
+    "Baked SDF glyphs are uploaded to the GPU, not only CPU memory"
+  ],
+  "missing": [],
+  "meshVertices": 1854509,
+  "enabledScenes": [
+    "Assets/M/Scene/Wait_Robby.unity",
+    "Assets/M/Scene/Wait_Elevator.unity",
+    "Assets/Scenes/CrosswalkScene.unity"
+  ]
+}

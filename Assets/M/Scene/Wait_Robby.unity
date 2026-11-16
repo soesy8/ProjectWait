@@ -4832,6 +4832,7 @@ MonoBehaviour:
     - {fileID: 447159077}
   useSceneMaterials: 0
   propDissolveShader: {fileID: 0}
+  litDissolveShader: {fileID: 0}
   sceneSampleDistance: 18
   enableKShortcut: 1
   fadeOutSeconds: 3
@@ -9252,12 +9253,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectWait.M.TitleScene.TitlePortal
   experienceTitle: "\uD6A1\uB2E8\uBCF4\uB3C4"
-  destinationScene: 
+  destinationScene: Assets/Scenes/CrosswalkScene.unity
   player: {fileID: 50331621}
   buttonFace: {fileID: 2113521321}
   statusText: {fileID: 150177350}
   sceneTransition: {fileID: 1058928539}
-  transitionContext: "\uC0C8\uB85C\uC6B4 \uC774\uC57C\uAE30\uAC00 \uACE7 \uC2DC\uC791\uB3FC\uC694."
+  transitionContext: "\uD559\uAD50\uB97C \uB9C8\uCE58\uACE0,\n\uCE5C\uAD6C\uC640
+    \uD568\uAED8 \uC9D1\uC73C\uB85C \uB3CC\uC544\uAC00\uB294 \uAE38\uC774\uC5D0\uC694."
 --- !u!1 &975704799
 GameObject:
   m_ObjectHideFlags: 0
@@ -10088,7 +10090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d5089607060c1140a5fafe9c8e320f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectWait.M.SceneTransition.StorybookSceneTransition
-  font: {fileID: 11400000, guid: 9ca5461e12f8f864cabedf21c03b1605, type: 2}
+  font: {fileID: 11400000, guid: 995cc4ec33baef143beeb6a39f0db2f0, type: 2}
   overlayMaterial: {fileID: 2100000, guid: 49ba57e5fcfd5844a98026aac1841ec6, type: 2}
   skyBridgeShader: {fileID: 4800000, guid: 22050fd543497c842879cb8c0bebff17, type: 3}
   lobbyFade: {fileID: 503504570}
@@ -10099,6 +10101,7 @@ MonoBehaviour:
   panelLerpSpeed: 12
   panelDistance: 2
   panelWidth: 1.65
+  faceForwardSeconds: 0.4
   revealOnStandaloneStart: 0
   enablePreviewShortcut: 1
   previewTitle: "\uC5D8\uB9AC\uBCA0\uC774\uD130"

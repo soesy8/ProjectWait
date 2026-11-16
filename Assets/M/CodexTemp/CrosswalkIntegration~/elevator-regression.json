@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "Regression starts in live lobby",
+    "Existing elevator portal still starts transition",
+    "Elevator keeps its own original loading story",
+    "Existing elevator scene still loads and reveals",
+    "Original elevator pause and lesson references intact",
+    "Player loop advances 4 frames",
+    "Original elevator pause still works",
+    "Player loop advances 4 frames",
+    "Original elevator resume restores clock and audio",
+    "Crosswalk-only pause bridge does not leak into elevator"
+  ],
+  "scene": "Assets/M/Scene/Wait_Elevator.unity"
+}

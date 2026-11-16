@@ -25,6 +25,7 @@ namespace ProjectWait.M.Elevator
   public Color idleColor=new Color(1,.70f,.28f,1),hoverColor=new Color(.32f,.84f,1,1);
   [Min(0),Tooltip("주황색과 파란색 사이의 전환 시간(초). 0이면 즉시 전환합니다.")]public float colorTransitionDuration=.25f;
   [Min(1)]public float idleWidth=6.5f,hoverWidth=10.4f,idleHalo=20,hoverHalo=32;
+  [Tooltip("Keep distant crosswalk clues readable at a constant 1080p screen thickness.")] public bool constantScreenSize;
   public bool Visible{get;private set;}
   public bool Hovered{get;private set;}
   public bool InRange{get;private set;}

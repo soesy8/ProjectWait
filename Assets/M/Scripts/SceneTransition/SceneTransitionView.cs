@@ -142,10 +142,21 @@ namespace ProjectWait.M.SceneTransition
 
         public void SetSky(Material sourceSky)
         {
-            skyMaterial.SetTexture("_SkyTex", sourceSky.GetTexture("_MainTex"));
-            skyMaterial.SetColor("_Tint", sourceSky.GetColor("_Tint"));
-            skyMaterial.SetFloat("_Exposure", sourceSky.GetFloat("_Exposure"));
-            skyMaterial.SetFloat("_Rotation", sourceSky.GetFloat("_Rotation"));
+            bool illustrated = sourceSky.HasProperty("_Horizon") && sourceSky.HasProperty("_Zenith");
+            skyMaterial.SetFloat("_IllustratedSky", illustrated ? 1 : 0);
+            if (illustrated)
+            {
+                skyMaterial.SetVector("_Horizon", sourceSky.GetVector("_Horizon"));
+                skyMaterial.SetVector("_Zenith", sourceSky.GetVector("_Zenith"));
+                skyMaterial.SetVector("_SunDirection", sourceSky.GetVector("_SunDirection"));
+            }
+            else
+            {
+                skyMaterial.SetTexture("_SkyTex", sourceSky.HasProperty("_MainTex") ? sourceSky.GetTexture("_MainTex") : Texture2D.whiteTexture);
+                skyMaterial.SetColor("_Tint", sourceSky.HasProperty("_Tint") ? sourceSky.GetColor("_Tint") : Color.gray);
+                skyMaterial.SetFloat("_Exposure", sourceSky.HasProperty("_Exposure") ? sourceSky.GetFloat("_Exposure") : 1);
+            }
+            skyMaterial.SetFloat("_Rotation", sourceSky.HasProperty("_Rotation") ? sourceSky.GetFloat("_Rotation") : 0);
         }
 
         public void Present(float skyCoverAlpha, float panelAlpha, float animationSeconds)

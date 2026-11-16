@@ -164,7 +164,7 @@ namespace ProjectWait.M.SceneTransition
 
         bool Begin(string scenePath, string title, string context, Camera sourceCamera, Action<bool> onFinished)
         {
-            if (!Application.isPlaying || !isActiveAndEnabled || IsBusy || !font || !overlayMaterial || !skyBridgeShader || !sourceCamera || !RenderSettings.skybox || !RenderSettings.skybox.HasProperty("_MainTex")) return false;
+            if (!Application.isPlaying || !isActiveAndEnabled || IsBusy || !font || !overlayMaterial || !skyBridgeShader || !sourceCamera || !RenderSettings.skybox) return false;
             var effect = activeFade && activeFade.gameObject.scene == sourceCamera.gameObject.scene ? activeFade : FindEffect(sourceCamera.gameObject.scene);
             if (!effect || effect.gameObject.scene != sourceCamera.gameObject.scene || !effect.BeginSceneTransition(fadeOutSeconds)) return false;
             borrowedFade = effect;
