@@ -5,8 +5,8 @@ using UnityEngine.XR;
 namespace ProjectWait.YB.OfficeBlackout
 {
     /// <summary>
-    /// Put this component on DropoffZone. The player must be inside
-    /// TeacherDeskDropoff and aim at this collider before clicking/interacting.
+    /// World-space alternative to the explicit papers action card.
+    /// Aiming at the visible desk target does not require entering a hidden volume.
     /// </summary>
     [RequireComponent(typeof(Collider))]
     public sealed class OfficeBlackoutInteraction : MonoBehaviour
@@ -75,7 +75,7 @@ namespace ProjectWait.YB.OfficeBlackout
 
         void LateUpdate()
         {
-            bool canAim = !OfficeSceneIntegration.GameplayBlocked && deskArea && deskArea.PlayerInDeskArea && director && director.Flow != null &&
+            bool canAim = !OfficeSceneIntegration.GameplayBlocked && director && director.ActionReady && director.Flow != null &&
                           director.Flow.CurrentStep == OfficeBlackoutFlow.Step.Errand && playerCamera;
             if (!aimRay || !aimMarker)
             {
@@ -83,7 +83,8 @@ namespace ProjectWait.YB.OfficeBlackout
                 if (!aimRay || !aimMarker) return;
             }
 
-            aimRay.enabled = canAim;
+            // XR already has shared hand rays. Desktop needs only the target marker.
+            aimRay.enabled = false;
             aimMarker.gameObject.SetActive(canAim);
             if (!canAim) return;
 
@@ -91,7 +92,7 @@ namespace ProjectWait.YB.OfficeBlackout
             Collider targetCollider = GetComponent<Collider>();
             RaycastHit hitInfo = default;
             bool hit = targetCollider && targetCollider.Raycast(ray, out hitInfo, interactionRayDistance);
-            Vector3 end = hit ? hitInfo.point : ray.GetPoint(interactionRayDistance);
+            Vector3 end = hit ? hitInfo.point : targetCollider.bounds.center;
             aimRay.SetPosition(0, ray.origin + ray.direction * 0.12f);
             aimRay.SetPosition(1, end);
             Color color = hit ? new Color(.16f, .48f, .44f) : new Color(.61f, .79f, .72f);
@@ -111,11 +112,11 @@ namespace ProjectWait.YB.OfficeBlackout
         void OnInteract(InputAction.CallbackContext context)
         {
             if (OfficeSceneIntegration.GameplayBlocked || !OfficeSceneIntegration.Current || !OfficeSceneIntegration.Current.ClickReady) return;
-            if (!deskArea || !deskArea.PlayerInDeskArea || !director || director.Flow == null) return;
+            if (!director || !director.ActionReady || director.Flow == null) return;
             if (director.Flow.CurrentStep != OfficeBlackoutFlow.Step.Errand) return;
             if (!HitDropoffZone(OfficeSceneIntegration.Current.AimRay(context.control))) return;
 
-            director.PlaceDocuments();
+            if (director.PerformAction()) OfficeSceneIntegration.Current.RequireFreshClick();
         }
 
         bool HitDropoffZone(Ray ray)

@@ -54,6 +54,8 @@ namespace ProjectWait.YB.OfficeBlackout
             pauseAction.AddBinding("<XRController>{RightHand}/secondaryButton");
             uiAction = new InputAction("OfficeMenuTrigger", InputActionType.Button);
             uiAction.AddBinding("<XRController>/{TriggerButton}");
+            uiAction.AddBinding("<Keyboard>/e");
+            uiAction.AddBinding("<Keyboard>/space");
             uiAction.performed += OnUITrigger; uiAction.Enable(); pauseAction.Enable();
             resumeButton.onClick.AddListener(Resume); restartButton.onClick.AddListener(Restart);
             lobbyButton.onClick.AddListener(ReturnToLobby); quitButton.onClick.AddListener(Quit);
@@ -67,13 +69,15 @@ namespace ProjectWait.YB.OfficeBlackout
                 (!(IsPaused || IsCompleted) || clickGate.Ready && Time.unscaledTimeAsDouble >= menuReady);
             if (pauseAction.WasPressedThisFrame() && !StorybookSceneTransition.IsBusy)
             { if (IsPaused) Resume(); else Pause(); }
+            if (XRSettings.isDeviceActive && !StorybookSceneTransition.IsBusy) SetHover(HitUI(DefaultRay()));
             if (!IsPaused) return;
             foreach (var pair in pausedSources) if (pair.Key && !pair.Key.GetComponent<StoryMusic>()) pair.Key.volume = 0;
             if (XRSettings.isDeviceActive) SetHover(HitUI(DefaultRay()));
         }
         public static bool SelectHeld()
         {
-            if (Mouse.current != null && Mouse.current.leftButton.isPressed || Keyboard.current != null && Keyboard.current.eKey.isPressed) return true;
+            if (Mouse.current != null && Mouse.current.leftButton.isPressed || Keyboard.current != null &&
+                (Keyboard.current.eKey.isPressed || Keyboard.current.spaceKey.isPressed)) return true;
             foreach (var device in InputSystem.devices) if (device is UnityEngine.InputSystem.XR.XRController)
                 foreach (var control in device.allControls) if (control is ButtonControl button && button.isPressed &&
                     (control.name == "trigger" || control.name == "triggerPressed" || control.name == "triggerButton")) return true;
@@ -143,8 +147,9 @@ namespace ProjectWait.YB.OfficeBlackout
             var cover = ComfortScreenFade.For(viewer); if (cover) cover.SetOpacity(0);
             var transition = StorybookSceneTransition.Current;
             if (!transition || !transition.TryLoad(path, title, context, viewer, success =>
-                { if (!success && this) { if (statusText) statusText.text = "장면을 열지 못했어요."; Pause(); } }, transitionFont))
+                { if (!success && this) { presentation.RestoreDeparture(); Pause(); if (statusText) statusText.text = "장면을 열지 못했어요. 다시 시도해 주세요."; } }, transitionFont))
             { Pause(); if (statusText) statusText.text = "장면을 열지 못했어요. 다시 시도해 주세요."; }
+            else presentation.PrepareDeparture();
         }
         public void Quit()
         {
@@ -156,14 +161,23 @@ namespace ProjectWait.YB.OfficeBlackout
         }
         void OnUITrigger(InputAction.CallbackContext context)
         {
-            if (!XRSettings.isDeviceActive || !clickGate.Ready || Time.unscaledTimeAsDouble < menuReady) return;
-            if (!IsPaused && !IsCompleted) return;
-            var button = HitUI(AimRay(context.control)); if (button) { RequireFreshClick(); button.onClick.Invoke(); }
+            if (!clickGate.Ready || Time.unscaledTimeAsDouble < menuReady || StorybookSceneTransition.IsBusy) return;
+            if (context.control.device is Keyboard && !IsPaused && !IsCompleted)
+            {
+                if (presentation.DialogueVisible) presentation.AdvanceLine();
+                else presentation.ConfirmAction();
+                return;
+            }
+            if (!XRSettings.isDeviceActive) return;
+            var button = HitUI(AimRay(context.control));
+            // Listeners consume and re-arm the gate after accepting an action.
+            if (button) { button.onClick.Invoke(); RequireFreshClick(); }
         }
         UnityEngine.UI.Button HitUI(Ray ray)
         {
             UnityEngine.UI.Button best = null; float distance = float.MaxValue;
-            var buttons = IsPaused ? menuCanvas.GetComponentsInChildren<UnityEngine.UI.Button>() : presentation.CompletionButtons;
+            var buttons = IsPaused ? menuCanvas.GetComponentsInChildren<UnityEngine.UI.Button>() :
+                IsCompleted ? presentation.CompletionButtons : presentation.StoryButtons;
             foreach (var button in buttons)
             {
                 if (!button || !button.isActiveAndEnabled || !button.IsInteractable()) continue;

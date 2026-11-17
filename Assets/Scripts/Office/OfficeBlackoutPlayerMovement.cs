@@ -128,6 +128,9 @@ namespace ProjectWait.YB.OfficeBlackout
             bool xr = XRSettings.isDeviceActive;
             if (xr != lastXR) { lastXR = xr; SpawnReady = !xr; xrStableSeconds = 0; if (poseDriver) poseDriver.enabled = xr && originalPoseEnabled; SyncCursor(); }
             if (xr && !SpawnReady) UpdateXRCalibration();
+            if (!xr && enableDesktopMouseLook && !OfficeStoryTime.Frozen &&
+                !(OfficeSceneIntegration.Current && (OfficeSceneIntegration.Current.IsCompleted || OfficeSceneIntegration.Current.EscortMoving)))
+                UpdateDesktopLook();
             if (OfficeSceneIntegration.GameplayBlocked) { LastInput = Vector2.zero; return; }
             if (!characterController || !characterController.enabled || !playerCamera)
             {
@@ -139,8 +142,6 @@ namespace ProjectWait.YB.OfficeBlackout
             UpdateControllerCenter();
 
             bool usingXR = XRSettings.isDeviceActive;
-            if (!usingXR && enableDesktopMouseLook)
-                UpdateDesktopLook();
 
             Vector2 input = usingXR
                 ? activeXRMove != null ? activeXRMove.ReadValue<Vector2>() : Vector2.zero
@@ -209,14 +210,8 @@ namespace ProjectWait.YB.OfficeBlackout
 
         void UpdateDesktopLook()
         {
-            if (Cursor.lockState != CursorLockMode.Locked)
-            {
-                if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
-                    LockDesktopCursor();
-                return;
-            }
-
-            if (Mouse.current == null) return;
+            // A free cursor selects readable cards; RMB-drag looks around on desktop.
+            if (Mouse.current == null || !Mouse.current.rightButton.isPressed) return;
 
             Vector2 look = Mouse.current.delta.ReadValue() * ExperiencePreferences.LookSensitivity;
             if (Mathf.Abs(look.x) > 0.001f)
@@ -231,15 +226,15 @@ namespace ProjectWait.YB.OfficeBlackout
 
         static void LockDesktopCursor()
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         public void SyncCursor()
         {
             bool ui = OfficeSceneIntegration.Current && (OfficeSceneIntegration.Current.IsPaused || OfficeSceneIntegration.Current.IsCompleted);
-            Cursor.lockState = !XRSettings.isDeviceActive && !ui ? CursorLockMode.Locked : CursorLockMode.None;
-            Cursor.visible = !XRSettings.isDeviceActive && ui;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = !XRSettings.isDeviceActive;
         }
         public void RequestHeightCalibration()
         {

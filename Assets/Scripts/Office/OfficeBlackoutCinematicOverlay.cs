@@ -70,6 +70,8 @@ namespace ProjectWait.YB.OfficeBlackout
         public bool IsVisible => amount > 0.01f;
         public float Amount => amount;
         public float FadeAlpha => fadeAlpha;
+        public bool IsPlayingDialogue => captionSequenceRoutine != null;
+        public bool LetterboxRequested => targetAmount > .01f;
 
         void OnEnable()
         {
@@ -151,7 +153,10 @@ namespace ProjectWait.YB.OfficeBlackout
             Build();
             AcquireMovementLock();
             onDialogueStarted?.Invoke(dialogueIndex);
-            if (showLetterboxForSequence) ShowLetterbox();
+            // Conversations with the taller teacher need the complete face in view.
+            // Keep the shared cinematic framing for the introduction/blackout beats.
+            if (showLetterboxForSequence && dialogueIndex != 5 && dialogueIndex != 6) ShowLetterbox();
+            else HideLetterbox();
             captionSequenceRoutine = StartCoroutine(RunCaptionSequence(dialogueIndex, lines));
         }
 
@@ -187,7 +192,13 @@ namespace ProjectWait.YB.OfficeBlackout
             {
                 if (string.IsNullOrWhiteSpace(line)) continue;
                 SetCaption(line);
-                yield return new OfficeStoryWait(captionIntervalSeconds / ExperiencePreferences.Current.dialogue);
+                // Explicit next: long Korean lines must never expire before they are read.
+                if (presentation)
+                {
+                    presentation.BeginReading();
+                    while (!presentation.LineAdvanced || OfficeStoryTime.Frozen) yield return null;
+                }
+                else yield return new OfficeStoryWait(Mathf.Max(captionIntervalSeconds, line.Length * .12f) / ExperiencePreferences.Current.dialogue);
             }
 
             ClearCaption();

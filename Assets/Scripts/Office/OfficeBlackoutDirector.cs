@@ -35,14 +35,34 @@ namespace ProjectWait.YB.OfficeBlackout
         [SerializeField] GameObject completionNotebook;
 
         [Header("Automatic progression")]
-        [SerializeField, Min(0f)] float teacherAnnouncementDelayAfterDialogue = 5f;
+        [SerializeField, Min(0f)] float teacherAnnouncementDelayAfterDialogue = 1.5f;
 
         public OfficeBlackoutFlow Flow { get; private set; }
         public Transform TeacherTransform => teacherWaypointMover ? teacherWaypointMover.transform : null;
         public event Action<OfficeBlackoutFlow.Step> StepChanged;
+        public bool ActionReady { get; private set; }
+        public string ActionLabel => !ActionReady || Flow == null ? "" : Flow.CurrentStep switch
+        {
+            OfficeBlackoutFlow.Step.Errand => "서류 놓기",
+            OfficeBlackoutFlow.Step.CalmFriend => "괜찮아. 내가 옆에 있어.",
+            OfficeBlackoutFlow.Step.KeepFriendInPlace => "여기서 함께 선생님을 기다리자.",
+            OfficeBlackoutFlow.Step.TeacherArrives => "선생님과 함께 이동하기",
+            _ => ""
+        };
+        public bool PerformAction()
+        {
+            if (!ActionReady || OfficeSceneIntegration.GameplayBlocked) return false;
+            return Flow.CurrentStep switch
+            {
+                OfficeBlackoutFlow.Step.Errand => PlaceDocuments(),
+                OfficeBlackoutFlow.Step.CalmFriend => CalmFriend(),
+                OfficeBlackoutFlow.Step.KeepFriendInPlace => AskFriendToStay(),
+                OfficeBlackoutFlow.Step.TeacherArrives => BeginEscort(),
+                _ => false
+            };
+        }
         Coroutine teacherAnnouncementRoutine;
         Coroutine teacherArrivalWatchRoutine;
-        Coroutine escortArrivalWatchRoutine;
 
         void Awake()
         {
@@ -71,8 +91,8 @@ namespace ProjectWait.YB.OfficeBlackout
         public void StopFriendMovement() => friendWaypointMover?.StopMovement();
         public bool PlayerReachedExitDesk()
         {
-            if (Flow == null || !Flow.AcknowledgeFriendPanic()) return false;
-            return CalmFriend();
+            // Presence in a trigger is never the learner's reassuring response.
+            return false;
         }
         public bool AcknowledgeFriendPanic() => Flow.AcknowledgeFriendPanic();
         public bool CalmFriend() => Transition(Flow.CalmFriend, onFriendCalmed);
@@ -80,9 +100,20 @@ namespace ProjectWait.YB.OfficeBlackout
         public void HandleDialogueCompleted(int dialogueIndex)
         {
             if (Flow == null) return;
+            if (dialogueIndex == 1 && Flow.CurrentStep == OfficeBlackoutFlow.Step.BlackoutReaction)
+                AcknowledgeFriendPanic();
+            if (dialogueIndex == 7 && Flow.CurrentStep == OfficeBlackoutFlow.Step.Errand ||
+                dialogueIndex == 1 && Flow.CurrentStep == OfficeBlackoutFlow.Step.CalmFriend ||
+                dialogueIndex == 2 && Flow.CurrentStep == OfficeBlackoutFlow.Step.KeepFriendInPlace ||
+                dialogueIndex == 5 && Flow.CurrentStep == OfficeBlackoutFlow.Step.TeacherArrives)
+            {
+                ActionReady = true;
+                promptCard?.ShowPrompt(ActionLabel);
+                OfficeSceneIntegration.Current?.RequireFreshClick();
+            }
+            if (dialogueIndex == 6 && CanFinishEscort) ActivateCompletionNotebook();
 
-            // Dialogue 3 is played by onFriendAskedToStay. Start the five-second
-            // countdown after that complete caption/letterbox sequence has ended.
+            // A short, pausable wait begins after the learner has read the reply.
             if (dialogueIndex == 3 && Flow.CurrentStep == OfficeBlackoutFlow.Step.WaitForTeacher)
             {
                 if (teacherAnnouncementRoutine != null)
@@ -96,10 +127,6 @@ namespace ProjectWait.YB.OfficeBlackout
             if (dialogueIndex == 4 && Flow.CurrentStep == OfficeBlackoutFlow.Step.TeacherAnnouncement)
                 StartTeacherRoute();
 
-            // Dialogue 5 is the teacher-arrival event's final presentation.
-            // Show Element 3 only after its captions and letterbox have ended.
-            if (dialogueIndex == 5 && Flow.CurrentStep == OfficeBlackoutFlow.Step.TeacherArrives)
-                promptCard?.ShowPresetPrompt(3);
         }
 
         void StartTeacherRoute()
@@ -147,7 +174,6 @@ namespace ProjectWait.YB.OfficeBlackout
 
             if (Flow != null && Flow.CurrentStep == OfficeBlackoutFlow.Step.WaitForTeacher)
             {
-                Debug.Log("[OfficeBlackout] Five seconds after dialogue 3; announcing that the teacher is coming.", this);
                 AnnounceTeacherIsComing();
             }
         }
@@ -159,33 +185,14 @@ namespace ProjectWait.YB.OfficeBlackout
             if (!Transition(Flow.BeginEscort, onEscortStarted)) return false;
             promptCard?.HidePrompt();
 
-            if (escortArrivalWatchRoutine != null)
-                StopCoroutine(escortArrivalWatchRoutine);
-            escortArrivalWatchRoutine = StartCoroutine(WaitForEscortRoutes());
             var travel = GetComponent<OfficeEscortSequence>(); if (travel) travel.Begin();
             return true;
         }
 
-        IEnumerator WaitForEscortRoutes()
-        {
-            while (OfficeStoryTime.Frozen || friendWaypointMover && teacherWaypointMover &&
-                   (!friendWaypointMover.IsRouteComplete || !teacherWaypointMover.IsRouteComplete))
-                yield return null;
-
-            escortArrivalWatchRoutine = null;
-            if (Flow != null && Flow.CurrentStep == OfficeBlackoutFlow.Step.EscortToExit &&
-                friendWaypointMover && teacherWaypointMover &&
-                friendWaypointMover.IsRouteComplete && teacherWaypointMover.IsRouteComplete)
-            {
-                Debug.Log("[OfficeBlackout] Friend and teacher completed their escort routes; showing prompt Element 4.", this);
-                promptCard?.ShowPresetPrompt(4);
-            }
-        }
-
         public bool CanFinishEscort =>
             Flow != null && Flow.CurrentStep == OfficeBlackoutFlow.Step.EscortToExit &&
-            friendWaypointMover && teacherWaypointMover &&
-            friendWaypointMover.IsRouteComplete && teacherWaypointMover.IsRouteComplete;
+            GetComponent<OfficeEscortSequence>() is var travel && travel && travel.WasRelocated &&
+            !OfficeSceneIntegration.Current.EscortMoving;
 
         public void FadeToBlack()
         {
@@ -217,11 +224,6 @@ namespace ProjectWait.YB.OfficeBlackout
                 StopCoroutine(teacherArrivalWatchRoutine);
                 teacherArrivalWatchRoutine = null;
             }
-            if (escortArrivalWatchRoutine != null)
-            {
-                StopCoroutine(escortArrivalWatchRoutine);
-                escortArrivalWatchRoutine = null;
-            }
             if (teacherWaypointMover)
             {
                 teacherWaypointMover.StopMovement();
@@ -240,6 +242,8 @@ namespace ProjectWait.YB.OfficeBlackout
 
         void HandleStepChanged(OfficeBlackoutFlow.Step step)
         {
+            ActionReady = false;
+            promptCard?.HidePrompt();
             onStepChanged?.Invoke(step);
             StepChanged?.Invoke(step);
         }
@@ -250,8 +254,6 @@ namespace ProjectWait.YB.OfficeBlackout
                 StopCoroutine(teacherAnnouncementRoutine);
             if (teacherArrivalWatchRoutine != null)
                 StopCoroutine(teacherArrivalWatchRoutine);
-            if (escortArrivalWatchRoutine != null)
-                StopCoroutine(escortArrivalWatchRoutine);
             if (Flow != null) Flow.StepChanged -= HandleStepChanged;
         }
     }

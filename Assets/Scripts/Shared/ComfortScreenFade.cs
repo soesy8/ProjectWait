@@ -29,7 +29,8 @@ namespace ProjectWait.M.Shared
         }
         public void SetOpacity(float value){RequestedOpacity=Mathf.Clamp01(value);Apply();}
         bool Paused=>ProjectWait.M.Crosswalk.CrosswalkSceneIntegration.Current&&ProjectWait.M.Crosswalk.CrosswalkSceneIntegration.Current.IsPaused||
-            elevator&&elevator.IsPaused;
+            elevator&&elevator.IsPaused ||
+            ProjectWait.YB.OfficeBlackout.OfficeSceneIntegration.Current&&ProjectWait.YB.OfficeBlackout.OfficeSceneIntegration.Current.IsPaused;
         ProjectWait.M.Elevator.DialoguePreview.ElevatorLesson elevator;
         void Start(){elevator=FindFirstObjectByType<ProjectWait.M.Elevator.DialoguePreview.ElevatorLesson>();}
         void OnEnable(){Application.onBeforeRender+=Apply;}
