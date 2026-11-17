@@ -1,4 +1,0 @@
-# Validation screenshots, backups, test harnesses and local reports are not game assets.
-# Existing tracked tools/results stay tracked; do not add new temporary artifacts.
-*
-!.gitignore
