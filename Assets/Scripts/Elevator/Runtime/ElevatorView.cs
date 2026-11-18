@@ -238,7 +238,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                     objective="친구와 밖으로 나가기";line=ElevatorDialogue.GroundFloor;Add("1   친구와 밖으로 나가기",lesson.Continue);break;
                 case ElevatorStep.GoingHome:objective="친구와 집으로";who="안내";break;
                 case ElevatorStep.Complete:
-                    objective="";who="";line="";Add("로비로 돌아가기",lesson.ReturnToLobby);Add("다시하기",lesson.RestartExperience);break;
+                    objective="";who="친구";line=ElevatorDialogue.Complete;Add("로비로 돌아가기",lesson.ReturnToLobby);Add("다시하기",lesson.RestartExperience);break;
             }
             if(f.Step!=ElevatorStep.DoorPosterPointing&&ElevatorDoorSafetyCutscene.Describe(lesson,out var safetySpeaker,out var safetyLine))
             {who=safetySpeaker;line=safetyLine;objective=f.IsCallCutscene||f.AwaitingCallContinue?"현재 위치를 알리고 안내 듣기":"문에서 떨어져 안전하게 기다리기";}

@@ -35,10 +35,16 @@ namespace ProjectWait.M.TitleScene
         bool hasSafeHead, oldTrigger, skipMouse = true, modeConfigured;
         bool transitionHudHidden, hintsBeforeTransition, rayBeforeTransition;
         float yaw, pitch, verticalSpeed, messageUntil, turnCooldown;
+        float spawnYaw;
+        bool alignFirstTrackedHeading = true;
         readonly RaycastHit[] headHits = new RaycastHit[16];
         readonly List<XRInputSubsystem> inputSubsystems = new List<XRInputSubsystem>();
         InputAction aimPose, selectTrigger;
         bool hadValidAim;
+        bool offeredHintThisVisit;
+        static int guidedVisits;
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetGuidedVisits() => guidedVisits = 0;
         bool menuClickBlocked;
         float menuInputReadyAt;
         TitleLobbyControllerVisuals controllerVisuals;
@@ -50,7 +56,7 @@ namespace ProjectWait.M.TitleScene
         public const string HeightPrompt="눈높이를 맞추려면 트리거를 누른 뒤\n잠시 가만히 있어 주세요.";
         void TrackingOriginChanged(XRInputSubsystem subsystem){heightCalibration.Request();}
 
-        void Awake() { Controller = GetComponent<CharacterController>(); }
+        void Awake() { Controller = GetComponent<CharacterController>(); spawnYaw = transform.eulerAngles.y; }
         void OnEnable()
         {
             Application.onBeforeRender += ApplyTrackedHead;
@@ -153,25 +159,38 @@ namespace ProjectWait.M.TitleScene
         }
         public void ApplyTransitionHeadPose(SceneTransitionHeadPose pose, Vector3 footprint)
         {
-            if (!pose.IsValid || !viewCamera) return;
+            if (!viewCamera) return;
             float floor = FloorHeight;
             bool enabledController = Controller && Controller.enabled;
             if (enabledController) Controller.enabled = false;
-            pose.Apply(transform, viewCamera.transform, floor, IsVR, footprint);
-            eyeHeight = pose.EyeHeight;
-            FeetOffset = floor - transform.position.y;
-            if(IsVR)heightCalibration.AcceptTransferredHeight();
-            if (Controller) Controller.center = new Vector3(0, Controller.height * .5f + FeetOffset, 0);
-            if (!IsVR)
+            if (IsVR)
             {
-                // Keep the mouse accumulator in sync, or the next delta undoes the handoff.
-                yaw = SceneTransitionHeadPose.Yaw(pose.EyeRotation);
-                pitch = Mathf.DeltaAngle(0, pose.EyeRotation.eulerAngles.x);
-                transform.rotation = Quaternion.Euler(0, yaw, 0);
-                viewCamera.transform.localRotation = Quaternion.Euler(pitch, 0, 0);
+                FaceLobbyForward();
+                alignFirstTrackedHeading = false;
             }
+            else
+            {
+                yaw = spawnYaw; pitch = 0;
+                transform.rotation = Quaternion.Euler(0, yaw, 0);
+                viewCamera.transform.localRotation = Quaternion.identity;
+            }
+            if (pose.IsValid)
+            {
+                // Carry over the calibrated height and footprint, not the departing gaze.
+                eyeHeight = pose.EyeHeight;
+                transform.position += new Vector3(footprint.x, floor + eyeHeight, footprint.z) - viewCamera.transform.position;
+                if (IsVR) heightCalibration.AcceptTransferredHeight();
+            }
+            FeetOffset = floor - transform.position.y;
+            if (Controller) Controller.center = new Vector3(0, Controller.height * .5f + FeetOffset, 0);
             verticalSpeed = 0; hasSafeHead = false; skipMouse = true;
             if (enabledController) Controller.enabled = true;
+        }
+        void FaceLobbyForward()
+        {
+            // Turn around the tracked eye so room-scale displacement, pitch and roll stay physical.
+            var eye = viewCamera.transform;
+            transform.RotateAround(eye.position, Vector3.up, Mathf.DeltaAngle(eye.eulerAngles.y, spawnYaw));
         }
         public void Move(Vector2 input, float seconds)
         {
@@ -208,7 +227,17 @@ namespace ProjectWait.M.TitleScene
                 }
                 p.y+=trackedHeightOffset;viewCamera.transform.localPosition = p;
             }
-            if (head.TryGetFeatureValue(UnityEngine.XR.CommonUsages.deviceRotation, out Quaternion r)) viewCamera.transform.localRotation = r;
+            if (head.TryGetFeatureValue(UnityEngine.XR.CommonUsages.deviceRotation, out Quaternion r))
+            {
+                viewCamera.transform.localRotation = r;
+                if (alignFirstTrackedHeading && !StorybookSceneTransition.IsBusy &&
+                    head.TryGetFeatureValue(UnityEngine.XR.CommonUsages.isTracked, out bool valid) && valid)
+                {
+                    FaceLobbyForward();
+                    alignFirstTrackedHeading = false;
+                    hasSafeHead = false;
+                }
+            }
             controllerVisuals?.Update(!transitionHudHidden,trackedHeightOffset);
             var current = viewCamera.transform.position;
             if (hasSafeHead)
@@ -266,6 +295,12 @@ namespace ProjectWait.M.TitleScene
             else if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
             {
                 if (Cursor.lockState != CursorLockMode.Locked) SetMouseLock(true); else pressed = true;
+            }
+            if (!offeredHintThisVisit && guidedVisits < 2)
+            {
+                offeredHintThisVisit = true;
+                ++guidedVisits;
+                ProjectWait.M.Shared.LookAroundHint.Show(viewCamera);
             }
             var target = TraceInteraction(ray, out var end);
             if (target != hovered) { if (hovered) hovered.SetHovered(false); hovered = target; if (hovered) hovered.SetHovered(true); }

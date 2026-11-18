@@ -26,12 +26,14 @@ namespace ProjectWait.YB.OfficeBlackout
         [SerializeField] UnityEvent onExperienceCompleted = new UnityEvent();
 
         [Header("Scene objects")]
-        [SerializeField] Transform missionDocuments;
         [SerializeField] OfficeBlackoutCinematicOverlay cinematicOverlay;
         [SerializeField] OfficeBlackoutWaypointMover friendWaypointMover;
         [SerializeField] OfficeBlackoutWaypointMover teacherWaypointMover;
         [SerializeField] OfficeBlackoutPromptCard promptCard;
+        [SerializeField] OfficeWrongTurn wrongTurn;
         [SerializeField] Transform teacherEntry;
+        [SerializeField] Transform exitDoor;
+        Quaternion closedDoorRotation;
         [SerializeField] GameObject completionNotebook;
 
         [Header("Automatic progression")]
@@ -41,25 +43,92 @@ namespace ProjectWait.YB.OfficeBlackout
         public Transform TeacherTransform => teacherWaypointMover ? teacherWaypointMover.transform : null;
         public event Action<OfficeBlackoutFlow.Step> StepChanged;
         public bool ActionReady { get; private set; }
+        public enum ActionPhase { Inspect, Choose, Retry, Consequence }
+        public ActionPhase Phase { get; private set; }
+        public bool Choosing => ActionReady && Phase == ActionPhase.Choose;
+        public bool Failed => ActionReady && Phase == ActionPhase.Retry;
+        Coroutine consequence;
+        public bool ConsequencePlaying => consequence != null || Phase == ActionPhase.Consequence;
+        public string OtherReply => Flow.CurrentStep == OfficeBlackoutFlow.Step.CalmFriend ?
+            "혼자 먼저 나가 봐." : "문 밖으로 가서 찾아보자.";
+        public string Instruction => Failed ? (Flow.CurrentStep == OfficeBlackoutFlow.Step.CalmFriend ?
+            "친구가 책상에 부딪혔어. 옆에서 같이 기다리자." : "앞이 잘 안 보여. 여기서 같이 기다리는 게 좋겠어.") :
+            Choosing ? "친구에게 뭐라고 말하면 좋을까?" : Flow.CurrentStep switch
+            {
+                OfficeBlackoutFlow.Step.Errand => "책상에 빈자리가 있네. 책은 저기에 놓자.",
+                OfficeBlackoutFlow.Step.CalmFriend => "친구 목소리가 떨려. 옆에서 안심시켜 주자.",
+                OfficeBlackoutFlow.Step.TeacherArrives => "선생님이 길을 비춰 주시네. 친구랑 같이 따라가자.",
+                _ => ""
+            };
         public string ActionLabel => !ActionReady || Flow == null ? "" : Flow.CurrentStep switch
         {
-            OfficeBlackoutFlow.Step.Errand => "서류 놓기",
+            OfficeBlackoutFlow.Step.Errand => "책 놓기",
             OfficeBlackoutFlow.Step.CalmFriend => "괜찮아. 내가 옆에 있어.",
             OfficeBlackoutFlow.Step.KeepFriendInPlace => "여기서 함께 선생님을 기다리자.",
             OfficeBlackoutFlow.Step.TeacherArrives => "선생님과 함께 이동하기",
             _ => ""
         };
-        public bool PerformAction()
+        public bool SelectWorldTarget()
         {
-            if (!ActionReady || OfficeSceneIntegration.GameplayBlocked) return false;
+            if (!ActionReady || Phase != ActionPhase.Inspect || OfficeSceneIntegration.GameplayBlocked) return false;
+            if (Flow.CurrentStep == OfficeBlackoutFlow.Step.CalmFriend)
+            {
+                SetActionPhase(ActionPhase.Choose);
+                return true;
+            }
             return Flow.CurrentStep switch
             {
                 OfficeBlackoutFlow.Step.Errand => PlaceDocuments(),
-                OfficeBlackoutFlow.Step.CalmFriend => CalmFriend(),
-                OfficeBlackoutFlow.Step.KeepFriendInPlace => AskFriendToStay(),
                 OfficeBlackoutFlow.Step.TeacherArrives => BeginEscort(),
                 _ => false
             };
+        }
+        public bool Answer(bool safe)
+        {
+            if (!Choosing || OfficeSceneIntegration.GameplayBlocked) return false;
+            if (!safe)
+            {
+                if (Flow.CurrentStep == OfficeBlackoutFlow.Step.CalmFriend)
+                    consequence = StartCoroutine(ShowWrongTurn());
+                else SetActionPhase(ActionPhase.Retry);
+                return true;
+            }
+            return Flow.CurrentStep == OfficeBlackoutFlow.Step.CalmFriend ? CalmFriend() : AskFriendToStay();
+        }
+        public bool RetryAnswer()
+        {
+            if (!Failed || OfficeSceneIntegration.GameplayBlocked) return false;
+            if (wrongTurn.HasCheckpoint) consequence = StartCoroutine(RewindWrongTurn());
+            else SetActionPhase(ActionPhase.Choose);
+            return true;
+        }
+        IEnumerator ShowWrongTurn()
+        {
+            Phase = ActionPhase.Consequence;
+            promptCard.HidePrompt();
+            yield return wrongTurn.Play();
+            consequence = null;
+            SetActionPhase(ActionPhase.Retry);
+        }
+        IEnumerator RewindWrongTurn()
+        {
+            Phase = ActionPhase.Consequence;
+            promptCard.HidePrompt();
+            yield return wrongTurn.Rewind(() => SetActionPhase(ActionPhase.Choose));
+            consequence = null;
+            OfficeSceneIntegration.Current?.RequireFreshClick();
+        }
+        void CancelConsequence()
+        {
+            if (consequence != null) StopCoroutine(consequence);
+            consequence = null;
+            if (wrongTurn) wrongTurn.Cancel();
+        }
+        void SetActionPhase(ActionPhase phase)
+        {
+            Phase = phase;
+            promptCard?.ShowPrompt(Failed ? "다시하기" : ActionLabel);
+            OfficeSceneIntegration.Current?.RequireFreshClick();
         }
         Coroutine teacherAnnouncementRoutine;
         Coroutine teacherArrivalWatchRoutine;
@@ -67,6 +136,7 @@ namespace ProjectWait.YB.OfficeBlackout
         void Awake()
         {
             Flow = new OfficeBlackoutFlow();
+            if (exitDoor) closedDoorRotation = exitDoor.localRotation;
             Flow.StepChanged += HandleStepChanged;
             if (completionNotebook) completionNotebook.SetActive(false);
         }
@@ -75,10 +145,8 @@ namespace ProjectWait.YB.OfficeBlackout
 
         public bool BeginErrand() => Transition(Flow.BeginErrand, onErrandStarted);
         public bool PlaceDocuments() => Transition(Flow.PlaceDocuments, onBlackoutStarted);
-        public void ActivateMissionDocuments()
-        {
-            if (missionDocuments) missionDocuments.gameObject.SetActive(true);
-        }
+        public bool Inspecting(OfficeBlackoutFlow.Step step) =>
+            ActionReady && Phase == ActionPhase.Inspect && Flow.CurrentStep == step && !OfficeSceneIntegration.GameplayBlocked;
         public void PlayDialogue(int dialogueIndex)
         {
             if (cinematicOverlay) cinematicOverlay.PlayDialogue(dialogueIndex);
@@ -108,8 +176,7 @@ namespace ProjectWait.YB.OfficeBlackout
                 dialogueIndex == 5 && Flow.CurrentStep == OfficeBlackoutFlow.Step.TeacherArrives)
             {
                 ActionReady = true;
-                promptCard?.ShowPrompt(ActionLabel);
-                OfficeSceneIntegration.Current?.RequireFreshClick();
+                SetActionPhase(Flow.CurrentStep == OfficeBlackoutFlow.Step.KeepFriendInPlace ? ActionPhase.Choose : ActionPhase.Inspect);
             }
             if (dialogueIndex == 6 && CanFinishEscort) ActivateCompletionNotebook();
 
@@ -143,17 +210,27 @@ namespace ProjectWait.YB.OfficeBlackout
                 teacherArrivalWatchRoutine = null;
             }
 
+            teacherArrivalWatchRoutine = StartCoroutine(EnterFromDoor());
+        }
+
+        IEnumerator EnterFromDoor()
+        {
+            if (exitDoor)
+            {
+                var open = closedDoorRotation * Quaternion.Euler(0, -88, 0);
+                for (float t = 0; t < 1;)
+                {
+                    t = Mathf.Min(1, t + OfficeStoryTime.Delta / .65f);
+                    exitDoor.localRotation = Quaternion.Slerp(closedDoorRotation, open, Mathf.SmoothStep(0, 1, t));
+                    yield return null;
+                }
+            }
             Transform teacherTransform = teacherWaypointMover.transform;
             teacherWaypointMover.StopMovement();
             teacherTransform.SetPositionAndRotation(teacherEntry.position, teacherEntry.rotation);
             teacherWaypointMover.gameObject.SetActive(true);
             teacherWaypointMover.StartRoute();
             Debug.Log($"[OfficeBlackout] Teacher activated at {teacherEntry.name}; waypoint route started.", this);
-            teacherArrivalWatchRoutine = StartCoroutine(WaitForTeacherAtComePoint());
-        }
-
-        IEnumerator WaitForTeacherAtComePoint()
-        {
             while (OfficeStoryTime.Frozen || teacherWaypointMover && teacherWaypointMover.IsMoving)
                 yield return null;
 
@@ -214,6 +291,7 @@ namespace ProjectWait.YB.OfficeBlackout
 
         public void RestartExperience()
         {
+            CancelConsequence();
             if (teacherAnnouncementRoutine != null)
             {
                 StopCoroutine(teacherAnnouncementRoutine);
@@ -230,6 +308,7 @@ namespace ProjectWait.YB.OfficeBlackout
                 teacherWaypointMover.gameObject.SetActive(false);
             }
             Flow.Reset();
+            if (exitDoor) exitDoor.localRotation = closedDoorRotation;
             BeginErrand();
         }
 
@@ -250,6 +329,7 @@ namespace ProjectWait.YB.OfficeBlackout
 
         void OnDestroy()
         {
+            CancelConsequence();
             if (teacherAnnouncementRoutine != null)
                 StopCoroutine(teacherAnnouncementRoutine);
             if (teacherArrivalWatchRoutine != null)

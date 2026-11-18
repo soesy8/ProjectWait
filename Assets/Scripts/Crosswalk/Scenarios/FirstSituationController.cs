@@ -139,9 +139,17 @@ namespace Y.Crosswalk // 첫 번째 보행 안전 상황만 기존 개인 작업
             EnterObservation(); m_UI.Transition(false); // 제한 시간 없이 다시 관찰·선택할 수 있게 합니다.
         } // 정상 사고 재시도에서는 XR Origin을 움직이지 않습니다.
 
+        private bool homeHintShown, poleHintShown;
         private void LateUpdate() // 최종 전화 자세에서 체크포인트와 실제 접촉을 처리합니다.
         { // 충격 순간까지 기존 이동의 최종 루트 위치를 기준으로 삼습니다.
             if (ProjectWait.M.Crosswalk.CrosswalkSceneIntegration.GameplayBlocked) return;
+            if (!m_UI.IsTransitioning && m_UI.HasTask)
+            {
+                if (!homeHintShown && m_UI.IsTaskTarget(m_HomeObservation))
+                { homeHintShown = true; ProjectWait.M.Shared.LookAroundHint.Show(m_Origin.Camera); }
+                if (!poleHintShown && m_UI.IsTaskTarget(m_PoleObservation))
+                { poleHintShown = true; ProjectWait.M.Shared.LookAroundHint.Show(m_Origin.Camera); }
+            }
             if (m_State == SituationState.WaitingToStart && !m_MenuPoseFrozen) // 제목 화면에서는 보행 전 대기 자세만 유지합니다.
             { // 최초 Animator와 휴대전화 관절이 실제로 한 프레임 적용된 뒤 정지합니다.
                 m_MenuPoseFrozen = true; m_Performance.Freeze(true); // 초기화되지 않은 애니메이션 상태를 도입 체크포인트로 저장하지 않게 합니다.

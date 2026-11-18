@@ -48,8 +48,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         float revealStarted;
         int historyPage;
         bool screenOnly, complete;
-        ElevatorStep placedStep = (ElevatorStep)(-1);
-        int placedRun = -1;
         CanvasGroup worldGroup, hudGroup;
         const float HudFadeSeconds=.5f, StatusFadeSeconds=1f;
         float hudOpacity=1,hudFadeStart=1,hudFadeGoal=1,hudFadeElapsed=HudFadeSeconds;
@@ -131,7 +129,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             speaker.text = who;
             view.actionPanel.SetParent(view.transform, false);
             view.actionPanel.localScale = Vector3.one;
-            if(complete)view.dialogueText.text="";
             if(notebook)notebook.gameObject.SetActive(false);
             progress.gameObject.SetActive(!complete);
             string source=view.dialogueText.text;
@@ -147,7 +144,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 revealStarted=Time.time;revealComplete=true;
             }
             view.dialogueText.text=ElevatorSpeechAnchor.VisibleLine(view.lesson,who,dialoguePages[dialoguePage]);
-            SetPanelVisible(view.dialoguePanel,!complete&&!screenOnly&&!string.IsNullOrEmpty(view.dialogueText.text));
+            SetPanelVisible(view.dialoguePanel,!screenOnly&&!string.IsNullOrEmpty(view.dialogueText.text));
             UpdateDialogueReveal();
             UpdateThought();
             Layout();
@@ -247,7 +244,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
 
         public void Restore()
         {
-            historyPage = 0; placedRun = -1; observed = baseThought = "";dialogueRun=-1;dialogueSource=null;
+            historyPage = 0; observed = baseThought = "";dialogueRun=-1;dialogueSource=null;
             thoughtPlacementReady=false;
             speechAnchor.Reset();
             if(focusWindow)focusWindow.ResetWindow();
@@ -321,7 +318,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 buttonY+=buttonHeight+12;
             }
             view.actionPanel.sizeDelta=new Vector2(width,Mathf.Max(0,buttonY-12));
-            view.actionPanel.anchoredPosition=complete?new Vector2(0,view.actionPanel.rect.height*.5f):new Vector2(0,-height*.5f-24);
+            view.actionPanel.anchoredPosition=new Vector2(0,-height*.5f-24);
             if(storybook)storybook.LayoutWorld(xr);
             PrepareDialogueReader();
             // Rotate the whole reading column around its centre, not around the body
@@ -331,11 +328,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             float centre=(top+bottom)*.5f;
             columnHalfHeight=(top-bottom)*.5f*worldPixelSize;
             columnHalfWidth=(width*.5f+24)*worldPixelSize;
-            if(!complete)
-            {
-                view.dialoguePanel.anchoredPosition=new Vector2(0,-centre);
-                var actions=view.actionPanel.anchoredPosition;actions.y-=centre;view.actionPanel.anchoredPosition=actions;
-            }
+            view.dialoguePanel.anchoredPosition=new Vector2(0,-centre);
+            var actions=view.actionPanel.anchoredPosition;actions.y-=centre;view.actionPanel.anchoredPosition=actions;
             if(focusWindow)focusWindow.Refresh();
             if(xr)MeasureReadingBounds();
             LayoutHud(xr);
@@ -437,24 +431,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             var lesson=view.lesson;
             var f=lesson.Flow;
             var step=f!=null?f.Step:ElevatorStep.Lobby;
-            if(complete)
-            {
-                // Just two world buttons, latched once in front of the player, not on a book.
-                bool xr=XRSettings.isDeviceActive;
-                if(xr)stereoReady=StereoUISafeArea.TryCapture(view.playerCamera,out _);
-                if(placedStep!=step||placedRun!=lesson.RunVersion)
-                {
-                    var eye=view.playerCamera.transform;
-                    var forward=Vector3.ProjectOnPlane(eye.forward,Vector3.up).normalized;
-                    if(forward.sqrMagnitude<.001f)forward=Vector3.forward;
-                    dialoguePosition=eye.position+forward*1.8f-Vector3.up*.1f;
-                    placedStep=step;placedRun=lesson.RunVersion;
-                }
-                var facing=dialoguePosition-view.playerCamera.transform.position;
-                transform.SetPositionAndRotation(dialoguePosition,Quaternion.LookRotation(facing,Vector3.up));
-                transform.localScale=Vector3.one*(xr?VRUIReadingLayout.Distance/VRUIReadingLayout.PointsPerRadian*StereoUISafeArea.VisualScale:worldPixelSize);
-                return;
-            }
             if(XRSettings.isDeviceActive)
             {
                 stereoReady=StereoUISafeArea.TryCapture(view.playerCamera,out var frame);
@@ -470,7 +446,6 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             transform.SetPositionAndRotation(dialoguePosition,dialogueRotation);
             transform.localScale=dialogueScale;
             if(storybook)storybook.PointSpeechTail(speechAnchor.SourcePoint);
-            placedStep=step;placedRun=lesson.RunVersion;
         }
 
         public void SetCinematicVisibility() => SetCinematicVisibility(XRSettings.isDeviceActive);
@@ -779,7 +754,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             string line=ElevatorSpeechAnchor.VisibleLine(view.lesson,dialogueSpeaker,dialogueSource);
             if(view.dialogueText.text==line)return;
             view.dialogueText.text=line;view.dialogueText.maxVisibleCharacters=int.MaxValue;
-            SetPanelVisible(view.dialoguePanel,!complete&&!screenOnly&&!string.IsNullOrEmpty(line));
+            SetPanelVisible(view.dialoguePanel,!screenOnly&&!string.IsNullOrEmpty(line));
         }
 
         void PlaceStereoThought()

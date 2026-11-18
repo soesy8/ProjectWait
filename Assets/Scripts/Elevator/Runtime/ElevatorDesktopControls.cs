@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit.Interactors.Casters;
 using UnityEngine.XR.Interaction.Toolkit.UI;
 using ProjectWait.M.SceneTransition;
 using Unity.XR.CoreUtils;
@@ -58,6 +59,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         readonly ProjectWait.M.Shared.FreshPressGate clickGate=new ProjectWait.M.Shared.FreshPressGate();
         int guardedRevision=-1;
         UnityEngine.XR.Interaction.Toolkit.Interactors.NearFarInteractor[] hands;
+        readonly List<CurveInteractionCaster> suspendedStabilizers=new List<CurveInteractionCaster>(2);
         public bool FreshClickReady=>clickGate.Ready;
         public void RequireFreshChoiceClick(){clickGate.Arm(Time.unscaledTimeAsDouble);pendingClick=false;}
         static readonly Color Idle=new Color(.85f,.94f,1),Target=new Color(.35f,.86f,1),OutOfRange=new Color(1,.70f,.28f);
@@ -106,11 +108,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         void Update()
         {
             if(!lesson||lesson.Flow==null)return;
+            RefreshMode();
+            SetDirectChoiceAim(!IsDesktop&&!lesson.CinematicBlocking&&HasInteractiveChoice());
             if(guardedRevision!=lesson.view.InteractionRevision){guardedRevision=lesson.view.InteractionRevision;RequireFreshChoiceClick();}
             bool held=IsDesktop&&Mouse.current!=null&&(Mouse.current.leftButton.isPressed||Mouse.current.leftButton.wasReleasedThisFrame);
             if(!IsDesktop&&hands!=null)foreach(var hand in hands)if(hand&&(hand.uiPressInput.ReadIsPerformed()||hand.uiPressInput.ReadWasPerformedThisFrame()))held=true;
             clickGate.Observe(Time.unscaledTimeAsDouble,held);
-            RefreshMode();bool click=pendingClick;pendingClick=false;
+            bool click=pendingClick;pendingClick=false;
             if(lesson.IsPaused&&!ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy)
             {
                 pendingChoice=-1;pendingRestart=pendingDeveloper=false;SetMouseLook(false);RefreshLaserVisibility();
@@ -146,6 +150,30 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             UpdateCenterRay();
             if(click&&clickRevision==lesson.view.InteractionRevision&&clickRun==lesson.RunVersion)SelectCenterTarget();
             RefreshLaserVisibility();
+        }
+        bool HasInteractiveChoice()
+        {
+            foreach(var button in lesson.view.ChoiceButtons)
+                if(button&&button.IsActive()&&button.IsInteractable())return true;
+            return false;
+        }
+        void SetDirectChoiceAim(bool direct)
+        {
+            // A stabilized ray can still be between rows when the trigger goes down.
+            // Let XRI use the current pose for UI and restore each hand's world aiming afterwards.
+            if(direct)
+            {
+                if(hands==null)return;
+                foreach(var hand in hands)
+                    if(hand&&hand.farInteractionCaster is CurveInteractionCaster caster&&caster.enableStabilization)
+                    {
+                        caster.enableStabilization=false;
+                        suspendedStabilizers.Add(caster);
+                    }
+                return;
+            }
+            foreach(var caster in suspendedStabilizers)if(caster)caster.enableStabilization=true;
+            suspendedStabilizers.Clear();
         }
         void LateUpdate()
         {
@@ -317,8 +345,24 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             {
                 distance=hit.distance;var o=hit.collider.GetComponentInParent<ElevatorObservation>();if(o&&lesson.CanInteract(o.clue))target=o.gameObject;
             }
+            PreparePointer(screen);
+            var button = HitChoice(ray, Mathf.Infinity, out float d);
+            if (button)
+            {
+                target=button.gameObject;distance=d;
+                if(pointer!=null)pointer.pointerCurrentRaycast=new RaycastResult{gameObject=target,distance=d,worldPosition=ray.GetPoint(d),worldNormal=-button.transform.forward};
+            }
+            SetTarget(target);var observation=hovered?hovered.GetComponent<ElevatorObservation>():null;
+            bool reachable=hovered&&(!observation||observation.CanActivate);
+            var color=hovered?(reachable?Target:OutOfRange):Idle;
+            RenderRay(ray,distance,color,reachable);
+        }
+        public UnityEngine.UI.Button HitChoice(Ray ray, float range, out float uiDistance)
+        {
+            uiDistance=range;
+            if (!lesson || !lesson.view || !targetCamera) return null;
             if(viewRevision!=lesson.view.InteractionRevision){viewRevision=lesson.view.InteractionRevision;lesson.view.CollectInteractiveButtons(buttons);}
-            PreparePointer(screen);float uiDistance=Mathf.Infinity;
+            UnityEngine.UI.Button best=null;
             foreach(var button in buttons)
             {
                 if(!button||!button.IsActive()||!button.IsInteractable())continue;
@@ -326,13 +370,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 if(!plane.Raycast(ray,out float d)||d<targetCamera.nearClipPlane||d>uiDistance)continue;
                 var point=ray.GetPoint(d);if(!rect.rect.Contains((Vector2)rect.InverseTransformPoint(point)))continue;
                 var filter=button.GetComponent<ElevatorUIFocusRaycastFilter>();if(filter&&!filter.Allows(point))continue;
-                target=button.gameObject;distance=d;uiDistance=d;
-                if(pointer!=null)pointer.pointerCurrentRaycast=new RaycastResult{gameObject=target,distance=d,worldPosition=point,worldNormal=-rect.forward};
+                var graphic=button.targetGraphic;
+                if(graphic && (!graphic.raycastTarget || !graphic.canvas || !graphic.canvas.isActiveAndEnabled ||
+                    !graphic.Raycast(targetCamera.WorldToScreenPoint(point),targetCamera))) continue;
+                best=button;uiDistance=d;
             }
-            SetTarget(target);var observation=hovered?hovered.GetComponent<ElevatorObservation>():null;
-            bool reachable=hovered&&(!observation||observation.CanActivate);
-            var color=hovered?(reachable?Target:OutOfRange):Idle;
-            RenderRay(ray,distance,color,reachable);
+            return best;
         }
         void RenderRay(Ray ray,float distance,Color color,bool reachable)
         {
@@ -355,6 +398,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         }
         void OnDisable()
         {
+            SetDirectChoiceAim(false);
             Application.onBeforeRender-=CompleteAuthoredSpawn;
             if(uiModule)uiModule.finalizeRaycastResults-=FilterFreshClick;
             foreach(var subsystem in inputSubsystems)if(subsystem!=null)subsystem.trackingOriginUpdated-=TrackingOriginChanged;

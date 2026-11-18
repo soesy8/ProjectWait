@@ -30,6 +30,8 @@ namespace ProjectWait.M.TitleScene
         public Panel[] panels = Array.Empty<Panel>();
         [Header("Additional M scenes (original lobby path stays unchanged)")]
         public bool useSceneMaterials;
+        [Tooltip("Optional panoramic/illustrated sky for the loading bridge when the scene uses a procedural sky.")]
+        public Material transitionSky;
         public Shader propDissolveShader;
         public Shader litDissolveShader;
         [Min(3)] public float sceneSampleDistance = 18;

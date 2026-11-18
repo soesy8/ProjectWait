@@ -51,9 +51,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             if(!lesson||lesson.Flow==null)return;if(!top)Build();
             if(run!=lesson.RunVersion){run=lesson.RunVersion;Amount=lesson.Flow.IsOpening?1:0;enteredThroughStoryTransition=ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy;}
             if(lesson.Flow.IsOpening&&ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy)enteredThroughStoryTransition=true;
-            // Keep the call's framing across the identity search/report interaction.
-            // The bands are presentation, not an invisible input shield.
-            bool framed=lesson.Flow.IsCinematic||lesson.Flow.SearchingIdentity||lesson.Flow.ReviewingIdentity||lesson.Flow.Step==ElevatorStep.CallSafetyAdvice;
+            // Searching the cabin and reading the ID plate need the entire field of view.
+            bool framed=lesson.Flow.IsCinematic||lesson.Flow.Step==ElevatorStep.CallSafetyAdvice;
             Amount=Mathf.MoveTowards(Amount,framed?1:0,seconds/.38f);
             Position();
             top.gameObject.SetActive(Amount>0&&(!XRSettings.isDeviceActive||stereoReady));

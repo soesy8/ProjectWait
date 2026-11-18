@@ -39,6 +39,8 @@ namespace ProjectWait.YB.OfficeBlackout
 
         public void ShowPrompt(string value)
         {
+            var presentation = OfficeSceneIntegration.Current ? OfficeSceneIntegration.Current.presentation : null;
+            if (presentation && presentation.ActionThoughtVisible) presentation.ClearLine();
             displayedPresetIndex = -1;
             bool visible = !string.IsNullOrWhiteSpace(value);
 

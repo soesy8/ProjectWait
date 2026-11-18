@@ -11,7 +11,7 @@ namespace ProjectWait.YB.OfficeBlackout
         [SerializeField] OfficeBlackoutDirector director;
         [SerializeField] Transform playerRoot;
         [SerializeField] UnityEvent<string> onPromptChanged = new UnityEvent<string>();
-        [SerializeField] string availablePrompt = "책상 앞의 서류 놓는 위치에서 클릭하세요.";
+        [SerializeField] string availablePrompt = "책을 놓을 자리가 있네.";
 
         readonly HashSet<Collider> playerColliders = new HashSet<Collider>();
         bool promptVisible;

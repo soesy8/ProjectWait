@@ -76,8 +76,15 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             hovered = value;
             if(!value)lesson.ClearThought(clue);
         }
-        public bool Process(IXRSelectInteractor interactor, IXRSelectInteractable interactable) => CanActivate;
-        bool IXRHoverFilter.Process(IXRHoverInteractor interactor, IXRHoverInteractable interactable) => CanActivate;
+        bool ChoiceOwnsRay(object interactor)
+        {
+            if (!(interactor is NearFarInteractor hand) || !hand.enableUIInteraction || !lesson.Controls ||
+                !(hand.farInteractionCaster is UnityEngine.XR.Interaction.Toolkit.Interactors.Casters.CurveInteractionCaster caster)) return false;
+            var origin = caster.effectiveCastOrigin;
+            return origin && lesson.Controls.HitChoice(new Ray(origin.position, origin.forward), caster.castDistance, out _);
+        }
+        public bool Process(IXRSelectInteractor interactor, IXRSelectInteractable interactable) => CanActivate && !ChoiceOwnsRay(interactor);
+        bool IXRHoverFilter.Process(IXRHoverInteractor interactor, IXRHoverInteractable interactable) => CanActivate && !ChoiceOwnsRay(interactor);
         public void Activate() { if(!CanActivate)return;var controls=FindFirstObjectByType<ElevatorDesktopControls>();if(controls&&!controls.FreshClickReady)return; if(feedback&&(clue!=ElevatorClue.Intercom||lesson.Flow.Step==ElevatorStep.Stopped))feedback.Press(); lesson.Activate(clue); }
         public void ResetHover()
         {

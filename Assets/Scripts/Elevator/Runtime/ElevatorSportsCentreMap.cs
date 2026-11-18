@@ -150,7 +150,13 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 Lesson.friend.position=teleported?new Vector3(.1f,0,-8.4f):Vector3.MoveTowards(friendTravelStart,new Vector3(.1f,0,-8.4f),ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed*travelTime);
                 Lesson.friend.rotation=Quaternion.Euler(0,180,0);
             }
-            else if(f.Step==ElevatorStep.Complete)Lesson.friend.position=new Vector3(.1f,0,-8.4f);
+            else if(f.Step==ElevatorStep.Complete)
+            {
+                Lesson.friend.position=new Vector3(.1f,0,-8.4f);
+                var towardPlayer=Vector3.ProjectOnPlane(Lesson.playerCamera.transform.position-Lesson.friend.position,Vector3.up);
+                // This rig's face points along local -Z.
+                if(towardPlayer.sqrMagnitude>.001f)Lesson.friend.rotation=Quaternion.LookRotation(-towardPlayer);
+            }
             if(Lesson.doorSafetyCutscene)Lesson.doorSafetyCutscene.ApplyPosition();
             p.leftDoor.localPosition=leftClosed+Vector3.left*(DoorOpen*.9f);
             p.rightDoor.localPosition=rightClosed+Vector3.right*(DoorOpen*.9f);

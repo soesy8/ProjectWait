@@ -66,6 +66,7 @@ Shader "ProjectWait/Office/Storybook Toon"
             #pragma vertex Vert
             #pragma fragment Frag
             #pragma multi_compile_instancing
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -86,7 +87,18 @@ Shader "ProjectWait/Office/Storybook Toon"
                 half3 color=SAMPLE_TEXTURE2D(_BaseMap,sampler_BaseMap,i.uv).rgb*_BaseColor.rgb;
                 color*=lerp(tone,1,_PoweredSurface*(1-_OfficeDarkness));
                 // Deliberate emergency fill: recognisable faces, not a black headset screen.
-                color*=lerp(half3(1,1,1),half3(.16,.25,.32),_OfficeDarkness);
+                half3 fill=lerp(half3(1,1,1),half3(.16,.25,.32),_OfficeDarkness);
+                #if defined(_ADDITIONAL_LIGHTS)
+                if (_OfficeDarkness > .99)
+                {
+                    for (uint index=0; index<GetAdditionalLightsCount(); ++index)
+                    {
+                        Light lamp=GetAdditionalLight(index,i.world);
+                        fill+=min(.42, lamp.color*lamp.distanceAttenuation*saturate(dot(normalize(i.normal),lamp.direction)));
+                    }
+                }
+                #endif
+                color*=fill;
                 color*=lerp(1,.2,_PoweredSurface*_OfficeDarkness);
                 return half4(color,1);
             }

@@ -30,6 +30,8 @@ namespace ProjectWait.M.Shared
         public void Apply(CurveVisualController visual)
         {
             visual.lineDynamicsMode = LineDynamicsMode.Traditional;
+            // Use the same stabilized origin as the XRI UI ray, including above/below eye level.
+            visual.overrideLineOrigin = false;
             visual.maxVisualCurveDistance = visual.restingVisualLineLength = 30;
             visual.extendLineToEmptyHit = true;
             visual.extensionRate = 0; // Immediate full length after leaving a target.
@@ -51,7 +53,12 @@ namespace ProjectWait.M.Shared
         }
 
         // Each controller owns its mutable state properties, not another hand's.
-        static LineProperties Copy(LineProperties source) => source == null ? new LineProperties() :
-            JsonUtility.FromJson<LineProperties>(JsonUtility.ToJson(source));
+        static LineProperties Copy(LineProperties source)
+        {
+            var copy = source == null ? new LineProperties() : JsonUtility.FromJson<LineProperties>(JsonUtility.ToJson(source));
+            copy.startWidth *= 1.25f;
+            copy.endWidth *= 1.25f;
+            return copy;
+        }
     }
 }

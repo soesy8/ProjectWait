@@ -34,6 +34,8 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         GameObject cabin;
         ElevatorClue? activeClue;
         ElevatorDesktopControls controls;
+        bool callHintShown, floorHintShown;
+        public ElevatorDesktopControls Controls => controls;
         public bool SpawnReady=>!controls||controls.SpawnReady;
         public bool RestoringObservation {get;private set;}
 
@@ -53,7 +55,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             // A script reload retains the scene but not this managed state owner.
             if (Application.isPlaying && Flow == null) Awake();
         }
-        void Update() { Advance(Time.unscaledDeltaTime); }
+        void Update()
+        {
+            Advance(Time.unscaledDeltaTime);
+            ProjectWait.M.Shared.StoryMusic.SetPaused(this, Flow != null && Flow.Step == ElevatorStep.Retry &&
+                !ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy);
+        }
         public void Advance(float delta)
         {
             if(IsPaused||Flow==null||delta>0&&(!SpawnReady||ProjectWait.M.SceneTransition.StorybookSceneTransition.IsBusy))return;
@@ -89,6 +96,15 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 renderedRevision = Flow.Revision;
                 if(!hintOnly){Thought="";activeClue=null;ClearHover();}
                 view.Refresh();
+            }
+            if (!CinematicBlocking && (!controls || controls.FreshClickReady))
+            {
+                if (!callHintShown && Flow.Step == ElevatorStep.Lobby)
+                { callHintShown = true; ProjectWait.M.Shared.LookAroundHint.Show(playerCamera); }
+                // Both boarding orders remain valid. If the floor was selected first,
+                // the remaining actionable target is the ball, not an already-used button.
+                if (!floorHintShown && Flow.Step == ElevatorStep.Boarding && (Flow.BallReceived ^ Flow.DestinationSelected))
+                { floorHintShown = true; ProjectWait.M.Shared.LookAroundHint.Show(playerCamera); }
             }
         }
         public void Refresh() { view.Refresh(); }
@@ -137,6 +153,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         {
             view.RestoreThoughtLayout();
             RunVersion++; Floor = 3; renderedRevision = -1;
+            callHintShown = floorHintShown = false;
             Thought = ""; signal.Stop(); motor.Stop(); previousMoving = Flow.IsMoving;
             foreach(var feedback in GetComponentsInChildren<ElevatorButtonFeedback>(true))feedback.ResetFeedback();
             friend.localPosition = friendHome; ClearHover(); Advance(0);
@@ -196,6 +213,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         }
         void OnDisable()
         {
+            ProjectWait.M.Shared.StoryMusic.SetPaused(this, false);
             if (motor) motor.Stop(); if (signal) signal.Stop();
             if (friend) friend.localPosition = friendHome;
             ClearHover();

@@ -89,7 +89,7 @@ namespace ProjectWait.M.SceneTransition
             activeFade = activeFade ? activeFade : FindEffect(SceneManager.GetActiveScene());
             if (!activeFade || !activeFade.useSceneMaterials || !font || !overlayMaterial || !skyBridgeShader) return;
             EnsureView();
-            View.BeginPanel(); View.BindCamera(activeFade.viewCamera); View.SetSky(RenderSettings.skybox);
+            View.BeginPanel(); View.BindCamera(activeFade.viewCamera); View.SetSky(activeFade.transitionSky ? activeFade.transitionSky : RenderSettings.skybox);
             View.SetContent(previewTitle,previewContext);
             arrivingControls=FindControls(View.ViewCamera);
             arrivingOffice=View.ViewCamera?View.ViewCamera.GetComponentInParent<ProjectWait.YB.OfficeBlackout.OfficeBlackoutPlayerMovement>():null;
@@ -149,11 +149,11 @@ namespace ProjectWait.M.SceneTransition
             return Begin(null, previewTitle, previewContext, Camera.main, null);
         }
 
-        public bool TryLoad(string scenePath, string title, string context, Camera sourceCamera, Action<bool> onFinished = null, TMP_FontAsset textFont = null)
+        public bool TryLoad(string scenePath, string title, string context, Camera sourceCamera, Action<bool> onFinished = null, TMP_FontAsset textFont = null, Transform cardStation = null)
         {
             if (string.IsNullOrEmpty(scenePath) || !CanLoad(scenePath)) return false;
             if (textFont) font = textFont;
-            return Begin(scenePath, title, context, sourceCamera, onFinished);
+            return Begin(scenePath, title, context, sourceCamera, onFinished, cardStation);
         }
 
         static bool CanLoad(string scenePath)
@@ -166,15 +166,15 @@ namespace ProjectWait.M.SceneTransition
 #endif
         }
 
-        bool Begin(string scenePath, string title, string context, Camera sourceCamera, Action<bool> onFinished)
+        bool Begin(string scenePath, string title, string context, Camera sourceCamera, Action<bool> onFinished, Transform cardStation = null)
         {
             if (!Application.isPlaying || !isActiveAndEnabled || IsBusy || !font || !overlayMaterial || !skyBridgeShader || !sourceCamera || !RenderSettings.skybox) return false;
             var effect = activeFade && activeFade.gameObject.scene == sourceCamera.gameObject.scene ? activeFade : FindEffect(sourceCamera.gameObject.scene);
             if (!effect || effect.gameObject.scene != sourceCamera.gameObject.scene || !effect.BeginSceneTransition(fadeOutSeconds)) return false;
             borrowedFade = effect;
             EnsureView();
-            View.BeginPanel();
-            View.SetSky(RenderSettings.skybox);
+            View.BeginPanel(cardStation);
+            View.SetSky(effect.transitionSky ? effect.transitionSky : RenderSettings.skybox);
             View.BindCamera(sourceCamera);
             View.SetContent(title, string.IsNullOrWhiteSpace(context) ? "새로운 이야기가 곧 시작돼요." : context);
             destination = scenePath;
@@ -292,7 +292,7 @@ namespace ProjectWait.M.SceneTransition
             // Use the authored feet, never an uninitialized tracked eye's saved offset.
             arrivalFootprint = arrivingOffice ? arrivingOffice.FeetPosition : arrivingControls&&arrivingControls.movement?arrivingControls.movement.FeetPosition:
                 View.ViewCamera?View.ViewCamera.transform.position:Vector3.zero;
-            arrivalPoseApplied = !hasHeadPose;
+            arrivalPoseApplied = !hasHeadPose && !arrivingPlayer;
         }
 
         static ElevatorDesktopControls FindControls(Camera camera)
@@ -337,7 +337,7 @@ namespace ProjectWait.M.SceneTransition
                 }
                 if (!tracked) return;
             }
-            if (arrivingPlayer) arrivingPlayer.ApplyTransitionHeadPose(headPose, arrivalFootprint);
+            if (arrivingPlayer) arrivingPlayer.ApplyTransitionHeadPose(hasHeadPose ? headPose : default, arrivalFootprint);
             else if (arrivingOffice) arrivingOffice.ApplyTransitionHeadPose(headPose, arrivalFootprint);
             else if (arrivingControls&&!arrivingControls.TryApplyTransitionHeadPose(headPose, arrivalFootprint)) return;
             View.BindCamera(View.ViewCamera);

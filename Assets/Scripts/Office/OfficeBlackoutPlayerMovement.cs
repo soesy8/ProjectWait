@@ -277,6 +277,10 @@ namespace ProjectWait.YB.OfficeBlackout
                 if (desktopPitchPivot) desktopPitchPivot.localRotation = Quaternion.Euler(desktopPitch, 0, 0);
                 playerCamera.transform.localRotation = Quaternion.identity;
             }
+            // Keep the incoming eye height and pitch; enter facing the authored desk.
+            if (playerStart)
+                transform.RotateAround(playerCamera.transform.position, Vector3.up,
+                    Mathf.DeltaAngle(playerCamera.transform.eulerAngles.y, playerStart.eulerAngles.y));
             characterController.enabled = active; UpdateControllerCenter();
         }
         void UpdateSnapTurn()

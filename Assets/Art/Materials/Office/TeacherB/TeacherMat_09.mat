@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BandSoftness: 0.012
-    - _Cull: 2
+    - _Cull: 0
     - _DissolveBandWidth: 3
     - _DissolveCellSize: 0.36
     - _DissolveEnabled: 0
@@ -38,7 +38,7 @@ Material:
     - _DissolveReveal: 0
     - _LightThreshold: 0.62
     - _MidTone: 0.9
-    - _OutlineWidth: 0.9
+    - _OutlineWidth: 0
     - _PoweredSurface: 0
     - _ShadowThreshold: 0.02
     m_Colors:

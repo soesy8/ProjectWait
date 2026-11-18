@@ -36,11 +36,9 @@ namespace ProjectWait.YB.OfficeBlackout
                     while (OfficeStoryTime.Frozen) yield return null;
                     friend.FinishRouteUnderCover(); teacher.FinishRouteUnderCover();
                     integration.movement.RelocateFeet(arrival.position);
-                    // Place the speakers in the retained gaze direction, not at old
-                    // waypoints behind the headset. No tracked pose is rotated.
-                    Vector3 forward = Vector3.ProjectOnPlane(integration.viewer.transform.forward, Vector3.up).normalized;
-                    if (forward.sqrMagnitude < .01f) forward = Vector3.forward;
-                    Vector3 right = Vector3.Cross(Vector3.up, forward);
+                    // Stage the closing conversation by the authored exit; the player keeps their own gaze.
+                    Vector3 forward = arrival.forward;
+                    Vector3 right = arrival.right;
                     friend.transform.position = arrival.position + forward * 1.8f - right * .8f;
                     // Stay on the near side of the office doorway, so the
                     // teacher remains visible during the final conversation.
@@ -51,7 +49,7 @@ namespace ProjectWait.YB.OfficeBlackout
             }
             cinematic.RelocationFade = 0; cinematic.HideLetterbox();
             integration.EscortMoving = false; integration.RequireFreshClick(); routine = null;
-            integration.director.PlayDialogue(6);
+            integration.director.ActivateCompletionNotebook();
         }
         void OnDisable()
         {

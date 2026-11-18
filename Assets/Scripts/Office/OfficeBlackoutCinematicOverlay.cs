@@ -192,12 +192,7 @@ namespace ProjectWait.YB.OfficeBlackout
             {
                 if (string.IsNullOrWhiteSpace(line)) continue;
                 SetCaption(line);
-                // Explicit next: long Korean lines must never expire before they are read.
-                if (presentation)
-                {
-                    presentation.BeginReading();
-                    while (!presentation.LineAdvanced || OfficeStoryTime.Frozen) yield return null;
-                }
+                if (presentation) yield return presentation.ReadPages(captionIntervalSeconds);
                 else yield return new OfficeStoryWait(Mathf.Max(captionIntervalSeconds, line.Length * .12f) / ExperiencePreferences.Current.dialogue);
             }
 

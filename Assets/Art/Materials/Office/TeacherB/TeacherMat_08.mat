@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BandSoftness: 0.012
-    - _Cull: 2
+    - _Cull: 0
     - _DissolveBandWidth: 3
     - _DissolveCellSize: 0.36
     - _DissolveEnabled: 0

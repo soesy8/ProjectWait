@@ -1,194 +1,100 @@
+using ProjectWait.M.Elevator;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
+using System.Linq;
 
 namespace ProjectWait.YB.OfficeBlackout
 {
-    /// <summary>
-    /// World-space alternative to the explicit papers action card.
-    /// Aiming at the visible desk target does not require entering a hidden volume.
-    /// </summary>
-    [RequireComponent(typeof(Collider))]
+    [RequireComponent(typeof(Collider), typeof(ElevatorOutlineTarget))]
     public sealed class OfficeBlackoutInteraction : MonoBehaviour
     {
-        [Header("References")]
         [SerializeField] OfficeBlackoutDirector director;
-        [SerializeField] OfficeBlackoutDeskPromptTrigger deskArea;
-        [SerializeField] Camera playerCamera;
-        [SerializeField, Min(0.1f)] float interactionRayDistance = 8f;
-        [SerializeField, Min(0.001f)] float aimRayWidth = 0.008f;
-
-        [Header("Input")]
-        [Tooltip("Optional action override. Default: left mouse click, either XR trigger, or E.")]
+        [SerializeField] Transform book, deskSocket;
+        [SerializeField, Min(.1f)] float interactionRayDistance = 8f;
         [SerializeField] InputActionReference interactAction;
         [SerializeField] Key keyboardKey = Key.E;
 
         InputAction fallbackAction;
-        bool hasLoggedPlayerDetection;
-        LineRenderer aimRay;
-        Transform aimMarker;
-        Material aimMaterial;
+        ElevatorOutlineTarget outline;
+        Collider zone;
+        readonly RaycastHit[] blockers = new RaycastHit[16];
 
-        void Reset()
+        void Awake()
         {
-            var trigger = GetComponent<Collider>();
-            if (trigger) trigger.isTrigger = true;
+            zone = GetComponent<Collider>();
+            outline = GetComponent<ElevatorOutlineTarget>();
         }
 
         void OnEnable()
         {
-            var trigger = GetComponent<Collider>();
-            if (trigger && !trigger.isTrigger)
-                Debug.LogWarning($"{nameof(OfficeBlackoutInteraction)} expects an Is Trigger collider on {name}.", this);
-            if (!playerCamera) playerCamera = Camera.main;
-            CreateAimVisuals();
-
-            if (interactAction != null && interactAction.action != null)
+            director.StepChanged += OnStep;
+            var action = interactAction ? interactAction.action : null;
+            if (action == null)
             {
-                interactAction.action.performed += OnInteract;
-                interactAction.action.Enable();
+                action = fallbackAction = new InputAction("OfficePlaceBook", InputActionType.Button);
+                action.AddBinding("<XRController>{RightHand}/{TriggerButton}");
+                action.AddBinding("<Mouse>/leftButton");
+                action.AddBinding("<Keyboard>/" + keyboardKey.ToString().ToLowerInvariant());
             }
-            else
-            {
-                fallbackAction = new InputAction("OfficeBlackoutInteract", InputActionType.Button);
-                fallbackAction.AddBinding("<Mouse>/leftButton");
-                fallbackAction.AddBinding("<XRController>/{TriggerButton}");
-                fallbackAction.AddBinding("<Keyboard>/" + keyboardKey.ToString().ToLowerInvariant());
-                fallbackAction.performed += OnInteract;
-                fallbackAction.Enable();
-            }
+            action.performed += OnInteract;
+            action.Enable();
         }
 
-        void OnDisable()
+        void OnStep(OfficeBlackoutFlow.Step step)
         {
-            if (aimRay) aimRay.enabled = false;
-            if (aimMarker) aimMarker.gameObject.SetActive(false);
-            if (interactAction != null && interactAction.action != null)
-                interactAction.action.performed -= OnInteract;
-            if (fallbackAction != null)
-            {
-                fallbackAction.performed -= OnInteract;
-                fallbackAction.Dispose();
-                fallbackAction = null;
-            }
+            if (step != OfficeBlackoutFlow.Step.BlackoutReaction) return;
+            book.SetParent(deskSocket, false);
+            book.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            outline.SetPresentation(false, false);
         }
 
         void LateUpdate()
         {
-            bool canAim = !OfficeSceneIntegration.GameplayBlocked && director && director.ActionReady && director.Flow != null &&
-                          director.Flow.CurrentStep == OfficeBlackoutFlow.Step.Errand && playerCamera;
-            if (!aimRay || !aimMarker)
+            var scene = OfficeSceneIntegration.Current;
+            if (!scene || director.Flow == null) return;
+            if (!director.Flow.DocumentsPlaced)
             {
-                if (canAim) CreateAimVisuals();
-                if (!aimRay || !aimMarker) return;
+                bool xr = XRSettings.isDeviceActive;
+                Transform grip = xr ? scene.rightRay : scene.viewer.transform;
+                if (book.parent != grip)
+                {
+                    book.SetParent(grip, false);
+                    book.SetLocalPositionAndRotation(xr ? new Vector3(.035f, -.025f, .055f) : new Vector3(.32f, -.27f, .73f),
+                        Quaternion.Euler(xr ? -12 : -22, -14, 12));
+                }
             }
-
-            // XR already has shared hand rays. Desktop needs only the target marker.
-            aimRay.enabled = false;
-            aimMarker.gameObject.SetActive(canAim);
-            if (!canAim) return;
-
-            Ray ray = GetAimRay();
-            Collider targetCollider = GetComponent<Collider>();
-            RaycastHit hitInfo = default;
-            bool hit = targetCollider && targetCollider.Raycast(ray, out hitInfo, interactionRayDistance);
-            Vector3 end = hit ? hitInfo.point : targetCollider.bounds.center;
-            aimRay.SetPosition(0, ray.origin + ray.direction * 0.12f);
-            aimRay.SetPosition(1, end);
-            Color color = hit ? new Color(.16f, .48f, .44f) : new Color(.61f, .79f, .72f);
-            aimRay.startColor = aimRay.endColor = color;
-            SetAimMaterialColor(color);
-            aimMarker.position = end;
-            aimMarker.localScale = Vector3.one * (hit ? 0.055f : 0.035f);
-        }
-
-        void OnTriggerEnter(Collider other)
-        {
-            if (hasLoggedPlayerDetection || !IsPlayer(other)) return;
-            hasLoggedPlayerDetection = true;
-            Debug.Log($"[OfficeBlackout] Player detected by {name} trigger.", this);
+            bool visible = director.Inspecting(OfficeBlackoutFlow.Step.Errand);
+            bool aimed = visible && scene.TryAimRay(null, out var ray) && HitDropoffZone(ray);
+            outline.SetPresentation(visible, aimed, aimed);
         }
 
         void OnInteract(InputAction.CallbackContext context)
         {
-            if (OfficeSceneIntegration.GameplayBlocked || !OfficeSceneIntegration.Current || !OfficeSceneIntegration.Current.ClickReady) return;
-            if (!director || !director.ActionReady || director.Flow == null) return;
-            if (director.Flow.CurrentStep != OfficeBlackoutFlow.Step.Errand) return;
-            if (!HitDropoffZone(OfficeSceneIntegration.Current.AimRay(context.control))) return;
-
-            if (director.PerformAction()) OfficeSceneIntegration.Current.RequireFreshClick();
+            var scene = OfficeSceneIntegration.Current;
+            if (!scene || !scene.ClickReady || !director.Inspecting(OfficeBlackoutFlow.Step.Errand)) return;
+            if (XRSettings.isDeviceActive && !context.control.device.usages.Contains(UnityEngine.InputSystem.CommonUsages.RightHand)) return;
+            if (scene.TryAimRay(context.control, out var ray) && !scene.HitUI(ray) && HitDropoffZone(ray) && director.SelectWorldTarget())
+                scene.RequireFreshClick();
         }
 
         bool HitDropoffZone(Ray ray)
         {
-            if (!playerCamera) return false;
-
-            Collider targetCollider = GetComponent<Collider>();
-            if (!targetCollider || !targetCollider.Raycast(ray, out var target, interactionRayDistance)) return false;
-            foreach (var hit in Physics.RaycastAll(ray, target.distance, ~0, QueryTriggerInteraction.Ignore))
-                if (!hit.transform.IsChildOf(targetCollider.transform) && !hit.transform.GetComponentInParent<CharacterController>()) return false;
+            if (!zone.Raycast(ray, out var target, interactionRayDistance)) return false;
+            int count = Physics.RaycastNonAlloc(ray, blockers, target.distance, ~0, QueryTriggerInteraction.Ignore);
+            if (count == blockers.Length) return false;
+            for (int i = 0; i < count; i++)
+                if (!blockers[i].transform.IsChildOf(transform) && !blockers[i].transform.GetComponentInParent<CharacterController>())
+                    return false;
             return true;
         }
 
-        Ray GetAimRay()
+        void OnDisable()
         {
-            if (OfficeSceneIntegration.Current) return OfficeSceneIntegration.Current.DefaultRay();
-            Vector2 screenPoint = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-            if (!XRSettings.isDeviceActive && Mouse.current != null && Cursor.lockState != CursorLockMode.Locked)
-                screenPoint = Mouse.current.position.ReadValue();
-            return playerCamera.ScreenPointToRay(screenPoint);
-        }
-
-        void CreateAimVisuals()
-        {
-            if (aimRay && aimMarker) return;
-
-            var rayObject = new GameObject("DropoffAimRay");
-            rayObject.layer = 2;
-            aimRay = rayObject.AddComponent<LineRenderer>();
-            aimRay.useWorldSpace = true;
-            aimRay.positionCount = 2;
-            aimRay.widthMultiplier = aimRayWidth;
-            aimRay.numCapVertices = 4;
-            aimRay.alignment = LineAlignment.View;
-            aimRay.enabled = false;
-
-            Shader shader = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Sprites/Default") ?? Shader.Find("Unlit/Color");
-            if (shader)
-            {
-                aimMaterial = new Material(shader);
-                SetAimMaterialColor(new Color(1f, 0.25f, 0.15f, 1f));
-                aimRay.material = aimMaterial;
-            }
-
-            var markerObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            markerObject.name = "DropoffAimPoint";
-            markerObject.layer = 2;
-            var markerCollider = markerObject.GetComponent<Collider>();
-            if (markerCollider) Destroy(markerCollider);
-            var markerRenderer = markerObject.GetComponent<Renderer>();
-            if (markerRenderer && aimMaterial) markerRenderer.sharedMaterial = aimMaterial;
-            aimMarker = markerObject.transform;
-            aimMarker.gameObject.SetActive(false);
-        }
-
-        void SetAimMaterialColor(Color color)
-        {
-            if (!aimMaterial) return;
-            if (aimMaterial.HasProperty("_BaseColor")) aimMaterial.SetColor("_BaseColor", color);
-            else if (aimMaterial.HasProperty("_Color")) aimMaterial.SetColor("_Color", color);
-        }
-        void OnDestroy()
-        {
-            if (aimRay) Destroy(aimRay.gameObject);
-            if (aimMarker) Destroy(aimMarker.gameObject);
-            if (aimMaterial) Destroy(aimMaterial);
-        }
-
-        bool IsPlayer(Collider other)
-        {
-            Transform candidate = other.attachedRigidbody ? other.attachedRigidbody.transform : other.transform;
-            return candidate.CompareTag("Player") || candidate.GetComponentInParent<CharacterController>() != null;
+            director.StepChanged -= OnStep;
+            outline.SetPresentation(false, false);
+            if (interactAction && interactAction.action != null) interactAction.action.performed -= OnInteract;
+            fallbackAction?.Dispose(); fallbackAction = null;
         }
     }
 }

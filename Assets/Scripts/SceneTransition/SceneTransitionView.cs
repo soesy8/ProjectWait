@@ -42,6 +42,7 @@ namespace ProjectWait.M.SceneTransition
         Vector3 anchorPosition, lastEye;
         Quaternion anchorRotation, lastEyeRotation;
         bool anchored, hasLastEye;
+        Transform authoredStation;
         bool showForwardHint;
         float panelTarget;
 
@@ -137,8 +138,9 @@ namespace ProjectWait.M.SceneTransition
             Position();
         }
 
-        public void BeginPanel()
+        public void BeginPanel(Transform station = null)
         {
+            authoredStation = station;
             anchored = false;
             panelTarget = 0;
             CardGroup.alpha = 0;
@@ -202,8 +204,8 @@ namespace ProjectWait.M.SceneTransition
             float yaw = Mathf.Atan2(forward.x,forward.z) * Mathf.Rad2Deg;
             // A level, head-height target invites looking forward, not carrying a downward
             // portal-selection gaze (or the destination's serialized eye height) into the load.
-            anchorRotation = Quaternion.Euler(0,yaw,0);
-            anchorPosition = ViewCamera.transform.position + anchorRotation * Vector3.forward * PanelDistance;
+            anchorRotation = authoredStation ? authoredStation.rotation : Quaternion.Euler(0,yaw,0);
+            anchorPosition = authoredStation ? authoredStation.position : ViewCamera.transform.position + anchorRotation * Vector3.forward * PanelDistance;
             anchored = true;
             transform.localScale = Vector3.one * (PanelWidth / 840);
             ApplyPanelPose();

@@ -8,6 +8,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using ProjectWait.M.Shared;
 using ProjectWait.M.SceneTransition;
+using UnityEngine.EventSystems;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using UnityEngine.XR.Interaction.Toolkit.Interactors.Casters;
+using UnityEngine.XR.Interaction.Toolkit.UI;
 
 namespace ProjectWait.YB.OfficeBlackout
 {
@@ -16,7 +20,7 @@ namespace ProjectWait.YB.OfficeBlackout
     {
         public const string ScenePath = "Assets/Scenes/Office/OfficeScene.unity";
         public const string LobbyPath = "Assets/Scenes/Lobby/Wait_Robby.unity";
-        public const string Context = "친구와 함께 선생님의 심부름으로,\n교무실에 서류를 가져다주러 왔어요.";
+        public const string Context = "친구와 함께 선생님의 심부름으로,\n교무실에 책을 가져다주러 왔어요.";
         public Camera viewer;
         public OfficeBlackoutPlayerMovement movement;
         public OfficeBlackoutDirector director;
@@ -29,7 +33,8 @@ namespace ProjectWait.YB.OfficeBlackout
         public Transform leftRay, rightRay;
         public static OfficeSceneIntegration Current { get; private set; }
         public static bool GameplayBlocked => OfficeStoryTime.Frozen || Current &&
-            (Current.IsCompleted || Current.EscortMoving || Current.presentation && Current.presentation.DialogueVisible);
+            (Current.IsCompleted || Current.EscortMoving || Current.director.ConsequencePlaying || Current.presentation &&
+                Current.presentation.DialogueVisible && !Current.presentation.ActionThoughtVisible);
         public bool IsPaused { get; private set; }
         public bool IsCompleted => director && director.Flow != null && director.Flow.CurrentStep == OfficeBlackoutFlow.Step.Complete;
         public bool EscortMoving { get; set; }
@@ -41,19 +46,23 @@ namespace ProjectWait.YB.OfficeBlackout
         InputAction pauseAction, uiAction;
         float savedScale = 1;
         double menuReady;
-        UnityEngine.UI.Button hovered;
+        CurveInteractionCaster leftCaster, rightCaster;
         bool cursorCaptured, oldVisible;
         CursorLockMode oldLock;
 
         void Awake()
         {
             Current = this;
+            leftCaster = FarCaster(leftRay); rightCaster = FarCaster(rightRay);
+            EnableTrackedRaycast(menuCanvas);
+            EnableTrackedRaycast(presentation.promptCanvas);
+            EnableTrackedRaycast(presentation.notebook.GetComponentInParent<Canvas>(true));
+            uiModule.finalizeRaycastResults += FilterUI;
             pauseAction = new InputAction("OfficePause", InputActionType.Button);
             pauseAction.AddBinding("<Keyboard>/escape");
             pauseAction.AddBinding("<XRController>{LeftHand}/menuButton");
             pauseAction.AddBinding("<XRController>{RightHand}/secondaryButton");
             uiAction = new InputAction("OfficeMenuTrigger", InputActionType.Button);
-            uiAction.AddBinding("<XRController>/{TriggerButton}");
             uiAction.AddBinding("<Keyboard>/e");
             uiAction.AddBinding("<Keyboard>/space");
             uiAction.performed += OnUITrigger; uiAction.Enable(); pauseAction.Enable();
@@ -64,15 +73,35 @@ namespace ProjectWait.YB.OfficeBlackout
         }
         void Update()
         {
+            StoryMusic.SetPaused(this, director && director.Failed && !StorybookSceneTransition.IsBusy);
             clickGate.Observe(Time.unscaledTimeAsDouble, SelectHeld());
+            if (uiModule) uiModule.enableXRInput = XRSettings.isDeviceActive;
             if (uiModule) uiModule.enableMouseInput = !XRSettings.isDeviceActive &&
                 (!(IsPaused || IsCompleted) || clickGate.Ready && Time.unscaledTimeAsDouble >= menuReady);
             if (pauseAction.WasPressedThisFrame() && !StorybookSceneTransition.IsBusy)
             { if (IsPaused) Resume(); else Pause(); }
-            if (XRSettings.isDeviceActive && !StorybookSceneTransition.IsBusy) SetHover(HitUI(DefaultRay()));
             if (!IsPaused) return;
             foreach (var pair in pausedSources) if (pair.Key && !pair.Key.GetComponent<StoryMusic>()) pair.Key.volume = 0;
-            if (XRSettings.isDeviceActive) SetHover(HitUI(DefaultRay()));
+        }
+        static CurveInteractionCaster FarCaster(Transform hand)
+        {
+            var interactor = hand ? hand.GetComponentInChildren<NearFarInteractor>(true) : null;
+            return interactor ? interactor.farInteractionCaster as CurveInteractionCaster : null;
+        }
+        static void EnableTrackedRaycast(Canvas canvas)
+        {
+            if (!canvas) return;
+            if (!canvas.TryGetComponent<TrackedDeviceGraphicRaycaster>(out var rays))
+                rays = canvas.gameObject.AddComponent<TrackedDeviceGraphicRaycaster>();
+            rays.checkFor2DOcclusion = rays.checkFor3DOcclusion = false;
+        }
+        void FilterUI(PointerEventData data, List<RaycastResult> hits)
+        {
+            if (!ClickReady || Time.unscaledTimeAsDouble < menuReady || StorybookSceneTransition.IsBusy)
+            { hits.Clear(); return; }
+            var root = IsPaused ? menuCanvas.transform : IsCompleted ? presentation.notebook : presentation.promptCard;
+            hits.RemoveAll(hit => !hit.gameObject || !hit.gameObject.transform.IsChildOf(root) ||
+                !(hit.gameObject.GetComponentInParent<UnityEngine.UI.Button>() is { } b && b.isActiveAndEnabled && b.IsInteractable()));
         }
         public static bool SelectHeld()
         {
@@ -84,23 +113,33 @@ namespace ProjectWait.YB.OfficeBlackout
             return false;
         }
         public void RequireFreshClick() { clickGate.Arm(Time.unscaledTimeAsDouble); }
-        public Ray AimRay(InputControl control = null)
+        public bool TryAimRay(InputControl control, out Ray ray)
         {
             if (XRSettings.isDeviceActive)
             {
-                bool left = control != null && control.device.usages.Contains(UnityEngine.InputSystem.CommonUsages.LeftHand);
-                Transform hand = left ? leftRay : rightRay;
-                if (hand) return new Ray(hand.position, hand.forward);
+                if (control == null || control.device.usages.Contains(UnityEngine.InputSystem.CommonUsages.RightHand))
+                    return TryHandRay(true, out ray);
+                if (control.device.usages.Contains(UnityEngine.InputSystem.CommonUsages.LeftHand))
+                    return TryHandRay(false, out ray);
+                ray = default; return false;
             }
             Vector2 point = Mouse.current != null && Cursor.lockState != CursorLockMode.Locked ? Mouse.current.position.ReadValue() : new Vector2(Screen.width * .5f, Screen.height * .5f);
-            return viewer.ScreenPointToRay(point);
+            ray = viewer.ScreenPointToRay(point);
+            return true;
         }
-        public Ray DefaultRay() => AimRay();
+        public Ray DefaultRay() { TryAimRay(null, out var ray); return ray; }
+        public bool TryHandRay(bool right, out Ray ray)
+        {
+            var caster = right ? rightCaster : leftCaster;
+            if (!caster || !caster.isActiveAndEnabled || !caster.effectiveCastOrigin) { ray = default; return false; }
+            var origin = caster.effectiveCastOrigin;
+            ray = new Ray(origin.position, origin.forward); return true;
+        }
         void PlaceMenu()
         {
-            Vector3 forward = XRSettings.isDeviceActive ? Vector3.ProjectOnPlane(viewer.transform.forward, Vector3.up).normalized : viewer.transform.forward;
-            if (forward.sqrMagnitude < .01f) forward = Vector3.forward;
-            menuCanvas.transform.SetPositionAndRotation(viewer.transform.position + forward * 1.4f, Quaternion.LookRotation(forward, Vector3.up));
+            var station = presentation.ReadingStation;
+            if (!station) return;
+            menuCanvas.transform.SetPositionAndRotation(station.position, station.rotation);
             menuCanvas.transform.localScale = Vector3.one * .0016f;
             menuCanvas.worldCamera = viewer;
         }
@@ -133,7 +172,7 @@ namespace ProjectWait.YB.OfficeBlackout
             pausedSources.Clear(); pausedVolumes.Clear();
             foreach (var pair in particles) if (pair.Key && pair.Value) pair.Key.Play(false); particles.Clear();
             StoryMusic.SetMenuDucked(this, false);
-            presentation.SetMenuVisible(false); menuCanvas.gameObject.SetActive(false); SetHover(null);
+            presentation.SetMenuVisible(false); menuCanvas.gameObject.SetActive(false);
             if (cursorCaptured) { Cursor.lockState = oldLock; Cursor.visible = oldVisible; cursorCaptured = false; }
             movement.SyncCursor(); RequireFreshClick();
         }
@@ -147,7 +186,7 @@ namespace ProjectWait.YB.OfficeBlackout
             var cover = ComfortScreenFade.For(viewer); if (cover) cover.SetOpacity(0);
             var transition = StorybookSceneTransition.Current;
             if (!transition || !transition.TryLoad(path, title, context, viewer, success =>
-                { if (!success && this) { presentation.RestoreDeparture(); Pause(); if (statusText) statusText.text = "장면을 열지 못했어요. 다시 시도해 주세요."; } }, transitionFont))
+                { if (!success && this) { presentation.RestoreDeparture(); Pause(); if (statusText) statusText.text = "장면을 열지 못했어요. 다시 시도해 주세요."; } }, transitionFont, presentation.ReadingStation))
             { Pause(); if (statusText) statusText.text = "장면을 열지 못했어요. 다시 시도해 주세요."; }
             else presentation.PrepareDeparture();
         }
@@ -162,18 +201,13 @@ namespace ProjectWait.YB.OfficeBlackout
         void OnUITrigger(InputAction.CallbackContext context)
         {
             if (!clickGate.Ready || Time.unscaledTimeAsDouble < menuReady || StorybookSceneTransition.IsBusy) return;
-            if (context.control.device is Keyboard && !IsPaused && !IsCompleted)
-            {
-                if (presentation.DialogueVisible) presentation.AdvanceLine();
-                else presentation.ConfirmAction();
-                return;
-            }
-            if (!XRSettings.isDeviceActive) return;
-            var button = HitUI(AimRay(context.control));
-            // Listeners consume and re-arm the gate after accepting an action.
+            // Mouse and each XR hand use the EventSystem. E/Space selects only the
+            // actual button under the desktop pointer, never an implicit safe answer.
+            if (XRSettings.isDeviceActive || IsPaused || IsCompleted || GameplayBlocked) return;
+            var button = HitUI(DefaultRay());
             if (button) { button.onClick.Invoke(); RequireFreshClick(); }
         }
-        UnityEngine.UI.Button HitUI(Ray ray)
+        public UnityEngine.UI.Button HitUI(Ray ray)
         {
             UnityEngine.UI.Button best = null; float distance = float.MaxValue;
             var buttons = IsPaused ? menuCanvas.GetComponentsInChildren<UnityEngine.UI.Button>() :
@@ -188,14 +222,10 @@ namespace ProjectWait.YB.OfficeBlackout
             }
             return best;
         }
-        void SetHover(UnityEngine.UI.Button value)
-        {
-            if (hovered == value) return;
-            var data = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
-            if (hovered) hovered.OnPointerExit(data); hovered = value; if (hovered) hovered.OnPointerEnter(data);
-        }
+        void OnDisable() { StoryMusic.SetPaused(this, false); }
         void OnDestroy()
         {
+            if (uiModule) uiModule.finalizeRaycastResults -= FilterUI;
             StoryMusic.SetMenuDucked(this, false);
             pauseAction?.Dispose(); uiAction?.Dispose();
             if (IsPaused) Time.timeScale = savedScale;

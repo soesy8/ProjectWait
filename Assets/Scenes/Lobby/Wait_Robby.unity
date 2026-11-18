@@ -9502,7 +9502,7 @@ MonoBehaviour:
   sceneTransition: {fileID: 1058928539}
   transitionFont: {fileID: 11400000, guid: f63652d66b0ace54585803a9f9f92754, type: 2}
   transitionContext: "\uCE5C\uAD6C\uC640 \uD568\uAED8 \uC120\uC0DD\uB2D8\uC758 \uC2EC\uBD80\uB984\uC73C\uB85C,\n\uAD50\uBB34\uC2E4\uC5D0
-    \uC11C\uB958\uB97C \uAC00\uC838\uB2E4\uC8FC\uB7EC \uC654\uC5B4\uC694."
+    \uCC45\uC744 \uAC00\uC838\uB2E4\uC8FC\uB7EC \uC654\uC5B4\uC694."
 --- !u!1 &977196584
 GameObject:
   m_ObjectHideFlags: 0

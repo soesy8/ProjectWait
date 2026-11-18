@@ -187,10 +187,8 @@ namespace Y.Crosswalk // 첫 번째·두 번째 완료 기록과 독립된 마�
             m_SharedUI.HideAll(); // 횡단 중 대사는 닫되 도착 회전이 끝날 때까지 이동 레터박스는 유지합니다.
             m_Friend.FaceScenarioTarget(m_Viewer.transform); // 도착한 친구가 옆의 플레이어를 자연스럽게 돌아봅니다.
             m_SharedUI.SetMovementLetterbox(false);
-            StartCoroutine(m_Performance.AcknowledgeWaiting()); // 감사 동작은 결과 진행과 나란히 재생합니다.
-            yield return m_SharedUI.PlayCaption("친구", "덕분에 안전하게 건넜어. 같이 살펴봐서 다행이야!", 3f); // 실제 반대편 인도에 도착한 뒤 친구의 감사 대사를 자동으로 보여 줍니다.
-            yield return m_SharedUI.PlayCaption("", "집에 가는 길에는 앞을 보고, 신호가 바뀌어도 차를 꼭 확인하자.", 3.5f); // 마지막 정리도 화면 클릭 없이 완료 화면으로 이어집니다.
-            m_SharedUI.HideAll(); // 대사를 닫은 뒤 기존 마무리 화면으로 이어갑니다.
+            BlenderRigPose.PlayFace(m_Performance.HeadTarget, 2f, 3.5f);
+            StartCoroutine(m_Performance.ThankPlayer(2.6f)); // 친구의 인사와 동시에 버튼을 연다.
             m_Completed = true; m_State = StageState.Complete; m_UI.ShowSafe(); m_OnCompleted.Invoke(); // 횡단보도 파트의 완료만 확정하고 기존 완료 이벤트를 전달합니다.
         } // 이 흐름은 두 번째 친구의 재회 연출에 의존하지 않습니다.
 

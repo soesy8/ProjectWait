@@ -62,7 +62,12 @@ namespace Y.Crosswalk // 기존 관찰 UI와 같은 월드 공간 입력 구성�
         { // 기존 말풍선 배치가 친구와 접근 차량의 화면 영역을 피합니다.
             HideAll(); m_SharedLayout.ShowDialogue(m_Warning, friendHeadPosition); // 현재 상황의 경고 패널만 공유 배치에 전달합니다.
         } // 경고가 끝나면 같은 패널의 기존 퇴장 효과를 사용합니다.
-        public void ShowSafe() { HideAll(); m_SharedLayout.PresentChoices(m_Safe, "", FirstSituationUI.ReadPanelLine(m_Safe), false); m_SharedLayout.PlaySuccessCue(); } // 횡단보도 파트 완료를 기존 PC·VR 공용 읽기 영역과 확인 버튼으로 표시합니다.
+        public void ShowSafe()
+        {
+            HideAll();
+            m_SharedLayout.PresentChoices(m_Safe, "친구", "같이 차를 살펴봐서 다행이야. 고마워!", judgment: false, completion: true);
+            m_SharedLayout.PlaySuccessCue();
+        }
         public void ShowUnsafe() { HideAll(); m_SharedLayout.PresentChoices(m_Retry, "잠깐!", FirstSituationUI.ReadPanelLine(m_Unsafe), false); } // 사고 이유를 읽고 실제 재시도 버튼만 고르는 M의 결과 표시를 사용합니다.
 
         public void ShowThanks(Vector3 headPosition) // 실제 친구의 화면 위치 옆에 감사 말풍선을 배치합니다.

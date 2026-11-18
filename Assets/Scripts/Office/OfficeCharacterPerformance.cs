@@ -12,6 +12,7 @@ namespace ProjectWait.YB.OfficeBlackout
         Quaternion[] rests;
         Transform[] joints;
         float clock, stride;
+        public bool StagedMotion { get; set; }
 
         void Awake()
         {
@@ -28,7 +29,8 @@ namespace ProjectWait.YB.OfficeBlackout
             clock += delta;
             float speed = Vector3.Distance(previous, transform.position) / Mathf.Max(.001f, delta);
             previous = transform.position;
-            stride = Mathf.MoveTowards(stride, mover && mover.IsMoving ? Mathf.Clamp01(speed / 1.1f) : 0, delta * 5);
+            bool walking = StagedMotion || mover && mover.IsMoving;
+            stride = Mathf.MoveTowards(stride, walking ? Mathf.Clamp01(speed / 1.1f) : 0, delta * 5);
             float wave = Mathf.Sin(clock * 11) * stride;
             if (body) body.localPosition = restBody + Vector3.up * (.004f * Mathf.Sin(clock * 2) + .012f * Mathf.Abs(wave));
             for (int i = 0; i < joints.Length; i++)
@@ -40,7 +42,7 @@ namespace ProjectWait.YB.OfficeBlackout
                 float gesture = i == 2 && (!mover || !mover.IsMoving) ? -12 : 0;
                 joints[i].localRotation = rests[i] * Quaternion.Euler(swing + gesture, 0, 0);
             }
-            if (viewer && (!mover || !mover.IsMoving))
+            if (viewer && !walking)
             {
                 Vector3 direction = Vector3.ProjectOnPlane(viewer.transform.position - transform.position, Vector3.up);
                 if (direction.sqrMagnitude > .01f)
