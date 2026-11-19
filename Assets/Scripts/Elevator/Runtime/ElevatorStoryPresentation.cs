@@ -147,7 +147,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             {
                 PoseArm(leftArm,leftForearm,leftHand,p+lesson.friend.rotation*new Vector3(.25f,.69f,-.12f),p+lesson.friend.rotation*new Vector3(.13f,.71f,-.22f));
                 PoseArm(rightArm,rightForearm,rightHand,p+lesson.friend.rotation*new Vector3(-.25f,.69f,-.12f),p+lesson.friend.rotation*new Vector3(-.13f,.71f,-.22f));
-                if(head&&f.Step!=ElevatorStep.StartupFade)head.localRotation*=Quaternion.Euler(0,Mathf.Sin(f.Elapsed*1.3f)*3,Mathf.Sin(f.Elapsed*1.8f)*3);
+                if(head&&space&&space.sportsCentre&&space.sportsCentre.DepartureWalkPose>0)
+                {
+                    // Turn right from the body's heading, about its up axis rather than the imported bone's axis.
+                    head.rotation=Quaternion.AngleAxis(80f*space.sportsCentre.DepartureWalkPose,lesson.friend.up)*head.rotation;
+                }
+                else if(head&&f.Step!=ElevatorStep.StartupFade)head.localRotation*=Quaternion.Euler(0,Mathf.Sin(f.Elapsed*1.3f)*3,Mathf.Sin(f.Elapsed*1.8f)*3);
             }
             else if(anxious)
             {

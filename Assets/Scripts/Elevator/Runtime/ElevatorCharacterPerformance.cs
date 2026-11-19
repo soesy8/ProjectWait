@@ -13,6 +13,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
   SkinnedMeshRenderer face;int blink=-1,surprised=-1;
   public bool PanicVisible=>panicFace&&panicFace.gameObject.activeSelf;
   public float WalkPhase=>phase;
+  // The visible friend's toes and face point along the staging root's local -Z.
+  public static Quaternion FacingDirection(Vector3 direction,Quaternion fallback)
+  {
+   var flat=Vector3.ProjectOnPlane(direction,Vector3.up);
+   return flat.sqrMagnitude>.000001f?Quaternion.LookRotation(-flat):fallback;
+  }
   void Awake()
   {
    var bones=lesson.friend.GetComponentsInChildren<Transform>(true);leftHip=Find(bones,"thigh.L");leftKnee=Find(bones,"shin.L");leftFoot=Find(bones,"foot.L");rightHip=Find(bones,"thigh.R");rightKnee=Find(bones,"shin.R");rightFoot=Find(bones,"foot.R");head=Find(bones,"head");
@@ -26,7 +32,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
    if(!lesson||lesson.Flow==null||lesson.IsPaused)return;var f=lesson.Flow;var root=lesson.friend;
    if(run!=lesson.RunVersion){run=lesson.RunVersion;phase=0;previous=root.position;}
    var displacement=Vector3.ProjectOnPlane(root.position-previous,Vector3.up);previous=root.position;
-   bool walking=f.Step==ElevatorStep.GymDeparture||f.Step==ElevatorStep.Entering||f.Step==ElevatorStep.Exiting||f.Step==ElevatorStep.GoingHome||f.Step==ElevatorStep.DoorLean||f.Step==ElevatorStep.SafeWallMove;
+   bool walking=ElevatorTravelTiming.IsRelocation(f.Step)||f.Step==ElevatorStep.DoorLean||f.Step==ElevatorStep.SafeWallMove;
    if(walking&&displacement.sqrMagnitude>.000001f&&displacement.magnitude<.5f)
    {
     phase+=displacement.magnitude/.46f*Mathf.PI*2;Vector3 forward=displacement.normalized;

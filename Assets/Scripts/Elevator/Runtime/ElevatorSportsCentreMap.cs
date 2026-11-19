@@ -45,6 +45,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
         static bool InteriorBeat(ElevatorStep step)=>step==ElevatorStep.Boarding||step==ElevatorStep.Proposal||step==ElevatorStep.PosterPointing||step==ElevatorStep.PosterWarning||step==ElevatorStep.Jump||step==ElevatorStep.Travel||step==ElevatorStep.Stopped||step==ElevatorStep.Connecting||step==ElevatorStep.Call||step==ElevatorStep.CallQuestion||step==ElevatorStep.CallResponse||step==ElevatorStep.CallLiftQuestion||step==ElevatorStep.CallIdentityGuide||step==ElevatorStep.Unanswered||step==ElevatorStep.Retry||step==ElevatorStep.Waiting||step==ElevatorStep.WaitingFade||step==ElevatorStep.Rescue;
         float thirdFloorDoorOpen;
         public float DoorOpen { get; private set; }
+        public float DepartureWalkPose { get; private set; }
         ElevatorLesson Lesson => space.lesson;
         public bool OnGround => Lesson.Flow.Step==ElevatorStep.GroundFloor || Lesson.Flow.Step==ElevatorStep.GoingHome || Lesson.Flow.Step==ElevatorStep.Complete || Lesson.Flow.Step==ElevatorStep.Returning&&Lesson.Flow.Elapsed>=ProjectWait.M.Shared.ComfortBlackout.PlacementAt;
         public float CurrentFloorHeight => OnGround ? 0 : ThirdFloorHeight;
@@ -121,22 +122,30 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             Lesson.friend.rotation=Quaternion.Euler(0,outside?DefaultHeading:180,0);
             if(gymBoundary)gymBoundary.enabled=!f.IsOpening;
             DoorOpen=0;
+            DepartureWalkPose=0;
             if(f.Step==ElevatorStep.StartupFade)
             {
                 // Hold the establishing pose until the entire fade has finished.
                 Lesson.friend.position=friendGymStart;
-                Lesson.friend.rotation=Quaternion.identity;
+                Lesson.friend.rotation=ElevatorCharacterPerformance.FacingDirection(gymStart-friendGymStart,Quaternion.identity);
             }
             else if(f.Step==ElevatorStep.GymDeparture)
             {
                 Lesson.friend.position=teleported?friendLobby:Vector3.MoveTowards(friendGymStart,friendLobby,ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed*travelTime);
-                Lesson.friend.rotation=Quaternion.identity;
+                if(!teleported)
+                {
+                    float begins=ElevatorTravelTiming.LeadIn(f.Step);
+                    DepartureWalkPose=S(t,begins-.55f,begins);
+                    var greeting=ElevatorCharacterPerformance.FacingDirection(gymStart-friendGymStart,Quaternion.identity);
+                    var walking=ElevatorCharacterPerformance.FacingDirection(friendLobby-friendGymStart,greeting);
+                    Lesson.friend.rotation=Quaternion.Slerp(greeting,walking,DepartureWalkPose);
+                }
             }
             else if(f.Step==ElevatorStep.Entering)
             {
                 DoorOpen=teleported?0:1;
                 Lesson.friend.position=teleported?friendInside:Vector3.MoveTowards(friendTravelStart,friendInside,ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed*travelTime);
-                Lesson.friend.rotation=Quaternion.Euler(0,teleported?180:0,0);
+                if(!teleported)Lesson.friend.rotation=ElevatorCharacterPerformance.FacingDirection(friendInside-friendTravelStart,Lesson.friend.rotation);
             }
             else if(f.Step==ElevatorStep.Rescue)DoorOpen=S(t,.4f,2.1f);
             else if(f.Step==ElevatorStep.Exiting)
@@ -147,15 +156,15 @@ namespace ProjectWait.M.Elevator.DialoguePreview
             }
             else if(f.Step==ElevatorStep.GoingHome)
             {
-                Lesson.friend.position=teleported?new Vector3(.1f,0,-8.4f):Vector3.MoveTowards(friendTravelStart,new Vector3(.1f,0,-8.4f),ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed*travelTime);
-                Lesson.friend.rotation=Quaternion.Euler(0,180,0);
+                var home=new Vector3(.1f,0,-8.4f);
+                Lesson.friend.position=teleported?home:Vector3.MoveTowards(friendTravelStart,home,ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed*travelTime);
+                var facing=teleported?Lesson.playerCamera.transform.position-home:home-friendTravelStart;
+                Lesson.friend.rotation=ElevatorCharacterPerformance.FacingDirection(facing,Lesson.friend.rotation);
             }
             else if(f.Step==ElevatorStep.Complete)
             {
                 Lesson.friend.position=new Vector3(.1f,0,-8.4f);
-                var towardPlayer=Vector3.ProjectOnPlane(Lesson.playerCamera.transform.position-Lesson.friend.position,Vector3.up);
-                // This rig's face points along local -Z.
-                if(towardPlayer.sqrMagnitude>.001f)Lesson.friend.rotation=Quaternion.LookRotation(-towardPlayer);
+                Lesson.friend.rotation=ElevatorCharacterPerformance.FacingDirection(Lesson.playerCamera.transform.position-Lesson.friend.position,Lesson.friend.rotation);
             }
             if(Lesson.doorSafetyCutscene)Lesson.doorSafetyCutscene.ApplyPosition();
             p.leftDoor.localPosition=leftClosed+Vector3.left*(DoorOpen*.9f);

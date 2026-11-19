@@ -89,7 +89,9 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 // First exhale in place, then take a small step and begin to lean.
                 float progress=f.Elapsed/Mathf.Max(.1f,lesson.settings.doorLeanSeconds);
                 root.position=Vector3.Lerp(map.friendInside,doorPosition,S(progress,.28f,.62f));
-                root.rotation=Quaternion.Euler(0,180,0);
+                var standing=Quaternion.Euler(0,180,0);
+                var walking=ElevatorCharacterPerformance.FacingDirection(doorPosition-map.friendInside,standing);
+                root.rotation=Quaternion.Slerp(standing,walking,S(progress,.10f,.28f)*(1-S(progress,.62f,.80f)));
             }
             else if(f.Step==ElevatorStep.DoorPosterPointing||f.Step==ElevatorStep.DoorPosterWarning)
             {root.position=doorPosition;root.rotation=Quaternion.Euler(0,180,0);}
@@ -105,9 +107,10 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                 float duration=lesson.settings.safeWallMoveSeconds;
                 float travel=S(f.Elapsed,.25f,duration-.55f);
                 root.position=Vector3.Lerp(doorPosition,SafeWallPosition,travel);
-                var walking=Quaternion.LookRotation(-(friendAtSafeWall-friendByDoor).normalized,Vector3.up);
-                var rotation=Quaternion.Slerp(Quaternion.Euler(0,180,0),walking,S(f.Elapsed,0,.45f));
-                root.rotation=Quaternion.Slerp(rotation,Quaternion.Euler(0,90,0),S(f.Elapsed,duration-1.05f,duration-.15f));
+                var standing=Quaternion.Euler(0,180,0);
+                var walking=ElevatorCharacterPerformance.FacingDirection(friendAtSafeWall-friendByDoor,standing);
+                var rotation=Quaternion.Slerp(standing,walking,S(f.Elapsed,0,.25f));
+                root.rotation=Quaternion.Slerp(rotation,Quaternion.Euler(0,90,0),S(f.Elapsed,duration-.55f,duration-.15f));
             }
             else if(AtSafeWall)
             {root.position=SafeWallPosition;root.rotation=Quaternion.Euler(0,90,0);}

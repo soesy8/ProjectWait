@@ -67,8 +67,12 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                     map?map.friendInside:new Vector3(-1.1f,0,4.12f);
                 if(!f.SafeWallReached)start.y=floor;
                 var threshold=new Vector3(-1.25f,floor,3.55f);
-                lesson.friend.position=t<1.3f?Vector3.Lerp(start,threshold,S(t,.15f,1.3f)):Vector3.Lerp(threshold,friendInLobby+Vector3.up*floor,S(t,1.3f,3.85f));
-                lesson.friend.rotation=Quaternion.Euler(0,t<3.5f?(f.SafeWallReached?90*(1-S(t,0,.4f)):0):Mathf.Lerp(0,180,S(t,3.5f,4.2f)),0);
+                var meeting=friendInLobby+Vector3.up*floor;
+                lesson.friend.position=t<1.3f?Vector3.Lerp(start,threshold,S(t,.15f,1.3f)):Vector3.Lerp(threshold,meeting,S(t,1.3f,3.85f));
+                var approach=ElevatorCharacterPerformance.FacingDirection(threshold-start,lesson.friend.rotation);
+                var leave=ElevatorCharacterPerformance.FacingDirection(meeting-threshold,approach);
+                var heading=t<1.3f?Quaternion.Slerp(Quaternion.Euler(0,f.SafeWallReached?90:180,0),approach,S(t,0,.15f)):leave;
+                lesson.friend.rotation=Quaternion.Slerp(heading,Quaternion.Euler(0,180,0),S(t,3.85f,4.2f));
                 faceA=Mathf.Lerp(160,0,S(t,3.25f,4.05f));faceB=Mathf.Lerp(175,0,S(t,3.4f,4.2f));
                 guide=.6f;checking=0;
                 DialogueAnchor=new Vector3(-1.8f,floor+dialogueHeight,-4.3f);
@@ -82,7 +86,7 @@ namespace ProjectWait.M.Elevator.DialoguePreview
                     // The 3F stairs are to the east, not at the 1F destination's XZ.
                     var offset=Vector3.right*(ProjectWait.M.Shared.ExperiencePreferences.MoveSpeed*t);
                     a+=offset;b+=offset;lesson.friend.position+=offset;
-                    faceA=faceB=90;lesson.friend.rotation=Quaternion.Euler(0,90,0);
+                    faceA=faceB=90;lesson.friend.rotation=ElevatorCharacterPerformance.FacingDirection(Vector3.right,lesson.friend.rotation);
                 }
                 DialogueAnchor=new Vector3(-1.8f,floor+dialogueHeight,-4.30f);
             }
